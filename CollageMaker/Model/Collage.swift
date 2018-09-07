@@ -195,7 +195,11 @@ extension Collage {
         }
         
         newCells.forEach { update(cell: $0) }
-        selectedCell = cells.first(where: { $0.id == state.selectedCell.id }) ?? CollageCell.zeroFrame
+        selectedCell = cell(with: selectedCell.id) ?? CollageCell.zeroFrame
+    }
+    
+    private func cell(with id: UUID) -> CollageCell? {
+        return cells.first(where: { $0.id == selectedCell.id })
     }
     
     private func calculatePosition(of cell: CollageCell, for value: CGFloat, with gripPosition: GripPosition) -> RelativeFrame {

@@ -68,6 +68,7 @@ class CollageCellView: UIView {
         
         scrollView.setup(maxZoomScale: minScale * 2, minZoomScale: minScale, delegate: self)
         scrollView.setZoomScale(minScale, animated: false)
+        scrollView.centerImage()
     }
     
     private lazy var imageView = UIImageView()
@@ -81,15 +82,3 @@ extension CollageCellView: UIScrollViewDelegate {
     }
 }
 
-extension UIScrollView {
-    func setup(maxZoomScale: CGFloat = 1, minZoomScale: CGFloat = 1, isScrollEnabled: Bool = true, delegate: UIScrollViewDelegate) {
-        maximumZoomScale = maxZoomScale
-        minimumZoomScale = minZoomScale
-        contentInsetAdjustmentBehavior = .never
-        showsVerticalScrollIndicator = false
-        showsHorizontalScrollIndicator = false
-        
-        self.delegate = delegate
-        self.isScrollEnabled = isScrollEnabled
-    }
-}

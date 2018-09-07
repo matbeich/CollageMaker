@@ -9,7 +9,7 @@ final class Navigator {
     init(authSerivce: PhotoAuthService = PhotoAuthService()) {
         self.authService = authSerivce
     }
-
+    
     lazy var rootViewController: UINavigationController = {
         if authService.isAuthorized {
             return CollageNavigationController(rootViewController: CollageSceneViewController())
@@ -19,7 +19,7 @@ final class Navigator {
             return CollageNavigationController(rootViewController: controller)
         }
     }()
-
+    
     private let authService: PhotoAuthService
 }
 

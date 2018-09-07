@@ -59,20 +59,12 @@ class CollageViewController: UIViewController {
         collage.splitSelectedCell(by: axis)
     }
     
-    private func cellView(with id: UUID) -> CollageCellView? {
-        return collageView.cellViews.first(where: { $0.collageCell.id == id })
-    }
-    
-    private func gripPosition(in frame: CGRect) -> GripPosition? {
-        return  collageView.gripViews.first { $0.frame.intersects(frame) }?.position
-    }
-    
     @objc private func changeSize(with recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
         case .began:
             let point = recognizer.location(in: view)
             let frame = CGRect(x: point.x - 20, y: point.y - 20, width: 40, height: 40)
-            selectedGripPosition = gripPosition(in: frame)
+            selectedGripPosition = collageView.gripPosition(in: frame)
             
         case .changed:
             guard let grip = selectedGripPosition else {
@@ -131,7 +123,7 @@ extension CollageViewController: CollageDelegate {
     }
     
     func collage(_ collage: Collage, didChangeSelected cell: CollageCell) {
-        guard let selectedCellView = cellView(with: cell.id) else {
+        guard let selectedCellView = collageView.collageCellView(with: cell.id) else {
             return
         }
         

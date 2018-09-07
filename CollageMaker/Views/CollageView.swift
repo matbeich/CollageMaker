@@ -16,8 +16,18 @@ class CollageView: UIView {
     init() {
         super.init(frame: .zero)
         
-        tapGestureRecognizer.addTarget(self, action: #selector(cellSelected(with:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellSelected(with:)))
         addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("Not implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        showGrips()
     }
     
     func updateSelectedCellView(with collageCell: CollageCell) {
@@ -45,19 +55,9 @@ class CollageView: UIView {
             addSubview($0)
         }
         
-        if let cell = cellViews.first(where: {$0.collageCell.id  == collage.selectedCell.id}) {
+        if let cell = collageCellView(with: collage.selectedCell.id) {
             select(cellView: cell)
         }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("Not implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        showGrips()
     }
     
     func select(cellView: CollageCellView) {
@@ -67,6 +67,14 @@ class CollageView: UIView {
         selectedCellView?.layer.borderColor = UIColor.brightLavender.cgColor
         
         showGrips()
+    }
+    
+    func collageCellView(with id: UUID) -> CollageCellView? {
+        return cellViews.first(where: { $0.collageCell.id == id })
+    }
+    
+    func gripPosition(in frame: CGRect) -> GripPosition? {
+        return gripViews.first { $0.frame.intersects(frame) }?.position
     }
 
     private func showGrips() {
@@ -101,5 +109,4 @@ class CollageView: UIView {
     private(set) var gripViews: [GripView] = []
     private(set) var cellViews: [CollageCellView] = []
     private(set) var selectedCellView: CollageCellView?
-    private var tapGestureRecognizer = UITapGestureRecognizer()
 }
