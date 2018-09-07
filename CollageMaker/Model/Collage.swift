@@ -79,7 +79,6 @@ class Collage: NSObject, NSCopying {
     
     func reset() {
         cells.removeAll()
-        setPositions(from: initialState)
         delegate?.collageChanged(to: self)
     }
     
@@ -91,34 +90,26 @@ class Collage: NSObject, NSCopying {
             return false
         }
         
-        var startState = CollageState(selectedCell: selectedCell)
-        var intermediateState = CollageState()
-        
-        cells.forEach { startState.cellsRelativeFrames[$0] = $0.relativeFrame }
-        
+        var startState = cells.map { $0.copy() } as? [CollageCell]
+     
         changingCells.forEach {
             let changeGrip = $0.gripPositionRelativeTo(cell: selectedCell, grip)
-            let newCellSize = calculatePosition(of: $0, for: value, with: changeGrip)
-            
-            intermediateState.cellsRelativeFrames[$0] = newCellSize
+            calculatePosition(of: $0, for: value, with: changeGrip)
         }
         
         if merging { remove(cell: selectedCell) }
-        intermediateState.selectedCell = merging ? intermediateState.cells.last ?? CollageCell.zeroFrame : selectedCell
         
-        setPositions(from: intermediateState)
-        
-        let permisionsToChangePosition = intermediateState.cells.map { $0.isAllowed(intermediateState.cellsRelativeFrames[$0] ?? RelativeFrame.zero) }
+        let permisionsToChangePosition = cells.map { $0.isAllowed($0.relativeFrame) }
         let shouldUpdate = isFullsized && permisionsToChangePosition.reduce (true, { $0 && $1 })
         
         guard shouldUpdate else {
-            setPositions(from: startState)
+            cells = startState!
             delegate?.collageChanged(to: self)
             
             return false
         }
         
-        merging ? delegate?.collageChanged(to: self) : delegate?.collage(self, changed: intermediateState)
+        delegate?.collageChanged(to: self)
         
         return true
     }
@@ -140,7 +131,9 @@ class Collage: NSObject, NSCopying {
     }
     
     func copy(with zone: NSZone? = nil) -> Any {
-        return Collage(cells: cells)
+        let cellsCopy = cells.map { $0.copy() } as? [CollageCell]
+        
+        return Collage(cells: cellsCopy ?? [])
     }
     
     var selectedCell: CollageCell
@@ -167,46 +160,24 @@ extension Collage {
     static func ==(lhs: Collage, rhs: Collage) -> Bool {
         return lhs.cells == rhs.cells
     }
-    
-    private func setPositions(from state: CollageState) {
-        var newCells =  [CollageCell]()
-        
-        state.cells.forEach {
-            var cell = $0
-            guard let size = state.cellsRelativeFrames[$0] else {
-                return
-            }
-            
-            cell.changeRelativeFrame(to: size)
-            cell.calculateGripPositions()
-            newCells.append(cell)
-        }
-        
-        newCells.forEach { update(cell: $0) }
-        selectedCell = cells.first(where: { $0.id == state.selectedCell.id }) ?? CollageCell.zeroFrame
-    }
-    
-    private func calculatePosition(of cell: CollageCell, for value: CGFloat, with gripPosition: GripPosition) -> RelativeFrame {
+
+    private func calculatePosition(of cell: CollageCell, for value: CGFloat, with gripPosition: GripPosition) {
         guard check(gripPosition, in: cell) else {
-            return cell.relativeFrame
+            return
         }
-        
-        var newValue = cell.relativeFrame
-        
+     
         switch gripPosition {
         case .left:
-            newValue.origin.x += value
-            newValue.size.width -= value
+            cell.relativeFrame.origin.x += value
+            cell.relativeFrame.size.width -= value
         case .right:
-            newValue.size.width += value
+            cell.relativeFrame.size.width += value
         case .top:
-            newValue.origin.y += value
-            newValue.size.height -= value
+            cell.relativeFrame.origin.y += value
+            cell.relativeFrame.size.height -= value
         case .bottom:
-            newValue.size.height += value
+            cell.relativeFrame.size.height += value
         }
-        
-        return newValue
     }
     
     private func check(_ gripPosition: GripPosition, in cell: CollageCell) -> Bool {

@@ -26,7 +26,7 @@ class CollageView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         showGrips()
     }
     
@@ -35,14 +35,8 @@ class CollageView: UIView {
     }
     
     func changeFrames(from state: CollageState) {
-        state.cells.forEach { cell in
-            guard let size = state.cellsRelativeFrames[cell] else {
-                return
-            }
-            
-            cellViews.first(where: { $0.collageCell.id == cell.id })?.changeFrame(to: size.absolutePosition(in: self.bounds))
-            gripViews.forEach { $0.layout() }
-        }
+        cellViews.forEach{ $0.changeFrame(to: $0.collageCell.relativeFrame.absolutePosition(in: self.bounds))}
+        gripViews.forEach { $0.layout() }
     }
     
     func setCollage(_ collage: Collage) {
@@ -80,7 +74,7 @@ class CollageView: UIView {
     func gripPosition(in frame: CGRect) -> GripPosition? {
         return gripViews.first { $0.frame.intersects(frame) }?.position
     }
-
+    
     private func showGrips() {
         gripViews.forEach { $0.removeFromSuperview() }
         gripViews = []

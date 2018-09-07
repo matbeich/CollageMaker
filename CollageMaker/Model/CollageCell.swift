@@ -6,10 +6,9 @@ import UIKit
 
 typealias RelativeFrame = CGRect
 
-struct CollageCell: Equatable, Hashable {
-    
-    var hashValue: Int {
-        return id.hashValue
+class CollageCell: NSObject, NSCopying {
+    func copy(with zone: NSZone? = nil) -> Any {
+        return CollageCell(color: color, image: image, relativeFrame: relativeFrame)
     }
     
     let color: UIColor
@@ -19,12 +18,14 @@ struct CollageCell: Equatable, Hashable {
     init(color: UIColor, image: UIImage? = nil, relativeFrame: RelativeFrame) {
         self.color = color
         self.image = image
+        
+        super.init()
         self.relativeFrame = isAllowed(relativeFrame) ? relativeFrame : RelativeFrame.zero
         
         calculateGripPositions()
     }
     
-    mutating func changeRelativeFrame(to frame: RelativeFrame) {
+    func changeRelativeFrame(to frame: RelativeFrame) {
         guard isAllowed(frame) else {
             return
         }
@@ -32,11 +33,11 @@ struct CollageCell: Equatable, Hashable {
         relativeFrame = frame
     }
     
-    mutating func addImage(_ image: UIImage) {
+    func addImage(_ image: UIImage) {
         self.image = image
     }
     
-    mutating func calculateGripPositions(){
+    func calculateGripPositions(){
         gripPositions.removeAll()
         
         guard relativeFrame.isFullsized == false else {
@@ -77,7 +78,7 @@ struct CollageCell: Equatable, Hashable {
         return min(relativeFrame.width, relativeFrame.height).isGreaterOrApproximatelyEqual(to: 0.2) ? true : false
     }
     
-    private(set) var relativeFrame = RelativeFrame.zero
+     var relativeFrame = RelativeFrame.zero
     private(set) var gripPositions: Set<GripPosition> = []
 }
 

@@ -111,7 +111,8 @@ extension CollageViewController: CollageViewDelegate {
 extension CollageViewController: CollageDelegate {
     
     func collageChanged(to collage: Collage) {
-        self.collage = collage
+//        self.collage = collage
+        collageView.changeFrames(from: CollageState())
     }
     
     func collage(_ collage: Collage, changed state: CollageState) {
