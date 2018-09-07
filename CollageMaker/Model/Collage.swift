@@ -16,29 +16,32 @@ protocol CollageDelegate: AnyObject {
     func collage(_ collage: Collage, updated cell: CollageCell)
 }
 
-struct Collage {
+class Collage: NSObject, NSCopying {
     
     weak var delegate: CollageDelegate?
     
     init(cells: [CollageCell] = []) {
         self.cells = cells
         self.selectedCell = cells.last ?? CollageCell.zeroFrame
-        
-        cells.forEach { initialState.cellsRelativeFrames[$0] = $0.relativeFrame }
-        initialState.selectedCell = selectedCell
-        
-        guard isFullsized else {
+        super.init()
+
+        if !isFullsized  {
             let initialCell = CollageCell(color: .collagePink, image: R.image.addimg(), relativeFrame: RelativeFrame.fullsized)
             
             self.cells = [initialCell]
             self.selectedCell = initialCell
-            initialState = CollageState(cellsRelativeFrames: [initialCell: initialCell.relativeFrame], selectedCell: initialCell)
-            
-            return
         }
+        
+        initialState = state(for: self.cells, selectedCell: self.selectedCell)
     }
     
-    mutating func setSelected(cell: CollageCell) {
+    convenience init(from state: CollageState) {
+        self.init(cells: state.cells)
+        
+        self.selectedCell = state.selectedCell
+    }
+    
+    func setSelected(cell: CollageCell) {
         guard selectedCell.id != cell.id else {
             return
         }
@@ -48,7 +51,7 @@ struct Collage {
         delegate?.collage(self, didChangeSelected: selectedCell)
     }
     
-    mutating func splitSelectedCell(by axis: Axis) {
+    func splitSelectedCell(by axis: Axis) {
         let (firstFrame, secondFrame) = selectedCell.relativeFrame.split(axis: axis)
         
         let firstCell =  CollageCell(color: selectedCell.color, image: selectedCell.image, relativeFrame: firstFrame)
@@ -64,37 +67,35 @@ struct Collage {
         }
     }
     
-    mutating func deleteSelectedCell() {
+    func deleteSelectedCell() {
         for position in selectedCell.gripPositions {
             if changeSelectedCellSize(grip: position, value: position.sideChangeValue(for: selectedCell.relativeFrame), merging: true) { break }
         }
     }
     
-    mutating func addImageToSelectedCell(_ image: UIImage) {
+    func addImageToSelectedCell(_ image: UIImage) {
         selectedCell.addImage(image)
         update(cell: selectedCell)
         
         delegate?.collage(self, updated: selectedCell)
     }
     
-    mutating func reset() {
+    func reset() {
         cells.removeAll()
         setPositions(from: initialState)
         delegate?.collageChanged(to: self)
     }
     
     @discardableResult
-    mutating func changeSelectedCellSize(grip: GripPosition, value: CGFloat, merging: Bool = false) -> Bool {
+    func changeSelectedCellSize(grip: GripPosition, value: CGFloat, merging: Bool = false) -> Bool {
        let changingCells = affectedCells(with: grip, merging: merging)
         
         guard changingCells.count > 0, check(grip, in: selectedCell) else {
             return false
         }
         
-        var startState = CollageState(selectedCell: selectedCell)
         var intermediateState = CollageState()
-        
-        cells.forEach { startState.cellsRelativeFrames[$0] = $0.relativeFrame }
+        let startState = state(for: cells, selectedCell: selectedCell)
         
         changingCells.forEach {
             let changeGrip = $0.gripPositionRelativeTo(cell: selectedCell, grip)
@@ -123,20 +124,35 @@ struct Collage {
         return true
     }
     
-    private mutating func add(cell: CollageCell) {
+    private func add(cell: CollageCell) {
         if !cells.contains(cell) {
             cells.append(cell)
         }
     }
     
-    private mutating func remove(cell: CollageCell) {
+    private func remove(cell: CollageCell) {
         recentlyDeleted = cell
         cells = cells.filter { $0.id != cell.id }
     }
     
-    private mutating func update(cell: CollageCell) {
+    private func update(cell: CollageCell) {
         remove(cell: cell)
         add(cell: cell)
+    }
+    
+    private func state(for cells: [CollageCell], selectedCell: CollageCell) -> CollageState {
+        var relativeFrames = [CollageCell: RelativeFrame]()
+        
+        cells.forEach { relativeFrames[$0] = $0.relativeFrame }
+        
+        return CollageState(cellsRelativeFrames: relativeFrames, selectedCell: selectedCell)
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        let currentState = state(for: cells, selectedCell: selectedCell)
+        let collageCopy = Collage(from: currentState)
+
+        return collageCopy
     }
     
     var selectedCell: CollageCell
@@ -164,7 +180,7 @@ extension Collage {
         return lhs.cells == rhs.cells
     }
     
-    private mutating func setPositions(from state: CollageState) {
+    private func setPositions(from state: CollageState) {
         var newCells =  [CollageCell]()
         
         state.cells.forEach {

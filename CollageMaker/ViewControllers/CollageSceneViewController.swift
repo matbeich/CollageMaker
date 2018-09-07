@@ -53,11 +53,11 @@ class CollageSceneViewController: UIViewController {
     
     private func makeConstraints() {
         collageViewContainer.snp.makeConstraints { make in
-            if #available(iOS 11, *) {
-                make.top.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            } else {
+//            if #available(iOS 11, *) {
+//                make.top.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+//            } else {
                 make.top.equalTo(topLayoutGuide.snp.bottom)
-            }
+//            }
 
             make.left.equalToSuperview()
             make.right.equalToSuperview()

@@ -24,9 +24,9 @@ class CollageView: UIView {
         cellViews.first(where: { $0.collageCell.id == selectedCellView?.collageCell.id })?.updateCollageCell(collageCell)
     }
     
-    func changeFrames(from: CollageState) {
-        from.cells.forEach { cell in
-            guard let size = from.cellsRelativeFrames[cell] else {
+    func changeFrames(from state: CollageState) {
+        state.cells.forEach { cell in
+            guard let size = state.cellsRelativeFrames[cell] else {
                 return
             }
             
@@ -69,13 +69,6 @@ class CollageView: UIView {
         showGrips()
     }
 
-    func fadeIn() {
-        alpha = 0.0
-        UIView.animate(withDuration: 0.5) {
-            self.alpha = 1.0
-        }
-    }
-    
     private func showGrips() {
         gripViews.forEach { $0.removeFromSuperview() }
         gripViews = []
