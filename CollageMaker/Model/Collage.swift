@@ -1,7 +1,6 @@
 //
 //Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
-
 import UIKit
 
 enum Axis {
@@ -17,28 +16,26 @@ protocol CollageDelegate: AnyObject {
 }
 
 class Collage: NSObject, NSCopying {
-    
+   
     weak var delegate: CollageDelegate?
     
     init(cells: [CollageCell] = []) {
         self.cells = cells
         self.selectedCell = cells.last ?? CollageCell.zeroFrame
         super.init()
-
-        if !isFullsized  {
+        
+        cells.forEach { initialState.cellsRelativeFrames[$0] = $0.relativeFrame }
+        initialState.selectedCell = selectedCell
+        
+        guard isFullsized else {
             let initialCell = CollageCell(color: .collagePink, image: R.image.addimg(), relativeFrame: RelativeFrame.fullsized)
             
             self.cells = [initialCell]
             self.selectedCell = initialCell
+            initialState = CollageState(cellsRelativeFrames: [initialCell: initialCell.relativeFrame], selectedCell: initialCell)
+            
+            return
         }
-        
-        initialState = state(for: self.cells, selectedCell: self.selectedCell)
-    }
-    
-    convenience init(from state: CollageState) {
-        self.init(cells: state.cells)
-        
-        self.selectedCell = state.selectedCell
     }
     
     func setSelected(cell: CollageCell) {
@@ -88,14 +85,16 @@ class Collage: NSObject, NSCopying {
     
     @discardableResult
     func changeSelectedCellSize(grip: GripPosition, value: CGFloat, merging: Bool = false) -> Bool {
-       let changingCells = affectedCells(with: grip, merging: merging)
+        let changingCells = affectedCells(with: grip, merging: merging)
         
         guard changingCells.count > 0, check(grip, in: selectedCell) else {
             return false
         }
         
+        var startState = CollageState(selectedCell: selectedCell)
         var intermediateState = CollageState()
-        let startState = state(for: cells, selectedCell: selectedCell)
+        
+        cells.forEach { startState.cellsRelativeFrames[$0] = $0.relativeFrame }
         
         changingCells.forEach {
             let changeGrip = $0.gripPositionRelativeTo(cell: selectedCell, grip)
@@ -140,19 +139,8 @@ class Collage: NSObject, NSCopying {
         add(cell: cell)
     }
     
-    private func state(for cells: [CollageCell], selectedCell: CollageCell) -> CollageState {
-        var relativeFrames = [CollageCell: RelativeFrame]()
-        
-        cells.forEach { relativeFrames[$0] = $0.relativeFrame }
-        
-        return CollageState(cellsRelativeFrames: relativeFrames, selectedCell: selectedCell)
-    }
-    
     func copy(with zone: NSZone? = nil) -> Any {
-        let currentState = state(for: cells, selectedCell: selectedCell)
-        let collageCopy = Collage(from: currentState)
-
-        return collageCopy
+        return Collage(cells: cells)
     }
     
     var selectedCell: CollageCell
@@ -195,11 +183,7 @@ extension Collage {
         }
         
         newCells.forEach { update(cell: $0) }
-        selectedCell = cell(with: selectedCell.id) ?? CollageCell.zeroFrame
-    }
-    
-    private func cell(with id: UUID) -> CollageCell? {
-        return cells.first(where: { $0.id == selectedCell.id })
+        selectedCell = cells.first(where: { $0.id == state.selectedCell.id }) ?? CollageCell.zeroFrame
     }
     
     private func calculatePosition(of cell: CollageCell, for value: CGFloat, with gripPosition: GripPosition) -> RelativeFrame {

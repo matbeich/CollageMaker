@@ -31,7 +31,7 @@ class CollageView: UIView {
     }
     
     func updateSelectedCellView(with collageCell: CollageCell) {
-        cellViews.first(where: { $0.collageCell.id == selectedCellView?.collageCell.id })?.updateCollageCell(collageCell)
+        cellView(with: selectedCellView.collageCell.id)?.updateCollageCell(collageCell)
     }
     
     func changeFrames(from state: CollageState) {
@@ -60,11 +60,15 @@ class CollageView: UIView {
         }
     }
     
+    func cellView(with id: UUID) -> CollageCellView? {
+        return cellViews.first(where: { $0.collageCell.id == id })
+    }
+    
     func select(cellView: CollageCellView) {
-        selectedCellView?.layer.borderWidth = 0
+        selectedCellView.layer.borderWidth = 0
         selectedCellView = cellView
-        selectedCellView?.layer.borderWidth = 2
-        selectedCellView?.layer.borderColor = UIColor.brightLavender.cgColor
+        selectedCellView.layer.borderWidth = 2
+        selectedCellView.layer.borderColor = UIColor.brightLavender.cgColor
         
         showGrips()
     }
@@ -85,10 +89,6 @@ class CollageView: UIView {
     }
     
     private func layoutGripView(for position: GripPosition) {
-        guard let selectedCellView = selectedCellView else {
-            return
-        }
-        
         let gripView = GripView(with: position, in: selectedCellView)
         
         addSubview(gripView)
@@ -102,11 +102,11 @@ class CollageView: UIView {
     }
     
     private var selectedCellGripPositions: Set<GripPosition>? {
-        return selectedCellView?.collageCell.gripPositions
+        return selectedCellView.collageCell.gripPositions
     }
     
     private var collage: Collage?
     private(set) var gripViews: [GripView] = []
     private(set) var cellViews: [CollageCellView] = []
-    private(set) var selectedCellView: CollageCellView?
+    private(set) var selectedCellView = CollageCellView(collageCell: .zeroFrame, frame: .zero)
 }
