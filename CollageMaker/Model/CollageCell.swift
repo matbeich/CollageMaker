@@ -40,14 +40,17 @@ class CollageCell: NSObject, NSCopying {
         case .top: relativeFrame.stretchUp(with: value)
         case .bottom: relativeFrame.stretchDown(with: value)
         }
+
+        relativeFrame.normalizeValueToAllowed()
         
         guard isAllowed(relativeFrame) else {
-            relativeFrame = lastProperFrame
+            setLasProperFrame()
             return
         }
+
     }
     
-    func setLastProperRelativeFrame() {
+    func setLasProperFrame() {
         relativeFrame = lastProperFrame
     }
     

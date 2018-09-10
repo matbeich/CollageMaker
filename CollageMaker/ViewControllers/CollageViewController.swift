@@ -28,13 +28,17 @@ class CollageViewController: UIViewController {
         
         view.addSubview(collageView)
         view.addGestureRecognizer(panGestureRecognizer)
-        
-        updateCollage()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         collageView.frame = view.bounds
+        
+        if shouldBeUpdated {
+            updateCollage()
+            shouldBeUpdated = false
+        }
     }
     
     func resetCollage() {
@@ -78,14 +82,15 @@ class CollageViewController: UIViewController {
         }
     }
 
-    private func updateCollage() {
+     func updateCollage() {
         collage.delegate = self
         
         if isViewLoaded {
-            collageView.setCollage(collage)
+            collageView.updateCollage(collage)
         }
     }
     
+    private var shouldBeUpdated: Bool = true
     private let collageView = CollageView()
     private var selectedGripPosition: GripPosition?
 }
@@ -116,11 +121,11 @@ extension CollageViewController: CollageDelegate {
     }
     
     func collage(_ collage: Collage, didChangeFramesFor cells: [CollageCell]) {
-        collageView.changeFrames()
+        collageView.updateFrames()
     }
     
-    func collageChanged(to collage: Collage) {
-        self.collage = collage
+    func collageChanged() {
+        updateCollage()
     }
 }
 

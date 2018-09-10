@@ -9,7 +9,7 @@ enum Axis {
 }
 
 protocol CollageDelegate: AnyObject {
-    func collageChanged(to collage: Collage)
+    func collageChanged()
     func collage(_ collage: Collage, didChangeSelected cell: CollageCell)
     func collage(_ collage: Collage, didChangeFramesFor cells: [CollageCell])
     func collage(_ collage: Collage, didUpdate cell: CollageCell)
@@ -36,7 +36,7 @@ class Collage: NSObject, NSCopying {
     
     func reset() {
         cells.removeAll()
-        delegate?.collageChanged(to: self)
+        delegate?.collageChanged()
     }
     
     func setSelected(cell: CollageCell) {
@@ -69,17 +69,19 @@ class Collage: NSObject, NSCopying {
             remove(cell: selectedCell)
             setSelected(cell: secondCell)
             
-            delegate?.collageChanged(to: self)
+            delegate?.collageChanged()
         }
     }
     
     func changeSize(grip: GripPosition, value: CGFloat, merging: Bool = false) {
         calculateCellsNewFrame(grip: grip, value: value)
+
         guard isFullsized else {
-            cells.forEach { $0.setLastProperRelativeFrame() }
+            cells.forEach { $0.setLasProperFrame()}
+
             return
         }
-        
+
         delegate?.collage(self, didChangeFramesFor: cells)
     }
     
@@ -90,7 +92,7 @@ class Collage: NSObject, NSCopying {
         calculateCellsNewFrame(grip: grip, value: value, merging: true)
         
         if isFullsized {
-            delegate?.collageChanged(to: self)
+            delegate?.collageChanged()
             setSelected(cell: cells.last ?? .zeroFrame)
             return true
         } else {

@@ -31,20 +31,18 @@ class CollageView: UIView {
     }
     
     func updateSelectedCellView(with collageCell: CollageCell) {
-        cellView(with: selectedCellView.collageCell.id)?.updateCollageCell(collageCell)
+        selectedCellView.updateCollageCell(collageCell)
     }
     
-    func changeFrames() {
+    func updateFrames() {
         cellViews.forEach{ $0.changeFrame(to: $0.collageCell.relativeFrame.absolutePosition(in: self.bounds))}
         gripViews.forEach { $0.layout() }
     }
     
-    func setCollage(_ collage: Collage) {
+    func updateCollage(_ collage: Collage) {
         subviews.forEach { $0.removeFromSuperview() }
-        
-        self.collage = collage
-        self.cellViews = collage.cells.map { CollageCellView(collageCell: $0, frame: $0.relativeFrame.absolutePosition(in: self.bounds)) }
-        
+
+        cellViews = collage.cells.map { CollageCellView(collageCell: $0, frame: $0.relativeFrame.absolutePosition(in: self.bounds)) }
         cellViews.forEach {
             addSubview($0)
         }
@@ -52,10 +50,6 @@ class CollageView: UIView {
         if let cell = collageCellView(with: collage.selectedCell.id) {
             select(cellView: cell)
         }
-    }
-    
-    func cellView(with id: UUID) -> CollageCellView? {
-        return cellViews.first(where: { $0.collageCell.id == id })
     }
     
     func select(cellView: CollageCellView) {
@@ -66,7 +60,7 @@ class CollageView: UIView {
         
         showGrips()
     }
-    
+
     func collageCellView(with id: UUID) -> CollageCellView? {
         return cellViews.first(where: { $0.collageCell.id == id })
     }

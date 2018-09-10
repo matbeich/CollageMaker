@@ -31,11 +31,10 @@ class CollageTests: XCTestCase {
     }
     
     func testCellSizeIsInBounds() {
-        let cellUnderTest = collage.selectedCell
+        let cell = collage.selectedCell
+        cell.changeRelativeFrame(for: 20, with: .right)
         
-        cellUnderTest.changeRelativeFrame(for: 20, with: .right)
-        
-        XCTAssertTrue(cellUnderTest.isAllowed(cellUnderTest.relativeFrame))
+        XCTAssertTrue(cell.isAllowed(cell.relativeFrame))
     }
     
     func testCollageIsAlwaysFullsized() {
