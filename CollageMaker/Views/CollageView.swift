@@ -34,7 +34,7 @@ class CollageView: UIView {
         cellView(with: selectedCellView.collageCell.id)?.updateCollageCell(collageCell)
     }
     
-    func changeFrames(from state: CollageState) {
+    func changeFrames() {
         cellViews.forEach{ $0.changeFrame(to: $0.collageCell.relativeFrame.absolutePosition(in: self.bounds))}
         gripViews.forEach { $0.layout() }
     }

@@ -37,12 +37,6 @@ class CollageViewController: UIViewController {
         collageView.frame = view.bounds
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        updateCollage()
-    }
-    
     func resetCollage() {
         collage.reset()
     }
@@ -75,7 +69,7 @@ class CollageViewController: UIViewController {
             recognizer.setTranslation(.zero, in: view)
             
             let sizeChange = grip.axis == .horizontal ? translation.y : translation.x
-            collage.changeSelectedCellSize(grip: grip, value: sizeChange)
+            collage.changeSize(grip: grip, value: sizeChange)
             
         case .ended, .cancelled:
             selectedGripPosition = nil
@@ -109,26 +103,24 @@ extension CollageViewController: CollageViewDelegate {
 }
 
 extension CollageViewController: CollageDelegate {
-    
-    func collageChanged(to collage: Collage) {
-//        self.collage = collage
-        collageView.changeFrames(from: CollageState())
-    }
-    
-    func collage(_ collage: Collage, changed state: CollageState) {
-        collageView.changeFrames(from: state)
-    }
-    
-    func collage(_ collage: Collage, updated cell: CollageCell) {
-        collageView.updateSelectedCellView(with: cell)
-    }
-    
     func collage(_ collage: Collage, didChangeSelected cell: CollageCell) {
         guard let selectedCellView = collageView.collageCellView(with: cell.id) else {
             return
         }
         
         collageView.select(cellView: selectedCellView)
+    }
+    
+    func collage(_ collage: Collage, didUpdate cell: CollageCell) {
+        collageView.updateSelectedCellView(with: cell)
+    }
+    
+    func collage(_ collage: Collage, didChangeFramesFor cells: [CollageCell]) {
+        collageView.changeFrames()
+    }
+    
+    func collageChanged(to collage: Collage) {
+        self.collage = collage
     }
 }
 

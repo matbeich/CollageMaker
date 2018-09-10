@@ -11,12 +11,12 @@ enum Axis {
 protocol CollageDelegate: AnyObject {
     func collageChanged(to collage: Collage)
     func collage(_ collage: Collage, didChangeSelected cell: CollageCell)
-    func collage(_ collage: Collage, changed state: CollageState)
-    func collage(_ collage: Collage, updated cell: CollageCell)
+    func collage(_ collage: Collage, didChangeFramesFor cells: [CollageCell])
+    func collage(_ collage: Collage, didUpdate cell: CollageCell)
 }
 
 class Collage: NSObject, NSCopying {
-   
+    
     weak var delegate: CollageDelegate?
     
     init(cells: [CollageCell] = []) {
@@ -24,28 +24,37 @@ class Collage: NSObject, NSCopying {
         self.selectedCell = cells.last ?? CollageCell.zeroFrame
         super.init()
         
-        cells.forEach { initialState.cellsRelativeFrames[$0] = $0.relativeFrame }
-        initialState.selectedCell = selectedCell
-        
         guard isFullsized else {
             let initialCell = CollageCell(color: .collagePink, image: R.image.addimg(), relativeFrame: RelativeFrame.fullsized)
             
             self.cells = [initialCell]
             self.selectedCell = initialCell
-            initialState = CollageState(cellsRelativeFrames: [initialCell: initialCell.relativeFrame], selectedCell: initialCell)
             
             return
         }
     }
     
+    func reset() {
+        cells.removeAll()
+        delegate?.collageChanged(to: self)
+    }
+    
     func setSelected(cell: CollageCell) {
-        guard selectedCell.id != cell.id else {
-            return
-        }
-        
-        selectedCell = cells.first(where: { $0.id == cell.id }) ?? CollageCell.zeroFrame
-        
+        selectedCell = cellWith(id: cell.id) ?? .zeroFrame
         delegate?.collage(self, didChangeSelected: selectedCell)
+    }
+    
+    func deleteSelectedCell() {
+        for position in selectedCell.gripPositions {
+            if merge(grip: position, value: position.sideChangeValue(for: selectedCell.relativeFrame)) { break }
+        }
+    }
+    
+    func addImageToSelectedCell(_ image: UIImage) {
+        selectedCell.addImage(image)
+        update(cell: selectedCell)
+        
+        delegate?.collage(self, didUpdate: selectedCell)
     }
     
     func splitSelectedCell(by axis: Axis) {
@@ -64,54 +73,50 @@ class Collage: NSObject, NSCopying {
         }
     }
     
-    func deleteSelectedCell() {
-        for position in selectedCell.gripPositions {
-            if changeSelectedCellSize(grip: position, value: position.sideChangeValue(for: selectedCell.relativeFrame), merging: true) { break }
+    func changeSize(grip: GripPosition, value: CGFloat, merging: Bool = false) {
+        calculateCellsNewFrame(grip: grip, value: value)
+        guard isFullsized else {
+            cells.forEach { $0.setLastProperRelativeFrame() }
+            return
+        }
+        
+        delegate?.collage(self, didChangeFramesFor: cells)
+    }
+    
+    private func merge(grip: GripPosition, value: CGFloat, merging: Bool = false) -> Bool {
+        lastProperCells = cells.map { $0.copy() } as? [CollageCell]
+        remove(cell: selectedCell)
+        
+        calculateCellsNewFrame(grip: grip, value: value, merging: true)
+        
+        if isFullsized {
+            delegate?.collageChanged(to: self)
+            setSelected(cell: cells.last ?? .zeroFrame)
+            return true
+        } else {
+            cells = lastProperCells ?? []
+            setSelected(cell: selectedCell)
+        
+            return false
         }
     }
     
-    func addImageToSelectedCell(_ image: UIImage) {
-        selectedCell.addImage(image)
-        update(cell: selectedCell)
-        
-        delegate?.collage(self, updated: selectedCell)
+    private func cellWith(id: UUID) -> CollageCell? {
+        return cells.first(where: { $0.id == id })
     }
     
-    func reset() {
-        cells.removeAll()
-        delegate?.collageChanged(to: self)
-    }
-    
-    @discardableResult
-    func changeSelectedCellSize(grip: GripPosition, value: CGFloat, merging: Bool = false) -> Bool {
+    private func calculateCellsNewFrame(grip: GripPosition, value: CGFloat, merging: Bool = false) {
         let changingCells = affectedCells(with: grip, merging: merging)
         
         guard changingCells.count > 0, check(grip, in: selectedCell) else {
-            return false
+            return
         }
         
-        var startState = cells.map { $0.copy() } as? [CollageCell]
-     
         changingCells.forEach {
             let changeGrip = $0.gripPositionRelativeTo(cell: selectedCell, grip)
-            calculatePosition(of: $0, for: value, with: changeGrip)
+            $0.changeRelativeFrame(for: value, with: changeGrip)
+            $0.calculateGripPositions()
         }
-        
-        if merging { remove(cell: selectedCell) }
-        
-        let permisionsToChangePosition = cells.map { $0.isAllowed($0.relativeFrame) }
-        let shouldUpdate = isFullsized && permisionsToChangePosition.reduce (true, { $0 && $1 })
-        
-        guard shouldUpdate else {
-            cells = startState!
-            delegate?.collageChanged(to: self)
-            
-            return false
-        }
-        
-        delegate?.collageChanged(to: self)
-        
-        return true
     }
     
     private func add(cell: CollageCell) {
@@ -138,7 +143,7 @@ class Collage: NSObject, NSCopying {
     
     var selectedCell: CollageCell
     private(set) var cells: [CollageCell]
-    private var initialState = CollageState()
+    private var lastProperCells: [CollageCell]? = []
     private var recentlyDeleted: CollageCell?
 }
 
@@ -159,19 +164,6 @@ extension Collage {
     
     static func ==(lhs: Collage, rhs: Collage) -> Bool {
         return lhs.cells == rhs.cells
-    }
-
-    private func calculatePosition(of cell: CollageCell, for value: CGFloat, with gripPosition: GripPosition) {
-        guard check(gripPosition, in: cell) else {
-            return
-        }
-     
-        switch gripPosition {
-        case .left: cell.relativeFrame.stretchLeft(with: value)
-        case .right: cell.relativeFrame.stretchRight(with: value)
-        case .top: cell.relativeFrame.stretchUp(with: value)
-        case .bottom: cell.relativeFrame.stretchDown(with: value)
-        }
     }
     
     private func check(_ gripPosition: GripPosition, in cell: CollageCell) -> Bool {

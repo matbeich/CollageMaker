@@ -7,30 +7,48 @@ import UIKit
 typealias RelativeFrame = CGRect
 
 class CollageCell: NSObject, NSCopying {
-    func copy(with zone: NSZone? = nil) -> Any {
-        return CollageCell(color: color, image: image, relativeFrame: relativeFrame)
-    }
     
     let color: UIColor
-    let id: UUID = UUID.init()
-    private(set) var image: UIImage?
     
+    func copy(with zone: NSZone? = nil) -> Any {
+        return CollageCell(color: color, image: image, relativeFrame: relativeFrame, id: id)
+    }
+
     init(color: UIColor, image: UIImage? = nil, relativeFrame: RelativeFrame) {
         self.color = color
         self.image = image
+        self.id = UUID.init()
         
         super.init()
         self.relativeFrame = isAllowed(relativeFrame) ? relativeFrame : RelativeFrame.zero
+        self.lastProperFrame = self.relativeFrame
         
         calculateGripPositions()
     }
     
-    func changeRelativeFrame(to frame: RelativeFrame) {
-        guard isAllowed(frame) else {
-            return
+    private convenience init(color: UIColor, image: UIImage?, relativeFrame: CGRect, id: UUID) {
+        self.init(color: color, image: image, relativeFrame: relativeFrame)
+        self.id = id
+    }
+
+    func changeRelativeFrame(for value: CGFloat, with gripPosition: GripPosition) {
+        lastProperFrame = relativeFrame
+        
+        switch gripPosition {
+        case .left: relativeFrame.stretchLeft(with: value)
+        case .right: relativeFrame.stretchRight(with: value)
+        case .top: relativeFrame.stretchUp(with: value)
+        case .bottom: relativeFrame.stretchDown(with: value)
         }
         
-        relativeFrame = frame
+        guard isAllowed(relativeFrame) else {
+            relativeFrame = lastProperFrame
+            return
+        }
+    }
+    
+    func setLastProperRelativeFrame() {
+        relativeFrame = lastProperFrame
     }
     
     func addImage(_ image: UIImage) {
@@ -78,7 +96,14 @@ class CollageCell: NSObject, NSCopying {
         return min(relativeFrame.width, relativeFrame.height).isGreaterOrApproximatelyEqual(to: 0.2) ? true : false
     }
     
-     var relativeFrame = RelativeFrame.zero
+    static func ==(lhs: CollageCell, rhs: CollageCell) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    private(set)var id: UUID
+    private(set) var relativeFrame = RelativeFrame.zero
+    private var lastProperFrame = RelativeFrame.zero
+    private(set) var image: UIImage?
     private(set) var gripPositions: Set<GripPosition> = []
 }
 

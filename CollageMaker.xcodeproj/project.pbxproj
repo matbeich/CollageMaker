@@ -23,7 +23,6 @@
 		843A581A21144761002FE28D /* CollageMakerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A581921144761002FE28D /* CollageMakerUITests.swift */; };
 		843A5829211447DC002FE28D /* CollageSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A5828211447DC002FE28D /* CollageSceneViewController.swift */; };
 		846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846AA2C82142689500DF92FD /* CameraAuthService.swift */; };
-		84868BAE2136E3F500E12152 /* CollageState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84868BAD2136E3F500E12152 /* CollageState.swift */; };
 		84868BBE2137F33900E12152 /* CollageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84868BBD2137F33900E12152 /* CollageTests.swift */; };
 		84868BC02138208100E12152 /* FloatingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84868BBF2138208100E12152 /* FloatingPoint.swift */; };
 		84868BC22138323E00E12152 /* CollageToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84868BC12138323E00E12152 /* CollageToolbar.swift */; };
@@ -90,7 +89,6 @@
 		843A581B21144761002FE28D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		843A5828211447DC002FE28D /* CollageSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSceneViewController.swift; sourceTree = "<group>"; };
 		846AA2C82142689500DF92FD /* CameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAuthService.swift; sourceTree = "<group>"; };
-		84868BAD2136E3F500E12152 /* CollageState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageState.swift; sourceTree = "<group>"; };
 		84868BBD2137F33900E12152 /* CollageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTests.swift; sourceTree = "<group>"; };
 		84868BBF2138208100E12152 /* FloatingPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPoint.swift; sourceTree = "<group>"; };
 		84868BC12138323E00E12152 /* CollageToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageToolbar.swift; sourceTree = "<group>"; };
@@ -283,7 +281,6 @@
 			isa = PBXGroup;
 			children = (
 				84B160332114892600FF4713 /* Collage.swift */,
-				84868BAD2136E3F500E12152 /* CollageState.swift */,
 				84A91A5821188E5700108C3B /* CollageCell.swift */,
 			);
 			path = Model;
@@ -552,7 +549,6 @@
 			files = (
 				F62618AD2141565800CD94AE /* R.generated.swift in Sources */,
 				841A245F213E935C006E994B /* UIBarButtonItem.swift in Sources */,
-				84868BAE2136E3F500E12152 /* CollageState.swift in Sources */,
 				841A2461213EE4EC006E994B /* BorderView.swift in Sources */,
 				848713222122E938003519F7 /* TemplateBarCollectionViewCell.swift in Sources */,
 				8417D1BA211DCABC00334661 /* CollageCellView.swift in Sources */,
