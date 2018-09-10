@@ -167,16 +167,10 @@ extension Collage {
         }
      
         switch gripPosition {
-        case .left:
-            cell.relativeFrame.origin.x += value
-            cell.relativeFrame.size.width -= value
-        case .right:
-            cell.relativeFrame.size.width += value
-        case .top:
-            cell.relativeFrame.origin.y += value
-            cell.relativeFrame.size.height -= value
-        case .bottom:
-            cell.relativeFrame.size.height += value
+        case .left: cell.relativeFrame.stretchLeft(with: value)
+        case .right: cell.relativeFrame.stretchRight(with: value)
+        case .top: cell.relativeFrame.stretchUp(with: value)
+        case .bottom: cell.relativeFrame.stretchDown(with: value)
         }
     }
     
