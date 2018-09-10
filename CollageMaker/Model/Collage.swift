@@ -74,19 +74,28 @@ class Collage: NSObject, NSCopying {
     }
     
     func changeSize(grip: GripPosition, value: CGFloat, merging: Bool = false) {
+        cellsBeforeChanging = cells.map { $0.copy() } as? [CollageCell] ?? []
         calculateCellsNewFrame(grip: grip, value: value)
-
-        guard isFullsized else {
-            cells.forEach { $0.setLasProperFrame()}
-
+        
+        let permisionsToChangePosition = cells.map { $0.isAllowed($0.relativeFrame) }.reduce (true, { $0 && $1 })
+        
+        guard isFullsized && permisionsToChangePosition else {
+            restoreCellsBeforeChanging()
+            
+            delegate?.collageChanged()
             return
         }
-
+        
         delegate?.collage(self, didChangeFramesFor: cells)
     }
     
+    private func restoreCellsBeforeChanging() {
+        cells = cellsBeforeChanging
+        setSelected(cell: selectedCell)
+    }
+    
     private func merge(grip: GripPosition, value: CGFloat, merging: Bool = false) -> Bool {
-        lastProperCells = cells.map { $0.copy() } as? [CollageCell]
+        cellsBeforeChanging = cells.map { $0.copy() } as? [CollageCell] ?? []
         remove(cell: selectedCell)
         
         calculateCellsNewFrame(grip: grip, value: value, merging: true)
@@ -96,15 +105,10 @@ class Collage: NSObject, NSCopying {
             setSelected(cell: cells.last ?? .zeroFrame)
             return true
         } else {
-            cells = lastProperCells ?? []
-            setSelected(cell: selectedCell)
-        
+            restoreCellsBeforeChanging()
+            
             return false
         }
-    }
-    
-    private func cellWith(id: UUID) -> CollageCell? {
-        return cells.first(where: { $0.id == id })
     }
     
     private func calculateCellsNewFrame(grip: GripPosition, value: CGFloat, merging: Bool = false) {
@@ -145,7 +149,7 @@ class Collage: NSObject, NSCopying {
     
     var selectedCell: CollageCell
     private(set) var cells: [CollageCell]
-    private var lastProperCells: [CollageCell]? = []
+    private var cellsBeforeChanging: [CollageCell] = []
     private var recentlyDeleted: CollageCell?
 }
 
@@ -158,6 +162,10 @@ extension Collage {
         let cellsInBounds = cells.map { $0.relativeFrame.isInBounds(.fullsized) }.reduce(true, {$0 && $1 })
         
         return cellsInBounds && collageArea.isApproximatelyEqual(to: cellsArea)
+    }
+    
+    func cellWith(id: UUID) -> CollageCell? {
+        return cells.first(where: { $0.id == id })
     }
     
     func cell(at relativePoint: CGPoint) -> CollageCell? {

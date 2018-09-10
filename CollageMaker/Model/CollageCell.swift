@@ -32,7 +32,9 @@ class CollageCell: NSObject, NSCopying {
     }
 
     func changeRelativeFrame(for value: CGFloat, with gripPosition: GripPosition) {
-        lastProperFrame = relativeFrame
+        guard isAllowed(relativeFrame) else {
+            return
+        }
         
         switch gripPosition {
         case .left: relativeFrame.stretchLeft(with: value)
@@ -42,18 +44,8 @@ class CollageCell: NSObject, NSCopying {
         }
 
         relativeFrame.normalizeValueToAllowed()
-        
-        guard isAllowed(relativeFrame) else {
-            setLasProperFrame()
-            return
-        }
+    }
 
-    }
-    
-    func setLasProperFrame() {
-        relativeFrame = lastProperFrame
-    }
-    
     func addImage(_ image: UIImage) {
         self.image = image
     }

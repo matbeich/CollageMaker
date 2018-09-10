@@ -46,6 +46,20 @@ extension RelativeFrame {
         size.height += value
     }
     
+    mutating func normalizeValueToAllowed() {
+        size.width = max(0.2, width)
+        size.height = max(0.2, height)
+        
+        size.width = min(1.0, width)
+        size.height = min(1.0, height)
+        
+        origin.x = round(100.0 * origin.x) / 100.0
+        origin.y = round(100.0 * origin.y) / 100.0
+        
+        size.width = round(100.0 * size.width) / 100.0
+        size.height = round(100.0 * size.height) / 100.0
+    }
+    
     func split(axis: Axis) -> (RelativeFrame, RelativeFrame) {
         switch axis {
         case .vertical:
@@ -91,17 +105,4 @@ extension RelativeFrame {
         
         return intersects(rect2: rect2, on: gripPosition) && isEqual
     }
-    
-    
-    mutating func normalizeValueToAllowed() {
-        origin.x = round(100.0 * origin.x) / 100.0
-        origin.y = round(100.0 * origin.y) / 100.0
-        
-        size.width = round(100.0 * size.width) / 100.0
-        size.height = round(100.0 * size.height) / 100.0
-        
-        size.width = max(0.2, width)
-        size.height = max(0.2, height)
-    }
-    
 }
