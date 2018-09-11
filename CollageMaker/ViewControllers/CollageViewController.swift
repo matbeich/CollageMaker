@@ -11,7 +11,7 @@ protocol CollageViewControllerDelegate: AnyObject {
 class CollageViewController: UIViewController {
     
     weak var delegate: CollageViewControllerDelegate?
-
+    
     var collage: Collage = Collage() {
         didSet {
             updateCollage()
@@ -20,28 +20,27 @@ class CollageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let panGestureRecognizer = UIPanGestureRecognizer()
         panGestureRecognizer.addTarget(self, action: #selector(changeSize(with:)))
         
         collageView.delegate = self
-   
+        
         view.addSubview(collageView)
         view.addGestureRecognizer(panGestureRecognizer)
-
-        updateCollage()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         collageView.frame = view.bounds
+        
+        if shouldBeUpdated {
+            updateCollage()
+            shouldBeUpdated = false
+        }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        collageView.fadeIn()
-    }
-
     func resetCollage() {
         collage.reset()
     }
@@ -63,20 +62,18 @@ class CollageViewController: UIViewController {
         case .began:
             let point = recognizer.location(in: view)
             let frame = CGRect(x: point.x - 20, y: point.y - 20, width: 40, height: 40)
-            selectedGripPosition =
-                // FIXME: extract to method
-                collageView.gripViews.first { $0.frame.intersects(frame) }?.position
+            selectedGripPosition = collageView.gripPosition(in: frame)
             
         case .changed:
             guard let grip = selectedGripPosition else {
                 return
             }
-
+            
             let translation = recognizer.translation(in: view).normalized(for: view.bounds.size)
             recognizer.setTranslation(.zero, in: view)
-
-            let sizeChange = grip.axis == .horizontal ? translation.x : translation.y
-            collage.changeSelectedCellSize(grip: grip, value: sizeChange)
+            
+            let sizeChange = grip.axis == .horizontal ? translation.y : translation.x
+            collage.changeSizeOfSelectedCell(grip: grip, value: sizeChange)
             
         case .ended, .cancelled:
             selectedGripPosition = nil
@@ -85,14 +82,15 @@ class CollageViewController: UIViewController {
         }
     }
 
-    private func updateCollage() {
-        // FIXME: convert to class
-        // collage.delegate = self
+     func updateCollage() {
+        collage.delegate = self
+        
         if isViewLoaded {
-            collageView.setCollage(collage)
+            collageView.updateCollage(collage)
         }
     }
     
+    private var shouldBeUpdated: Bool = true
     private let collageView = CollageView()
     private var selectedGripPosition: GripPosition?
 }
@@ -102,7 +100,7 @@ extension CollageViewController: CollageViewDelegate {
     
     func collageView(_ collageView: CollageView, tapped point: CGPoint) {
         let relativePoint = point.normalized(for: collageView.frame.size)
-
+        
         collage.cell(at: relativePoint).flatMap {
             collage.setSelected(cell: $0)
         }
@@ -110,27 +108,24 @@ extension CollageViewController: CollageViewDelegate {
 }
 
 extension CollageViewController: CollageDelegate {
-    
-    func collageChanged(to collage: Collage) {
-        self.collage = collage
-    }
-    
-    func collage(_ collage: Collage, changed state: CollageState) {
-        collageView.changeFrames(from: state)
-    }
-    
-    func collage(_ collage: Collage, updated cell: CollageCell) {
-        collageView.updateSelectedCellView(with: cell)
-    }
-
     func collage(_ collage: Collage, didChangeSelected cell: CollageCell) {
-        guard let selectedCellView =
-            // FIXME: extract to method
-            collageView.cellViews.first(where: { $0.collageCell.id == cell.id }) else {
+        guard let selectedCellView = collageView.collageCellView(with: cell.id) else {
             return
         }
         
         collageView.select(cellView: selectedCellView)
+    }
+    
+    func collage(_ collage: Collage, didUpdate cell: CollageCell) {
+        collageView.updateSelectedCellView(with: cell)
+    }
+    
+    func collage(_ collage: Collage, didChangeFramesFor cells: [CollageCell]) {
+        collageView.updateFrames()
+    }
+    
+    func collageChanged() {
+        updateCollage()
     }
 }
 

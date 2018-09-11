@@ -93,6 +93,7 @@ class PermissionsViewController: UIViewController {
 
         button.setTitle("Allow", for: .normal)
         button.addTarget(self, action: #selector(showCollageScene), for: .touchUpInside)
+        button.titleLabel?.font = R.font.sfProDisplayHeavy(size: 19)
         
         return button
     }()

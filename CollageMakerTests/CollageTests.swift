@@ -22,6 +22,10 @@ class CollageTests: XCTestCase {
     }
     
     func testCollageCantDeleteLastCell() {
+        collage.splitSelectedCell(by: .horizontal)
+        collage.splitSelectedCell(by: .horizontal)
+        collage.splitSelectedCell(by: .vertical)
+        
         while collage.cells.count != 1 {
             collage.deleteSelectedCell()
         }
@@ -31,11 +35,10 @@ class CollageTests: XCTestCase {
     }
     
     func testCellSizeIsInBounds() {
-        var cellUnderTest = collage.selectedCell
+        let cell = collage.selectedCell
+        cell.changeRelativeFrame(with: 20, with: .right)
         
-        cellUnderTest.changeRelativeFrame(to: RelativeFrame(x: -10, y: 0, width: 1, height: 1))
-        
-        XCTAssertTrue(cellUnderTest.isAllowed(cellUnderTest.relativeFrame))
+        XCTAssertTrue(cell.isAllowed(cell.relativeFrame))
     }
     
     func testCollageIsAlwaysFullsized() {

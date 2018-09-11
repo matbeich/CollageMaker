@@ -28,6 +28,32 @@ extension RelativeFrame {
         return self == RelativeFrame.fullsized
     }
     
+    mutating func stretchLeft(with value: CGFloat) {
+        origin.x += value
+        size.width -= value
+    }
+    
+    mutating func stretchRight(with value: CGFloat) {
+        size.width += value
+    }
+    
+    mutating func stretchUp(with value: CGFloat) {
+        origin.y += value
+        size.height -= value
+    }
+    
+    mutating func stretchDown(with value: CGFloat) {
+        size.height += value
+    }
+    
+    mutating func normalizeValueToAllowed() {
+        size.width = max(0.2, width)
+        size.height = max(0.2, height)
+        
+        size.width = min(1.0, width)
+        size.height = min(1.0, height)
+    }
+    
     func split(axis: Axis) -> (RelativeFrame, RelativeFrame) {
         switch axis {
         case .vertical:

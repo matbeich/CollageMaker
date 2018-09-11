@@ -14,7 +14,6 @@ class GradientButton: UIButton {
         layer.shadowRadius = 5
         layer.shadowColor = UIColor.brightLavender.cgColor
         layer.shadowOpacity = 0.3
-        titleLabel?.font = R.font.sfProDisplayHeavy(size: 19)
         setTitleColor(.white, for: .normal)
     }
 

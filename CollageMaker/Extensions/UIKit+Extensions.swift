@@ -22,18 +22,29 @@ extension CAGradientLayer {
     }
 }
 
-
 class Alerts {
     static func photoAccessDenied() -> UIAlertController {
         let alertViewController = UIAlertController(title: "Sorry", message: "To use this app you should grant access to photo library. Would you like to change your opinion and grant photo library access to CollagistApp?", preferredStyle: .alert)
         let action = UIAlertAction(title: "Sure", style: .default) { _ in
             UIApplication.shared.openSettings()
         }
-        let secaction = UIAlertAction(title: "Nope", style: .destructive, handler: nil)
+        let cancelAction = UIAlertAction(title: "Nope", style: .destructive, handler: nil)
 
         alertViewController.addAction(action)
-        alertViewController.addAction(secaction)
+        alertViewController.addAction(cancelAction)
 
+        return alertViewController
+    }
+    
+    static func cameraAccessDenied() -> UIAlertController {
+        let alertViewController = UIAlertController(title: "Sorry", message: "To use camera you should grant access to it", preferredStyle: .alert)
+        let allowAction = UIAlertAction(title: "Allow", style: .default) { _ in
+            UIApplication.shared.openSettings() }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        alertViewController.addAction(allowAction)
+        alertViewController.addAction(cancelAction)
+        
         return alertViewController
     }
 
@@ -42,6 +53,15 @@ class Alerts {
         let action = UIAlertAction(title: "Got it", style: .default, handler: nil)
 
         alertViewController.addAction(action)
+        return alertViewController
+    }
+    
+    static func cameraAccessRestricted() -> UIAlertController {
+        let alertViewController = UIAlertController(title: "Sorry", message: "You're not allowed to change camera acces. Parental controls or institutional configuration profiles restricted your ability to grant camera access.", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Got it", style: .default, handler: nil)
+        
+        alertViewController.addAction(action)
+        
         return alertViewController
     }
 }
@@ -54,6 +74,26 @@ extension UIApplication {
         }
 
         self.open(settingsURL, completionHandler: nil)
+    }
+}
+
+extension UIScrollView {
+    func setup(maxZoomScale: CGFloat = 1, minZoomScale: CGFloat = 1, isScrollEnabled: Bool = true, delegate: UIScrollViewDelegate) {
+        maximumZoomScale = maxZoomScale
+        minimumZoomScale = minZoomScale
+        contentInsetAdjustmentBehavior = .never
+        showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
+        
+        self.delegate = delegate
+        self.isScrollEnabled = isScrollEnabled
+    }
+    
+    func centerImage() {
+        let yOffset = contentSize.height / 2 - center.y
+        let xOffset = contentSize.width / 2 - center.x
+        
+        bounds.origin = CGPoint(x: xOffset, y: yOffset)
     }
 }
 

@@ -54,11 +54,11 @@ class CollageSceneViewController: UIViewController {
     private func makeConstraints() {
         collageViewContainer.snp.makeConstraints { make in
             if #available(iOS 11, *) {
-                make.top.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+                make.top.equalTo(self.view.safeAreaLayoutGuide)
             } else {
                 make.top.equalTo(topLayoutGuide.snp.bottom)
             }
-
+            
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalTo(collageViewContainer.snp.width)
@@ -97,46 +97,20 @@ class CollageSceneViewController: UIViewController {
     }
     
     @objc private func tryToTakePhoto() {
-        handle(AVCaptureDevice.authorizationStatus(for: .video))
+        handle(cameraAuthService.status)
     }
-    
+ 
     private func handle(_ avAuthorizationStatus: AVAuthorizationStatus) {
+       if cameraAuthService.isAuthorized {
+            pickImage(camera: true)
+            return
+        }
+        
         switch avAuthorizationStatus {
-        case .authorized:
-            DispatchQueue.main.async { [weak self] in
-                self?.pickImage(camera: true)
-            }
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-                if granted {
-                    DispatchQueue.main.async {
-                        self?.pickImage(camera: true)
-                    }
-                }
-            }
-            
-        case .denied:
-            let alertViewController = UIAlertController(title: "Sorry", message: "To use camera you should grant access to it", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Allow", style: .default) { _ in
-                UIApplication.shared.openSettings() }
-            let secaction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-            
-            alertViewController.addAction(action)
-            alertViewController.addAction(secaction)
-            
-            DispatchQueue.main.async { [weak self] in
-                self?.present(alertViewController, animated: true, completion: nil)
-            }
-            
-        case .restricted:
-            let alertViewController = UIAlertController(title: "Sorry", message: "You're not allowed to change camera acces. Parental controls or institutional configuration profiles restricted your ability to grant camera access.", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Got it", style: .default, handler: nil)
-            
-            alertViewController.addAction(action)
-            
-            DispatchQueue.main.async { [weak self] in
-                self?.present(alertViewController, animated: true, completion: nil)
-            }
+        case .notDetermined: cameraAuthService.reqestAuthorization { self.handle($0) }
+        case .denied: present(Alerts.cameraAccessDenied(), animated: true, completion: nil)
+        case .restricted: present(Alerts.cameraAccessRestricted(), animated: true, completion: nil)
+        default: break
         }
     }
     
@@ -160,15 +134,16 @@ class CollageSceneViewController: UIViewController {
         return button
     }()
     
-    private let bannerView = UIView()
-    private let toolsBar = CollageToolbar.standart
     private let collageViewContainer: UIView = {
         let view = UIView()
         view.contentMode = .scaleAspectFit
         return view
     }()
-
+    
+    private let bannerView = UIView()
+    private let toolsBar = CollageToolbar.standart
     private var collageViewController = CollageViewController()
+    private let cameraAuthService = CameraAuthService()
 }
 
 extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegate {
