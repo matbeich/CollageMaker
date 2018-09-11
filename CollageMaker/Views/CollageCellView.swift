@@ -50,6 +50,8 @@ class CollageCellView: UIView {
             
             scrollView.contentSize = image.size
             scrollView.addSubview(imageView)
+            scrollView.delegate = self
+            
             addSubview(scrollView)
             backgroundColor = .clear
         } else {
@@ -66,9 +68,20 @@ class CollageCellView: UIView {
         let heightScale = scrollView.frame.height / image.size.height
         let minScale = max(widthScale, heightScale)
         
-        scrollView.setup(maxZoomScale: minScale * 2, minZoomScale: minScale, delegate: self)
+        setupScrollView(maxZoomScale: minScale * 2, minZoomScale: minScale)
+        
         scrollView.setZoomScale(minScale, animated: false)
         scrollView.centerImage()
+    }
+    
+    private func setupScrollView(maxZoomScale: CGFloat = 1, minZoomScale: CGFloat = 1) {
+        scrollView.maximumZoomScale = maxZoomScale
+        scrollView.minimumZoomScale = minZoomScale
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+     
+        scrollView.isScrollEnabled = true
     }
     
     private lazy var imageView = UIImageView()

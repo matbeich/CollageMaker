@@ -78,22 +78,11 @@ extension UIApplication {
 }
 
 extension UIScrollView {
-    func setup(maxZoomScale: CGFloat = 1, minZoomScale: CGFloat = 1, isScrollEnabled: Bool = true, delegate: UIScrollViewDelegate) {
-        maximumZoomScale = maxZoomScale
-        minimumZoomScale = minZoomScale
-        contentInsetAdjustmentBehavior = .never
-        showsVerticalScrollIndicator = false
-        showsHorizontalScrollIndicator = false
-        
-        self.delegate = delegate
-        self.isScrollEnabled = isScrollEnabled
-    }
-    
     func centerImage() {
         let yOffset = contentSize.height / 2 - center.y
         let xOffset = contentSize.width / 2 - center.x
         
-        bounds.origin = CGPoint(x: xOffset, y: yOffset)
+        contentOffset = CGPoint(x: xOffset, y: yOffset)
     }
 }
 
