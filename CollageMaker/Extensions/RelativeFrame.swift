@@ -52,12 +52,6 @@ extension RelativeFrame {
         
         size.width = min(1.0, width)
         size.height = min(1.0, height)
-        
-        origin.x = round(100.0 * origin.x) / 100.0
-        origin.y = round(100.0 * origin.y) / 100.0
-        
-        size.width = round(100.0 * size.width) / 100.0
-        size.height = round(100.0 * size.height) / 100.0
     }
     
     func split(axis: Axis) -> (RelativeFrame, RelativeFrame) {

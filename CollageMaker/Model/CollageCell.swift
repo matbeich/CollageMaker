@@ -31,7 +31,7 @@ class CollageCell: NSObject, NSCopying {
         self.id = id
     }
 
-    func changeRelativeFrame(for value: CGFloat, with gripPosition: GripPosition) {
+    func changeRelativeFrame(with value: CGFloat, with gripPosition: GripPosition) {
         guard isAllowed(relativeFrame) else {
             return
         }

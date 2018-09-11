@@ -73,7 +73,7 @@ class CollageViewController: UIViewController {
             recognizer.setTranslation(.zero, in: view)
             
             let sizeChange = grip.axis == .horizontal ? translation.y : translation.x
-            collage.changeSize(grip: grip, value: sizeChange)
+            collage.changeSizeOfSelectedCell(grip: grip, value: sizeChange)
             
         case .ended, .cancelled:
             selectedGripPosition = nil

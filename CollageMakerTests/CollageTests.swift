@@ -22,6 +22,10 @@ class CollageTests: XCTestCase {
     }
     
     func testCollageCantDeleteLastCell() {
+        collage.splitSelectedCell(by: .horizontal)
+        collage.splitSelectedCell(by: .horizontal)
+        collage.splitSelectedCell(by: .vertical)
+        
         while collage.cells.count != 1 {
             collage.deleteSelectedCell()
         }
@@ -32,7 +36,7 @@ class CollageTests: XCTestCase {
     
     func testCellSizeIsInBounds() {
         let cell = collage.selectedCell
-        cell.changeRelativeFrame(for: 20, with: .right)
+        cell.changeRelativeFrame(with: 20, with: .right)
         
         XCTAssertTrue(cell.isAllowed(cell.relativeFrame))
     }
