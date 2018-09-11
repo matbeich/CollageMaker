@@ -10,15 +10,22 @@ extension CGRect {
         return width * height
     }
     
+    func relative(in rect: CGRect) -> CGRect {
+        return CGRect(x: origin.x / rect.width,
+                      y: origin.y / rect.height,
+                      width: width / rect.width,
+                      height: height / rect.height)
+    }
+}
+
+extension RelativeFrame {
+    
     func absolutePosition(in rect: CGRect) -> CGRect {
         return CGRect(x: origin.x * rect.width,
                       y: origin.y * rect.height,
                       width: width * rect.width,
                       height: height * rect.height)
     }
-}
-
-extension RelativeFrame {
     
     static var fullsized: RelativeFrame {
         return RelativeFrame(x: 0, y: 0, width: 1, height: 1)

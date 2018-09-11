@@ -12,10 +12,14 @@ final class Navigator {
     
     lazy var rootViewController: UINavigationController = {
         if authService.isAuthorized {
-            return CollageNavigationController(rootViewController: CollageSceneViewController())
+            let controller = CollageSceneViewController()
+            controller.delegate = self
+            
+            return CollageNavigationController(rootViewController: controller)
         } else {
             let controller = PermissionsViewController()
             controller.delegate = self
+            
             return CollageNavigationController(rootViewController: controller)
         }
     }()
@@ -27,5 +31,23 @@ extension Navigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
         let controller = CollageSceneViewController()
         rootViewController.pushViewController(controller, animated: true)
+    }
+}
+
+extension Navigator: CollageSceneViewControllerDelegate {
+    func collageSceneViewController(_ controller: CollageSceneViewController, wantsToShare collage: Collage) {
+        let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 500, height: 500))
+        let controller = ShareScreenViewController()
+        
+        controller.setCollagePreview(image: previewImage)
+        controller.delegate = self
+        
+        rootViewController.pushViewController(controller, animated: true)
+    }
+}
+
+extension Navigator: ShareScreenViewControllerDelegate {
+    func shareScreenViewControllerShouldBeClosed(_ controller: ShareScreenViewController) {
+        rootViewController.popViewController(animated: true)
     }
 }

@@ -9,6 +9,7 @@ typealias RelativeFrame = CGRect
 class CollageCell: NSObject, NSCopying {
     
     let color: UIColor
+    var imageVisibleRect: RelativeFrame = .zero
     
     func copy(with zone: NSZone? = nil) -> Any {
         return CollageCell(color: color, image: image, relativeFrame: relativeFrame, id: id)

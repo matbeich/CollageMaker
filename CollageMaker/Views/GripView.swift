@@ -31,8 +31,8 @@ class GripView: UIView {
     }
     
     func layout() {
-        let verticalSize = CGSize(width: 7, height: associatedCellView.frame.height / 3)
-        let horizontalSize = CGSize(width: associatedCellView.frame.width / 3, height: 7)
+        let verticalSize = CGSize(width: 5, height: associatedCellView.frame.height / 3)
+        let horizontalSize = CGSize(width: associatedCellView.frame.width / 3, height: 5)
         
         switch position {
         case .left:
