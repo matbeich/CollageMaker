@@ -33,6 +33,8 @@ class CollageSceneViewController: UIViewController {
         view.addSubview(bannerView)
         view.addSubview(toolsBar)
         
+        
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem.collageCamera(action: #selector(tryToTakePhoto), target: self)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareCollage))
         navigationItem.title = "Edit"
@@ -88,6 +90,7 @@ class CollageSceneViewController: UIViewController {
     }
     
     @objc private func shareCollage() {
+        collageViewController.saveCellsVisibleRect()
         delegate?.collageSceneViewController(self, wantsToShare: collageViewController.collage)
     }
     

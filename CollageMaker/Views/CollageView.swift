@@ -34,18 +34,21 @@ class CollageView: UIView {
         selectedCellView.updateCollageCell(collageCell)
     }
     
+    func saveCellsVisibleRect() {
+        cellViews.forEach { $0.saveVisibleRect() }
+    }
+    
     func updateFrames() {
         cellViews.forEach{ $0.changeFrame(to: $0.collageCell.relativeFrame.absolutePosition(in: self.bounds)) }
         gripViews.forEach { $0.layout() }
     }
     
     func updateCollage(_ collage: Collage) {
+        saveCellsVisibleRect()
         subviews.forEach { $0.removeFromSuperview() }
         
         cellViews = collage.cells.map { CollageCellView(collageCell: $0, frame: $0.relativeFrame.absolutePosition(in: self.bounds)) }
-        cellViews.forEach {
-            addSubview($0)
-        }
+        cellViews.forEach { addSubview($0) }
         
         if let cell = collageCellView(with: collage.selectedCell.id) {
             select(cellView: cell)
@@ -53,7 +56,6 @@ class CollageView: UIView {
     }
     
     func select(cellView: CollageCellView) {
-        
         selectedCellView.layer.borderWidth = 0
         selectedCellView = cellView
         selectedCellView.layer.borderWidth = 2

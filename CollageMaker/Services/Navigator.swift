@@ -4,6 +4,7 @@
 
 import Foundation
 import UIKit
+import Utils
 
 final class Navigator {
     init(authSerivce: PhotoAuthService = PhotoAuthService()) {
@@ -36,7 +37,7 @@ extension Navigator: PermissionsViewControllerDelegate {
 
 extension Navigator: CollageSceneViewControllerDelegate {
     func collageSceneViewController(_ controller: CollageSceneViewController, wantsToShare collage: Collage) {
-        let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 500, height: 500))
+        let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 3000, height: 3000))
         let controller = ShareScreenViewController()
         
         controller.setCollagePreview(image: previewImage)
