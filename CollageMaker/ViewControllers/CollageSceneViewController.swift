@@ -6,7 +6,14 @@ import UIKit
 import SnapKit
 import AVKit
 
+
+protocol CollageSceneViewControllerDelegate: AnyObject {
+    func collageSceneViewController(_ controller: CollageSceneViewController, wantsToShare collage: Collage)
+}
+
 class CollageSceneViewController: UIViewController {
+    
+    weak var delegate: CollageSceneViewControllerDelegate?
     
     init(collage: Collage = Collage()) {
         super.init(nibName: nil, bundle: nil)
@@ -22,16 +29,13 @@ class CollageSceneViewController: UIViewController {
         
         view.backgroundColor = .white
         view.addSubview(resetButton)
-        view.addSubview(shareButton)
         view.addSubview(collageViewContainer)
         view.addSubview(bannerView)
         view.addSubview(toolsBar)
         
-        let navBarHeight = UIScreen.main.bounds.height / 10
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem.collageCamera(action: #selector(tryToTakePhoto), target: self)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareCollage))
         navigationItem.title = "Edit"
-        navigationController?.navigationBar.frame.size.height = navBarHeight
         
         makeConstraints()
         
@@ -84,7 +88,7 @@ class CollageSceneViewController: UIViewController {
     }
     
     @objc private func shareCollage() {
-        
+        delegate?.collageSceneViewController(self, wantsToShare: collageViewController.collage)
     }
     
     func pickImage(camera: Bool = false) {
@@ -119,16 +123,6 @@ class CollageSceneViewController: UIViewController {
         
         button.addTarget(self, action: #selector(resetCollage), for: .touchUpInside)
         button.setTitle("Reset", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        
-        return button
-    }()
-    
-    private let shareButton: UIButton = {
-        let button = UIButton(type: .system)
-        
-        button.addTarget(self, action: #selector(shareCollage), for: .touchUpInside)
-        button.setTitle("Share", for: .normal)
         button.setTitleColor(.black, for: .normal)
         
         return button

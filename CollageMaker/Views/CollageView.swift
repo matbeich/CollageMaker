@@ -35,13 +35,13 @@ class CollageView: UIView {
     }
     
     func updateFrames() {
-        cellViews.forEach{ $0.changeFrame(to: $0.collageCell.relativeFrame.absolutePosition(in: self.bounds))}
+        cellViews.forEach{ $0.changeFrame(to: $0.collageCell.relativeFrame.absolutePosition(in: self.bounds)) }
         gripViews.forEach { $0.layout() }
     }
     
     func updateCollage(_ collage: Collage) {
         subviews.forEach { $0.removeFromSuperview() }
-
+        
         cellViews = collage.cells.map { CollageCellView(collageCell: $0, frame: $0.relativeFrame.absolutePosition(in: self.bounds)) }
         cellViews.forEach {
             addSubview($0)
@@ -53,14 +53,15 @@ class CollageView: UIView {
     }
     
     func select(cellView: CollageCellView) {
+        
         selectedCellView.layer.borderWidth = 0
         selectedCellView = cellView
         selectedCellView.layer.borderWidth = 2
         selectedCellView.layer.borderColor = UIColor.brightLavender.cgColor
-        
+    
         showGrips()
     }
-
+    
     func collageCellView(with id: UUID) -> CollageCellView? {
         return cellViews.first(where: { $0.collageCell.id == id })
     }
