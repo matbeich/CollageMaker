@@ -59,10 +59,8 @@ class CollageCellView: UIView {
         }
     }
     
-    private func getImageVisibleRect() -> CGRect {
-        let rect = convert(scrollView.frame, to: imageView)
-
-        return rect
+    private var imageVisibleRect: CGRect {
+        return convert(scrollView.frame, to: imageView)
     }
     
     private func updateView() {
@@ -97,13 +95,13 @@ class CollageCellView: UIView {
 
 extension CollageCellView: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        collageCell.imageVisibleRect = getImageVisibleRect()
+        collageCell.imageVisibleRect = imageVisibleRect
 
         return imageView
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        collageCell.imageVisibleRect = getImageVisibleRect()
+        collageCell.imageVisibleRect = imageVisibleRect
     }
 }
 

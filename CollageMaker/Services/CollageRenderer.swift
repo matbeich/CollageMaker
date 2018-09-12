@@ -15,6 +15,8 @@ class CollageRenderer {
         
         return renderer.image { context in
             collage.cells.forEach { render(cell: $0, in: context) }
+            UIColor.collageBorder.setStroke()
+            context.stroke(CGRect(origin: .zero, size: size))
         }
     }
     
@@ -28,8 +30,6 @@ class CollageRenderer {
             context.fill(rect)
         }
         
-        UIColor.collageBorder.setStroke()
-        context.stroke(rect)
     }
     
     private static func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect) -> UIImage? {
