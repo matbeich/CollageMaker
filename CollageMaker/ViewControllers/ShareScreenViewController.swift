@@ -30,6 +30,7 @@ class ShareScreenViewController: UIViewController {
         
         view.backgroundColor = .white
         view.addSubview(collageImageView)
+        view.addSubview(shareButton)
     }
     
     private func makeConstraints() {
@@ -44,6 +45,19 @@ class ShareScreenViewController: UIViewController {
             make.right.equalToSuperview()
             make.height.equalTo(collageImageView.snp.width)
         }
+        
+        shareButton.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.top.equalTo(collageImageView.snp.bottom).offset(50)
+        }
+        
+        shareButton.sizeToFit()
+    }
+    
+    @objc private func share() {
+        let activityVC = UIActivityViewController(activityItems: [collageImageView.image], applicationActivities: [])
+        
+        present(activityVC, animated: true, completion: nil)
     }
     
     @objc private func close() {
@@ -56,7 +70,17 @@ class ShareScreenViewController: UIViewController {
     
     private let collageImageView: UIImageView = {
         let view = UIImageView()
-//        view.contentMode = .scaleAspectFit
+        
         return view
+    }()
+    
+    private let shareButton: UIButton = {
+       let btn = UIButton(type: .system)
+        
+        btn.setTitle("Share", for: .normal)
+        btn.setTitleColor(.brightLavender, for: .normal)
+        btn.addTarget(self, action: #selector(share), for: .touchUpInside)
+        
+        return btn
     }()
 }

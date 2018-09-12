@@ -12,7 +12,7 @@ class CollageCell: NSObject, NSCopying {
     var imageVisibleRect: RelativeFrame = .zero
     
     func copy(with zone: NSZone? = nil) -> Any {
-        return CollageCell(color: color, image: image, relativeFrame: relativeFrame, id: id)
+        return CollageCell(color: color, image: image, relativeFrame: relativeFrame, id: id, imageVisibleRect: imageVisibleRect)
     }
 
     init(color: UIColor, image: UIImage? = nil, relativeFrame: RelativeFrame) {
@@ -27,9 +27,10 @@ class CollageCell: NSObject, NSCopying {
         calculateGripPositions()
     }
     
-    private convenience init(color: UIColor, image: UIImage?, relativeFrame: CGRect, id: UUID) {
+    private convenience init(color: UIColor, image: UIImage?, relativeFrame: CGRect, id: UUID, imageVisibleRect: RelativeFrame) {
         self.init(color: color, image: image, relativeFrame: relativeFrame)
         self.id = id
+        self.imageVisibleRect = imageVisibleRect
     }
 
     func changeRelativeFrame(with value: CGFloat, with gripPosition: GripPosition) {
@@ -49,6 +50,7 @@ class CollageCell: NSObject, NSCopying {
 
     func addImage(_ image: UIImage) {
         self.image = image
+        imageVisibleRect = .zero
     }
     
     func calculateGripPositions(){
@@ -62,6 +64,8 @@ class CollageCell: NSObject, NSCopying {
         if relativeFrame.minY > .allowableAccuracy { gripPositions.insert(.top) }
         if abs(relativeFrame.maxX - 1) > .allowableAccuracy { gripPositions.insert(.right) }
         if abs(relativeFrame.maxY - 1) > .allowableAccuracy { gripPositions.insert(.bottom) }
+        
+        relativeFrame.normalizeValueToAllowed()
     }
     
     func belongsToParallelLine(on axis: Axis, with point: CGPoint) -> Bool {

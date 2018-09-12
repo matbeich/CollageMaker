@@ -1,6 +1,18 @@
 PODS:
+  - AppCraftUtils/Alert (1.2.44):
+    - AppCraftUtils/Core
+    - AppCraftUtils/Resources
+    - R.swift
+  - AppCraftUtils/Core (1.2.44):
+    - SnapKit
+  - AppCraftUtils/Interface (1.2.44):
+    - AppCraftUtils/Alert
+    - DeepDiff
+  - AppCraftUtils/Resources (1.2.44):
+    - R.swift
   - Crashlytics (3.10.5):
     - Fabric (~> 1.7.9)
+  - DeepDiff (1.2.0)
   - Fabric (1.7.9)
   - R.swift (4.0.0):
     - R.swift.Library (~> 4.0.0)
@@ -8,26 +20,32 @@ PODS:
   - SnapKit (4.0.0)
 
 DEPENDENCIES:
+  - AppCraftUtils/Interface
   - Crashlytics
   - Fabric
   - R.swift
   - SnapKit
 
 SPEC REPOS:
+  "git@github.com:app-craft/internal-pods.git":
+    - AppCraftUtils
   https://github.com/cocoapods/specs.git:
     - Crashlytics
+    - DeepDiff
     - Fabric
     - R.swift
     - R.swift.Library
     - SnapKit
 
 SPEC CHECKSUMS:
+  AppCraftUtils: 91ab9d887d6f74297ba98f0b244ca7e19e08ab27
   Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
+  DeepDiff: 0ee83ac6942d441f677c22e981548c6e0937f2b6
   Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
   R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
   R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: f290f89e44a95f291cf6ccebfffb0b2ff6e2d445
+PODFILE CHECKSUM: c71839eceb2ab52804a912c4993d4643e76cb78e
 
 COCOAPODS: 1.5.3

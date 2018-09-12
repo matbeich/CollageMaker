@@ -5,16 +5,8 @@
 import UIKit
 
 extension CGRect {
-    
     var area: CGFloat {
         return width * height
-    }
-    
-    func relative(in rect: CGRect) -> CGRect {
-        return CGRect(x: origin.x / rect.width,
-                      y: origin.y / rect.height,
-                      width: width / rect.width,
-                      height: height / rect.height)
     }
 }
 

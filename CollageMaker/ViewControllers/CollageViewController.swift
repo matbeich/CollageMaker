@@ -29,7 +29,11 @@ class CollageViewController: UIViewController {
         view.addSubview(collageView)
         view.addGestureRecognizer(panGestureRecognizer)
     }
-
+    
+    func saveCellsVisibleRect() {
+        collageView.saveCellsVisibleRect()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         

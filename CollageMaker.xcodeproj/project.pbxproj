@@ -248,11 +248,11 @@
 		843A582A211447F8002FE28D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				84434D9D214808DF0060B76B /* ShareScreenViewController.swift */,
 				841A245C213E8DCC006E994B /* CollageNavigationController.swift */,
 				84E06F1A21397ED7007109BE /* PermissionsViewController.swift */,
 				843A5828211447DC002FE28D /* CollageSceneViewController.swift */,
 				849B681F2121979C0091AD27 /* CollageViewController.swift */,
+				84434D9D214808DF0060B76B /* ShareScreenViewController.swift */,
 				848713232122E948003519F7 /* TemplateBarCollectionViewController */,
 			);
 			path = ViewControllers;
@@ -477,11 +477,15 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CollageMaker/Pods-CollageMaker-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AppCraftUtils/Utils.framework",
+				"${BUILT_PRODUCTS_DIR}/DeepDiff/DeepDiff.framework",
 				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Utils.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeepDiff.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
