@@ -33,8 +33,6 @@ class CollageSceneViewController: UIViewController {
         view.addSubview(bannerView)
         view.addSubview(toolsBar)
         
-        
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem.collageCamera(action: #selector(tryToTakePhoto), target: self)
         navigationItem.rightBarButtonItem = UIBarButtonItem.collageShare(action: #selector(shareCollage), target: self)
         navigationItem.title = "Edit"
