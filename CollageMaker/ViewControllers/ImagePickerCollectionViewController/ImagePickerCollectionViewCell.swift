@@ -18,6 +18,7 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
         
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        addSubview(imageView)
     }
     
     required init?(coder aDecoder: NSCoder) {
