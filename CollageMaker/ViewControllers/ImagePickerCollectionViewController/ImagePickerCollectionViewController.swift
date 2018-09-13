@@ -22,9 +22,13 @@ class ImagePickerCollectionViewController: UIViewController {
         super.viewDidLoad()
         
         setup()
+        view.addSubview(collectionView)
     }
     
     private func setup() {
+        navigationItem.title = "All Photos"
+        
+        collectionView.backgroundColor = .white
         collectionView.frame = view.bounds
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -65,8 +69,20 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate & UIColl
 
 extension ImagePickerCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize
+        let width = (view.bounds.width - 2 * 5 ) / 4
+        
+        return CGSize(width: width, height: width)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(repeated: 2)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
+    }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
+    }
 }
