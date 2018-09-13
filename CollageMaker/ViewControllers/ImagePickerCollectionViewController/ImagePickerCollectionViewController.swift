@@ -57,8 +57,16 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate & UIColl
             return cell
         }
         
-        
+        pickerCell.photoAsset = photoAssets[indexPath.row]
         
         return pickerCell
     }
+}
+
+extension ImagePickerCollectionViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize
+    }
+    
+    
 }
