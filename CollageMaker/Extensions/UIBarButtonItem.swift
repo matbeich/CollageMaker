@@ -11,6 +11,6 @@ extension UIBarButtonItem {
     }
     
     static func collageShare(action: Selector, target: Any?) -> UIBarButtonItem {
-        return UIBarButtonItem(image: R.image.camera_btn(), style: UIBarButtonItemStyle.plain, target: target, action: action)
+        return UIBarButtonItem(image: R.image.share_btn(), style: UIBarButtonItemStyle.plain, target: target, action: action)
     }
 }

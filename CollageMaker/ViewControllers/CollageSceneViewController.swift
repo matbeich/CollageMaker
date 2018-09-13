@@ -36,7 +36,7 @@ class CollageSceneViewController: UIViewController {
         
         
         navigationItem.leftBarButtonItem = UIBarButtonItem.collageCamera(action: #selector(tryToTakePhoto), target: self)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareCollage))
+        navigationItem.rightBarButtonItem = UIBarButtonItem.collageShare(action: #selector(shareCollage), target: self)
         navigationItem.title = "Edit"
         
         makeConstraints()
