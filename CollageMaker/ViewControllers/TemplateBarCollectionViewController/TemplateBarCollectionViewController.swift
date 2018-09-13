@@ -26,7 +26,8 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         
         collectionView?.register(TemplateBarCollectionViewCell.self, forCellWithReuseIdentifier: TemplateBarCollectionViewCell.identifier)
-        collectionView?.backgroundColor = .collageGray
+        collectionView?.backgroundColor = .black
+        collectionView?.alpha = 0.8
         
         guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return
@@ -53,9 +54,9 @@ class TemplateBarCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let collage = templates[indexPath.row]
- 
-        delegate?.templateBarCollectionViewController(self, didSelect: collage)
+        if let collage = templates[indexPath.row].copy() as? Collage {
+            delegate?.templateBarCollectionViewController(self, didSelect: collage)
+        }
     }
     
     private let templates: [Collage]
@@ -64,14 +65,11 @@ class TemplateBarCollectionViewController: UICollectionViewController {
 extension TemplateBarCollectionViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         return CGSize(width: collectionView.frame.height - 40, height: collectionView.frame.height - 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let minValue = min(collectionView.frame.width, collectionView.frame.height)
-        
-        return UIEdgeInsets(top: minValue / 4, left: 40, bottom: minValue / 4, right: 40)
+        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

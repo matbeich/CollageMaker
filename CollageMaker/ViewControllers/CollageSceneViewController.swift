@@ -4,16 +4,20 @@
 
 import UIKit
 import SnapKit
+import AVKit
+
+
+protocol CollageSceneViewControllerDelegate: AnyObject {
+    func collageSceneViewController(_ controller: CollageSceneViewController, wantsToShare collage: Collage)
+}
 
 class CollageSceneViewController: UIViewController {
     
-    init(collage: Collage = Collage(cells: [])) {
-        collageViewController = CollageViewController()
-        collageViewController.set(collage: collage)
-        
-        collageViewContainer.contentMode = .scaleAspectFit
-        
+    weak var delegate: CollageSceneViewControllerDelegate?
+    
+    init(collage: Collage = Collage()) {
         super.init(nibName: nil, bundle: nil)
+        collageViewController.collage = collage
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -25,18 +29,20 @@ class CollageSceneViewController: UIViewController {
         
         view.backgroundColor = .white
         view.addSubview(resetButton)
-        view.addSubview(shareButton)
         view.addSubview(collageViewContainer)
         view.addSubview(bannerView)
         view.addSubview(toolsBar)
-        view.addSubview(navigationBar)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem.collageCamera(action: #selector(tryToTakePhoto), target: self)
+        navigationItem.rightBarButtonItem = UIBarButtonItem.collageShare(action: #selector(shareCollage), target: self)
+        navigationItem.title = "Edit"
         
         makeConstraints()
         
-        let cellOne = CollageCell(color: .red, image: nil, relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
-        let cellTwo = CollageCell(color: .yellow, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 1))
-        let someCell = CollageCell(color: .green, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 0.5))
-        let someAnotherCell = CollageCell(color: .cyan, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0.5, width: 0.5, height: 0.5))
+        let cellOne = CollageCell(color: .collagePink, image: nil, relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
+        let cellTwo = CollageCell(color: .gray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 1))
+        let someCell = CollageCell(color: .darkGray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 0.5))
+        let someAnotherCell = CollageCell(color: .lightGray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0.5, width: 0.5, height: 0.5))
         let oneMoreCollage = Collage(cells: [cellOne, cellTwo])
         let collage = Collage(cells: [cellOne, someCell, someAnotherCell])
         
@@ -49,18 +55,14 @@ class CollageSceneViewController: UIViewController {
         addChild(templateBar, to: bannerView)
     }
     
-    
     private func makeConstraints() {
-     
-        navigationBar.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(collageViewContainer).dividedBy(6)
-        }
-        
         collageViewContainer.snp.makeConstraints { make in
-            make.top.equalTo(navigationBar.snp.bottom)
+            if #available(iOS 11, *) {
+                make.top.equalTo(self.view.safeAreaLayoutGuide)
+            } else {
+                make.top.equalTo(topLayoutGuide.snp.bottom)
+            }
+            
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalTo(collageViewContainer.snp.width)
@@ -70,7 +72,7 @@ class CollageSceneViewController: UIViewController {
             make.bottom.equalToSuperview()
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(navigationBar)
+            make.height.equalTo(collageViewContainer).dividedBy(6)
         }
         
         bannerView.snp.makeConstraints { make in
@@ -86,13 +88,35 @@ class CollageSceneViewController: UIViewController {
     }
     
     @objc private func shareCollage() {
-        
+        collageViewController.saveCellsVisibleRect()
+        delegate?.collageSceneViewController(self, wantsToShare: collageViewController.collage)
     }
     
-    func pickImage() {
+    func pickImage(camera: Bool = false) {
         let imagePickerController = UIImagePickerController()
+        
         imagePickerController.delegate = self
-        self.present(imagePickerController, animated: true, completion: nil)
+        imagePickerController.sourceType = camera && UIImagePickerController.isSourceTypeAvailable(.camera) ? .camera : .photoLibrary
+        
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @objc private func tryToTakePhoto() {
+        handle(cameraAuthService.status)
+    }
+ 
+    private func handle(_ avAuthorizationStatus: AVAuthorizationStatus) {
+       if cameraAuthService.isAuthorized {
+            pickImage(camera: true)
+            return
+        }
+        
+        switch avAuthorizationStatus {
+        case .notDetermined: cameraAuthService.reqestAuthorization { self.handle($0) }
+        case .denied: present(Alerts.cameraAccessDenied(), animated: true, completion: nil)
+        case .restricted: present(Alerts.cameraAccessRestricted(), animated: true, completion: nil)
+        default: break
+        }
     }
     
     private let resetButton: UIButton = {
@@ -105,26 +129,21 @@ class CollageSceneViewController: UIViewController {
         return button
     }()
     
-    private let shareButton: UIButton = {
-        let button = UIButton(type: .system)
-        
-        button.addTarget(self, action: #selector(shareCollage), for: .touchUpInside)
-        button.setTitle("Share", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        
-        return button
+    private let collageViewContainer: UIView = {
+        let view = UIView()
+        view.contentMode = .scaleAspectFit
+        return view
     }()
     
     private let bannerView = UIView()
     private let toolsBar = CollageToolbar.standart
-    private let navigationBar = CollageToolbar()
-    private let collageViewContainer = UIView()
-    private var collageViewController: CollageViewController
+    private var collageViewController = CollageViewController()
+    private let cameraAuthService = CameraAuthService()
 }
 
 extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegate {
     func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collage: Collage) {
-        collageViewController.set(collage: collage)
+        collageViewController.collage = collage
     }
 }
 
@@ -179,3 +198,4 @@ extension CollageSceneViewController: UIImagePickerControllerDelegate & UINaviga
         picker.dismiss(animated: true)
     }
 }
+

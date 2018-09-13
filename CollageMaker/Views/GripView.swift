@@ -11,7 +11,12 @@ class GripView: UIView {
         self.associatedCellView = cellView
         super.init(frame: .zero)
         
-        backgroundColor = .collagePurple
+        backgroundColor = .brightLavender
+        
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowRadius = 1
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.5
         layout()
     }
     
@@ -26,8 +31,8 @@ class GripView: UIView {
     }
     
     func layout() {
-        let verticalSize = CGSize(width: 7, height: associatedCellView.frame.height / 3)
-        let horizontalSize = CGSize(width: associatedCellView.frame.width / 3, height: 7)
+        let verticalSize = CGSize(width: 5, height: associatedCellView.frame.height / 3)
+        let horizontalSize = CGSize(width: associatedCellView.frame.width / 3, height: 5)
         
         switch position {
         case .left:

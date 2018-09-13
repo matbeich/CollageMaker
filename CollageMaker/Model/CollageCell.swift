@@ -6,37 +6,53 @@ import UIKit
 
 typealias RelativeFrame = CGRect
 
-struct CollageCell: Equatable, Hashable {
-    
-    var hashValue: Int {
-        return id.hashValue
-    }
+class CollageCell: NSObject, NSCopying {
     
     let color: UIColor
-    let id: UUID = UUID.init()
-    private(set) var image: UIImage?
+    var imageVisibleRect: RelativeFrame = .zero
     
+    func copy(with zone: NSZone? = nil) -> Any {
+        return CollageCell(color: color, image: image, relativeFrame: relativeFrame, id: id, imageVisibleRect: imageVisibleRect)
+    }
+
     init(color: UIColor, image: UIImage? = nil, relativeFrame: RelativeFrame) {
         self.color = color
         self.image = image
+        self.id = UUID.init()
+        
+        super.init()
         self.relativeFrame = isAllowed(relativeFrame) ? relativeFrame : RelativeFrame.zero
         
         calculateGripPositions()
     }
     
-    mutating func changeRelativeFrame(to frame: RelativeFrame) {
-        guard isAllowed(frame) else {
+    private convenience init(color: UIColor, image: UIImage?, relativeFrame: CGRect, id: UUID, imageVisibleRect: RelativeFrame) {
+        self.init(color: color, image: image, relativeFrame: relativeFrame)
+        self.id = id
+        self.imageVisibleRect = imageVisibleRect
+    }
+
+    func changeRelativeFrame(with value: CGFloat, with gripPosition: GripPosition) {
+        guard isAllowed(relativeFrame) else {
             return
         }
         
-        relativeFrame = frame
+        switch gripPosition {
+        case .left: relativeFrame.stretchLeft(with: value)
+        case .right: relativeFrame.stretchRight(with: value)
+        case .top: relativeFrame.stretchUp(with: value)
+        case .bottom: relativeFrame.stretchDown(with: value)
+        }
+
+        relativeFrame.normalizeValueToAllowed()
     }
-    
-    mutating func addImage(_ image: UIImage) {
+
+    func addImage(_ image: UIImage) {
         self.image = image
+        imageVisibleRect = .zero
     }
     
-    mutating func calculateGripPositions(){
+    func calculateGripPositions(){
         gripPositions.removeAll()
         
         guard relativeFrame.isFullsized == false else {
@@ -47,6 +63,8 @@ struct CollageCell: Equatable, Hashable {
         if relativeFrame.minY > .allowableAccuracy { gripPositions.insert(.top) }
         if abs(relativeFrame.maxX - 1) > .allowableAccuracy { gripPositions.insert(.right) }
         if abs(relativeFrame.maxY - 1) > .allowableAccuracy { gripPositions.insert(.bottom) }
+        
+        relativeFrame.normalizeValueToAllowed()
     }
     
     func belongsToParallelLine(on axis: Axis, with point: CGPoint) -> Bool {
@@ -77,12 +95,18 @@ struct CollageCell: Equatable, Hashable {
         return min(relativeFrame.width, relativeFrame.height).isGreaterOrApproximatelyEqual(to: 0.2) ? true : false
     }
     
+    static func ==(lhs: CollageCell, rhs: CollageCell) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    private(set)var id: UUID
     private(set) var relativeFrame = RelativeFrame.zero
+    private(set) var image: UIImage?
     private(set) var gripPositions: Set<GripPosition> = []
 }
 
 extension CollageCell {
-    static var null: CollageCell {
+    static var zeroFrame: CollageCell {
         return CollageCell(color: .black, relativeFrame: .zero)
     }
 }

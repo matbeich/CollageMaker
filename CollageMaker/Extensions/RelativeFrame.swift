@@ -5,10 +5,12 @@
 import UIKit
 
 extension CGRect {
-    
     var area: CGFloat {
         return width * height
     }
+}
+
+extension RelativeFrame {
     
     func absolutePosition(in rect: CGRect) -> CGRect {
         return CGRect(x: origin.x * rect.width,
@@ -16,9 +18,6 @@ extension CGRect {
                       width: width * rect.width,
                       height: height * rect.height)
     }
-}
-
-extension RelativeFrame {
     
     static var fullsized: RelativeFrame {
         return RelativeFrame(x: 0, y: 0, width: 1, height: 1)
@@ -26,6 +25,32 @@ extension RelativeFrame {
     
     var isFullsized: Bool {
         return self == RelativeFrame.fullsized
+    }
+    
+    mutating func stretchLeft(with value: CGFloat) {
+        origin.x += value
+        size.width -= value
+    }
+    
+    mutating func stretchRight(with value: CGFloat) {
+        size.width += value
+    }
+    
+    mutating func stretchUp(with value: CGFloat) {
+        origin.y += value
+        size.height -= value
+    }
+    
+    mutating func stretchDown(with value: CGFloat) {
+        size.height += value
+    }
+    
+    mutating func normalizeValueToAllowed() {
+        size.width = max(0.2, width)
+        size.height = max(0.2, height)
+        
+        size.width = min(1.0, width)
+        size.height = min(1.0, height)
     }
     
     func split(axis: Axis) -> (RelativeFrame, RelativeFrame) {
@@ -66,5 +91,11 @@ extension RelativeFrame {
                 return isInWidthBounds && minY.isApproximatelyEqual(to: rect2.maxY) ? true : false
             }
         }
+    }
+    
+    func equallyIntersects(rect2: CGRect, on gripPosition: GripPosition) -> Bool {
+        let isEqual = gripPosition.axis == .vertical ? height.isApproximatelyEqual(to: rect2.height) : width.isApproximatelyEqual(to: rect2.width)
+        
+        return intersects(rect2: rect2, on: gripPosition) && isEqual
     }
 }

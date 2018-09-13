@@ -11,17 +11,8 @@ class CollageCellView: UIView {
         self.collageCell = collageCell
         super.init(frame: frame)
         
-        if let image = collageCell.image {
-            setup()
-            
-            imageView = UIImageView(image: image)
-            
-            scrollView.contentSize = image.size
-            scrollView.addSubview(imageView)
-            addSubview(scrollView)
-        } else {
-            backgroundColor = collageCell.color
-        }
+        setupView()
+        updateView()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,30 +22,84 @@ class CollageCellView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        scrollView.setNeedsDisplay(self.frame)
-        scrollView.center = convert(center, from: superview ?? self)
-        scrollView.bounds.size = self.bounds.size
-        
-        setup()
+        scrollView.frame = bounds
+        updateView()
     }
     
     func changeFrame(to: CGRect) {
         self.frame = to
     }
     
-    private func setup() {
+    func updateCollageCell(_ collageCell: CollageCell) {
+        self.collageCell = collageCell
+        
+        setupView()
+    }
+    
+    private func setupView() {
+        if let image = collageCell.image {
+            imageView.image = nil
+            imageView.removeFromSuperview()
+            scrollView.removeFromSuperview()
+            
+            imageView = UIImageView(image: image)
+            
+            scrollView.frame = bounds
+            scrollView.contentSize = image.size
+            scrollView.addSubview(imageView)
+            scrollView.delegate = self
+            
+            addSubview(scrollView)
+            backgroundColor = .clear
+        } else {
+            backgroundColor = collageCell.color
+        }
+    }
+    
+    private var imageVisibleRect: CGRect {
+        return convert(scrollView.frame, to: imageView)
+    }
+    
+    func saveVisibleRect() {
+        collageCell.imageVisibleRect = imageVisibleRect
+    }
+    
+    private func updateView() {
         guard let image = collageCell.image else {
             return
         }
-
+        
         let widthScale = scrollView.frame.width / image.size.width
         let heightScale = scrollView.frame.height / image.size.height
-        let minScale = max(widthScale, heightScale)
-        
-        scrollView.setup(maxZoomScale: minScale * 2, minZoomScale: minScale, delegate: self)
-        scrollView.setZoomScale(minScale, animated: false)
-    }
+        let fitScale = max(widthScale, heightScale)
 
+        setupScrollView(maxZoomScale: fitScale * 3, minZoomScale: fitScale)
+        
+        if collageCell.imageVisibleRect != .zero {
+            let scale = bounds.height / collageCell.imageVisibleRect.height
+            
+            let rect = CGRect(x: collageCell.imageVisibleRect.origin.x * scale,
+                              y: collageCell.imageVisibleRect.origin.y * scale,
+                              width: collageCell.imageVisibleRect.width * scale,
+                              height: collageCell.imageVisibleRect.height * scale)
+            
+            scrollView.setZoomScale(scale, animated: false)
+            scrollView.centerAtPoint(p: rect.center)
+        } else {
+            scrollView.setZoomScale(fitScale, animated: false)
+            scrollView.centerImage()
+        }
+    }
+    
+    private func setupScrollView(maxZoomScale: CGFloat = 1, minZoomScale: CGFloat = 1) {
+        scrollView.maximumZoomScale = maxZoomScale
+        scrollView.minimumZoomScale = minZoomScale
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.isScrollEnabled = true
+    }
+    
     private lazy var imageView = UIImageView()
     private lazy var scrollView = UIScrollView()
     private(set) var collageCell: CollageCell
@@ -62,19 +107,7 @@ class CollageCellView: UIView {
 
 extension CollageCellView: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return imageView
-    }
-}
-
-extension UIScrollView {
-    func setup(maxZoomScale: CGFloat = 1, minZoomScale: CGFloat = 1, isScrollEnabled: Bool = true, delegate: UIScrollViewDelegate) {
-        maximumZoomScale = maxZoomScale
-        minimumZoomScale = minZoomScale
-        contentInsetAdjustmentBehavior = .never
-        bouncesZoom = false
-        bounces = false
         
-        self.delegate = delegate
-        self.isScrollEnabled = isScrollEnabled
+        return imageView
     }
 }
