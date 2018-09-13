@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = navigator.rootViewController
         window?.makeKeyAndVisible()
         
+        print(UIScreen.main.bounds)
+        
         return true
     }
 }

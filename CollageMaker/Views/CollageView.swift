@@ -63,6 +63,11 @@ class CollageView: UIView {
         return cellViews.first(where: { $0.collageCell.id == id })
     }
     
+    func gripPosition(for point: CGPoint) -> GripPosition? {
+        let sortedGrips = gripViews.sorted { $0.frame.center.distance(to: point) < $1.frame.center.distance(to: point) }
+        return sortedGrips.first?.position
+    }
+    
     func gripPosition(in frame: CGRect) -> GripPosition? {
         return gripViews.first { $0.frame.intersects(frame) }?.position
     }

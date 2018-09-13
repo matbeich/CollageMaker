@@ -66,9 +66,7 @@ class CollageViewController: UIViewController {
     @objc private func changeSize(with recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
         case .began:
-            let point = recognizer.location(in: view)
-            let frame = CGRect(x: point.x - 30, y: point.y - 30, width: 60, height: 60)
-            selectedGripPosition = collageView.gripPosition(in: frame)
+            selectedGripPosition = collageView.gripPosition(for: recognizer.location(in: view))
             
         case .changed:
             guard let grip = selectedGripPosition else {
