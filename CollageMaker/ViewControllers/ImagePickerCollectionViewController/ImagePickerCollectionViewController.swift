@@ -9,6 +9,7 @@ class ImagePickerCollectionViewController: UIViewController {
     
     init(assets: [PHAsset]) {
         self.photoAssets = assets
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -16,14 +17,32 @@ class ImagePickerCollectionViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("Not implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setup()
     }
     
-    private var photoAssets = [PHAsset]()
-    private let collectionView = UICollectionView()
+    private func setup() {
+        collectionView.frame = view.bounds
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.alwaysBounceVertical = true
+        
+        collectionView.register(ImagePickerCollectionViewCell.self, forCellWithReuseIdentifier: ImagePickerCollectionViewCell.identifier)
+    }
+    
+    private var photoAssets: [PHAsset] {
+        willSet{
+            PhotoLibraryService.stopCaching()
+        }
+        didSet {
+            PhotoLibraryService.cacheImages(for: self.photoAssets)
+            collectionView.reloadData()
+        }
+    }
+    private var collectionView: UICollectionView
 }
 
 extension ImagePickerCollectionViewController: UICollectionViewDelegate & UICollectionViewDataSource {
@@ -32,8 +51,14 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate & UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: "some", for: indexPath)
+        let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: ImagePickerCollectionViewCell.identifier, for: indexPath)
+        
+        guard let pickerCell = cell as? ImagePickerCollectionViewCell else {
+            return cell
+        }
+        
+        
+        
+        return pickerCell
     }
-    
-    
 }
