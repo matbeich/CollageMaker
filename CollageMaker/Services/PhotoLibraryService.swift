@@ -28,6 +28,10 @@ final class PhotoLibraryService {
         imageCacher.startCachingImages(for: assets, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: nil)
     }
     
+    static func stopCaching() {
+        imageCacher.stopCachingImagesForAllAssets()
+    }
+    
     static func photo(for asset: PHAsset, size: CGSize?, callback: @escaping (UIImage?) -> Void) {
         let sizeForTarget = size == nil ? CGSize(width: asset.pixelWidth, height: asset.pixelHeight) : size
         
