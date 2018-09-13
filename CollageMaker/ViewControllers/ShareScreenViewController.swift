@@ -68,12 +68,6 @@ class ShareScreenViewController: UIViewController {
         return true
     }
     
-    private let collageImageView: UIImageView = {
-        let view = UIImageView()
-        
-        return view
-    }()
-    
     private let shareButton: UIButton = {
        let btn = UIButton(type: .system)
         
@@ -83,4 +77,6 @@ class ShareScreenViewController: UIViewController {
         
         return btn
     }()
+    
+    private let collageImageView = UIImageView()
 }

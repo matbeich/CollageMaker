@@ -22,7 +22,6 @@ class CollageCell: NSObject, NSCopying {
         
         super.init()
         self.relativeFrame = isAllowed(relativeFrame) ? relativeFrame : RelativeFrame.zero
-        self.lastProperFrame = self.relativeFrame
         
         calculateGripPositions()
     }
@@ -102,7 +101,6 @@ class CollageCell: NSObject, NSCopying {
     
     private(set)var id: UUID
     private(set) var relativeFrame = RelativeFrame.zero
-    private var lastProperFrame = RelativeFrame.zero
     private(set) var image: UIImage?
     private(set) var gripPositions: Set<GripPosition> = []
 }

@@ -16,7 +16,7 @@ class CollageView: UIView {
     init() {
         super.init(frame: .zero)
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellSelected(with:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pointTapped(with:)))
         addGestureRecognizer(tapGestureRecognizer)
     }
     
@@ -29,22 +29,13 @@ class CollageView: UIView {
         
         showGrips()
     }
-    
-    func updateSelectedCellView(with collageCell: CollageCell) {
-        selectedCellView.updateCollageCell(collageCell)
-    }
-    
-    func saveCellsVisibleRect() {
-        cellViews.forEach { $0.saveVisibleRect() }
-    }
-    
+ 
     func updateFrames() {
         cellViews.forEach{ $0.changeFrame(to: $0.collageCell.relativeFrame.absolutePosition(in: self.bounds)) }
         gripViews.forEach { $0.layout() }
     }
     
     func updateCollage(_ collage: Collage) {
-        saveCellsVisibleRect()
         subviews.forEach { $0.removeFromSuperview() }
         
         cellViews = collage.cells.map { CollageCellView(collageCell: $0, frame: $0.relativeFrame.absolutePosition(in: self.bounds)) }
@@ -53,6 +44,10 @@ class CollageView: UIView {
         if let cell = collageCellView(with: collage.selectedCell.id) {
             select(cellView: cell)
         }
+    }
+    
+    func updateSelectedCellView(with collageCell: CollageCell) {
+        selectedCellView.updateCollageCell(collageCell)
     }
     
     func select(cellView: CollageCellView) {
@@ -86,7 +81,7 @@ class CollageView: UIView {
         gripViews.append(gripView)
     }
     
-    @objc private func cellSelected(with recognizer: UITapGestureRecognizer) {
+    @objc private func pointTapped(with recognizer: UITapGestureRecognizer) {
         let point = recognizer.location(in: self)
         
         delegate?.collageView(self, tapped: point)

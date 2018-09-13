@@ -31,7 +31,7 @@ class CollageViewController: UIViewController {
     }
     
     func saveCellsVisibleRect() {
-        collageView.saveCellsVisibleRect()
+        collageView.cellViews.forEach { $0.saveVisibleRect() }
     }
     
     override func viewDidLayoutSubviews() {
@@ -50,6 +50,7 @@ class CollageViewController: UIViewController {
     }
     
     func deleteSelectedCell() {
+        saveCellsVisibleRect()
         collage.deleteSelectedCell()
     }
     
@@ -58,6 +59,7 @@ class CollageViewController: UIViewController {
     }
     
     func splitSelectedCell(by axis: Axis) {
+        saveCellsVisibleRect()
         collage.splitSelectedCell(by: axis)
     }
     
@@ -65,7 +67,7 @@ class CollageViewController: UIViewController {
         switch recognizer.state {
         case .began:
             let point = recognizer.location(in: view)
-            let frame = CGRect(x: point.x - 20, y: point.y - 20, width: 40, height: 40)
+            let frame = CGRect(x: point.x - 30, y: point.y - 30, width: 60, height: 60)
             selectedGripPosition = collageView.gripPosition(in: frame)
             
         case .changed:
@@ -125,6 +127,7 @@ extension CollageViewController: CollageDelegate {
     }
     
     func collage(_ collage: Collage, didChangeFramesFor cells: [CollageCell]) {
+        saveCellsVisibleRect()
         collageView.updateFrames()
     }
     

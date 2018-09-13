@@ -35,7 +35,7 @@ class CollageCellView: UIView {
         
         setupView()
     }
-
+    
     private func setupView() {
         if let image = collageCell.image {
             imageView.image = nil
@@ -71,21 +71,23 @@ class CollageCellView: UIView {
         
         let widthScale = scrollView.frame.width / image.size.width
         let heightScale = scrollView.frame.height / image.size.height
-        let minScale = max(widthScale, heightScale)
-        scrollView.centerImage()
-        
-        setupScrollView(maxZoomScale: minScale * 2, minZoomScale: minScale)
+        let fitScale = max(widthScale, heightScale)
+
+        setupScrollView(maxZoomScale: fitScale * 3, minZoomScale: fitScale)
         
         if collageCell.imageVisibleRect != .zero {
             let scale = bounds.height / collageCell.imageVisibleRect.height
-            let imageScale = image.size.width / imageVisibleRect.width
-            let contentOffset = CGPoint(x: collageCell.imageVisibleRect.origin.x * scale,
-                                        y: collageCell.imageVisibleRect.origin.y * scale)
             
-            scrollView.setZoomScale(imageScale, animated: false)
-            scrollView.contentOffset = contentOffset
+            let rect = CGRect(x: collageCell.imageVisibleRect.origin.x * scale,
+                              y: collageCell.imageVisibleRect.origin.y * scale,
+                              width: collageCell.imageVisibleRect.width * scale,
+                              height: collageCell.imageVisibleRect.height * scale)
+            
+            scrollView.setZoomScale(scale, animated: false)
+            scrollView.centerAtPoint(p: rect.center)
         } else {
-            scrollView.setZoomScale(minScale, animated: false)
+            scrollView.setZoomScale(fitScale, animated: false)
+            scrollView.centerImage()
         }
     }
     
@@ -95,7 +97,6 @@ class CollageCellView: UIView {
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        
         scrollView.isScrollEnabled = true
     }
     
