@@ -84,5 +84,12 @@ extension UIScrollView {
         
         contentOffset = CGPoint(x: xOffset, y: yOffset)
     }
+    
+    func centerAtPoint(p: CGPoint) {
+        let xOffset = min(max(0,p.x - center.x), contentSize.width - bounds.width)
+        let yOffset = min(max(0, p.y - center.y), contentSize.height - bounds.height)
+        
+        contentOffset = CGPoint(x: xOffset, y: yOffset)
+    }
 }
 

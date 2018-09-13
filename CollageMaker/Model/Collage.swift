@@ -76,7 +76,7 @@ class Collage: NSObject, NSCopying {
     func split(cell: CollageCell, by axis: Axis) {
         let (firstFrame, secondFrame) = cell.relativeFrame.split(axis: axis)
         
-        let firstCell =  CollageCell(color: cell.color, image: cell.image, relativeFrame: firstFrame)
+        let firstCell = CollageCell(color: cell.color, image: cell.image, relativeFrame: firstFrame)
         let secondCell = CollageCell(color: .random, image: nil, relativeFrame: secondFrame)
         
         if firstCell.isAllowed(firstFrame) && secondCell.isAllowed(secondFrame) {
