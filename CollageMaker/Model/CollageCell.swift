@@ -14,7 +14,7 @@ class CollageCell: NSObject, NSCopying {
     func copy(with zone: NSZone? = nil) -> Any {
         return CollageCell(color: color, image: image, relativeFrame: relativeFrame, id: id, imageVisibleRect: imageVisibleRect)
     }
-
+    
     init(color: UIColor, image: UIImage? = nil, relativeFrame: RelativeFrame) {
         self.color = color
         self.image = image
@@ -22,6 +22,10 @@ class CollageCell: NSObject, NSCopying {
         
         super.init()
         self.relativeFrame = isAllowed(relativeFrame) ? relativeFrame : RelativeFrame.zero
+        
+        if let image = image {
+            self.imageVisibleRect = self.relativeFrame.absolutePosition(in: CGRect(origin: .zero, size: image.size))
+        }
         
         calculateGripPositions()
     }
@@ -31,7 +35,7 @@ class CollageCell: NSObject, NSCopying {
         self.id = id
         self.imageVisibleRect = imageVisibleRect
     }
-
+    
     func changeRelativeFrame(with value: CGFloat, with gripPosition: GripPosition) {
         guard isAllowed(relativeFrame) else {
             return
@@ -43,10 +47,10 @@ class CollageCell: NSObject, NSCopying {
         case .top: relativeFrame.stretchUp(with: value)
         case .bottom: relativeFrame.stretchDown(with: value)
         }
-
+        
         relativeFrame.normalizeValueToAllowed()
     }
-
+    
     func addImage(_ image: UIImage) {
         self.image = image
         imageVisibleRect = .zero

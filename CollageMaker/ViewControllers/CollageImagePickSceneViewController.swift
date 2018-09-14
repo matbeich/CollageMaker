@@ -21,7 +21,7 @@ class CollageImagePickSceneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         addChild(mainController, to: view)
         showTemplateController()
     }
@@ -42,13 +42,15 @@ class CollageImagePickSceneViewController: UIViewController {
         }
     }
     
-    private var mainController: ImagePickerCollectionViewController
-    private var templateController: TemplateBarCollectionViewController?
     private let templateControllerContainer = UIView()
+    private var mainController: ImagePickerCollectionViewController
+    private var templateController = TemplateBarCollectionViewController(templates: [])
 }
 
 extension CollageImagePickSceneViewController: ImagePickerCollectionViewControllerDelegate {
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
-        print(assets)
+        CollageTemplateProvider.collage(for: assets) { [weak self] collage in
+            self?.templateController.templates = [collage]
+        }
     }
 }

@@ -12,6 +12,12 @@ class TemplateBarCollectionViewController: UICollectionViewController {
     
     weak var delegate: TemplateBarCollectionViewControllerDelegate?
     
+    var templates: [Collage] {
+        didSet {
+            collectionView?.reloadData()
+        }
+    }
+    
     init(templates: [Collage]) {
         self.templates = templates
         
@@ -61,8 +67,6 @@ class TemplateBarCollectionViewController: UICollectionViewController {
             delegate?.templateBarCollectionViewController(self, didSelect: collage)
         }
     }
-    
-    private let templates: [Collage]
 }
 
 extension TemplateBarCollectionViewController: UICollectionViewDelegateFlowLayout {
