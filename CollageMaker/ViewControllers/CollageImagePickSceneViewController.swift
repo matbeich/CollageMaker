@@ -3,15 +3,16 @@
 //
 
 import UIKit
+import Photos
 import SnapKit
 
-class CollageImagePickerViewController: UIViewController {
+class CollageImagePickSceneViewController: UIViewController {
     
-    init(main: UIViewController, template: UIViewController) {
+    init(main: ImagePickerCollectionViewController) {
         mainController = main
-        templateController = template
         
         super.init(nibName: nil, bundle: nil)
+        mainController.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -22,6 +23,10 @@ class CollageImagePickerViewController: UIViewController {
         super.viewDidLoad()
 
         addChild(mainController, to: view)
+        showTemplateController()
+    }
+    
+    func showTemplateController() {
         view.addSubview(templateControllerContainer)
         
         makeConstraints()
@@ -37,7 +42,13 @@ class CollageImagePickerViewController: UIViewController {
         }
     }
     
-    private var mainController: UIViewController
-    private var templateController: UIViewController
+    private var mainController: ImagePickerCollectionViewController
+    private var templateController: TemplateBarCollectionViewController?
     private let templateControllerContainer = UIView()
+}
+
+extension CollageImagePickSceneViewController: ImagePickerCollectionViewControllerDelegate {
+    func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
+        print(assets)
+    }
 }

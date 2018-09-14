@@ -5,7 +5,13 @@
 import UIKit
 import Photos
 
+protocol ImagePickerCollectionViewControllerDelegate: AnyObject {
+    func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset])
+}
+
 class ImagePickerCollectionViewController: UIViewController {
+    
+    weak var delegate: ImagePickerCollectionViewControllerDelegate?
     
     init(assets: [PHAsset]) {
         self.photoAssets = assets
@@ -35,6 +41,10 @@ class ImagePickerCollectionViewController: UIViewController {
         collectionView.alwaysBounceVertical = true
         
         collectionView.register(ImagePickerCollectionViewCell.self, forCellWithReuseIdentifier: ImagePickerCollectionViewCell.identifier)
+    }
+    
+    private func asset(for indexPath: IndexPath) -> PHAsset? {
+        return photoAssets[indexPath.row]
     }
     
     private var photoAssets: [PHAsset] {
@@ -91,6 +101,9 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
         }
         
         cell.toogleSelection()
+        
+        let selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
+        delegate?.imagePickerCollectionViewController(self, didSelect: selectedAssets)
     }
 }
 
