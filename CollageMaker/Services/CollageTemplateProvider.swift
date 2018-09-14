@@ -7,9 +7,10 @@ import Photos
 
 class CollageTemplateProvider {
     
-    static func collage(for assets: [PHAsset], callback: @escaping (Collage) -> Void) {
+    static func collage(for assets: [PHAsset], callback: @escaping (Collage?) -> Void) {
         
         guard assets.count == 1 else {
+            callback(nil)
             return
         }
         

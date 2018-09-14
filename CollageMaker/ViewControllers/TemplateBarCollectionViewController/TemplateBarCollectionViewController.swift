@@ -33,17 +33,13 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         
         collectionView?.register(TemplateBarCollectionViewCell.self, forCellWithReuseIdentifier: TemplateBarCollectionViewCell.identifier)
         collectionView?.backgroundColor = .clear
-        collectionView?.backgroundView = UIView(frame: collectionView?.bounds ?? .zero)
    
-        guard let layout = collectionViewLayout as? UICollectionViewFlowLayout, let backView = collectionView?.backgroundView else {
+        guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return
         }
         
         layout.minimumInteritemSpacing = 20
         layout.scrollDirection = .horizontal
-        
-        backView.backgroundColor = .black
-        backView.alpha = 0.8
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

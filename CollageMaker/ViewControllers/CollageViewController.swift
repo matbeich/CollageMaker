@@ -31,7 +31,7 @@ class CollageViewController: UIViewController {
     }
     
     func saveCellsVisibleRect() {
-        collageView.cellViews.forEach { $0.saveVisibleRect() }
+        collageView.saveCellsVisibleRect()
     }
     
     override func viewDidLayoutSubviews() {

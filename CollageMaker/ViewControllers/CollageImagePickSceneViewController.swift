@@ -27,10 +27,11 @@ class CollageImagePickSceneViewController: UIViewController {
     }
     
     func showTemplateController() {
+        
         view.addSubview(templateControllerContainer)
         
         makeConstraints()
-        addChild(templateController, to: templateControllerContainer)
+        addChild(templateController, to: templateControllerContainer.templateContainerView)
     }
     
     private func makeConstraints() {
@@ -42,15 +43,20 @@ class CollageImagePickSceneViewController: UIViewController {
         }
     }
     
-    private let templateControllerContainer = UIView()
+    private let templateControllerContainer = TemplateControllerView()
     private var mainController: ImagePickerCollectionViewController
     private var templateController = TemplateBarCollectionViewController(templates: [])
 }
 
 extension CollageImagePickSceneViewController: ImagePickerCollectionViewControllerDelegate {
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
+        
         CollageTemplateProvider.collage(for: assets) { [weak self] collage in
-            self?.templateController.templates = [collage]
+            if let collage = collage {
+                self?.templateController.templates = [collage]
+            } else {
+                self?.templateController.templates = []
+            }
         }
     }
 }

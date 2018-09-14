@@ -13,11 +13,15 @@ class CollageView: UIView {
     
     weak var delegate: CollageViewDelegate?
     
-    init() {
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pointTapped(with:)))
         addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    convenience init() {
+        self.init(frame: .zero)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,6 +32,10 @@ class CollageView: UIView {
         super.layoutSubviews()
         
         showGrips()
+    }
+    
+    func saveCellsVisibleRect() {
+        cellViews.forEach { $0.saveVisibleRect() }
     }
  
     func updateFrames() {
