@@ -46,10 +46,16 @@ class ImagePickerCollectionViewController: UIViewController {
             collectionView.reloadData()
         }
     }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     private var collectionView: UICollectionView
+    private var selectedCellsIndexPaths: [IndexPath] = []
 }
 
-extension ImagePickerCollectionViewController: UICollectionViewDelegate & UICollectionViewDataSource {
+extension ImagePickerCollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photoAssets.count
     }
@@ -62,8 +68,29 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate & UIColl
         }
         
         pickerCell.photoAsset = photoAssets[indexPath.row]
-        
+        if selectedCellsIndexPaths.contains(indexPath) {
+            DispatchQueue.main.async {
+                pickerCell.cellSelected = true
+            }
+        }
+    
         return pickerCell
+    }
+}
+
+extension ImagePickerCollectionViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionViewCell else {
+            return
+        }
+        
+        if selectedCellsIndexPaths.contains(indexPath) {
+            selectedCellsIndexPaths = selectedCellsIndexPaths.filter { $0 != indexPath}
+        } else {
+            selectedCellsIndexPaths.append(indexPath)
+        }
+        
+        cell.toogleSelection()
     }
 }
 
