@@ -7,9 +7,21 @@ import Photos
 
 class CollageTemplateProvider {
     
-    func templates(for assets: [PHAsset]) -> [Collage] {
+    static func collage(for assets: [PHAsset], callback: @escaping (Collage) -> Void) {
+        
+        guard assets.count == 1 else {
+            return
+        }
+        
+        assets.forEach {
+            PhotoLibraryService.photo(for: $0, size: CGSize(width: 300, height: 300)) { image in
+    
+                let collage = Collage(cells: [CollageCell(color: .clear, image: image, relativeFrame: .fullsized)])
+                
+                callback(collage)
+            }
+        }
         
     }
-    
     
 }

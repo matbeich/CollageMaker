@@ -40,10 +40,14 @@ final class PhotoLibraryService {
             return
         }
         
+        let options = PHImageRequestOptions()
+        
+        options.deliveryMode = .highQualityFormat
+        
         manager.requestImage(for: asset,
                              targetSize: targetSize ,
                              contentMode: .default,
-                             options: nil) {  (image, _) in callback(image) }
+                             options: options) {  (image, _) in callback(image) }
     }
     
     private static let imageCacher = PHCachingImageManager()
