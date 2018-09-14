@@ -33,8 +33,9 @@ extension Navigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
         let assets = PhotoLibraryService.getImagesAssets()
         let controller = ImagePickerCollectionViewController(assets: assets)
+        let imagePickSceneController = CollageImagePickSceneViewController(main: controller)
         
-        rootViewController.pushViewController(controller, animated: true)
+        rootViewController.pushViewController(imagePickSceneController, animated: true)
     }
 }
 

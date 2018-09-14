@@ -23,24 +23,22 @@ class CollageImagePickSceneViewController: UIViewController {
         super.viewDidLoad()
         
         addChild(mainController, to: view)
-        showTemplateController()
-    }
-    
-    func showTemplateController() {
-        
         view.addSubview(templateControllerContainer)
+        
+        navigationItem.title = "All Photos"
+        navigationItem.hidesBackButton = true
         
         makeConstraints()
         addChild(templateController, to: templateControllerContainer.templateContainerView)
     }
     
+    private func showTemplateController() {
+        templateControllerContainer.center.y = view.bounds.height - templateControllerContainer.bounds.size.height / 2
+    }
+    
     private func makeConstraints() {
-        templateControllerContainer.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().dividedBy(3.5)
-        }
+        templateControllerContainer.bounds.size = CGSize(width: view.bounds.width, height: view.bounds.height / 3.5)
+        templateControllerContainer.center = CGPoint(x: view.center.x, y: view.frame.maxY + templateControllerContainer.bounds.size.height / 2 - 50)
     }
     
     private let templateControllerContainer = TemplateControllerView()
@@ -53,9 +51,13 @@ extension CollageImagePickSceneViewController: ImagePickerCollectionViewControll
         
         CollageTemplateProvider.collage(for: assets) { [weak self] collage in
             if let collage = collage {
-                self?.templateController.templates = [collage]
+                UIView.animate(withDuration: 0.75, animations: {
+                    self?.showTemplateController()
+                }) { _ in
+                    self?.templateController.templates = [collage]
+                }
             } else {
-                self?.templateController.templates = []
+                UIView.animate(withDuration: 0.75, animations: { self?.makeConstraints() }) { _ in self?.templateController.templates = [] }
             }
         }
     }
