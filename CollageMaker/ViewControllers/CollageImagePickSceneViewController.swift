@@ -51,13 +51,13 @@ extension CollageImagePickSceneViewController: ImagePickerCollectionViewControll
         
         CollageTemplateProvider.collage(for: assets) { [weak self] collage in
             if let collage = collage {
-                UIView.animate(withDuration: 0.75, animations: {
+                UIView.animate(withDuration: 0.2, animations: {
                     self?.showTemplateController()
                 }) { _ in
-                    self?.templateController.templates = [collage]
+                    self?.templateController.templates = [collage, collage, collage, collage, collage, collage, collage]
                 }
             } else {
-                UIView.animate(withDuration: 0.75, animations: { self?.makeConstraints() }) { _ in self?.templateController.templates = [] }
+                UIView.animate(withDuration: 0.2, animations: { self?.makeConstraints() }) { _ in self?.templateController.templates = [] }
             }
         }
     }
