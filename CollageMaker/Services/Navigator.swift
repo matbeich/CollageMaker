@@ -20,17 +20,7 @@ final class Navigator {
             let assets = PhotoLibraryService.getImagesAssets()
             let controller = ImagePickerCollectionViewController(assets: assets)
             
-            
-            let cellOne = CollageCell(color: .collagePink, image: nil, relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
-            let cellTwo = CollageCell(color: .gray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 1))
-            let someCell = CollageCell(color: .darkGray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 0.5))
-            let someAnotherCell = CollageCell(color: .lightGray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0.5, width: 0.5, height: 0.5))
-            let oneMoreCollage = Collage(cells: [cellOne, cellTwo])
-            let collage = Collage(cells: [cellOne, someCell, someAnotherCell])
-            
-            let templateBar = TemplateBarCollectionViewController(templates: [oneMoreCollage, collage, oneMoreCollage,collage, oneMoreCollage, collage])
-            
-            let new = CollageImagePickerViewController(main: controller, template: templateBar)
+            let new = CollageImagePickSceneViewController(main: controller)
             
             return CollageNavigationController(rootViewController: new)
         } else {
