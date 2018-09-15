@@ -33,6 +33,7 @@ class ImagePickerCollectionViewController: UIViewController {
     
     private func setup() {
         navigationItem.title = "All Photos"
+        navigationItem
         
         collectionView.backgroundColor = .white
         collectionView.frame = view.bounds

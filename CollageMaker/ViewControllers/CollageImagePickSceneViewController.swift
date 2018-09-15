@@ -21,34 +21,44 @@ class CollageImagePickSceneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         addChild(mainController, to: view)
-        showTemplateController()
-    }
-    
-    func showTemplateController() {
         view.addSubview(templateControllerContainer)
         
+        navigationItem.title = "All Photos"
+        navigationItem.hidesBackButton = true
+        
         makeConstraints()
-        addChild(templateController, to: templateControllerContainer)
+        addChild(templateController, to: templateControllerContainer.templateContainerView)
+    }
+    
+    private func showTemplateController() {
+        templateControllerContainer.center.y = view.bounds.height - templateControllerContainer.bounds.size.height / 2
     }
     
     private func makeConstraints() {
-        templateControllerContainer.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalToSuperview().dividedBy(3.5)
-        }
+        templateControllerContainer.bounds.size = CGSize(width: view.bounds.width, height: view.bounds.height / 3.5)
+        templateControllerContainer.center = CGPoint(x: view.center.x, y: view.frame.maxY + templateControllerContainer.bounds.size.height / 2 - 50)
     }
     
+    private let templateControllerContainer = TemplateControllerView()
     private var mainController: ImagePickerCollectionViewController
-    private var templateController: TemplateBarCollectionViewController?
-    private let templateControllerContainer = UIView()
+    private var templateController = TemplateBarCollectionViewController(templates: [])
 }
 
 extension CollageImagePickSceneViewController: ImagePickerCollectionViewControllerDelegate {
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
-        print(assets)
+        
+        CollageTemplateProvider.collage(for: assets) { [weak self] collage in
+            if let collage = collage {
+                UIView.animate(withDuration: 0.2, animations: {
+                    self?.showTemplateController()
+                }) { _ in
+                    self?.templateController.templates = [collage, collage, collage, collage, collage, collage, collage]
+                }
+            } else {
+                UIView.animate(withDuration: 0.2, animations: { self?.makeConstraints() }) { _ in self?.templateController.templates = [] }
+            }
+        }
     }
 }

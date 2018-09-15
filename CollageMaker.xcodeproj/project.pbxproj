@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1929D0E5095DCC541D5B2D97 /* Pods_CollageMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E5F6231635FF3BBC1D62583 /* Pods_CollageMaker.framework */; };
 		37DA190E0CF686B7993369FD /* Pods_CollageMakerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E937FF543D64801E6FE757 /* Pods_CollageMakerUITests.framework */; };
+		525EC52B214C26AB009E5393 /* TemplateControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525EC52A214C26AB009E5393 /* TemplateControllerView.swift */; };
 		84023CC421369CDA00FF2CC6 /* RelativeFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84023CC321369CDA00FF2CC6 /* RelativeFrame.swift */; };
 		841469672126EEE400C2838A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841469662126EEE400C2838A /* UIColor.swift */; };
 		8417D1B8211DC1C500334661 /* CollageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417D1B7211DC1C500334661 /* CollageRenderer.swift */; };
@@ -73,6 +74,7 @@
 		0560397CE2EE951F30D1EE6A /* Pods-CollageMakerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerUITests/Pods-CollageMakerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		363080534D0CDC336C68709A /* Pods-CollageMakerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerTests/Pods-CollageMakerTests.release.xcconfig"; sourceTree = "<group>"; };
 		3D5ED321D13AAA86EF463EDA /* Pods-CollageMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerUITests/Pods-CollageMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		525EC52A214C26AB009E5393 /* TemplateControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateControllerView.swift; sourceTree = "<group>"; };
 		55E937FF543D64801E6FE757 /* Pods_CollageMakerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMakerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E5F6231635FF3BBC1D62583 /* Pods_CollageMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84023CC321369CDA00FF2CC6 /* RelativeFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeFrame.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 		84E2720B211DE8D7001CDCB9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				525EC52A214C26AB009E5393 /* TemplateControllerView.swift */,
 				8417D1B9211DCABC00334661 /* CollageCellView.swift */,
 				84E27209211DE8B0001CDCB9 /* CollageView.swift */,
 				84D389E52125CF5200FCDC67 /* GripView.swift */,
@@ -595,6 +598,7 @@
 				F62618B521415D9C00CD94AE /* UIKit+Extensions.swift in Sources */,
 				8417D1B8211DC1C500334661 /* CollageRenderer.swift in Sources */,
 				84868BC42138358500E12152 /* CollageBarItem.swift in Sources */,
+				525EC52B214C26AB009E5393 /* TemplateControllerView.swift in Sources */,
 				841469672126EEE400C2838A /* UIColor.swift in Sources */,
 				84868BC22138323E00E12152 /* CollageToolbar.swift in Sources */,
 				8496B141214AA9AF00FE45FE /* PhotoLibraryService.swift in Sources */,

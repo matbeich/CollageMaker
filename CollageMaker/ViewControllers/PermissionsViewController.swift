@@ -83,6 +83,7 @@ class PermissionsViewController: UIViewController {
 
         guard let alertController = Alerts.alert(for: authorizationStatus) else {
             assert(false, "can't handle authorization status \(authorizationStatus)")
+            return
         }
 
         present(alertController, animated: true, completion: nil)

@@ -13,16 +13,11 @@ final class Navigator {
     
     lazy var rootViewController: UINavigationController = {
         if authService.isAuthorized {
-//            let controller = CollageSceneViewController()
-//            controller.delegate = self
-            
-            
             let assets = PhotoLibraryService.getImagesAssets()
             let controller = ImagePickerCollectionViewController(assets: assets)
+            let imagePickSceneController = CollageImagePickSceneViewController(main: controller)
             
-            let new = CollageImagePickSceneViewController(main: controller)
-            
-            return CollageNavigationController(rootViewController: new)
+            return CollageNavigationController(rootViewController: imagePickSceneController)
         } else {
             let controller = PermissionsViewController()
             controller.delegate = self
@@ -38,8 +33,9 @@ extension Navigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
         let assets = PhotoLibraryService.getImagesAssets()
         let controller = ImagePickerCollectionViewController(assets: assets)
+        let imagePickSceneController = CollageImagePickSceneViewController(main: controller)
         
-        rootViewController.pushViewController(controller, animated: true)
+        rootViewController.pushViewController(imagePickSceneController, animated: true)
     }
 }
 
