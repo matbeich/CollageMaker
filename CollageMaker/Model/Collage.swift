@@ -34,6 +34,22 @@ class Collage: NSObject, NSCopying {
         }
     }
     
+    func copy(with zone: NSZone? = nil) -> Any {
+        let cellsCopy = cells.map { $0.copy() } as? [CollageCell]
+        
+        return Collage(cells: cellsCopy ?? [])
+    }
+    
+    func fill(with images: [UIImage]) {
+        for (cell, image) in zip(cells, images) {
+            addImage(image, to: cell)
+        }
+    }
+    
+    func deleteImages() {
+        cells.forEach { $0.deleteImage() }
+    }
+    
     func reset() {
         cells.removeAll()
         delegate?.collageChanged()
@@ -66,9 +82,16 @@ class Collage: NSObject, NSCopying {
         }
     }
     
+    func addImageToFreeCell(image: UIImage) {
+        guard let cell = cells.first(where: { $0.image == nil }) else {
+            return
+        }
+        
+        cell.addImage(image)
+    }
+    
     func addImage(_ image: UIImage, to cell: CollageCell) {
         cell.addImage(image)
-        update(cell: cell)
         
         delegate?.collage(self, didUpdate: cell)
     }
@@ -145,12 +168,6 @@ class Collage: NSObject, NSCopying {
             $0.calculateGripPositions()
         }
     }
-  
-    func copy(with zone: NSZone? = nil) -> Any {
-        let cellsCopy = cells.map { $0.copy() } as? [CollageCell]
-        
-        return Collage(cells: cellsCopy ?? [])
-    }
     
     var selectedCell: CollageCell
     private(set) var cells: [CollageCell]
@@ -196,7 +213,9 @@ extension Collage {
     }
     
     static func ==(lhs: Collage, rhs: Collage) -> Bool {
-        return lhs.cells == rhs.cells
+        let leftPictures = lhs.cells.compactMap { $0.image }
+        let rightPictures = rhs.cells.compactMap { $0.image }
+        return lhs.cells == rhs.cells && leftPictures == rightPictures
     }
 
     private func add(cell: CollageCell) {

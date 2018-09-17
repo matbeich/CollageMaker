@@ -78,7 +78,7 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
     
     private func update() {
         if let asset = photoAsset {
-            PhotoLibraryService.photo(for: asset, size: bounds.size) { [weak self] in
+            PhotoLibraryService.photo(for: asset, deliveryMode: .opportunistic, size: bounds.size) { [weak self] in
                 self?.imageView.image = $0
             }
         }

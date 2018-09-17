@@ -17,6 +17,8 @@ final class Navigator {
             let controller = ImagePickerCollectionViewController(assets: assets)
             let imagePickSceneController = CollageImagePickSceneViewController(main: controller)
             
+            imagePickSceneController.delegate = self
+            
             return CollageNavigationController(rootViewController: imagePickSceneController)
         } else {
             let controller = PermissionsViewController()
@@ -54,5 +56,13 @@ extension Navigator: CollageSceneViewControllerDelegate {
 extension Navigator: ShareScreenViewControllerDelegate {
     func shareScreenViewControllerShouldBeClosed(_ controller: ShareScreenViewController) {
         rootViewController.popViewController(animated: true)
+    }
+}
+
+extension Navigator: CollageImagePickSceneViewControllerDelegate {
+    func collageImagePickSceneViewControllerTemplateBar(didSelectTemplate: Collage) {
+        let controller = CollageSceneViewController(collage: didSelectTemplate)
+        
+        rootViewController.pushViewController(controller, animated: true)
     }
 }
