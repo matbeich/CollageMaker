@@ -10,12 +10,12 @@ class CollageCell: NSObject, NSCopying {
     
     let color: UIColor
     var imageVisibleRect: RelativeFrame = .zero
-    
+  
     func copy(with zone: NSZone? = nil) -> Any {
         return CollageCell(color: color, image: image, relativeFrame: relativeFrame, id: id, imageVisibleRect: imageVisibleRect)
     }
     
-    init(color: UIColor, image: UIImage? = nil, relativeFrame: RelativeFrame) {
+    init(color: UIColor = .brightLavender, image: UIImage? = nil, relativeFrame: RelativeFrame) {
         self.color = color
         self.image = image
         self.id = UUID.init()
@@ -49,6 +49,10 @@ class CollageCell: NSObject, NSCopying {
         }
         
         relativeFrame.normalizeValueToAllowed()
+    }
+    
+    func deleteImage() {
+        self.image = nil
     }
     
     func addImage(_ image: UIImage) {

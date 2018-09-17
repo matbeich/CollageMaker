@@ -35,8 +35,8 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        collage = nil
         imageView.image = nil
+        collage = nil
     }
     
     func update() {

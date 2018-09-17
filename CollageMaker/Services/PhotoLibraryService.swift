@@ -31,8 +31,8 @@ final class PhotoLibraryService {
     static func stopCaching() {
         imageCacher.stopCachingImagesForAllAssets()
     }
-    
-    static func photo(for asset: PHAsset, size: CGSize?, callback: @escaping (UIImage?) -> Void) {
+
+    static func photo(for asset: PHAsset, deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize? = nil, callback: @escaping (UIImage?) -> Void) {
         let sizeForTarget = size == nil ? CGSize(width: asset.pixelWidth, height: asset.pixelHeight) : size
         
         guard let targetSize = sizeForTarget else {
@@ -42,8 +42,7 @@ final class PhotoLibraryService {
         
         let options = PHImageRequestOptions()
         
-        options.deliveryMode = .highQualityFormat
-        
+        options.deliveryMode = deliveryMode
         manager.requestImage(for: asset,
                              targetSize: targetSize ,
                              contentMode: .default,

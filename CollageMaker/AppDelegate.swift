@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         self.window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigator.rootViewController
+//        window?.rootViewController = CollageNavigationController(rootViewController: CollageSceneViewController())
         window?.makeKeyAndVisible()
         
         return true
