@@ -82,14 +82,6 @@ class Collage: NSObject, NSCopying {
         }
     }
     
-    func addImageToFreeCell(image: UIImage) {
-        guard let cell = cells.first(where: { $0.image == nil }) else {
-            return
-        }
-        
-        cell.addImage(image)
-    }
-    
     func addImage(_ image: UIImage, to cell: CollageCell) {
         cell.addImage(image)
         
