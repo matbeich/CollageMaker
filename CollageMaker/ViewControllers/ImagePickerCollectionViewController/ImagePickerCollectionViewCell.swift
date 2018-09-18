@@ -78,8 +78,8 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
     
     private func update() {
         if let asset = photoAsset {
-            PhotoLibraryService.photo(for: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 300, height: 300)) { [weak self] in
-                self?.imageView.image = $0
+            PhotoLibraryService.photo(for: asset, deliveryMode: .opportunistic, size: CGSize(width: 300, height: 300)) { [weak self] image in
+                self?.imageView.image = image
             }
         }
     }

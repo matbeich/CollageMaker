@@ -37,21 +37,21 @@ class CollageSceneViewController: UIViewController {
         navigationItem.title = "Edit"
         
         makeConstraints()
-        
-        let cellOne = CollageCell(color: .collagePink, image: nil, relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
-        let cellTwo = CollageCell(color: .gray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 1))
-        let someCell = CollageCell(color: .darkGray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 0.5))
-        let someAnotherCell = CollageCell(color: .lightGray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0.5, width: 0.5, height: 0.5))
-        let oneMoreCollage = Collage(cells: [cellOne, cellTwo])
-        let collage = Collage(cells: [cellOne, someCell, someAnotherCell])
-        
-        let templateBar = TemplateBarCollectionViewController(templates: [oneMoreCollage, collage, oneMoreCollage,collage, oneMoreCollage, collage])
-        
-        templateBar.delegate = self
+//        
+//        let cellOne = CollageCell(color: .collagePink, image: nil, relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
+//        let cellTwo = CollageCell(color: .gray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 1))
+//        let someCell = CollageCell(color: .darkGray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 0.5))
+//        let someAnotherCell = CollageCell(color: .lightGray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0.5, width: 0.5, height: 0.5))
+//        let oneMoreCollage = Collage(cells: [cellOne, cellTwo])
+//        let collage = Collage(cells: [cellOne, someCell, someAnotherCell])
+//        
+//        let templateBar = TemplateBarCollectionViewController(templates: [oneMoreCollage, collage, oneMoreCollage,collage, oneMoreCollage, collage])
+//        
+//        templateBar.delegate = self
         toolsBar.delegate = self
         
         addChild(collageViewController, to: collageViewContainer)
-        addChild(templateBar, to: templateControllerView)
+//        addChild(templateBar, to: templateControllerView)
     }
     
     private func makeConstraints() {
@@ -131,8 +131,8 @@ class CollageSceneViewController: UIViewController {
 }
 
 extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegate {
-    func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collage: Collage) {
-        collageViewController.collage = collage
+    func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate) {
+        collageViewController.collage = collageTemplate.collage
     }
 }
 

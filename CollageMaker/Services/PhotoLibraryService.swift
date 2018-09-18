@@ -42,7 +42,7 @@ final class PhotoLibraryService {
                              contentMode: .aspectFit,
                              options: options) {  (image, _) in
                                 callback(image)
-//                                print(image?.size)
+                                print(image?.size)
         }
     }
     

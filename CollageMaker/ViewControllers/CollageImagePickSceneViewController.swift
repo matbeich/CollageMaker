@@ -48,7 +48,14 @@ class CollageImagePickSceneViewController: UIViewController {
         templateControllerContainer.center = CGPoint(x: view.center.x, y: view.frame.maxY + templateControllerContainer.bounds.size.height / 2 - 50)
     }
     
-    private var selectedAssets: [PHAsset] = []
+    private var selectedAssets: [PHAsset] = [] {
+        willSet {
+            PhotoLibraryService.stopCaching()
+        } didSet {
+            PhotoLibraryService.cacheImages(for: self.selectedAssets)
+        }
+    }
+    
     private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
     private var mainController: ImagePickerCollectionViewController
     private var templateController = TemplateBarCollectionViewController(templates: [])
@@ -57,27 +64,33 @@ class CollageImagePickSceneViewController: UIViewController {
 extension CollageImagePickSceneViewController: ImagePickerCollectionViewControllerDelegate {
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
         selectedAssets = assets
-  
-        CollageTemplateProvider.templates(for: selectedAssets) { [weak self] templates in
-            if let templates = templates, !templates.isEmpty {
-                UIView.animate(withDuration: 0.2, animations: { self?.showTemplateController() }) { _ in
-                    self?.templateController.templates = templates
-                }
-            } else {
-                UIView.animate(withDuration: 0.2, animations: { self?.makeConstraints() }) { _ in self?.templateController.templates = [] }
+        
+        
+        let templates = CollageTemplateProvider.templates(for: selectedAssets)
+        
+        if !templates.isEmpty {
+            UIView.animate(withDuration: 0.2, animations: { self.showTemplateController() }) { _ in
+                self.templateController.templates = templates
             }
+        } else {
+            UIView.animate(withDuration: 0.2, animations: { self.makeConstraints() }) { _ in self.templateController.templates = [] }
         }
     }
 }
 
 extension CollageImagePickSceneViewController: TemplateBarCollectionViewControllerDelegate {
-    func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collage: Collage) {
-        PhotoLibraryService.cacheImages(for: selectedAssets)
+    func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate) {
         
-        CollageTemplateProvider.highQualityCollage(from: collage, assets: selectedAssets) { [weak self] collage in
+        CollageTemplateProvider.collage(from: collageTemplate) { [weak self] collage in
             if let selectedAssets = self?.selectedAssets, let sself = self {
                 sself.delegate?.collageImagePickSceneViewControllerTemplateBar(with: selectedAssets, didSelectTemplate: collage)
             }
         }
     }
+    //
+    //        CollageTemplateProvider.highQualityCollage(from: collage, assets: selectedAssets) { [weak self] collage in
+    //            if let selectedAssets = self?.selectedAssets, let sself = self {
+    //                sself.delegate?.collageImagePickSceneViewControllerTemplateBar(with: selectedAssets, didSelectTemplate: collage)
+    //            }
+    //        }
 }
