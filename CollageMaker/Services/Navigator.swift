@@ -62,7 +62,8 @@ extension Navigator: ShareScreenViewControllerDelegate {
 
 extension Navigator: CollageImagePickSceneViewControllerDelegate {
     func collageImagePickSceneViewControllerTemplateBar(with selectedAssets: [PHAsset], didSelectTemplate: Collage) {
-        let templates = 
+        // FIXME:
+//        let templates =
         
         
         let controller = CollageSceneViewController(collage: didSelectTemplate)

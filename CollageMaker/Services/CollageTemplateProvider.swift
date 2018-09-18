@@ -22,12 +22,10 @@ class CollageTemplateProvider {
             break
         }
         
-        collectPhotos(from: assets, deliveryMode: .fastFormat) { images in
-            collages.forEach { collage in
-                collage.fill(with: images)
-            }
+        collectPhotos(from: assets, deliveryMode: .highQualityFormat) { images in
+            let collageTemplates = collages.map { CollageTemplate(collage: $0, photoAssets: assets, size: .medium) }
             
-            callback(collages)
+            callback(collageTemplates)
         }
     }
     
@@ -40,22 +38,22 @@ class CollageTemplateProvider {
         }
     }
     
-    static func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode = .highQualityFormat, callback: @escaping ([UIImage]) -> Void){
-        photos.removeAll()
+    static func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode = .highQualityFormat, callback: @escaping ([UIImage]) -> Void){   
+        let group = DispatchGroup()
+        var photos: [UIImage?] = Array(repeating: nil, count: assets.count)
         
-        assets.forEach { asset in
-            PhotoLibraryService.photo(for: asset, deliveryMode: deliveryMode) { photo in
-                guard let photo = photo  else {
-                    return
-                }
-                
-                photos.append(photo)
-                if photos.count == assets.count { callback(photos) }
+        for (index, asset) in assets.enumerated() {
+            group.enter()
+            PhotoLibraryService.photo(for: asset, deliveryMode: deliveryMode, size: CGSize(width: 600, height: 600)) { photo in
+                photos[index] = photo
+                group.leave()
             }
         }
+        
+        group.notify(queue: .main) {
+            callback(photos.compactMap { $0 })
+        }
     }
-    
-    private static var photos: [UIImage] = []
 }
 
 fileprivate extension Collage {

@@ -1,12 +1,13 @@
 platform :ios, '11.0'
 use_frameworks!
+inhibit_all_warnings!
 
 def defaults
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'SnapKit'
     pod 'R.swift'
-    pod 'AppCraftUtils/Interface'
+    pod 'AppCraftUtils/Interface', '1.2.64'
 end
 
 def external
