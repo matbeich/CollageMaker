@@ -61,6 +61,10 @@ class ImagePickerCollectionViewController: UIViewController {
         return true
     }
     
+    var selectedAssets: [PHAsset] {
+        return selectedCellsIndexPaths.compactMap { asset(for: $0) }
+    }
+    
     private var collectionView: UICollectionView
     private var selectedCellsIndexPaths: [IndexPath] = []
 }
@@ -101,8 +105,7 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
         }
         
         cell.toogleSelection()
-        
-        let selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
+   
         delegate?.imagePickerCollectionViewController(self, didSelect: selectedAssets)
     }
 }

@@ -7,7 +7,6 @@ import Photos
 
 class CollageTemplateProvider {
     
-    
     static func templates(for assets: [PHAsset], callback: @escaping ([Collage]?) -> Void) {
         PhotoLibraryService.cacheImages(for: assets)
         
@@ -27,6 +26,7 @@ class CollageTemplateProvider {
             collages.forEach { collage in
                 collage.fill(with: images)
             }
+            
             callback(collages)
         }
     }

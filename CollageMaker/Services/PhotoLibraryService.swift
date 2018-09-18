@@ -9,7 +9,6 @@ final class PhotoLibraryService {
     
     static func getImagesAssets() -> [PHAsset] {
         var assets = [PHAsset]()
-        
         let options = PHFetchOptions()
         
         options.includeAssetSourceTypes = .typeUserLibrary

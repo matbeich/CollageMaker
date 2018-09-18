@@ -7,7 +7,7 @@ import Photos
 import SnapKit
 
 protocol CollageImagePickSceneViewControllerDelegate: AnyObject {
-    func collageImagePickSceneViewControllerTemplateBar(didSelectTemplate: Collage)
+    func collageImagePickSceneViewControllerTemplateBar(with selectedAssets: [PHAsset], didSelectTemplate: Collage)
 }
 
 class CollageImagePickSceneViewController: UIViewController {
@@ -49,7 +49,7 @@ class CollageImagePickSceneViewController: UIViewController {
     }
     
     private var selectedAssets: [PHAsset] = []
-    private let templateControllerContainer = TemplateControllerView()
+    private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
     private var mainController: ImagePickerCollectionViewController
     private var templateController = TemplateBarCollectionViewController(templates: [])
 }
@@ -75,7 +75,9 @@ extension CollageImagePickSceneViewController: TemplateBarCollectionViewControll
         PhotoLibraryService.cacheImages(for: selectedAssets)
         
         CollageTemplateProvider.highQualityCollage(from: collage, assets: selectedAssets) { [weak self] collage in
-            self?.delegate?.collageImagePickSceneViewControllerTemplateBar(didSelectTemplate: collage)
+            if let selectedAssets = self?.selectedAssets, let sself = self {
+                sself.delegate?.collageImagePickSceneViewControllerTemplateBar(with: selectedAssets, didSelectTemplate: collage)
+            }
         }
     }
 }

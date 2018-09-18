@@ -99,78 +99,44 @@ class PermissionsViewController: UIViewController {
         return button
     }()
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
+    private lazy var titleLabel: AttributedTextLabel = {
+       let label = AttributedTextLabel(text: "Start Your Masterpiece")
         
-        label.numberOfLines = 0
         label.font = R.font.sfProDisplayHeavy(size: 46)
-        label.textAlignment = .left
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 0.8
-        
-        
-        let attributes = [NSAttributedStringKey.paragraphStyle: paragraphStyle,
-                          NSAttributedStringKey.kern: CGFloat(-1.85),
-                          ] as [NSAttributedStringKey : Any]
-        
-        let attributedString = NSMutableAttributedString(string: "Start Your Masterpiece", attributes: attributes)
-        
-        if let range = findLastWordRange(in: attributedString.string) {
-            attributedString.addAttributes([NSAttributedStringKey.foregroundColor: UIColor.brightLavender], range: range)
-        }
-        
-        label.attributedText = attributedString
         label.sizeToFit()
+        
+        if let string = label.attributedText?.string, let range = findLastWordRange(in: string ) {
+            label.addAttributes(attrs: [NSAttributedStringKey.foregroundColor: UIColor.brightLavender], range: range)
+            label.addAttributes(attrs: [NSAttributedStringKey.kern: CGFloat(-1.85)], range: NSRange(string) ?? NSRange())
+        }
         
         return label
     }()
     
-    private let subtitleLabel: UILabel = {
-        let label = UILabel()
-        
-        let attributes = [ NSAttributedStringKey.kern: CGFloat(-1.0)]
-        let attributedString = NSMutableAttributedString(string: "The best photos are already here, make them speak", attributes: attributes)
-        
-        label.attributedText = attributedString
-        label.numberOfLines = 0
-        label.textAlignment = .left
+    private let subtitleLabel: AttributedTextLabel = {
+        let label = AttributedTextLabel(text: "The best photos are already here, make them speak")
         label.font = R.font.sfProTextLight(size: 15)
         label.sizeToFit()
         
         return label
     }()
     
-    private let accessLabel: UILabel = {
-        let label = UILabel()
-        
-        let attributes = [ NSAttributedStringKey.kern: CGFloat(-1.0)]
-        let attributedString = NSMutableAttributedString(string: "Access to Photos", attributes: attributes)
-        
-        label.attributedText = attributedString
-        label.numberOfLines = 0
-        label.textAlignment = .left
+    private let accessLabel: AttributedTextLabel = {
+        let label = AttributedTextLabel(text: "Access to Photos")
         label.font = R.font.sfProDisplayHeavy(size: 25)
         label.sizeToFit()
         
         return label
     }()
     
-    private let accessMessageLabel: UILabel = {
-        let label = UILabel()
-        
-        let attributes = [ NSAttributedStringKey.kern: CGFloat(-1.0)]
-        let attributedString = NSMutableAttributedString(string: "Collagist needs access to photos to turn them into masterpieces.", attributes: attributes)
-        
-        label.numberOfLines = 0
-        label.textAlignment = .left
+    private let accessMessageLabel: AttributedTextLabel = {
+        let label = AttributedTextLabel(text: "Collagist needs access to photos to turn them into masterpieces.")
         label.font = R.font.sfProTextLight(size: 15)
-        label.attributedText = attributedString
         label.sizeToFit()
         
         return label
     }()
-    
+   
     private lazy var bottomStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [accessLabel, accessMessageLabel, allowButton])
         

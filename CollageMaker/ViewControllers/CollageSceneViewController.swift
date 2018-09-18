@@ -28,9 +28,8 @@ class CollageSceneViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        view.addSubview(resetButton)
         view.addSubview(collageViewContainer)
-        view.addSubview(bannerView)
+        view.addSubview(templateControllerView)
         view.addSubview(toolsBar)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem.collageCamera(action: #selector(tryToTakePhoto), target: self)
@@ -52,7 +51,7 @@ class CollageSceneViewController: UIViewController {
         toolsBar.delegate = self
         
         addChild(collageViewController, to: collageViewContainer)
-        addChild(templateBar, to: bannerView)
+        addChild(templateBar, to: templateControllerView)
     }
     
     private func makeConstraints() {
@@ -75,7 +74,7 @@ class CollageSceneViewController: UIViewController {
             make.height.equalTo(collageViewContainer).dividedBy(6)
         }
         
-        bannerView.snp.makeConstraints { make in
+        templateControllerView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalTo(toolsBar.snp.top)
@@ -118,26 +117,16 @@ class CollageSceneViewController: UIViewController {
         default: break
         }
     }
-    
-    private let resetButton: UIButton = {
-        let button = UIButton(type: .system)
-        
-        button.addTarget(self, action: #selector(resetCollage), for: .touchUpInside)
-        button.setTitle("Reset", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        
-        return button
-    }()
-    
+
     private let collageViewContainer: UIView = {
         let view = UIView()
         view.contentMode = .scaleAspectFit
         return view
     }()
     
-    private let bannerView = UIView()
-    private let toolsBar = CollageToolbar.standart
     private var collageViewController = CollageViewController()
+    private let toolsBar = CollageToolbar.standart
+    private let templateControllerView = TemplateControllerView()
     private let cameraAuthService = CameraAuthService()
 }
 

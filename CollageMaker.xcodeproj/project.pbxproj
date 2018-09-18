@@ -16,6 +16,7 @@
 		8417D1BA211DCABC00334661 /* CollageCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417D1B9211DCABC00334661 /* CollageCellView.swift */; };
 		841A245D213E8DCC006E994B /* CollageNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A245C213E8DCC006E994B /* CollageNavigationController.swift */; };
 		841A245F213E935C006E994B /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A245E213E935C006E994B /* UIBarButtonItem.swift */; };
+		843367CF2150ECB8008EC77D /* AttributedTextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843367CE2150ECB8008EC77D /* AttributedTextLabel.swift */; };
 		843A57FA21144760002FE28D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A57F921144760002FE28D /* AppDelegate.swift */; };
 		843A580121144761002FE28D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843A580021144761002FE28D /* Assets.xcassets */; };
 		843A580421144761002FE28D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 843A580221144761002FE28D /* LaunchScreen.storyboard */; };
@@ -83,6 +84,7 @@
 		8417D1B9211DCABC00334661 /* CollageCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageCellView.swift; sourceTree = "<group>"; };
 		841A245C213E8DCC006E994B /* CollageNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageNavigationController.swift; sourceTree = "<group>"; };
 		841A245E213E935C006E994B /* UIBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
+		843367CE2150ECB8008EC77D /* AttributedTextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextLabel.swift; sourceTree = "<group>"; };
 		843A57F621144760002FE28D /* CollageMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollageMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		843A57F921144760002FE28D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		843A580021144761002FE28D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				525EC52A214C26AB009E5393 /* TemplateControllerView.swift */,
+				843367CE2150ECB8008EC77D /* AttributedTextLabel.swift */,
 				8417D1B9211DCABC00334661 /* CollageCellView.swift */,
 				84E27209211DE8B0001CDCB9 /* CollageView.swift */,
 				84D389E52125CF5200FCDC67 /* GripView.swift */,
@@ -589,6 +592,7 @@
 				843A5829211447DC002FE28D /* CollageSceneViewController.swift in Sources */,
 				849B68222121CA960091AD27 /* TemplateBarCollectionViewController.swift in Sources */,
 				841A245D213E8DCC006E994B /* CollageNavigationController.swift in Sources */,
+				843367CF2150ECB8008EC77D /* AttributedTextLabel.swift in Sources */,
 				84E06F1B21397ED7007109BE /* PermissionsViewController.swift in Sources */,
 				849B68202121979C0091AD27 /* CollageViewController.swift in Sources */,
 				846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */,
