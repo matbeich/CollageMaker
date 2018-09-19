@@ -31,3 +31,14 @@ struct CollageTemplate {
         }
     }
 }
+
+struct CollageTemplateTwo {
+    
+    init(frames: [RelativeFrame], assets: [PHAsset]) {
+        self.cellFrames = frames
+        self.assets = assets
+    }
+    
+    let cellFrames: [RelativeFrame]
+    let assets: [PHAsset]
+}

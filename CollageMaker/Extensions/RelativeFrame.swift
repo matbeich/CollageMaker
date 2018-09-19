@@ -99,3 +99,21 @@ extension RelativeFrame {
         return intersects(rect2: rect2, on: gripPosition) && isEqual
     }
 }
+
+extension RelativeFrame {
+    
+    static let leftFullHeightHalfWidth = RelativeFrame(x: 0, y: 0, width: 0.5, height: 1)
+    static let rightFullHeightHalfWidth = RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 1)
+    static let topHalfHeightFullWidth = RelativeFrame(x: 0, y: 0, width: 1, height: 0.5)
+    static let bottomHalfHeightFullWidth = RelativeFrame(x: 0, y: 0.5, width: 1, height: 0.5)
+    static let topRightHalfWidthHalfHeight = RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 0.5)
+    static let topLeftHalfWidthHalfHeight = RelativeFrame(x: 0, y: 0, width: 0.5, height: 0.5)
+    static let bottomRightHalfWidthHalfHeight = RelativeFrame(x: 0.5, y: 0.5, width: 0.5, height: 0.5)
+    static let bottomLeftHalfWidthHalfHeight = RelativeFrame(x: 0, y: 0.5, width: 0.5, height: 0.5)
+    static let leftFullHeightThirtyThreePercentWidth = RelativeFrame(x: 0, y: 0, width: 0.33, height: 1)
+    static let centerFullHeightThirtyThreePercentWidth = RelativeFrame(x: 0.33, y: 0, width: 0.33, height: 1)
+    static let rightFullHeightThirtyThreePercentWidth = RelativeFrame(x: 0.66, y: 0, width: 0.34, height: 1)
+    static let topFullWidthThirtyThreePercentHeight = RelativeFrame(x: 0, y: 0, width: 1, height: 0.33)
+    static let centerFullWidthThirtyThreePercentHeight = RelativeFrame(x: 0, y: 0.33, width: 1, height: 0.33)
+    static let bottomFullWidthThirtyThreePercentHeight = RelativeFrame(x: 0, y: 0.66, width: 1, height: 0.34)
+}

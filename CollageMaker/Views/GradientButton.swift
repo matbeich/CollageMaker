@@ -6,6 +6,13 @@ import Foundation
 import UIKit
 
 class GradientButton: UIButton {
+    
+    var showShadow: Bool = true {
+        didSet {
+            layer.shadowOpacity = showShadow ? 0.3 : 0
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -16,7 +23,7 @@ class GradientButton: UIButton {
         layer.shadowOpacity = 0.3
         setTitleColor(.white, for: .normal)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -25,13 +32,15 @@ class GradientButton: UIButton {
         let layer = CAGradientLayer()
         layer.setAxis(.horizontal)
         layer.colors = [UIColor.brightLavender.cgColor, UIColor.collagePink.cgColor]
+        
         return layer
     }()
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
+        
         gradientLayer.frame = bounds
-        gradientLayer.cornerRadius = bounds.height / 2
+        gradientLayer.cornerRadius = max(bounds.height, bounds.width) / 2
     }
 }

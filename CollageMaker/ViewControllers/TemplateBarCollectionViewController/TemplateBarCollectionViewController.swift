@@ -33,6 +33,7 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         
         collectionView?.register(TemplateBarCollectionViewCell.self, forCellWithReuseIdentifier: TemplateBarCollectionViewCell.identifier)
         collectionView?.backgroundColor = .clear
+        collectionView?.alwaysBounceHorizontal = true
    
         guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return

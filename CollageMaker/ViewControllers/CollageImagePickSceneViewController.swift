@@ -33,10 +33,16 @@ class CollageImagePickSceneViewController: UIViewController {
         
         navigationItem.title = "All Photos"
         navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem.collageCamera(action: #selector(openCamera), target: self)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: gradientButton)
         
         makeConstraints()
         addChild(templateController, to: templateControllerContainer.templateContainerView)
         templateController.delegate = self
+    }
+    
+    @objc private func openCamera() {
+        
     }
     
     private func showTemplateController() {
@@ -48,13 +54,27 @@ class CollageImagePickSceneViewController: UIViewController {
         templateControllerContainer.center = CGPoint(x: view.center.x, y: view.frame.maxY + templateControllerContainer.bounds.size.height / 2 - 50)
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     private var selectedAssets: [PHAsset] = [] {
         willSet {
             PhotoLibraryService.stopCaching()
         } didSet {
             PhotoLibraryService.cacheImages(for: self.selectedAssets)
+            gradientButton.setTitle(String(selectedAssets.count), for: .normal)
         }
     }
+    
+    private let gradientButton: GradientButton = {
+        let button = GradientButton(type: .system)
+        button.setTitle("0", for: .normal)
+        button.showShadow = false
+        button.titleLabel?.font = R.font.sfProTextBold(size: 16)
+        
+        return button
+    }()
     
     private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
     private var mainController: ImagePickerCollectionViewController

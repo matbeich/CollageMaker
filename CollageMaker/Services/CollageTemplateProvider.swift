@@ -5,24 +5,36 @@
 import Foundation
 import Photos
 
+typealias CollageFramesKit = [RelativeFrame]
+
 class CollageTemplateProvider {
     
     static func templates(for assets: [PHAsset]) -> [CollageTemplate] {
         PhotoLibraryService.cacheImages(for: assets)
         
         var collages: [Collage] = []
+        var collagesFramesKit = [CollageFramesKit]()
         
         switch assets.count {
         case 2:
             collages = Collage.templatesTwoCells()
+            collagesFramesKit = RelativeFrame.twoPhotosFramesKit()
         case 3:
             collages = Collage.templatesThreeCells()
+            collagesFramesKit = RelativeFrame.threePhotosFramesKit()
         default:
             return []
         }
         
-        return collages.map { CollageTemplate(collage: $0, photoAssets: assets, size: .medium) }
+       return collagesFramesKit.map { CollageTemplateTwo(frames: $0, assets: assets)}
+    
+//        return collages.map { CollageTemplate(collage: $0, photoAssets: assets, size: .medium) }
     }
+    
+//    static func collagik(from template: CollageTemplateTwo, size: CollageTemplate.Size, callback: @escaping (Collage) -> Void){
+//        let size = size ?? template.size
+//
+//    }
     
     static func collage(from template: CollageTemplate, size: CollageTemplate.Size?, callback: @escaping (Collage) -> Void) {
         let size = size ?? template.size
@@ -32,7 +44,7 @@ class CollageTemplateProvider {
             callback(template.collage)
         }
     }
- 
+    
     static func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode = .highQualityFormat, size: CGSize, callback: @escaping ([UIImage]) -> Void){
         let group = DispatchGroup()
         var photos: [UIImage?] = Array(repeating: nil, count: assets.count)
@@ -51,7 +63,25 @@ class CollageTemplateProvider {
     }
 }
 
+fileprivate extension RelativeFrame {
+    
+    static func twoPhotosFramesKit() -> [CollageFramesKit] {
+        return [[RelativeFrame.leftFullHeightHalfWidth, RelativeFrame.rightFullHeightHalfWidth],
+                [RelativeFrame.topHalfHeightFullWidth, RelativeFrame.bottomHalfHeightFullWidth]]
+    }
+    
+    static func threePhotosFramesKit() -> [CollageFramesKit] {
+        return [[RelativeFrame.leftFullHeightHalfWidth, RelativeFrame.topRightHalfWidthHalfHeight, RelativeFrame.bottomRightHalfWidthHalfHeight],
+                [RelativeFrame.topLeftHalfWidthHalfHeight, RelativeFrame.bottomLeftHalfWidthHalfHeight, RelativeFrame.rightFullHeightHalfWidth],
+                [RelativeFrame.topHalfHeightFullWidth, RelativeFrame.bottomLeftHalfWidthHalfHeight, RelativeFrame.bottomRightHalfWidthHalfHeight],
+                [RelativeFrame.bottomHalfHeightFullWidth, RelativeFrame.topLeftHalfWidthHalfHeight, RelativeFrame.topRightHalfWidthHalfHeight],
+                [RelativeFrame.leftFullHeightThirtyThreePercentWidth, RelativeFrame.centerFullHeightThirtyThreePercentWidth, RelativeFrame.rightFullHeightThirtyThreePercentWidth],
+                [RelativeFrame.topFullWidthThirtyThreePercentHeight, RelativeFrame.centerFullWidthThirtyThreePercentHeight, RelativeFrame.bottomFullWidthThirtyThreePercentHeight]]
+    }
+}
+
 fileprivate extension Collage {
+    
     static func templatesTwoCells() -> [Collage] {
         
         let cell1 = CollageCell(relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
