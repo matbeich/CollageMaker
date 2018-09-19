@@ -49,10 +49,10 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
         CollageTemplateProvider.collage(from: collageTemplate, size: .medium) { collage in
             
             let collageView = CollageView(frame: CGRect(origin: .zero, size: size))
-            collageView.updateCollage(collageTemplate.collage)
+            collageView.updateCollage(collage)
             collageView.saveCellsVisibleRect()
             
-            CollageRenderer.renderImage(from: collage, with: collageTemplate.size.value) { image in
+            CollageRenderer.renderImage(from: collage, with: size) { image in
                 self.imageView.image = image
             }
         }

@@ -85,7 +85,7 @@ extension CollageImagePickSceneViewController: ImagePickerCollectionViewControll
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
         selectedAssets = assets
         
-        let templates = CollageTemplateProvider.templates(for: selectedAssets)
+        let templates = CollageTemplateProvider.templates(for: selectedAssets.count, assets: selectedAssets)
         
         if !templates.isEmpty {
             UIView.animate(withDuration: 0.2, animations: { self.showTemplateController() }) { _ in
