@@ -40,9 +40,7 @@ final class PhotoLibraryService {
         manager.requestImage(for: asset,
                              targetSize: sizeForTarget,
                              contentMode: .aspectFit,
-                             options: options) {  (image, _) in
-                                callback(image)
-                                print(image?.size)
+                             options: options) {  (image, _) in callback(image)
         }
     }
     

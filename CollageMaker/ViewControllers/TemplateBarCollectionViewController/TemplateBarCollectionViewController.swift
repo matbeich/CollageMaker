@@ -59,7 +59,13 @@ class TemplateBarCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.templateBarCollectionViewController(self, didSelect: templates[indexPath.row])
+        let template = templates[indexPath.row]
+        guard let collage = template.collage.copy() as? Collage else {
+            return
+        }
+        
+        let templateCopy = CollageTemplate(collage: collage, photoAssets: template.photoAssets, size: template.size)
+        delegate?.templateBarCollectionViewController(self, didSelect: templateCopy)
     }
 }
 

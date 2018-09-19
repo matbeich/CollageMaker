@@ -7,7 +7,7 @@ import Photos
 import SnapKit
 
 protocol CollageImagePickSceneViewControllerDelegate: AnyObject {
-    func collageImagePickSceneViewControllerTemplateBar(with selectedAssets: [PHAsset], didSelectTemplate: Collage)
+    func collageImagePickSceneViewController(_ controller: CollageImagePickSceneViewController, templateBar: TemplateBarCollectionViewController, didSelectTemplate: Collage)
 }
 
 class CollageImagePickSceneViewController: UIViewController {
@@ -65,7 +65,6 @@ extension CollageImagePickSceneViewController: ImagePickerCollectionViewControll
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
         selectedAssets = assets
         
-        
         let templates = CollageTemplateProvider.templates(for: selectedAssets)
         
         if !templates.isEmpty {
@@ -81,16 +80,10 @@ extension CollageImagePickSceneViewController: ImagePickerCollectionViewControll
 extension CollageImagePickSceneViewController: TemplateBarCollectionViewControllerDelegate {
     func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate) {
         
-        CollageTemplateProvider.collage(from: collageTemplate) { [weak self] collage in
-            if let selectedAssets = self?.selectedAssets, let sself = self {
-                sself.delegate?.collageImagePickSceneViewControllerTemplateBar(with: selectedAssets, didSelectTemplate: collage)
+        CollageTemplateProvider.collage(from: collageTemplate, size: .large) { [weak self] collage in
+            if let sself = self {
+                sself.delegate?.collageImagePickSceneViewController(sself, templateBar: controller, didSelectTemplate: collage)
             }
         }
     }
-    //
-    //        CollageTemplateProvider.highQualityCollage(from: collage, assets: selectedAssets) { [weak self] collage in
-    //            if let selectedAssets = self?.selectedAssets, let sself = self {
-    //                sself.delegate?.collageImagePickSceneViewControllerTemplateBar(with: selectedAssets, didSelectTemplate: collage)
-    //            }
-    //        }
 }

@@ -24,8 +24,10 @@ class CollageTemplateProvider {
         return collages.map { CollageTemplate(collage: $0, photoAssets: assets, size: .medium) }
     }
     
-    static func collage(from template: CollageTemplate, callback: @escaping (Collage) -> Void) {
-        collectPhotos(from: template.photoAssets, size: template.size.value) { photos in
+    static func collage(from template: CollageTemplate, size: CollageTemplate.Size?, callback: @escaping (Collage) -> Void) {
+        let size = size ?? template.size
+        
+        collectPhotos(from: template.photoAssets, size: size.value) { photos in
             template.collage.fill(with: photos)
             callback(template.collage)
         }
@@ -51,6 +53,7 @@ class CollageTemplateProvider {
 
 fileprivate extension Collage {
     static func templatesTwoCells() -> [Collage] {
+        
         let cell1 = CollageCell(relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
         let cell2 = CollageCell(relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 1))
         let cell3 = CollageCell(relativeFrame: RelativeFrame(x: 0, y: 0, width: 1, height: 0.5))
@@ -61,6 +64,7 @@ fileprivate extension Collage {
     }
     
     static func templatesThreeCells() -> [Collage] {
+        
         let cell1 = CollageCell(relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
         let cell2 = CollageCell(relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 0.5))
         let cell3 = CollageCell(relativeFrame: RelativeFrame(x: 0.5, y: 0.5, width: 0.5, height: 0.5))

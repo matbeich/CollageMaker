@@ -44,19 +44,16 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        CollageTemplateProvider.collage(from: collageTemplate) { collage in
-            let collageView = CollageView(frame: CGRect(origin: .zero, size: collageTemplate.size.value))
+        let size = bounds.size
+        
+        CollageTemplateProvider.collage(from: collageTemplate, size: .medium) { collage in
+            
+            let collageView = CollageView(frame: CGRect(origin: .zero, size: size))
             collageView.updateCollage(collageTemplate.collage)
             collageView.saveCellsVisibleRect()
-
-            DispatchQueue.global().async { [weak self] in
-                let image = CollageRenderer.renderImage(from: collage, with: collageTemplate.size.value)
-                
-                DispatchQueue.main.async {
-                    if collage == collageTemplate.collage {
-                        self?.imageView.image = image
-                    }
-                }
+            
+            CollageRenderer.renderImage(from: collage, with: collageTemplate.size.value) { image in
+                self.imageView.image = image
             }
         }
     }

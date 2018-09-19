@@ -6,8 +6,14 @@ import UIKit
 
 class CollageRenderer {
     
-    static func renderImage(from collage: Collage, with size: CGSize, callback: (UIImage) -> Void) {
-        callback(renderImage(from: collage, with: size))
+    static func renderImage(from collage: Collage, with size: CGSize, callback: @escaping (UIImage) -> Void) {
+        DispatchQueue.global().async {
+             let image = (renderImage(from: collage, with: size))
+            
+            DispatchQueue.main.async {
+                callback(image)
+            }
+        }
     }
     
     static func renderImage(from collage: Collage, with size: CGSize) -> UIImage {
