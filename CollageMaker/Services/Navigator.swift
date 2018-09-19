@@ -5,6 +5,7 @@
 import Foundation
 import UIKit
 import Utils
+import Photos
 
 final class Navigator {
     init(authSerivce: PhotoAuthService = PhotoAuthService()) {
@@ -60,8 +61,8 @@ extension Navigator: ShareScreenViewControllerDelegate {
 }
 
 extension Navigator: CollageImagePickSceneViewControllerDelegate {
-    func collageImagePickSceneViewControllerTemplateBar(didSelectTemplate: Collage) {
-        let controller = CollageSceneViewController(collage: didSelectTemplate)
+    func collageImagePickSceneViewController(_ controller: CollageImagePickSceneViewController, templateBar: TemplateBarCollectionViewController, didSelectTemplate: Collage) {
+        let controller = CollageSceneViewController(collage: didSelectTemplate, templates: templateBar.templates)
         
         rootViewController.pushViewController(controller, animated: true)
     }

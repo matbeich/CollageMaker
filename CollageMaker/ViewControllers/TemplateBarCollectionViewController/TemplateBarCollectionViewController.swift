@@ -5,20 +5,20 @@
 import UIKit
 
 protocol TemplateBarCollectionViewControllerDelegate: AnyObject {
-    func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collage: Collage)
+    func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate)
 }
 
 class TemplateBarCollectionViewController: UICollectionViewController {
     
     weak var delegate: TemplateBarCollectionViewControllerDelegate?
     
-    var templates: [Collage] {
+    var templates: [CollageTemplate] {
         didSet {
             collectionView?.reloadData()
         }
     }
     
-    init(templates: [Collage]) {
+    init(templates: [CollageTemplate]) {
         self.templates = templates
         
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
@@ -53,15 +53,19 @@ class TemplateBarCollectionViewController: UICollectionViewController {
             return cell
         }
         
-        templateBarCell.collage = templates[indexPath.row]
+        templateBarCell.collageTemplate = templates[indexPath.row]
         
         return templateBarCell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let collage = templates[indexPath.row].copy() as? Collage {
-            delegate?.templateBarCollectionViewController(self, didSelect: collage)
+        let template = templates[indexPath.row]
+        guard let collage = template.collage.copy() as? Collage else {
+            return
         }
+        
+        let templateCopy = CollageTemplate(collage: collage, photoAssets: template.photoAssets, size: template.size)
+        delegate?.templateBarCollectionViewController(self, didSelect: templateCopy)
     }
 }
 

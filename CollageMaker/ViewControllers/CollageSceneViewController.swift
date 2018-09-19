@@ -15,7 +15,9 @@ class CollageSceneViewController: UIViewController {
     
     weak var delegate: CollageSceneViewControllerDelegate?
     
-    init(collage: Collage = Collage()) {
+    init(collage: Collage = Collage(), templates: [CollageTemplate]) {
+        self.templates = templates
+        
         super.init(nibName: nil, bundle: nil)
         collageViewController.collage = collage
     }
@@ -28,9 +30,8 @@ class CollageSceneViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        view.addSubview(resetButton)
         view.addSubview(collageViewContainer)
-        view.addSubview(bannerView)
+        view.addSubview(templateControllerView)
         view.addSubview(toolsBar)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem.collageCamera(action: #selector(tryToTakePhoto), target: self)
@@ -39,20 +40,12 @@ class CollageSceneViewController: UIViewController {
         
         makeConstraints()
         
-        let cellOne = CollageCell(color: .collagePink, image: nil, relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
-        let cellTwo = CollageCell(color: .gray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 1))
-        let someCell = CollageCell(color: .darkGray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 0.5))
-        let someAnotherCell = CollageCell(color: .lightGray, image: nil, relativeFrame: RelativeFrame(x: 0.5, y: 0.5, width: 0.5, height: 0.5))
-        let oneMoreCollage = Collage(cells: [cellOne, cellTwo])
-        let collage = Collage(cells: [cellOne, someCell, someAnotherCell])
-        
-        let templateBar = TemplateBarCollectionViewController(templates: [oneMoreCollage, collage, oneMoreCollage,collage, oneMoreCollage, collage])
-        
-        templateBar.delegate = self
         toolsBar.delegate = self
+        templateBarController.delegate = self
+        templateBarController.templates = templates
         
         addChild(collageViewController, to: collageViewContainer)
-        addChild(templateBar, to: bannerView)
+        addChild(templateBarController, to: templateControllerView)
     }
     
     private func makeConstraints() {
@@ -75,7 +68,7 @@ class CollageSceneViewController: UIViewController {
             make.height.equalTo(collageViewContainer).dividedBy(6)
         }
         
-        bannerView.snp.makeConstraints { make in
+        templateControllerView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalTo(toolsBar.snp.top)
@@ -104,9 +97,9 @@ class CollageSceneViewController: UIViewController {
     @objc private func tryToTakePhoto() {
         handle(cameraAuthService.status)
     }
- 
+    
     private func handle(_ avAuthorizationStatus: AVAuthorizationStatus) {
-       if cameraAuthService.isAuthorized {
+        if cameraAuthService.isAuthorized {
             pickImage(camera: true)
             return
         }
@@ -119,31 +112,25 @@ class CollageSceneViewController: UIViewController {
         }
     }
     
-    private let resetButton: UIButton = {
-        let button = UIButton(type: .system)
-        
-        button.addTarget(self, action: #selector(resetCollage), for: .touchUpInside)
-        button.setTitle("Reset", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        
-        return button
-    }()
-    
     private let collageViewContainer: UIView = {
         let view = UIView()
         view.contentMode = .scaleAspectFit
         return view
     }()
     
-    private let bannerView = UIView()
-    private let toolsBar = CollageToolbar.standart
+    private var templates: [CollageTemplate] = []
     private var collageViewController = CollageViewController()
+    private let toolsBar = CollageToolbar.standart
     private let cameraAuthService = CameraAuthService()
+    private let templateControllerView = TemplateControllerView()
+    private let templateBarController = TemplateBarCollectionViewController(templates: [])
 }
 
 extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegate {
-    func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collage: Collage) {
-        collageViewController.collage = collage
+    func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate) {
+        CollageTemplateProvider.collage(from: collageTemplate, size: .large) { [weak self] collage in
+            self?.collageViewController.collage = collage
+        }
     }
 }
 

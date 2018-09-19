@@ -11,7 +11,7 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
         return String(describing: self)
     }
     
-    var collage: Collage? {
+    var collageTemplate: CollageTemplate? {
         didSet {
             update()
         }
@@ -36,25 +36,24 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         
         imageView.image = nil
-        collage = nil
+        collageTemplate = nil
     }
     
     func update() {
-        guard let collage = collage else {
+        guard let collageTemplate = collageTemplate else {
             return
         }
         
-        let collageView = CollageView(frame: CGRect(origin: .zero, size: CGSize(width: 75, height: 75)))
-        collageView.updateCollage(collage)
-        collageView.saveCellsVisibleRect()
+        let size = bounds.size
         
-        DispatchQueue.global().async { [weak self] in
-            let image = CollageRenderer.renderImage(from: collage, with: CGSize(width: 75, height: 75))
+        CollageTemplateProvider.collage(from: collageTemplate, size: .medium) { collage in
             
-            DispatchQueue.main.async {
-                if let currentCollage = self?.collage, currentCollage == collage {
-                    self?.imageView.image = image
-                }
+            let collageView = CollageView(frame: CGRect(origin: .zero, size: size))
+            collageView.updateCollage(collageTemplate.collage)
+            collageView.saveCellsVisibleRect()
+            
+            CollageRenderer.renderImage(from: collage, with: collageTemplate.size.value) { image in
+                self.imageView.image = image
             }
         }
     }

@@ -7,8 +7,15 @@ import SnapKit
 
 class TemplateControllerView: UIView {
     
-    override init(frame: CGRect) {
+    var withHeader: Bool {
+        return headerLabel.text != nil
+    }
+    
+    init(frame: CGRect = .zero, headerText: String? = nil) {
         super.init(frame: frame)
+        
+        headerLabel.text = headerText
+        headerLabel.textColor = .white
         
         addSubview(dimmingView)
         addSubview(headerLabel)
@@ -29,15 +36,17 @@ class TemplateControllerView: UIView {
             make.margins.equalToSuperview()
         }
         
-        headerLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(offset)
-            make.right.equalToSuperview().offset(-offset)
-            make.top.equalToSuperview()
-            make.height.equalTo(50)
+        if withHeader {
+            headerLabel.snp.makeConstraints { make in
+                make.left.equalToSuperview().offset(offset)
+                make.right.equalToSuperview().offset(-offset)
+                make.top.equalToSuperview()
+                make.height.equalTo(50)
+            }
         }
         
         templateContainerView.snp.makeConstraints { make in
-            make.top.equalTo(headerLabel.snp.bottom)
+            make.top.equalToSuperview().offset(withHeader ? offset : 0)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
@@ -47,35 +56,9 @@ class TemplateControllerView: UIView {
     private func setup() {
         dimmingView.backgroundColor = .black
         dimmingView.alpha = 0.8
-        
-        headerLabel.text = "Choose template"
     }
     
-    private let headerLabel: UILabel = {
-        let label = UILabel()
-        
-        label.numberOfLines = 0
-        label.font = R.font.sfProTextBold(size: 20)
-        label.textColor = .white
-        label.textAlignment = .left
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 0.8
-        
-        
-        let attributes = [NSAttributedStringKey.paragraphStyle: paragraphStyle,
-                          NSAttributedStringKey.kern: CGFloat(-1.85),
-                          ] as [NSAttributedStringKey : Any]
-        
-        let attributedString = NSMutableAttributedString(string: "Choose template", attributes: attributes)
-        
-        label.attributedText = attributedString
-        label.sizeToFit()
-        
-        return label
-    }()
-    
     private let dimmingView = UIView()
-    
+    private let headerLabel = AttributedTextLabel()
     private(set) var templateContainerView = UIView()
 }

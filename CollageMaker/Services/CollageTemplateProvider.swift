@@ -7,8 +7,7 @@ import Photos
 
 class CollageTemplateProvider {
     
-    
-    static func templates(for assets: [PHAsset], callback: @escaping ([Collage]?) -> Void) {
+    static func templates(for assets: [PHAsset]) -> [CollageTemplate] {
         PhotoLibraryService.cacheImages(for: assets)
         
         var collages: [Collage] = []
@@ -19,47 +18,42 @@ class CollageTemplateProvider {
         case 3:
             collages = Collage.templatesThreeCells()
         default:
-            callback(nil)
-            break
+            return []
         }
         
-        collectPhotos(from: assets, deliveryMode: .fastFormat) { images in
-            collages.forEach { collage in
-                collage.fill(with: images)
-            }
-            callback(collages)
-        }
+        return collages.map { CollageTemplate(collage: $0, photoAssets: assets, size: .medium) }
     }
     
-    static func highQualityCollage(from template: Collage, assets: [PHAsset], callback: @escaping (Collage) -> Void) {
-        template.deleteImages()
+    static func collage(from template: CollageTemplate, size: CollageTemplate.Size?, callback: @escaping (Collage) -> Void) {
+        let size = size ?? template.size
         
-        collectPhotos(from: assets) { images in
-            template.fill(with: images)
-            callback(template)
+        collectPhotos(from: template.photoAssets, size: size.value) { photos in
+            template.collage.fill(with: photos)
+            callback(template.collage)
         }
     }
-    
-    static func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode = .highQualityFormat, callback: @escaping ([UIImage]) -> Void){
-        photos.removeAll()
+ 
+    static func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode = .highQualityFormat, size: CGSize, callback: @escaping ([UIImage]) -> Void){
+        let group = DispatchGroup()
+        var photos: [UIImage?] = Array(repeating: nil, count: assets.count)
         
-        assets.forEach { asset in
-            PhotoLibraryService.photo(for: asset, deliveryMode: deliveryMode) { photo in
-                guard let photo = photo  else {
-                    return
-                }
-                
-                photos.append(photo)
-                if photos.count == assets.count { callback(photos) }
+        for (index, asset) in assets.enumerated() {
+            group.enter()
+            PhotoLibraryService.photo(for: asset, deliveryMode: deliveryMode, size: size) { photo in
+                photos[index] = photo
+                group.leave()
             }
         }
+        
+        group.notify(queue: .main) {
+            callback(photos.compactMap { $0 })
+        }
     }
-    
-    private static var photos: [UIImage] = []
 }
 
 fileprivate extension Collage {
     static func templatesTwoCells() -> [Collage] {
+        
         let cell1 = CollageCell(relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
         let cell2 = CollageCell(relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 1))
         let cell3 = CollageCell(relativeFrame: RelativeFrame(x: 0, y: 0, width: 1, height: 0.5))
@@ -70,6 +64,7 @@ fileprivate extension Collage {
     }
     
     static func templatesThreeCells() -> [Collage] {
+        
         let cell1 = CollageCell(relativeFrame: RelativeFrame(x: 0, y: 0, width: 0.5, height: 1))
         let cell2 = CollageCell(relativeFrame: RelativeFrame(x: 0.5, y: 0, width: 0.5, height: 0.5))
         let cell3 = CollageCell(relativeFrame: RelativeFrame(x: 0.5, y: 0.5, width: 0.5, height: 0.5))

@@ -55,7 +55,7 @@ class ShareScreenViewController: UIViewController {
     }
     
     @objc private func share() {
-        let activityVC = UIActivityViewController(activityItems: [collageImageView.image], applicationActivities: [])
+        let activityVC = UIActivityViewController(activityItems: collageImageView.image.flatMap { [$0] } ?? [], applicationActivities: [])
         
         present(activityVC, animated: true, completion: nil)
     }
