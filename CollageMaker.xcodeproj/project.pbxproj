@@ -113,7 +113,7 @@
 		849B68212121CA960091AD27 /* TemplateBarCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateBarCollectionViewController.swift; sourceTree = "<group>"; };
 		84A91A5821188E5700108C3B /* CollageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageCell.swift; sourceTree = "<group>"; };
 		84B160332114892600FF4713 /* Collage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collage.swift; sourceTree = "<group>"; };
-		84C439F121399C4500C701AE /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
+		84C439F121399C4500C701AE /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = CollageMaker/Resources/R.generated.swift; sourceTree = SOURCE_ROOT; };
 		84D389E52125CF5200FCDC67 /* GripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GripView.swift; sourceTree = "<group>"; };
 		84E06F1A21397ED7007109BE /* PermissionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsViewController.swift; sourceTree = "<group>"; };
 		84E06F1D213991D6007109BE /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Light.otf"; sourceTree = "<group>"; };
@@ -189,7 +189,6 @@
 		8417D1B6211DC03C00334661 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				84C439F121399C4500C701AE /* R.generated.swift */,
 				84868BC12138323E00E12152 /* CollageToolbar.swift */,
 				84868BC32138358500E12152 /* CollageBarItem.swift */,
 			);
@@ -221,14 +220,8 @@
 		843A57F821144760002FE28D /* CollageMaker */ = {
 			isa = PBXGroup;
 			children = (
-				843A57F921144760002FE28D /* AppDelegate.swift */,
-				843A582A211447F8002FE28D /* ViewControllers */,
-				84E2720B211DE8D7001CDCB9 /* Views */,
-				84B160392114A4AD00FF4713 /* Model */,
-				8475DD93211DE5B100044225 /* Services */,
-				841469682126F08900C2838A /* Extensions */,
-				8417D1B6211DC03C00334661 /* Common */,
-				84E06F1C21399195007109BE /* Fonts */,
+				847B79212152C035007FA6BE /* Sources */,
+				847B79222152C053007FA6BE /* Resources */,
 				843A58272114477E002FE28D /* SupportingFiles */,
 			);
 			path = CollageMaker;
@@ -289,6 +282,29 @@
 				F62618B0214159AC00CD94AE /* Navigator.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		847B79212152C035007FA6BE /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				843A57F921144760002FE28D /* AppDelegate.swift */,
+				843A582A211447F8002FE28D /* ViewControllers */,
+				84E2720B211DE8D7001CDCB9 /* Views */,
+				84B160392114A4AD00FF4713 /* Model */,
+				8475DD93211DE5B100044225 /* Services */,
+				841469682126F08900C2838A /* Extensions */,
+				8417D1B6211DC03C00334661 /* Common */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		847B79222152C053007FA6BE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				84C439F121399C4500C701AE /* R.generated.swift */,
+				84E06F1C21399195007109BE /* Fonts */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		848713232122E948003519F7 /* TemplateBarCollectionViewController */ = {
@@ -361,6 +377,7 @@
 			buildConfigurationList = 843A581E21144761002FE28D /* Build configuration list for PBXNativeTarget "CollageMaker" */;
 			buildPhases = (
 				A68283706116FA98A80A9A4F /* [CP] Check Pods Manifest.lock */,
+				847B79232152C134007FA6BE /* Format Code */,
 				84C439F02139986000C701AE /* R.Swift */,
 				843A57F221144760002FE28D /* Sources */,
 				843A57F321144760002FE28D /* Frameworks */,
@@ -528,6 +545,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CollageMaker/Pods-CollageMaker-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		847B79232152C134007FA6BE /* Format Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Format Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "eval \"$(rbenv init -)\" && bundler exec code-formatter format\n";
 		};
 		84C439F02139986000C701AE /* R.Swift */ = {
 			isa = PBXShellScriptBuildPhase;
