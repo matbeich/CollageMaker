@@ -43,6 +43,7 @@ class CollageSceneViewController: UIViewController {
         toolsBar.delegate = self
         templateBarController.delegate = self
         templateBarController.templates = templates
+        collageViewController.delegate = self
         
         addChild(collageViewController, to: collageViewContainer)
         addChild(templateBarController, to: templateControllerView)
@@ -118,12 +119,20 @@ class CollageSceneViewController: UIViewController {
         return view
     }()
     
-    private var templates: [CollageTemplate] = []
+    private var templates = [CollageTemplate]()
     private var collageViewController = CollageViewController()
     private let toolsBar = CollageToolbar.standart
     private let cameraAuthService = CameraAuthService()
     private let templateControllerView = TemplateControllerView()
     private let templateBarController = TemplateBarCollectionViewController(templates: [])
+}
+
+extension CollageSceneViewController: CollageViewControllerDelegate {
+    func collageViewController(_ controller: CollageViewController, changed cellsCount: Int) {
+        if let assets = templateBarController.templates.first?.assets {
+            templateBarController.templates = CollageTemplateProvider.templates(for: cellsCount, assets: assets)
+        }
+    }
 }
 
 extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegate {

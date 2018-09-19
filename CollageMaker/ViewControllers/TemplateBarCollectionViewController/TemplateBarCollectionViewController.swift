@@ -5,7 +5,7 @@
 import UIKit
 
 protocol TemplateBarCollectionViewControllerDelegate: AnyObject {
-    func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate)
+    func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collage: CollageTemplate)
 }
 
 class TemplateBarCollectionViewController: UICollectionViewController {
@@ -33,7 +33,8 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         
         collectionView?.register(TemplateBarCollectionViewCell.self, forCellWithReuseIdentifier: TemplateBarCollectionViewCell.identifier)
         collectionView?.backgroundColor = .clear
-   
+        collectionView?.alwaysBounceHorizontal = true
+        
         guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return
         }
@@ -59,13 +60,7 @@ class TemplateBarCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let template = templates[indexPath.row]
-        guard let collage = template.collage.copy() as? Collage else {
-            return
-        }
-        
-        let templateCopy = CollageTemplate(collage: collage, photoAssets: template.photoAssets, size: template.size)
-        delegate?.templateBarCollectionViewController(self, didSelect: templateCopy)
+        delegate?.templateBarCollectionViewController(self, didSelect: templates[indexPath.row])
     }
 }
 

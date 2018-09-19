@@ -5,29 +5,13 @@
 import Foundation
 import Photos
 
-
 struct CollageTemplate {
-    let collage: Collage
-    let photoAssets: [PHAsset]
-    let size: Size
     
-    init(collage: Collage, photoAssets: [PHAsset], size: Size) {
-        self.collage = collage
-        self.photoAssets = photoAssets
-        self.size = size
+    init(frames: [RelativeFrame], assets: [PHAsset] = []) {
+        self.cellFrames = frames
+        self.assets = assets
     }
     
-    enum Size {
-        case small
-        case medium
-        case large
-        
-        var value: CGSize {
-            switch self {
-            case .small: return CGSize(width: 100, height: 100)
-            case .medium: return CGSize(width: 300, height: 300)
-            case .large: return CGSize(width: 500, height: 500)
-            }
-        }
-    }
+    let cellFrames: [RelativeFrame]
+    let assets: [PHAsset]
 }

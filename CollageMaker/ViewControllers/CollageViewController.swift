@@ -5,7 +5,7 @@
 import UIKit
 
 protocol CollageViewControllerDelegate: AnyObject {
-    func collageViewController(_ controller: CollageViewController, didSelect cell: CollageCell)
+    func collageViewController(_ controller: CollageViewController, changed cellsCount: Int)
 }
 
 class CollageViewController: UIViewController {
@@ -101,7 +101,6 @@ class CollageViewController: UIViewController {
 
 
 extension CollageViewController: CollageViewDelegate {
-    
     func collageView(_ collageView: CollageView, tapped point: CGPoint) {
         let relativePoint = point.normalized(for: collageView.frame.size)
         
@@ -112,6 +111,10 @@ extension CollageViewController: CollageViewDelegate {
 }
 
 extension CollageViewController: CollageDelegate {
+    func collage(_ collage: Collage, didChange cellsCount: Int) {
+        delegate?.collageViewController(self, changed: cellsCount)
+    }
+    
     func collage(_ collage: Collage, didChangeSelected cell: CollageCell) {
         guard let selectedCellView = collageView.collageCellView(with: cell.id) else {
             return

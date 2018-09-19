@@ -15,7 +15,7 @@ class CollageCell: NSObject, NSCopying {
         return CollageCell(color: color, image: image, relativeFrame: relativeFrame, id: id, imageVisibleRect: imageVisibleRect)
     }
     
-    init(color: UIColor = .brightLavender, image: UIImage? = nil, relativeFrame: RelativeFrame) {
+    init(color: UIColor = .random, image: UIImage? = nil, relativeFrame: RelativeFrame) {
         self.color = color
         self.image = image
         self.id = UUID.init()
