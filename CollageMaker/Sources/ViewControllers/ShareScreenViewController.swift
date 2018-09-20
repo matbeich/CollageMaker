@@ -4,12 +4,13 @@
 
 import SnapKit
 import UIKit
+import Utils
 
 protocol ShareScreenViewControllerDelegate: AnyObject {
     func shareScreenViewControllerShouldBeClosed(_ controller: ShareScreenViewController)
 }
 
-class ShareScreenViewController: UIViewController {
+class ShareScreenViewController: CollageBaseViewController {
     weak var delegate: ShareScreenViewControllerDelegate?
 
     override func viewDidLoad() {
@@ -24,12 +25,17 @@ class ShareScreenViewController: UIViewController {
     }
 
     private func setup() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(close))
-        navigationItem.title = "Share"
+        let left = NavigationBarButtonItem(title: "Back", font: R.font.sfProDisplaySemibold(size: 20), target: self, action: #selector(back))
+
+        navBarItem = NavigationBarItem(left: left)
 
         view.backgroundColor = .white
         view.addSubview(collageImageView)
         view.addSubview(shareButton)
+    }
+
+    @objc private func back() {
+        collageNavigationController?.pop()
     }
 
     private func makeConstraints() {

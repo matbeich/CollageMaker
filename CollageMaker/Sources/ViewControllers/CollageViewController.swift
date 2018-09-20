@@ -8,7 +8,7 @@ protocol CollageViewControllerDelegate: AnyObject {
     func collageViewController(_ controller: CollageViewController, changed cellsCount: Int)
 }
 
-class CollageViewController: UIViewController {
+class CollageViewController: CollageBaseViewController {
     weak var delegate: CollageViewControllerDelegate?
 
     var collage: Collage = Collage() {
@@ -65,7 +65,7 @@ class CollageViewController: UIViewController {
     @objc private func changeSize(with recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
         case .began:
-            selectedGripPosition = collageView.gripPosition(for: recognizer.location(in: view))
+            selectedGripPosition = collageView.gripPosition(at: recognizer.location(in: view))
 
         case .changed:
             guard let grip = selectedGripPosition else {

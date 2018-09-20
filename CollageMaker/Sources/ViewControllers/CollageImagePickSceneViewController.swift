@@ -5,12 +5,13 @@
 import Photos
 import SnapKit
 import UIKit
+import Utils
 
 protocol CollageImagePickSceneViewControllerDelegate: AnyObject {
     func collageImagePickSceneViewController(_ controller: CollageImagePickSceneViewController, templateBar: TemplateBarCollectionViewController, didSelectTemplate: Collage)
 }
 
-class CollageImagePickSceneViewController: UIViewController {
+class CollageImagePickSceneViewController: CollageBaseViewController {
     weak var delegate: CollageImagePickSceneViewControllerDelegate?
 
     init(main: ImagePickerCollectionViewController) {
@@ -27,19 +28,24 @@ class CollageImagePickSceneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addChild(mainController, to: view)
+        view.addSubview(mainControllerContainer)
         view.addSubview(templateControllerContainer)
 
-        navigationItem.title = "All Photos"
-        navigationItem.hidesBackButton = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem.collageCamera(action: #selector(openCamera), target: self)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: gradientButton)
+        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: nil)
+        let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
+        let right = NavigationBarViewItem(view: gradientButton)
+
+        navBarItem = NavigationBarItem(left: left, right: right, title: title)
 
         makeConstraints()
+
+        addChild(mainController, to: mainControllerContainer)
         addChild(templateController, to: templateControllerContainer.templateContainerView)
+
         templateController.delegate = self
     }
 
+    // FIXME: add logic
     @objc private func openCamera() {
     }
 
@@ -50,6 +56,13 @@ class CollageImagePickSceneViewController: UIViewController {
     private func makeConstraints() {
         templateControllerContainer.bounds.size = CGSize(width: view.bounds.width, height: view.bounds.height / 3.5)
         templateControllerContainer.center = CGPoint(x: view.center.x, y: view.frame.maxY + templateControllerContainer.bounds.size.height / 2 - 50)
+
+        mainControllerContainer.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -74,6 +87,7 @@ class CollageImagePickSceneViewController: UIViewController {
         return button
     }()
 
+    private let mainControllerContainer = UIView(frame: .zero)
     private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
     private var mainController: ImagePickerCollectionViewController
     private var templateController = TemplateBarCollectionViewController(templates: [])
@@ -86,11 +100,13 @@ extension CollageImagePickSceneViewController: ImagePickerCollectionViewControll
         let templates = CollageTemplateProvider.templates(for: selectedAssets.count, assets: selectedAssets)
 
         if !templates.isEmpty {
-            UIView.animate(withDuration: 0.2, animations: { self.showTemplateController() }) { _ in
-                self.templateController.templates = templates
-            }
+            UIView.animate(withDuration: 0.2,
+                           animations: { self.showTemplateController() },
+                           completion: { _ in self.templateController.templates = templates })
         } else {
-            UIView.animate(withDuration: 0.2, animations: { self.makeConstraints() }) { _ in self.templateController.templates = [] }
+            UIView.animate(withDuration: 0.2,
+                           animations: { self.makeConstraints() },
+                           completion: { _ in self.templateController.templates = [] })
         }
     }
 }

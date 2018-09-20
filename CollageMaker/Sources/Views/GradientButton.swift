@@ -39,6 +39,6 @@ class GradientButton: UIButton {
         super.layoutSubviews()
 
         gradientLayer.frame = bounds
-        gradientLayer.cornerRadius = max(bounds.height, bounds.width) / 2
+        gradientLayer.cornerRadius = min(bounds.height, bounds.width) / 2
     }
 }

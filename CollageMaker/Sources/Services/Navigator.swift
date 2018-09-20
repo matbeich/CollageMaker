@@ -47,7 +47,7 @@ extension Navigator: CollageSceneViewControllerDelegate {
     }
 
     func collageSceneViewController(_ controller: CollageSceneViewController, wantsToShare collage: Collage) {
-        let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 1500, height: 1500))
+        let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 1500, height: 1500), borders: false)
         let controller = ShareScreenViewController()
 
         controller.setCollagePreview(image: previewImage)
@@ -66,6 +66,7 @@ extension Navigator: ShareScreenViewControllerDelegate {
 extension Navigator: CollageImagePickSceneViewControllerDelegate {
     func collageImagePickSceneViewController(_ controller: CollageImagePickSceneViewController, templateBar: TemplateBarCollectionViewController, didSelectTemplate: Collage) {
         let controller = CollageSceneViewController(collage: didSelectTemplate, templates: templateBar.templates)
+        controller.delegate = self
 
         rootViewController.pushViewController(controller, animated: true)
     }

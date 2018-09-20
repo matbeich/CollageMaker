@@ -6,13 +6,14 @@ import AVKit
 import Photos
 import SnapKit
 import UIKit
+import Utils
 
 protocol CollageSceneViewControllerDelegate: AnyObject {
     func collageSceneViewController(_ controller: CollageSceneViewController, wantsToShare collage: Collage)
     func collageSceneViewControllerWantsToPickImage(_ controller: CollageSceneViewController)
 }
 
-class CollageSceneViewController: UIViewController {
+class CollageSceneViewController: CollageBaseViewController {
     weak var delegate: CollageSceneViewControllerDelegate?
 
     init(collage: Collage = Collage(), templates: [CollageTemplate]) {
@@ -34,9 +35,11 @@ class CollageSceneViewController: UIViewController {
         view.addSubview(templateControllerView)
         view.addSubview(toolsBar)
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem.collageCamera(action: #selector(tryToTakePhoto), target: self)
-        navigationItem.rightBarButtonItem = UIBarButtonItem.collageShare(action: #selector(shareCollage), target: self)
-        navigationItem.title = "Edit"
+        let right = NavigationBarButtonItem(icon: R.image.share_btn(), target: self, action: #selector(shareCollage))
+        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(tryToTakePhoto))
+        let title = NavigationBarLabelItem(title: "Edit", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
+
+        navBarItem = NavigationBarItem(left: left, right: right, title: title)
 
         makeConstraints()
 

@@ -5,19 +5,23 @@
 import Photos
 import SnapKit
 import UIKit
+import Utils
 
 protocol PermissionsViewControllerDelegate: AnyObject {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController)
 }
 
-class PermissionsViewController: UIViewController {
+class PermissionsViewController: CollageBaseViewController {
     weak var delegate: PermissionsViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
+        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: nil)
 
+        navBarItem = NavigationBarItem(left: left, right: nil, title: nil)
+
+        view.backgroundColor = .white
         view.addSubview(titleLabel)
         view.addSubview(allowButton)
         view.addSubview(subtitleLabel)

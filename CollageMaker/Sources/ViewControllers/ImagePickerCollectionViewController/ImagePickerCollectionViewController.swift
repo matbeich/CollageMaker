@@ -9,7 +9,7 @@ protocol ImagePickerCollectionViewControllerDelegate: AnyObject {
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset])
 }
 
-class ImagePickerCollectionViewController: UIViewController {
+class ImagePickerCollectionViewController: CollageBaseViewController {
     weak var delegate: ImagePickerCollectionViewControllerDelegate?
 
     init(assets: [PHAsset]) {
@@ -64,7 +64,7 @@ class ImagePickerCollectionViewController: UIViewController {
         return selectedCellsIndexPaths.compactMap { asset(for: $0) }
     }
 
-    private var collectionView: UICollectionView
+    private(set) var collectionView: UICollectionView
     private var selectedCellsIndexPaths: [IndexPath] = []
 }
 
@@ -99,12 +99,13 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
 
         if selectedCellsIndexPaths.contains(indexPath) {
             selectedCellsIndexPaths = selectedCellsIndexPaths.filter { $0 != indexPath }
-        } else {
+        } else if selectedCellsIndexPaths.count < 8 {
             selectedCellsIndexPaths.append(indexPath)
+        } else {
+            return
         }
 
         cell.toogleSelection()
-
         delegate?.imagePickerCollectionViewController(self, didSelect: selectedAssets)
     }
 }

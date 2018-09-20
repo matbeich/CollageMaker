@@ -9,9 +9,7 @@ class CollageCellView: UIView {
     init(collageCell: CollageCell, frame: CGRect) {
         self.collageCell = collageCell
         super.init(frame: frame)
-
-        setupView()
-        updateView()
+        setup()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -22,7 +20,7 @@ class CollageCellView: UIView {
         super.layoutSubviews()
 
         scrollView.frame = bounds
-        updateView()
+        updateScrollView()
     }
 
     func changeFrame(to: CGRect) {
@@ -32,27 +30,33 @@ class CollageCellView: UIView {
     func updateCollageCell(_ collageCell: CollageCell) {
         self.collageCell = collageCell
 
-        setupView()
+        updateImageView()
     }
 
-    private func setupView() {
-        if let image = collageCell.image {
-            imageView.image = nil
-            imageView.removeFromSuperview()
-            scrollView.removeFromSuperview()
+    private func setup() {
+        updateImageView()
+        updateScrollView()
+    }
 
-            imageView = UIImageView(image: image)
-
-            scrollView.frame = bounds
-            scrollView.contentSize = image.size
-            scrollView.addSubview(imageView)
-            scrollView.delegate = self
-
-            addSubview(scrollView)
-            backgroundColor = .clear
-        } else {
+    private func updateImageView() {
+        guard let image = collageCell.image else {
             backgroundColor = collageCell.color
+            return
         }
+
+        imageView.image = nil
+        imageView.removeFromSuperview()
+        scrollView.removeFromSuperview()
+
+        imageView = UIImageView(image: image)
+
+        scrollView.frame = bounds
+        scrollView.contentSize = image.size
+        scrollView.addSubview(imageView)
+        scrollView.delegate = self
+
+        addSubview(scrollView)
+        backgroundColor = .clear
     }
 
     private var imageVisibleRect: CGRect {
@@ -63,7 +67,7 @@ class CollageCellView: UIView {
         collageCell.imageVisibleRect = imageVisibleRect
     }
 
-    private func updateView() {
+    private func updateScrollView() {
         guard let image = collageCell.image else {
             return
         }

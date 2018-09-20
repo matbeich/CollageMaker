@@ -34,8 +34,17 @@ class CollageBarItem: UIView {
     }
 
     func animate() {
-        UIView.animate(withDuration: 0.2,
-                       animations: { self.imageView.alpha = 0.2 }) { _ in UIView.animate(withDuration: 0.5, animations: { self.imageView.alpha = 1 }) }
+        let completion = {
+            UIView.animate(withDuration: 0.5) {
+                self.imageView.alpha = 1
+            }
+        }
+
+        UIView.animate(
+            withDuration: 0.2,
+            animations: { self.imageView.alpha = 0.2 },
+            completion: { _ in completion() }
+        )
     }
 
     private func setup() {

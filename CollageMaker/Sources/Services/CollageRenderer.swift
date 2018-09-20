@@ -7,7 +7,7 @@ import UIKit
 class CollageRenderer {
     static func renderImage(from collage: Collage, with size: CGSize, callback: @escaping (UIImage) -> Void) {
         DispatchQueue.global().async {
-            let image = (renderImage(from: collage, with: size))
+            let image = (renderImage(from: collage, with: size, borders: true))
 
             DispatchQueue.main.async {
                 callback(image)
@@ -15,17 +15,16 @@ class CollageRenderer {
         }
     }
 
-    static func renderImage(from collage: Collage, with size: CGSize) -> UIImage {
+    static func renderImage(from collage: Collage, with size: CGSize, borders: Bool) -> UIImage {
         let renderer = UIGraphicsImageRenderer(size: size)
 
         return renderer.image { context in
-            collage.cells.forEach { render(cell: $0, in: context) }
-            UIColor.collageBorder.setStroke()
+            collage.cells.forEach { render(cell: $0, in: context, border: borders) }
             context.stroke(CGRect(origin: .zero, size: size))
         }
     }
 
-    private static func render(cell: CollageCell, in context: UIGraphicsRendererContext) {
+    private static func render(cell: CollageCell, in context: UIGraphicsRendererContext, border: Bool) {
         let rect = cell.relativeFrame.absolutePosition(in: context.format.bounds)
 
         if let image = cell.image?.updateImageOrientionUpSide(), let cropedImage = cropImage(image, toRect: cell.imageVisibleRect) {
@@ -34,6 +33,10 @@ class CollageRenderer {
             cell.color.setFill()
             context.fill(rect)
         }
+
+        if border {
+            UIColor.clear.setStroke()
+            context.stroke(rect) }
     }
 
     private static func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect) -> UIImage? {
