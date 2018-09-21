@@ -28,12 +28,18 @@ class CollageTemplateProvider {
         var collagesFramesKit = [CollageFramesKit]()
 
         switch cellsCount {
+        case 1:
+            collagesFramesKit = RelativeFrame.onePotoFramesKit()
         case 2:
             collagesFramesKit = RelativeFrame.twoPhotosFramesKit()
         case 3:
             collagesFramesKit = RelativeFrame.threePhotosFramesKit()
         case 4:
             collagesFramesKit = RelativeFrame.fourPhotosFramesKit()
+        case 5:
+            collagesFramesKit = RelativeFrame.fivePhotosFramesKit()
+        case 6:
+            collagesFramesKit = RelativeFrame.sixPhotosFramesKit()
         case 7:
             collagesFramesKit = RelativeFrame.sevenPhotosFramesKit()
         default:
@@ -72,6 +78,10 @@ class CollageTemplateProvider {
 }
 
 fileprivate extension RelativeFrame {
+    static func onePotoFramesKit() -> [CollageFramesKit] {
+        return [[.fullsized]]
+    }
+
     static func twoPhotosFramesKit() -> [CollageFramesKit] {
         return [
             [.leftFullHeightHalfWidth, .rightFullHeightHalfWidth],
@@ -85,36 +95,61 @@ fileprivate extension RelativeFrame {
             [.topLeftHalfWidthHalfHeight, .bottomLeftHalfWidthHalfHeight, .rightFullHeightHalfWidth],
             [.topHalfHeightFullWidth, .bottomLeftHalfWidthHalfHeight, .bottomRightHalfWidthHalfHeight],
             [.bottomHalfHeightFullWidth, .topLeftHalfWidthHalfHeight, .topRightHalfWidthHalfHeight],
-            [.leftFullHeightThirtyThreePercentWidth, .centerFullHeightThirtyThreePercentWidth, .rightFullHeightThirtyThreePercentWidth],
-            [.topFullWidthThirtyThreePercentHeight, .centerFullWidthThirtyThreePercentHeight, .bottomFullWidthThirtyThreePercentHeight]
+            [.leftFullHeightThirtyThreeWidth, .centerFullHeightThirtyThreeWidth, .rightFullHeightThirtyThreeWidth],
+            [.topFullWidthThirtyThreeHeight, .centerFullWidthThirtyThreeHeight, .bottomFullWidthThirtyThreeHeight]
         ]
     }
 
     static func fourPhotosFramesKit() -> [CollageFramesKit] {
         return [
             [topLeftHalfWidthHalfHeight, topRightHalfWidthHalfHeight, bottomLeftHalfWidthHalfHeight, bottomRightHalfWidthHalfHeight],
-            [topFullWidthTwentyFivePercentHeight, secondFullWidthTwentyFivePercentHeight, thirdFullWidthTwentyFivePercentHeight, bottomFullWidthTwentyFivePercentHeight],
-            [leftFullHeightTwentyFivePercentHeight, secondFullHeightTwentyFivePercentHeight, thirdFullHeightTwentyFivePercentHeight, rightFullHeightTwentyFivePercentHeight],
-            [leftFullHeightTwentyFivePercentHeight, secondFullHeightTwentyFivePercentHeight, topRightHalfWidthHalfHeight, bottomRightHalfWidthHalfHeight],
-            [topLeftHalfWidthHalfHeight, bottomLeftHalfWidthHalfHeight, thirdFullHeightTwentyFivePercentHeight, rightFullHeightTwentyFivePercentHeight],
-            [topFullWidthTwentyFivePercentHeight, secondFullWidthTwentyFivePercentHeight, bottomLeftHalfWidthHalfHeight, bottomRightHalfWidthHalfHeight],
-            [topLeftHalfWidthHalfHeight, topRightHalfWidthHalfHeight, thirdFullWidthTwentyFivePercentHeight, bottomFullWidthTwentyFivePercentHeight]
+            [topFullWidthTwentyFiveHeight, secondFullWidthTwentyFiveHeight, thirdFullWidthTwentyFiveHeight, bottomFullWidthTwentyFiveHeight],
+            [leftFullHeightTwentyFiveHeight, secondFullHeightTwentyFiveHeight, thirdFullHeightTwentyFiveHeight, rightFullHeightTwentyFiveHeight],
+            [leftFullHeightTwentyFiveHeight, secondFullHeightTwentyFiveHeight, topRightHalfWidthHalfHeight, bottomRightHalfWidthHalfHeight],
+            [topLeftHalfWidthHalfHeight, bottomLeftHalfWidthHalfHeight, thirdFullHeightTwentyFiveHeight, rightFullHeightTwentyFiveHeight],
+            [topFullWidthTwentyFiveHeight, secondFullWidthTwentyFiveHeight, bottomLeftHalfWidthHalfHeight, bottomRightHalfWidthHalfHeight],
+            [topLeftHalfWidthHalfHeight, topRightHalfWidthHalfHeight, thirdFullWidthTwentyFiveHeight, bottomFullWidthTwentyFiveHeight]
+        ]
+    }
+
+    static func fivePhotosFramesKit() -> [CollageFramesKit] {
+        return [
+            [
+                .topLeftTwentyFiveWidthHalfHeight, .bottomLeftTwentyFiveWidthHalfHeight,
+                .centerHalfWidthFullHeight, .topRightTwentyFiveWidthHalfHeight, .bottomRightTwentyFiveWidthHalfHeight
+            ]
+        ]
+    }
+
+    static func sixPhotosFramesKit() -> [CollageFramesKit] {
+        return [
+            [
+                .topLeftHalfHeightThirtyThreeWidth, .topCenterHalfHeightThirtyThreeWidth, .topRightHalfHeightThirtyThreeWidth, .bottomLeftHalfHeightThirtyThreeWidth, .bottomCenterHalfHeightThirtyThreeWidth, .bottomRightHalfHeightThirtyThreeWidth
+            ],
+            [
+                .topLeftThirtyThreeHeightThirtyThreeWidth, .topCenterThirtyThreeHeightThirtyThreeWidth, .topRightThirtyThreeHeightThirtyThreeWidth,
+                .bottomLeftSixtySevenHeightThirtyThreeWidth, .bottomCenterSixtySevenHeightThirtyThreeWidth, .bottomRightSixtySevenHeightThirtyThreeWidth
+            ],
+            [
+                .topLeftSixtySevenHeightThirtyThreeWidth, topCenterSixtySevenHeightThirtyThreeWidth, .topRightSixtySevenHeightThirtyThreeWidth,
+                .bottomLeftThirtyThreeHeightThirtyThreeWidth, .bottomCenterThirtyThreeHeightThirtyThreeWidth, .bottomRightThirtyThreeHeightThirtyThreeWidth
+            ]
         ]
     }
 
     static func sevenPhotosFramesKit() -> [CollageFramesKit] {
         return [
             [
-                topLeftThirtyThreeHeightThirtyThreeWidth, topCenterThirtyThreeHeightThirtyThreeWidth, topRightThirtyThreeHeightThirtyThreeWidth,
-                centerFullWidthThirtyThreePercentHeight, bottomLeftThirtyThreeHeightThirtyThreeWidth, bottomCenterThirtyThreeHeightThirtyThreeWidth, bottomRightThirtyThreeHeightThirtyThreeWidth
+                .topLeftThirtyThreeHeightThirtyThreeWidth, .topCenterThirtyThreeHeightThirtyThreeWidth, .topRightThirtyThreeHeightThirtyThreeWidth,
+                .centerFullWidthThirtyThreeHeight, .bottomLeftThirtyThreeHeightThirtyThreeWidth, .bottomCenterThirtyThreeHeightThirtyThreeWidth, .bottomRightThirtyThreeHeightThirtyThreeWidth
             ],
             [
-                topLeftThirtyThreeHeightThirtyThreeWidth, topCenterThirtyThreeHeightThirtyThreeWidth, topRightThirtyThreeHeightThirtyThreeWidth,
-                centerLeftThirtyThreeHeightThirtyThreeWidth, centerThirtyThreeHeightThirtyThreeWidth, centerRightThirtyThreeHeightThirtyThreeWidth,
-                bottomFullWidthThirtyThreePercentHeight
+                .topLeftThirtyThreeHeightThirtyThreeWidth, .topCenterThirtyThreeHeightThirtyThreeWidth, .topRightThirtyThreeHeightThirtyThreeWidth,
+                .centerLeftThirtyThreeHeightThirtyThreeWidth, .centerThirtyThreeHeightThirtyThreeWidth, .centerRightThirtyThreeHeightThirtyThreeWidth,
+                .bottomFullWidthThirtyThreeHeight
             ],
             [
-                topFullWidthThirtyThreePercentHeight,
+                topFullWidthThirtyThreeHeight,
                 centerLeftThirtyThreeHeightThirtyThreeWidth, centerThirtyThreeHeightThirtyThreeWidth, centerRightThirtyThreeHeightThirtyThreeWidth,
                 bottomLeftThirtyThreeHeightThirtyThreeWidth, bottomCenterThirtyThreeHeightThirtyThreeWidth, bottomRightThirtyThreeHeightThirtyThreeWidth
             ]
