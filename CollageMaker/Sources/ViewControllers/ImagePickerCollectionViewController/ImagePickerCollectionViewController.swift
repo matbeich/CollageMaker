@@ -12,6 +12,20 @@ protocol ImagePickerCollectionViewControllerDelegate: AnyObject {
 class ImagePickerCollectionViewController: CollageBaseViewController {
     weak var delegate: ImagePickerCollectionViewControllerDelegate?
 
+    var photoAssets: [PHAsset] {
+        willSet {
+            PhotoLibraryService.stopCaching()
+        }
+        didSet {
+            PhotoLibraryService.cacheImages(for: self.photoAssets)
+            collectionView.reloadData()
+        }
+    }
+
+    var selectedAssets: [PHAsset] {
+        return selectedCellsIndexPaths.compactMap { asset(for: $0) }
+    }
+
     init(assets: [PHAsset]) {
         self.photoAssets = assets
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -46,22 +60,8 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         return photoAssets[indexPath.row]
     }
 
-    private var photoAssets: [PHAsset] {
-        willSet {
-            PhotoLibraryService.stopCaching()
-        }
-        didSet {
-            PhotoLibraryService.cacheImages(for: self.photoAssets)
-            collectionView.reloadData()
-        }
-    }
-
     override var prefersStatusBarHidden: Bool {
         return true
-    }
-
-    var selectedAssets: [PHAsset] {
-        return selectedCellsIndexPaths.compactMap { asset(for: $0) }
     }
 
     private(set) var collectionView: UICollectionView

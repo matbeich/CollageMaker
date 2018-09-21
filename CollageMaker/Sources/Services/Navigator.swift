@@ -16,7 +16,7 @@ final class Navigator {
         if authService.isAuthorized {
             let assets = PhotoLibraryService.getImagesAssets()
             let controller = ImagePickerCollectionViewController(assets: assets)
-            let imagePickSceneController = CollageImagePickSceneViewController(main: controller)
+            let imagePickSceneController = CollageTemplatePickViewController(main: controller)
 
             imagePickSceneController.delegate = self
 
@@ -36,7 +36,7 @@ extension Navigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
         let assets = PhotoLibraryService.getImagesAssets()
         let controller = ImagePickerCollectionViewController(assets: assets)
-        let imagePickSceneController = CollageImagePickSceneViewController(main: controller)
+        let imagePickSceneController = CollageTemplatePickViewController(main: controller)
 
         rootViewController.pushViewController(imagePickSceneController, animated: true)
     }
@@ -63,9 +63,9 @@ extension Navigator: ShareScreenViewControllerDelegate {
     }
 }
 
-extension Navigator: CollageImagePickSceneViewControllerDelegate {
-    func collageImagePickSceneViewController(_ controller: CollageImagePickSceneViewController, templateBar: TemplateBarCollectionViewController, didSelectTemplate: Collage) {
-        let controller = CollageSceneViewController(collage: didSelectTemplate, templates: templateBar.templates)
+extension Navigator: CollageTemplatePickViewControllerDelegate {
+    func collageImagePickSceneViewController(_ controller: CollageTemplatePickViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate: Collage) {
+        let controller = CollageSceneViewController(collage: didSelectTemplate, templates: templateController.templates)
         controller.delegate = self
 
         rootViewController.pushViewController(controller, animated: true)
