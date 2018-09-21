@@ -29,10 +29,20 @@ final class CellSelectionView: UIView {
 
     func gripPosition(at point: CGPoint) -> GripPosition? {
         let sortedGrips = gripViews.sorted { $0.frame.center.distance(to: point) < $1.frame.center.distance(to: point) }
-        return sortedGrips.first?.position
+
+        if let checkPoint = sortedGrips.first?.frame.center, checkPoint.distance(to: point) < CGFloat(30.0) {
+            return sortedGrips.first?.position
+        } else {
+            return nil
+        }
+    }
+
+    func gripPosition(in frame: CGRect) -> GripPosition? {
+        return gripViews.first { $0.frame.intersects(frame) }?.position
     }
 
     private func setup() {
+        isUserInteractionEnabled = false
         layer.addSublayer(borderLayer)
     }
 

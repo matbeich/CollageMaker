@@ -16,6 +16,7 @@
 		8417D1BA211DCABC00334661 /* CollageCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417D1B9211DCABC00334661 /* CollageCellView.swift */; };
 		841A245F213E935C006E994B /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A245E213E935C006E994B /* UIBarButtonItem.swift */; };
 		843367CF2150ECB8008EC77D /* AttributedTextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843367CE2150ECB8008EC77D /* AttributedTextLabel.swift */; };
+		843380782154DB4C008A5510 /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 843380772154DB4C008A5510 /* SF-Pro-Display-Regular.otf */; };
 		843A57FA21144760002FE28D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A57F921144760002FE28D /* AppDelegate.swift */; };
 		843A580121144761002FE28D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843A580021144761002FE28D /* Assets.xcassets */; };
 		843A580421144761002FE28D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 843A580221144761002FE28D /* LaunchScreen.storyboard */; };
@@ -88,6 +89,7 @@
 		8417D1B9211DCABC00334661 /* CollageCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageCellView.swift; sourceTree = "<group>"; };
 		841A245E213E935C006E994B /* UIBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
 		843367CE2150ECB8008EC77D /* AttributedTextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextLabel.swift; sourceTree = "<group>"; };
+		843380772154DB4C008A5510 /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
 		843A57F621144760002FE28D /* CollageMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollageMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		843A57F921144760002FE28D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		843A580021144761002FE28D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -346,6 +348,7 @@
 		84E06F1C21399195007109BE /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				843380772154DB4C008A5510 /* SF-Pro-Display-Regular.otf */,
 				8494028421538A6A00160142 /* SF-Pro-Display-Semibold.otf */,
 				84E06F1D213991D6007109BE /* SF-Pro-Text-Light.otf */,
 				84E06F212139920C007109BE /* SF-Pro-Display-Heavy.otf */,
@@ -493,6 +496,7 @@
 				84E06F222139920D007109BE /* SF-Pro-Display-Heavy.otf in Resources */,
 				84E06F1E213991D6007109BE /* SF-Pro-Text-Light.otf in Resources */,
 				843A580421144761002FE28D /* LaunchScreen.storyboard in Resources */,
+				843380782154DB4C008A5510 /* SF-Pro-Display-Regular.otf in Resources */,
 				843A580121144761002FE28D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

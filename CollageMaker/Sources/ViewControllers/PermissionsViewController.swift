@@ -17,10 +17,6 @@ class PermissionsViewController: CollageBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: nil)
-
-        navBarItem = NavigationBarItem(left: left, right: nil, title: nil)
-
         view.backgroundColor = .white
         view.addSubview(titleLabel)
         view.addSubview(allowButton)
@@ -32,16 +28,6 @@ class PermissionsViewController: CollageBaseViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
-    }
-
-    private func findLastWordRange(in string: String) -> NSRange? {
-        let words = string.split(separator: " ")
-
-        guard let lastWord = words.last, let range = string.range(of: lastWord) else {
-            return nil
-        }
-
-        return NSRange(location: range.lowerBound.encodedOffset, length: range.upperBound.encodedOffset - range.lowerBound.encodedOffset)
     }
 
     private func makeConstraints() {
@@ -106,19 +92,16 @@ class PermissionsViewController: CollageBaseViewController {
         let label = AttributedTextLabel(text: "Start Your Masterpiece")
 
         label.font = R.font.sfProDisplayHeavy(size: 46)
+        label.letterSpacing = -1.85
         label.sizeToFit()
-
-        if let string = label.attributedText?.string, let range = findLastWordRange(in: string) {
-            label.addAttributes(attrs: [NSAttributedStringKey.foregroundColor: UIColor.brightLavender], range: range)
-            label.addAttributes(attrs: [NSAttributedStringKey.kern: CGFloat(-1.85)], range: NSRange(string) ?? NSRange())
-        }
+        label.addAttributes(attrs: [NSAttributedStringKey.foregroundColor: UIColor.brightLavender], to: label.lastWord ?? "")
 
         return label
     }()
 
     private let subtitleLabel: AttributedTextLabel = {
         let label = AttributedTextLabel(text: "The best photos are already here, make them speak")
-        label.font = R.font.sfProTextLight(size: 15)
+        label.font = R.font.sfProDisplayRegular(size: 15)
         label.sizeToFit()
 
         return label
@@ -127,6 +110,7 @@ class PermissionsViewController: CollageBaseViewController {
     private let accessLabel: AttributedTextLabel = {
         let label = AttributedTextLabel(text: "Access to Photos")
         label.font = R.font.sfProDisplayHeavy(size: 25)
+        label.letterSpacing = -1.0
         label.sizeToFit()
 
         return label
@@ -134,7 +118,7 @@ class PermissionsViewController: CollageBaseViewController {
 
     private let accessMessageLabel: AttributedTextLabel = {
         let label = AttributedTextLabel(text: "Collagist needs access to photos to turn them into masterpieces.")
-        label.font = R.font.sfProTextLight(size: 15)
+        label.font = R.font.sfProDisplayRegular(size: 15)
         label.sizeToFit()
 
         return label

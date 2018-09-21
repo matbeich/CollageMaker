@@ -104,7 +104,6 @@ class Collage: NSObject, NSCopying {
             setSelected(cell: secondCell)
 
             delegate?.collageChanged()
-            delegate?.collage(self, didChange: cells.count)
         }
     }
 
@@ -116,9 +115,9 @@ class Collage: NSObject, NSCopying {
         cellsBeforeChanging = cells.map { $0.copy() } as? [CollageCell] ?? []
         calculateCellsNewFrame(cell: cell, grip: grip, value: value)
 
-        let permisionsToChangePosition = cells.map { $0.isAllowed($0.relativeFrame) }.reduce(true, { $0 && $1 })
+        let framesAreAllowed = cells.map { $0.isAllowed($0.relativeFrame) }.reduce(true, { $0 && $1 })
 
-        guard isFullsized && permisionsToChangePosition else {
+        guard isFullsized && framesAreAllowed else {
             restoreCellsBeforeChanging()
             delegate?.collageChanged()
 
@@ -133,7 +132,7 @@ class Collage: NSObject, NSCopying {
         setSelected(cell: selectedCell)
     }
 
-    private func merge(cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) -> Bool {
+    private func merge(cell: CollageCell, grip: GripPosition, value: CGFloat) -> Bool {
         cellsBeforeChanging = cells.map { $0.copy() } as? [CollageCell] ?? []
         remove(cell: cell)
 
@@ -144,11 +143,10 @@ class Collage: NSObject, NSCopying {
             setSelected(cell: cells.last ?? .zeroFrame)
 
             return true
-        } else {
-            restoreCellsBeforeChanging()
-
-            return false
         }
+
+        restoreCellsBeforeChanging()
+        return false
     }
 
     private func calculateCellsNewFrame(cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) {

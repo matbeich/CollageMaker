@@ -63,7 +63,13 @@ class CollageView: UIView {
     }
 
     func gripPosition(at point: CGPoint) -> GripPosition? {
-        return cellSelectionView.gripPosition(at: point)
+        let tapPoint = convert(point, to: cellSelectionView)
+
+        return cellSelectionView.gripPosition(at: tapPoint)
+    }
+
+    func gripPosition(in rect: CGRect) -> GripPosition? {
+        return cellSelectionView.gripPosition(in: rect)
     }
 
     private func setup() {
@@ -74,6 +80,7 @@ class CollageView: UIView {
         addGestureRecognizer(tapGestureRecognizer)
     }
 
+    // FIXME: add button
     private func showPlusButton() {
     }
 
@@ -82,9 +89,9 @@ class CollageView: UIView {
         delegate?.collageView(self, tapped: point)
     }
 
-    private(set) var selectedCellView = CollageCellView(collageCell: .zeroFrame, frame: .zero)
     private var collage: Collage?
     private let cellSelectionView = CellSelectionView()
     private(set) var gripViews: [GripView] = []
     private(set) var cellViews: [CollageCellView] = []
+    private(set) var selectedCellView = CollageCellView(collageCell: .zeroFrame, frame: .zero)
 }

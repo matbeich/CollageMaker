@@ -27,15 +27,10 @@ class CollageImagePickSceneViewController: CollageBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setup()
 
         view.addSubview(mainControllerContainer)
         view.addSubview(templateControllerContainer)
-
-        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: nil)
-        let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
-        let right = NavigationBarViewItem(view: gradientButton)
-
-        navBarItem = NavigationBarItem(left: left, right: right, title: title)
 
         makeConstraints()
 
@@ -43,6 +38,14 @@ class CollageImagePickSceneViewController: CollageBaseViewController {
         addChild(templateController, to: templateControllerContainer.templateContainerView)
 
         templateController.delegate = self
+    }
+
+    private func setup() {
+        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: nil)
+        let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
+        let right = NavigationBarViewItem(view: gradientButton)
+
+        navBarItem = NavigationBarItem(left: left, right: right, title: title)
     }
 
     // FIXME: add logic
@@ -79,10 +82,11 @@ class CollageImagePickSceneViewController: CollageBaseViewController {
     }
 
     private let gradientButton: GradientButton = {
-        let button = GradientButton(type: .system)
+        let button = GradientButton(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 25)))
         button.setTitle("0", for: .normal)
+        button.setImage(R.image.confirm_btn(), for: .normal)
         button.showShadow = false
-        button.titleLabel?.font = R.font.sfProTextBold(size: 16)
+        button.titleLabel?.font = R.font.sfProTextBold(size: 19)
 
         return button
     }()

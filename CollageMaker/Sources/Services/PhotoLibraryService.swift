@@ -11,7 +11,7 @@ final class PhotoLibraryService {
         let options = PHFetchOptions()
 
         options.includeAssetSourceTypes = .typeUserLibrary
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
 
         let imageFetchResult = PHAsset.fetchAssets(with: .image, options: options)
 

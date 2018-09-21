@@ -22,6 +22,7 @@ class CollageViewController: CollageBaseViewController {
 
         let panGestureRecognizer = UIPanGestureRecognizer()
         panGestureRecognizer.addTarget(self, action: #selector(changeSize(with:)))
+        panGestureRecognizer.delegate = self
 
         collageView.delegate = self
 
@@ -105,6 +106,16 @@ extension CollageViewController: CollageViewDelegate {
         collage.cell(at: relativePoint).flatMap {
             collage.setSelected(cell: $0)
         }
+    }
+}
+
+extension CollageViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard collageView.gripPosition(at: gestureRecognizer.location(in: view)) != nil else {
+            return false
+        }
+
+        return true
     }
 }
 
