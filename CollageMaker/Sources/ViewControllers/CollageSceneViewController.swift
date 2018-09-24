@@ -9,9 +9,7 @@ import UIKit
 import Utils
 
 protocol CollageSceneViewControllerDelegate: AnyObject {
-    func collageSceneViewController(_ controller: CollageSceneViewController, wantsToShare collage: Collage)
-    func collageSceneViewControllerWantsToPickImage(_ controller: CollageSceneViewController)
-    func collageSceneViewControllerWantsGoBack(_ controller: CollageSceneViewController)
+    func collageSceneViewController(_ controller: CollageSceneViewController, share collage: Collage)
 }
 
 class CollageSceneViewController: CollageBaseViewController {
@@ -37,7 +35,7 @@ class CollageSceneViewController: CollageBaseViewController {
         view.addSubview(toolsBar)
 
         let right = NavigationBarButtonItem(icon: R.image.share_btn(), target: self, action: #selector(shareCollage))
-        let left = NavigationBarButtonItem(icon: R.image.back_btn(), target: self, action: #selector(backTapped))
+        let left = NavigationBarButtonItem(icon: R.image.back_btn(), target: self, action: #selector(dismissController))
         let title = NavigationBarLabelItem(title: "Edit", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
 
         navBarItem = NavigationBarItem(left: left, right: right, title: title)
@@ -87,11 +85,15 @@ class CollageSceneViewController: CollageBaseViewController {
 
     @objc private func shareCollage() {
         collageViewController.saveCellsVisibleRect()
-        delegate?.collageSceneViewController(self, wantsToShare: collageViewController.collage)
+        delegate?.collageSceneViewController(self, share: collageViewController.collage)
     }
 
-    @objc private func backTapped() {
-        delegate?.collageSceneViewControllerWantsGoBack(self)
+    @objc private func dismissController() {
+        if let navigationController = navigationController {
+            navigationController.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
 
     private func pickImage() {
@@ -115,6 +117,10 @@ class CollageSceneViewController: CollageBaseViewController {
 }
 
 extension CollageSceneViewController: CollageViewControllerDelegate {
+    func collageViewControllerPlusButtonTapped(_ controller: CollageViewController) {
+        pickImage()
+    }
+
     func collageViewController(_ controller: CollageViewController, changed cellsCount: Int) {
         // FIXME: add templates for selected assets
         //        if let assets = templateBarController.templates.first?.assets {
@@ -150,6 +156,10 @@ extension CollageSceneViewController: CollageToolbarDelegate {
 }
 
 extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegate {
+    func imagePickerCollectionViewControllerShouldDismiss(_ controller: ImagePickerCollectionViewController) {
+        navigationController?.popViewController(animated: true)
+    }
+
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
         guard let asset = assets.first else {
             return

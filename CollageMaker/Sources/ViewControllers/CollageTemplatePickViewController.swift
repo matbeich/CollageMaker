@@ -140,6 +140,9 @@ class CollageTemplatePickViewController: CollageBaseViewController {
 }
 
 extension CollageTemplatePickViewController: ImagePickerCollectionViewControllerDelegate {
+    func imagePickerCollectionViewControllerShouldDismiss(_ controller: ImagePickerCollectionViewController) {
+    }
+
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
         selectedAssets = assets
 

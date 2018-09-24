@@ -7,7 +7,7 @@ import UIKit
 import Utils
 
 protocol ShareScreenViewControllerDelegate: AnyObject {
-    func shareScreenViewControllerShouldBeClosed(_ controller: ShareScreenViewController)
+    func shareScreenViewControllerCancelSharing(_ controller: ShareScreenViewController)
 }
 
 class ShareScreenViewController: CollageBaseViewController {
@@ -67,7 +67,7 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     @objc private func close() {
-        delegate?.shareScreenViewControllerShouldBeClosed(self)
+        delegate?.shareScreenViewControllerCancelSharing(self)
     }
 
     override var prefersStatusBarHidden: Bool {

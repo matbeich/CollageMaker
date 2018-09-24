@@ -4,6 +4,7 @@
 
 import Photos
 import UIKit
+import Utils
 
 protocol ImagePickerCollectionViewControllerDelegate: AnyObject {
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset])
@@ -44,8 +45,19 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         view.addSubview(collectionView)
     }
 
+    @objc private func dismissController() {
+        if let navigationController = navigationController {
+            navigationController.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
+    }
+
     private func setup() {
-        navigationItem.title = "All Photos"
+        let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
+        let left = NavigationBarButtonItem(icon: R.image.back_btn(), target: self, action: #selector(dismissController))
+
+        navBarItem = NavigationBarItem(left: left, title: title)
 
         collectionView.backgroundColor = .white
         collectionView.frame = view.bounds
