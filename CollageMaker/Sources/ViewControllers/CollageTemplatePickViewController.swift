@@ -14,11 +14,12 @@ protocol CollageTemplatePickViewControllerDelegate: AnyObject {
 class CollageTemplatePickViewController: CollageBaseViewController {
     weak var delegate: CollageTemplatePickViewControllerDelegate?
 
-    init(main: ImagePickerCollectionViewController) {
-        mainController = main
-
+    init(imagePickerController: ImagePickerCollectionViewController) {
+        self.imagePickerController = imagePickerController
         super.init(nibName: nil, bundle: nil)
-        mainController.delegate = self
+
+        imagePickerController.delegate = self
+        templateController.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -34,10 +35,8 @@ class CollageTemplatePickViewController: CollageBaseViewController {
 
         makeConstraints()
 
-        addChild(mainController, to: mainControllerContainer)
+        addChild(imagePickerController, to: mainControllerContainer)
         addChild(templateController, to: templateControllerContainer.templateContainerView)
-
-        templateController.delegate = self
     }
 
     private func setup() {
@@ -117,7 +116,7 @@ class CollageTemplatePickViewController: CollageBaseViewController {
 
     private let mainControllerContainer = UIView(frame: .zero)
     private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
-    private var mainController: ImagePickerCollectionViewController
+    private var imagePickerController: ImagePickerCollectionViewController
     private var templateController = TemplateBarCollectionViewController(templates: [])
 }
 
@@ -162,7 +161,7 @@ extension CollageTemplatePickViewController: UIImagePickerControllerDelegate & U
         PhotoLibraryService.add(image) { [weak self] success in
             assert(success, "Unable to write asset to photo library")
 
-            self?.mainController.photoAssets = PhotoLibraryService.getImagesAssets()
+            self?.imagePickerController.photoAssets = PhotoLibraryService.getImagesAssets()
         }
     }
 

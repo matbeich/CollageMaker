@@ -25,6 +25,7 @@ class CollageNavigationController: UINavigationController {
 
         delegate = self
         navigationBar.isHidden = true
+        navBar.passInsideTouches = false
         view.addSubview(navBar)
 
         layout()
