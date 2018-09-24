@@ -55,6 +55,8 @@ class TemplateControllerView: UIView {
     private func setup() {
         dimmingView.backgroundColor = .black
         dimmingView.alpha = 0.8
+
+        headerLabel.font = R.font.sfProDisplaySemibold(size: 20)
     }
 
     private let dimmingView = UIView()

@@ -6,6 +6,7 @@ import UIKit
 
 protocol CollageViewControllerDelegate: AnyObject {
     func collageViewController(_ controller: CollageViewController, changed cellsCount: Int)
+    func collageViewControllerPlusButtonTapped(_ controller: CollageViewController)
 }
 
 class CollageViewController: CollageBaseViewController {
@@ -100,6 +101,10 @@ class CollageViewController: CollageBaseViewController {
 }
 
 extension CollageViewController: CollageViewDelegate {
+    func collageViewPlusButtonTapped(_ collageView: CollageView) {
+        delegate?.collageViewControllerPlusButtonTapped(self)
+    }
+
     func collageView(_ collageView: CollageView, tapped point: CGPoint) {
         let relativePoint = point.normalized(for: collageView.frame.size)
 

@@ -43,6 +43,10 @@ class PlusView: UIView {
         backgroundColor = .clear
     }
 
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return false
+    }
+
     private func pathForDraw(start: CGPoint, end: CGPoint) -> CGPath {
         let path = UIBezierPath()
 

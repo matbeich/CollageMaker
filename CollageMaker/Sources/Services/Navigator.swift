@@ -43,14 +43,7 @@ extension Navigator: PermissionsViewControllerDelegate {
 }
 
 extension Navigator: CollageSceneViewControllerDelegate {
-    func collageSceneViewControllerWantsGoBack(_ controller: CollageSceneViewController) {
-        rootViewController.popViewController(animated: true)
-    }
-
-    func collageSceneViewControllerWantsToPickImage(_ controller: CollageSceneViewController) {
-    }
-
-    func collageSceneViewController(_ controller: CollageSceneViewController, wantsToShare collage: Collage) {
+    func collageSceneViewController(_ controller: CollageSceneViewController, share collage: Collage) {
         let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 500, height: 500), borders: false)
         let controller = ShareScreenViewController()
 
@@ -62,7 +55,7 @@ extension Navigator: CollageSceneViewControllerDelegate {
 }
 
 extension Navigator: ShareScreenViewControllerDelegate {
-    func shareScreenViewControllerShouldBeClosed(_ controller: ShareScreenViewController) {
+    func shareScreenViewControllerCancelSharing(_ controller: ShareScreenViewController) {
         rootViewController.popViewController(animated: true)
     }
 }

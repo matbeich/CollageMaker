@@ -7,6 +7,7 @@ import UIKit
 
 protocol CollageViewDelegate: AnyObject {
     func collageView(_ collageView: CollageView, tapped point: CGPoint)
+    func collageViewPlusButtonTapped(_ collageView: CollageView)
 }
 
 class CollageView: UIView {
@@ -47,6 +48,7 @@ class CollageView: UIView {
 
     func updateSelectedCellView(with collageCell: CollageCell) {
         selectedCellView.updateCollageCell(collageCell)
+        selectedCellView.collageCell.image == nil ? cellSelectionView.showPlusButton() : cellSelectionView.hidePlusButton()
     }
 
     func select(cellView: CollageCellView) {
@@ -76,9 +78,14 @@ class CollageView: UIView {
     private func setup() {
         clipsToBounds = true
         addSubview(cellSelectionView)
+        cellSelectionView.addTargetToPlusButton(self, action: #selector(test), for: .touchUpInside)
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pointTapped(with:)))
         addGestureRecognizer(tapGestureRecognizer)
+    }
+
+    @objc private func test() {
+        delegate?.collageViewPlusButtonTapped(self)
     }
 
     @objc private func pointTapped(with recognizer: UITapGestureRecognizer) {

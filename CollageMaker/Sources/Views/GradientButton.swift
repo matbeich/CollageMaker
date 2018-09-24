@@ -12,14 +12,6 @@ class GradientButton: UIButton {
         }
     }
 
-    override func setImage(_ image: UIImage?, for state: UIControlState) {
-        super.setImage(image, for: state)
-
-        if let imageView = imageView {
-            bringSubview(toFront: imageView)
-        }
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -46,6 +38,23 @@ class GradientButton: UIButton {
         gradientLayer.cornerRadius = min(bounds.height, bounds.width) / 2
     }
 
+    override func setImage(_ image: UIImage?, for state: UIControlState) {
+        super.setImage(image, for: state)
+
+        if let imageView = imageView {
+            bringSubview(toFront: imageView)
+            contentEdgeInsets = UIEdgeInsets(top: 4, left: 12, bottom: 4, right: 12)
+            imageEdgeInsets.left = 2
+            titleEdgeInsets.right = 2
+        }
+    }
+
+    override func setTitle(_ title: String?, for state: UIControlState) {
+        super.setTitle(title, for: state)
+
+        titleWidth = titleLabel?.text?.size(withAttributes: [NSAttributedStringKey.font: titleLabel?.font as Any]).width ?? 0
+    }
+
     override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
         let rect = super.imageRect(forContentRect: contentRect)
 
@@ -53,16 +62,14 @@ class GradientButton: UIButton {
             return rect
         }
 
-        contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-
         guard let titleWidth = titleLabel?.text?.size(withAttributes: [NSAttributedStringKey.font: titleLabel?.font as Any]).width else {
             return rect
         }
 
         let leftInset = max(titleEdgeInsets.left, contentEdgeInsets.left)
-        let rightInset = max(titleEdgeInsets.left, contentEdgeInsets.left)
+        let rightInset = max(imageEdgeInsets.right, contentEdgeInsets.right)
 
-        let x = max(contentRect.width - imageWidth - rightInset, leftInset + titleWidth + titleEdgeInsets.right)
+        let x = max(contentRect.width - imageWidth - rightInset + imageEdgeInsets.left, leftInset + titleWidth + titleEdgeInsets.right)
 
         return CGRect(x: x,
                       y: rect.origin.y,
@@ -72,15 +79,16 @@ class GradientButton: UIButton {
 
     override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
         let rect = super.titleRect(forContentRect: contentRect)
-        let size = rect.width
+        let textWidth = max(titleWidth, rect.width)
+        let leftInset = contentHorizontalAlignment == .center ? (contentRect.width / 2 - textWidth / 2) : max(titleEdgeInsets.left, contentEdgeInsets.left)
 
-        let leftInset = contentVerticalAlignment == .center ? (contentRect.width / 2 - size / 2) : max(titleEdgeInsets.left, contentEdgeInsets.left)
-
-        return CGRect(x: leftInset,
+        return CGRect(x: leftInset - titleEdgeInsets.right,
                       y: rect.origin.y,
-                      width: size,
+                      width: textWidth,
                       height: rect.height)
     }
+
+    private var titleWidth: CGFloat = 0
 
     private let gradientLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
