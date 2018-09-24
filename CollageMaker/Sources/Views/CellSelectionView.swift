@@ -25,6 +25,7 @@ final class CellSelectionView: UIView {
         gripViews.forEach(layoutGripView(_:))
         borderLayer.frame = bounds
         borderLayer.path = CGPath(rect: bounds, transform: nil)
+        plusButton.center = convert(center, from: superview)
     }
 
     func gripPosition(at point: CGPoint) -> GripPosition? {
@@ -39,6 +40,17 @@ final class CellSelectionView: UIView {
 
     func gripPosition(in frame: CGRect) -> GripPosition? {
         return gripViews.first { $0.frame.intersects(frame) }?.position
+    }
+
+    func showPlusButton() {
+        plusButton.center = plusButton.convert(center, from: superview)
+        plusButton.bounds.size = CGSize(width: 50, height: 50)
+
+        addSubview(plusButton)
+    }
+
+    func hidePlusButton() {
+        plusButton.removeFromSuperview()
     }
 
     private func setup() {
@@ -74,6 +86,7 @@ final class CellSelectionView: UIView {
 
     private var gripViews: [GripView] = []
     private let borderLayer = CAShapeLayer.cellBorder
+    private lazy var plusButton = PlusButton()
 }
 
 private extension CAShapeLayer {
