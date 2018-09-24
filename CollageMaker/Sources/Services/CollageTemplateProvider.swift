@@ -117,6 +117,14 @@ fileprivate extension RelativeFrame {
             [
                 .topLeftTwentyFiveWidthHalfHeight, .bottomLeftTwentyFiveWidthHalfHeight,
                 .centerHalfWidthFullHeight, .topRightTwentyFiveWidthHalfHeight, .bottomRightTwentyFiveWidthHalfHeight
+            ],
+            [
+                .topLeftHalfHeightThirtyThreeWidth, .topCenterHalfHeightThirtyThreeWidth, .topRightHalfHeightThirtyThreeWidth,
+                .bottomLeftHalfWidthHalfHeight, .bottomRightHalfWidthHalfHeight
+            ],
+            [
+                .topLeftHalfWidthHalfHeight, .topRightHalfWidthHalfHeight, .bottomLeftHalfHeightThirtyThreeWidth,
+                .bottomCenterHalfHeightThirtyThreeWidth, .bottomRightHalfHeightThirtyThreeWidth
             ]
         ]
     }
