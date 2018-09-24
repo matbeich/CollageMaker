@@ -51,6 +51,8 @@
 		84E40814214BC5C1006764D0 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40813214BC5C1006764D0 /* SelectionView.swift */; };
 		84E40816214BDD73006764D0 /* CollageTemplatePickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40815214BDD73006764D0 /* CollageTemplatePickViewController.swift */; };
 		84E40818214C03D3006764D0 /* CollageTemplateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */; };
+		84F454BE2158E3E80079CE6C /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454BD2158E3E80079CE6C /* PlusButton.swift */; };
+		84F454C02158E4A10079CE6C /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454BF2158E4A10079CE6C /* PlusView.swift */; };
 		84FD669B2153BD3800C831F0 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FD669A2153BD3800C831F0 /* R.generated.swift */; };
 		EED0F2386CA83A7547A76DEB /* Pods_CollageMakerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFBE0B5378D9DAC0C04B69BA /* Pods_CollageMakerTests.framework */; };
 		F62618AF2141570300CD94AE /* PhotoAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62618AE2141570300CD94AE /* PhotoAuthService.swift */; };
@@ -130,6 +132,8 @@
 		84E40813214BC5C1006764D0 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		84E40815214BDD73006764D0 /* CollageTemplatePickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplatePickViewController.swift; sourceTree = "<group>"; };
 		84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplateProvider.swift; sourceTree = "<group>"; };
+		84F454BD2158E3E80079CE6C /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
+		84F454BF2158E4A10079CE6C /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		84FD669A2153BD3800C831F0 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		939134D3EA6086601A613E2E /* Pods-CollageMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMaker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMaker/Pods-CollageMaker.debug.xcconfig"; sourceTree = "<group>"; };
 		9C221B83DC51077FE8EDC16F /* Pods-CollageMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMaker.release.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMaker/Pods-CollageMaker.release.xcconfig"; sourceTree = "<group>"; };
@@ -367,6 +371,8 @@
 				F62618B221415C6200CD94AE /* GradientButton.swift */,
 				84D389E52125CF5200FCDC67 /* GripView.swift */,
 				84A203922153D5C800AB946C /* CellSelectionView.swift */,
+				84F454BD2158E3E80079CE6C /* PlusButton.swift */,
+				84F454BF2158E4A10079CE6C /* PlusView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -636,6 +642,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				841A245F213E935C006E994B /* UIBarButtonItem.swift in Sources */,
+				84F454BE2158E3E80079CE6C /* PlusButton.swift in Sources */,
 				8496B143214AB93D00FE45FE /* ImagePickerCollectionViewCell.swift in Sources */,
 				848713222122E938003519F7 /* TemplateBarCollectionViewCell.swift in Sources */,
 				8417D1BA211DCABC00334661 /* CollageCellView.swift in Sources */,
@@ -660,6 +667,7 @@
 				84868BC22138323E00E12152 /* CollageToolbar.swift in Sources */,
 				8496B141214AA9AF00FE45FE /* PhotoLibraryService.swift in Sources */,
 				84023CC421369CDA00FF2CC6 /* RelativeFrame.swift in Sources */,
+				84F454C02158E4A10079CE6C /* PlusView.swift in Sources */,
 				84E40818214C03D3006764D0 /* CollageTemplateProvider.swift in Sources */,
 				84434D9E214808DF0060B76B /* ShareScreenViewController.swift in Sources */,
 				84868BC02138208100E12152 /* FloatingPoint.swift in Sources */,

@@ -33,6 +33,10 @@ class CollageCellView: UIView {
         updateImageView()
     }
 
+    func saveVisibleRect() {
+        collageCell.imageVisibleRect = imageVisibleRect
+    }
+
     private func setup() {
         updateImageView()
         updateScrollView()
@@ -57,14 +61,6 @@ class CollageCellView: UIView {
 
         addSubview(scrollView)
         backgroundColor = .clear
-    }
-
-    private var imageVisibleRect: CGRect {
-        return convert(scrollView.frame, to: imageView)
-    }
-
-    func saveVisibleRect() {
-        collageCell.imageVisibleRect = imageVisibleRect
     }
 
     private func updateScrollView() {
@@ -101,6 +97,10 @@ class CollageCellView: UIView {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isScrollEnabled = true
+    }
+
+    private var imageVisibleRect: CGRect {
+        return convert(scrollView.frame, to: imageView)
     }
 
     private lazy var imageView = UIImageView()

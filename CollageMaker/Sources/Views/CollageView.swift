@@ -52,6 +52,7 @@ class CollageView: UIView {
     func select(cellView: CollageCellView) {
         selectedCellView = cellView
         cellSelectionView.gripPositions = selectedCellView.collageCell.gripPositions
+        cellView.collageCell.image == nil ? cellSelectionView.showPlusButton() : cellSelectionView.hidePlusButton()
 
         cellSelectionView.snp.remakeConstraints { make in
             make.edges.equalTo(selectedCellView)
@@ -78,10 +79,6 @@ class CollageView: UIView {
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pointTapped(with:)))
         addGestureRecognizer(tapGestureRecognizer)
-    }
-
-    // FIXME: add button
-    private func showPlusButton() {
     }
 
     @objc private func pointTapped(with recognizer: UITapGestureRecognizer) {
