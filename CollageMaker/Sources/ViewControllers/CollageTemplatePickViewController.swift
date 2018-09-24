@@ -127,7 +127,8 @@ class CollageTemplatePickViewController: CollageBaseViewController {
         button.setTitle("0", for: .normal)
         button.setImage(R.image.confirm_btn(), for: .normal)
         button.showShadow = false
-        button.titleLabel?.font = R.font.sfProTextBold(size: 19)
+        button.titleLabel?.font = R.font.sfProDisplaySemibold(size: 17)
+        button.contentHorizontalAlignment = .fill
 
         return button
     }()
