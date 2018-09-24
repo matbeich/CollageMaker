@@ -20,7 +20,6 @@ class CollageRenderer {
 
         return renderer.image { context in
             collage.cells.forEach { render(cell: $0, in: context, border: borders) }
-            context.stroke(CGRect(origin: .zero, size: size))
         }
     }
 
