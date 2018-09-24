@@ -43,11 +43,15 @@ extension Navigator: PermissionsViewControllerDelegate {
 }
 
 extension Navigator: CollageSceneViewControllerDelegate {
+    func collageSceneViewControllerWantsGoBack(_ controller: CollageSceneViewController) {
+        rootViewController.popViewController(animated: true)
+    }
+
     func collageSceneViewControllerWantsToPickImage(_ controller: CollageSceneViewController) {
     }
 
     func collageSceneViewController(_ controller: CollageSceneViewController, wantsToShare collage: Collage) {
-        let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 1500, height: 1500), borders: false)
+        let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 500, height: 500), borders: false)
         let controller = ShareScreenViewController()
 
         controller.setCollagePreview(image: previewImage)

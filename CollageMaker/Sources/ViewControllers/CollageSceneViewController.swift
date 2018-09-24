@@ -11,6 +11,7 @@ import Utils
 protocol CollageSceneViewControllerDelegate: AnyObject {
     func collageSceneViewController(_ controller: CollageSceneViewController, wantsToShare collage: Collage)
     func collageSceneViewControllerWantsToPickImage(_ controller: CollageSceneViewController)
+    func collageSceneViewControllerWantsGoBack(_ controller: CollageSceneViewController)
 }
 
 class CollageSceneViewController: CollageBaseViewController {
@@ -36,7 +37,7 @@ class CollageSceneViewController: CollageBaseViewController {
         view.addSubview(toolsBar)
 
         let right = NavigationBarButtonItem(icon: R.image.share_btn(), target: self, action: #selector(shareCollage))
-        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(tryToTakePhoto))
+        let left = NavigationBarButtonItem(icon: R.image.back_btn(), target: self, action: #selector(backTapped))
         let title = NavigationBarLabelItem(title: "Edit", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
 
         navBarItem = NavigationBarItem(left: left, right: right, title: title)
@@ -89,38 +90,16 @@ class CollageSceneViewController: CollageBaseViewController {
         delegate?.collageSceneViewController(self, wantsToShare: collageViewController.collage)
     }
 
-    func pickImage(camera: Bool = false) {
-        if camera {
-            let controller = UIImagePickerController()
-            controller.sourceType = .camera
-            controller.delegate = self
-
-            present(controller, animated: true)
-        } else {
-            let assets = PhotoLibraryService.getImagesAssets()
-            let controller = ImagePickerCollectionViewController(assets: assets)
-
-            controller.delegate = self
-            navigationController?.pushViewController(controller, animated: true)
-        }
+    @objc private func backTapped() {
+        delegate?.collageSceneViewControllerWantsGoBack(self)
     }
 
-    @objc private func tryToTakePhoto() {
-        handle(cameraAuthService.status)
-    }
+    private func pickImage() {
+        let assets = PhotoLibraryService.getImagesAssets()
+        let controller = ImagePickerCollectionViewController(assets: assets)
 
-    private func handle(_ avAuthorizationStatus: AVAuthorizationStatus) {
-        if cameraAuthService.isAuthorized {
-            pickImage(camera: true)
-            return
-        }
-
-        switch avAuthorizationStatus {
-        case .notDetermined: cameraAuthService.reqestAuthorization { self.handle($0) }
-        case .denied: present(Alerts.cameraAccessDenied(), animated: true, completion: nil)
-        case .restricted: present(Alerts.cameraAccessRestricted(), animated: true, completion: nil)
-        default: break
-        }
+        controller.delegate = self
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     private let collageViewContainer: UIView = {
@@ -131,7 +110,6 @@ class CollageSceneViewController: CollageBaseViewController {
 
     private var collageViewController = CollageViewController()
     private let toolsBar = CollageToolbar.standart
-    private let cameraAuthService = CameraAuthService()
     private let templateControllerView = TemplateControllerView()
     private let templateBarController = TemplateBarCollectionViewController()
 }
@@ -139,9 +117,9 @@ class CollageSceneViewController: CollageBaseViewController {
 extension CollageSceneViewController: CollageViewControllerDelegate {
     func collageViewController(_ controller: CollageViewController, changed cellsCount: Int) {
         // FIXME: add templates for selected assets
-//        if let assets = templateBarController.templates.first?.assets {
-//            templateBarController.templates = CollageTemplateProvider.templates(for: cellsCount, assets: assets)
-//        }
+        //        if let assets = templateBarController.templates.first?.assets {
+        //            templateBarController.templates = CollageTemplateProvider.templates(for: cellsCount, assets: assets)
+        //        }
     }
 }
 

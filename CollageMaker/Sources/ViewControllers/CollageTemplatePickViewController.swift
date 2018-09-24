@@ -40,7 +40,7 @@ class CollageTemplatePickViewController: CollageBaseViewController {
     }
 
     private func setup() {
-        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(openCamera))
+        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(handle(_:)))
         let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
         let right = NavigationBarViewItem(view: gradientButton)
 
@@ -57,12 +57,30 @@ class CollageTemplatePickViewController: CollageBaseViewController {
         select(template: template)
     }
 
-    @objc private func openCamera() {
+    private func openCamera() {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            return
+        }
+
         let controller = UIImagePickerController()
         controller.sourceType = .camera
         controller.delegate = self
 
         present(controller, animated: true)
+    }
+
+    @objc private func handle(_ avAuthorizationStatus: AVAuthorizationStatus) {
+        if cameraAuthService.isAuthorized {
+            openCamera()
+            return
+        }
+
+        switch avAuthorizationStatus {
+        case .notDetermined: cameraAuthService.reqestAuthorization { self.handle($0) }
+        case .denied: present(Alerts.cameraAccessDenied(), animated: true, completion: nil)
+        case .restricted: present(Alerts.cameraAccessRestricted(), animated: true, completion: nil)
+        default: break
+        }
     }
 
     private func showTemplateController() {
@@ -115,6 +133,7 @@ class CollageTemplatePickViewController: CollageBaseViewController {
     }()
 
     private let mainControllerContainer = UIView(frame: .zero)
+    private let cameraAuthService = CameraAuthService()
     private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
     private var imagePickerController: ImagePickerCollectionViewController
     private var templateController = TemplateBarCollectionViewController(templates: [])
