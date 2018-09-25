@@ -7,19 +7,20 @@ import SnapKit
 import UIKit
 import Utils
 
-protocol CollageTemplatePickViewControllerDelegate: AnyObject {
-    func collageImagePickSceneViewController(_ controller: CollageTemplatePickViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate: Collage)
+protocol TemplatePickerViewControllerDelegate: AnyObject {
+    func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelect template: CollageTemplate)
 }
 
-class CollageTemplatePickViewController: CollageBaseViewController {
-    weak var delegate: CollageTemplatePickViewControllerDelegate?
+class TemplatePickerViewController: CollageBaseViewController {
+    weak var delegate: TemplatePickerViewControllerDelegate?
 
-    init(imagePickerController: ImagePickerCollectionViewController) {
-        self.imagePickerController = imagePickerController
+    var templateViewIsVisible: Bool {
+        return templateController.templates.count > 0
+    }
+
+    init(assets: [PHAsset] = []) {
+        self.assets = assets
         super.init(nibName: nil, bundle: nil)
-
-        imagePickerController.delegate = self
-        templateController.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -37,19 +38,23 @@ class CollageTemplatePickViewController: CollageBaseViewController {
 
         addChild(imagePickerController, to: mainControllerContainer)
         addChild(templateController, to: templateControllerContainer.templateContainerView)
+
+        templateController.delegate = self
+        imagePickerController.delegate = self
     }
 
     private func setup() {
-        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(handle(_:)))
+        imagePickerController.photoAssets = assets
+
+        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(takePhoto))
         let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
         let right = NavigationBarViewItem(view: gradientButton)
 
-        gradientButton.addTarget(self, action: #selector(selectTemplate), for: .touchUpInside)
-
+        gradientButton.addTarget(self, action: #selector(selectFirstTemplate), for: .touchUpInside)
         navBarItem = NavigationBarItem(left: left, right: right, title: title)
     }
 
-    @objc private func selectTemplate() {
+    @objc private func selectFirstTemplate() {
         guard let template = templateController.templates.first else {
             return
         }
@@ -57,21 +62,21 @@ class CollageTemplatePickViewController: CollageBaseViewController {
         select(template: template)
     }
 
-    private func openCamera() {
+    @objc private func takePhoto() {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
             return
         }
 
-        let controller = UIImagePickerController()
-        controller.sourceType = .camera
-        controller.delegate = self
-
-        present(controller, animated: true)
+        handle(cameraAuthService.status)
     }
 
     @objc private func handle(_ avAuthorizationStatus: AVAuthorizationStatus) {
         if cameraAuthService.isAuthorized {
-            openCamera()
+            let controller = UIImagePickerController()
+            controller.sourceType = .camera
+            controller.delegate = self
+
+            present(controller, animated: true)
             return
         }
 
@@ -84,22 +89,38 @@ class CollageTemplatePickViewController: CollageBaseViewController {
     }
 
     private func showTemplateController() {
-        templateControllerContainer.center.y = view.bounds.height - templateControllerContainer.bounds.size.height / 2
+        if !templateViewIsVisible {
+            templateControllerContainer.snp.updateConstraints { make in
+                make.top.equalTo(view.snp.bottom).offset(-templateControllerContainer.frame.height)
+            }
+
+            view.layoutIfNeeded()
+        }
+    }
+
+    private func hideTemplateController() {
+        if templateViewIsVisible {
+            templateControllerContainer.snp.updateConstraints { make in
+                make.top.equalTo(view.snp.bottom).offset(-50)
+            }
+
+            view.layoutIfNeeded()
+        }
     }
 
     private func select(template: CollageTemplate) {
-        CollageTemplateProvider.collage(from: template, size: .large) { [weak self] collage in
-            guard let sself = self else {
-                return
-            }
-
-            sself.delegate?.collageImagePickSceneViewController(sself, templateController: sself.templateController, didSelectTemplate: collage)
+        CollageTemplateProvider.collage(from: template, size: .large) { collage in
+            self.delegate?.templatePickerViewController(self, templateController: self.templateController, didSelect: template)
         }
     }
 
     private func makeConstraints() {
-        templateControllerContainer.bounds.size = CGSize(width: view.bounds.width, height: view.bounds.height / 3.5)
-        templateControllerContainer.center = CGPoint(x: view.center.x, y: view.frame.maxY + templateControllerContainer.bounds.size.height / 2 - 50)
+        templateControllerContainer.snp.updateConstraints { make in
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.top.equalTo(view.snp.bottom).offset(-50)
+            make.height.equalTo(view.bounds.height / 3.5)
+        }
 
         mainControllerContainer.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -133,47 +154,37 @@ class CollageTemplatePickViewController: CollageBaseViewController {
         return button
     }()
 
+    private var assets: [PHAsset]
     private let mainControllerContainer = UIView(frame: .zero)
     private let cameraAuthService = CameraAuthService()
     private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
-    private var imagePickerController: ImagePickerCollectionViewController
+    private var imagePickerController = ImagePickerCollectionViewController(assets: [])
     private var templateController = TemplateBarCollectionViewController(templates: [])
 }
 
-extension CollageTemplatePickViewController: ImagePickerCollectionViewControllerDelegate {
-    func imagePickerCollectionViewControllerShouldDismiss(_ controller: ImagePickerCollectionViewController) {
+extension TemplatePickerViewController: ImagePickerCollectionViewControllerDelegate {
+    func imagePickerCollectionViewControllerDidCancel(_ controller: ImagePickerCollectionViewController) {
     }
 
-    func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
+    func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelectAssets assets: [PHAsset]) {
+        view.layoutIfNeeded()
         selectedAssets = assets
 
-        let templates = CollageTemplateProvider.templates(for: selectedAssets.count, assets: selectedAssets)
+        let templates = CollageTemplateProvider.templates(for: selectedAssets)
+        let animation = templates.isEmpty ? { self.hideTemplateController() } : { self.showTemplateController() }
 
-        if !templates.isEmpty {
-            UIView.animate(withDuration: 0.2,
-                           animations: { self.showTemplateController() },
-                           completion: { _ in self.templateController.templates = templates })
-        } else {
-            UIView.animate(withDuration: 0.2,
-                           animations: { self.makeConstraints() },
-                           completion: { _ in self.templateController.templates = [] })
-        }
+        UIView.animate(withDuration: 0.2, animations: animation)
+        templateController.templates = templates
     }
 }
 
-extension CollageTemplatePickViewController: TemplateBarCollectionViewControllerDelegate {
+extension TemplatePickerViewController: TemplateBarCollectionViewControllerDelegate {
     func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate) {
-        CollageTemplateProvider.collage(from: collageTemplate, size: .large) { [weak self] collage in
-            guard let sself = self else {
-                return
-            }
-
-            sself.delegate?.collageImagePickSceneViewController(sself, templateController: controller, didSelectTemplate: collage)
-        }
+        delegate?.templatePickerViewController(self, templateController: controller, didSelect: collageTemplate)
     }
 }
 
-extension CollageTemplatePickViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+extension TemplatePickerViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         picker.dismiss(animated: true)
 
@@ -183,7 +194,6 @@ extension CollageTemplatePickViewController: UIImagePickerControllerDelegate & U
 
         PhotoLibraryService.add(image) { [weak self] success in
             assert(success, "Unable to write asset to photo library")
-
             self?.imagePickerController.photoAssets = PhotoLibraryService.getImagesAssets()
         }
     }

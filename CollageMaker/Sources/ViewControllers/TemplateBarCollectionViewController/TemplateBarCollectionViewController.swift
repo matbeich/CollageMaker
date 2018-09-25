@@ -2,6 +2,7 @@
 // Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
 
+import Photos
 import UIKit
 
 protocol TemplateBarCollectionViewControllerDelegate: AnyObject {
@@ -11,6 +12,10 @@ protocol TemplateBarCollectionViewControllerDelegate: AnyObject {
 class TemplateBarCollectionViewController: UICollectionViewController {
     weak var delegate: TemplateBarCollectionViewControllerDelegate?
 
+    var assets: [PHAsset]? {
+        return templates.first?.assets
+    }
+
     var templates: [CollageTemplate] {
         didSet {
             collectionView?.reloadData()
@@ -19,7 +24,6 @@ class TemplateBarCollectionViewController: UICollectionViewController {
 
     init(templates: [CollageTemplate] = []) {
         self.templates = templates
-
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
 

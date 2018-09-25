@@ -22,12 +22,12 @@ class CollageTemplateProvider {
         }
     }
 
-    static func templates(for cellsCount: Int, assets: [PHAsset] = []) -> [CollageTemplate] {
+    static func templates(for assets: [PHAsset] = []) -> [CollageTemplate] {
         PhotoLibraryService.cacheImages(for: assets)
 
         var collagesFramesKit = [CollageFramesKit]()
 
-        switch cellsCount {
+        switch assets.count {
         case 1:
             collagesFramesKit = RelativeFrame.onePotoFramesKit()
         case 2:

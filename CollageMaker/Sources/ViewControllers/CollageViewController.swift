@@ -5,7 +5,6 @@
 import UIKit
 
 protocol CollageViewControllerDelegate: AnyObject {
-    func collageViewController(_ controller: CollageViewController, changed cellsCount: Int)
     func collageViewControllerPlusButtonTapped(_ controller: CollageViewController)
 }
 
@@ -125,10 +124,6 @@ extension CollageViewController: UIGestureRecognizerDelegate {
 }
 
 extension CollageViewController: CollageDelegate {
-    func collage(_ collage: Collage, didChange cellsCount: Int) {
-        delegate?.collageViewController(self, changed: cellsCount)
-    }
-
     func collage(_ collage: Collage, didChangeSelected cell: CollageCell) {
         guard let selectedCellView = collageView.collageCellView(with: cell.id) else {
             return

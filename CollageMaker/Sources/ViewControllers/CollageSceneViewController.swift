@@ -9,7 +9,7 @@ import UIKit
 import Utils
 
 protocol CollageSceneViewControllerDelegate: AnyObject {
-    func collageSceneViewController(_ controller: CollageSceneViewController, share collage: Collage)
+    func collageSceneViewController(_ controller: CollageSceneViewController, didEndEditingCollage collage: Collage)
 }
 
 class CollageSceneViewController: CollageBaseViewController {
@@ -34,19 +34,7 @@ class CollageSceneViewController: CollageBaseViewController {
         view.addSubview(templateControllerView)
         view.addSubview(toolsBar)
 
-        let right = NavigationBarButtonItem(icon: R.image.share_btn(), target: self, action: #selector(shareCollage))
-        let left = NavigationBarButtonItem(icon: R.image.back_btn(), target: self, action: #selector(dismissController))
-        let title = NavigationBarLabelItem(title: "Edit", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
-
-        navBarItem = NavigationBarItem(left: left, right: right, title: title)
-
-        makeConstraints()
-
-        toolsBar.delegate = self
-        templateBarController.delegate = self
-
-        collageViewController.delegate = self
-
+        setup()
         addChild(collageViewController, to: collageViewContainer)
         addChild(templateBarController, to: templateControllerView)
     }
@@ -79,13 +67,26 @@ class CollageSceneViewController: CollageBaseViewController {
         }
     }
 
+    private func setup() {
+        let right = NavigationBarButtonItem(icon: R.image.share_btn(), target: self, action: #selector(shareCollage))
+        let left = NavigationBarButtonItem(icon: R.image.back_btn(), target: self, action: #selector(dismissController))
+        let title = NavigationBarLabelItem(title: "Edit", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
+
+        navBarItem = NavigationBarItem(left: left, right: right, title: title)
+        makeConstraints()
+
+        toolsBar.delegate = self
+        templateBarController.delegate = self
+        collageViewController.delegate = self
+    }
+
     @objc private func resetCollage() {
         collageViewController.resetCollage()
     }
 
     @objc private func shareCollage() {
         collageViewController.saveCellsVisibleRect()
-        delegate?.collageSceneViewController(self, share: collageViewController.collage)
+        delegate?.collageSceneViewController(self, didEndEditingCollage: collageViewController.collage)
     }
 
     @objc private func dismissController() {
@@ -120,13 +121,6 @@ extension CollageSceneViewController: CollageViewControllerDelegate {
     func collageViewControllerPlusButtonTapped(_ controller: CollageViewController) {
         pickImage()
     }
-
-    func collageViewController(_ controller: CollageViewController, changed cellsCount: Int) {
-        // FIXME: add templates for selected assets
-        //        if let assets = templateBarController.templates.first?.assets {
-        //            templateBarController.templates = CollageTemplateProvider.templates(for: cellsCount, assets: assets)
-        //        }
-    }
 }
 
 extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegate {
@@ -156,11 +150,11 @@ extension CollageSceneViewController: CollageToolbarDelegate {
 }
 
 extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegate {
-    func imagePickerCollectionViewControllerShouldDismiss(_ controller: ImagePickerCollectionViewController) {
+    func imagePickerCollectionViewControllerDidCancel(_ controller: ImagePickerCollectionViewController) {
         navigationController?.popViewController(animated: true)
     }
 
-    func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset]) {
+    func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelectAssets assets: [PHAsset]) {
         guard let asset = assets.first else {
             return
         }
@@ -170,24 +164,5 @@ extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegat
         }
 
         navigationController?.popViewController(animated: true)
-    }
-}
-
-extension CollageSceneViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-        picker.dismiss(animated: true)
-
-        guard let image = info["UIImagePickerControllerOriginalImage"] as? UIImage else {
-            return
-        }
-
-        PhotoLibraryService.add(image) { [weak self] success in
-            assert(success, "Unable to write asset to photo library")
-            self?.collageViewController.addImageToSelectedCell(image)
-        }
-    }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true)
     }
 }

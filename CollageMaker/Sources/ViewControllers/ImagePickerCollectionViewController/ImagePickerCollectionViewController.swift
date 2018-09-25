@@ -7,7 +7,8 @@ import UIKit
 import Utils
 
 protocol ImagePickerCollectionViewControllerDelegate: AnyObject {
-    func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset])
+    func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelectAssets assets: [PHAsset])
+    func imagePickerCollectionViewControllerDidCancel(_ controller: ImagePickerCollectionViewController)
 }
 
 class ImagePickerCollectionViewController: CollageBaseViewController {
@@ -49,17 +50,13 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         view.addSubview(collectionView)
     }
 
-    @objc private func dismissController() {
-        if let navigationController = navigationController {
-            navigationController.popViewController(animated: true)
-        } else {
-            dismiss(animated: true, completion: nil)
-        }
+    @objc private func cancel() {
+        delegate?.imagePickerCollectionViewControllerDidCancel(self)
     }
 
     private func setup() {
         let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
-        let left = NavigationBarButtonItem(icon: R.image.back_btn(), target: self, action: #selector(dismissController))
+        let left = NavigationBarButtonItem(title: "Cancel", font: R.font.sfProDisplaySemibold(size: 19), target: self, action: #selector(cancel))
 
         navBarItem = NavigationBarItem(left: left, title: title)
 
@@ -117,9 +114,6 @@ extension ImagePickerCollectionViewController: UICollectionViewDataSource {
 }
 
 extension ImagePickerCollectionViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-    }
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionViewCell else {
             return
@@ -134,7 +128,7 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
         }
 
         cell.toogleSelection()
-        delegate?.imagePickerCollectionViewController(self, didSelect: selectedAssets)
+        delegate?.imagePickerCollectionViewController(self, didSelectAssets: selectedAssets)
     }
 }
 
