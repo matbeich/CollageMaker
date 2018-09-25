@@ -15,12 +15,11 @@ final class Navigator {
     lazy var rootViewController: UINavigationController = {
         if authService.isAuthorized {
             let assets = PhotoLibraryService.getImagesAssets()
-            let controller = ImagePickerCollectionViewController(assets: assets)
-            let imagePickSceneController = CollageTemplatePickViewController(imagePickerController: controller)
+            let templatePickerController = TemplatePickerViewController(assets: assets)
 
-            imagePickSceneController.delegate = self
+            templatePickerController.delegate = self
 
-            return CollageNavigationController(rootViewController: imagePickSceneController)
+            return CollageNavigationController(rootViewController: templatePickerController)
         } else {
             let controller = PermissionsViewController()
             controller.delegate = self
@@ -35,15 +34,14 @@ final class Navigator {
 extension Navigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
         let assets = PhotoLibraryService.getImagesAssets()
-        let controller = ImagePickerCollectionViewController(assets: assets)
-        let imagePickSceneController = CollageTemplatePickViewController(imagePickerController: controller)
+        let imagePickSceneController = TemplatePickerViewController(assets: assets)
 
         rootViewController.pushViewController(imagePickSceneController, animated: true)
     }
 }
 
 extension Navigator: CollageSceneViewControllerDelegate {
-    func collageSceneViewController(_ controller: CollageSceneViewController, share collage: Collage) {
+    func collageSceneViewController(_ controller: CollageSceneViewController, didEndEditingCollage collage: Collage) {
         let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 500, height: 500), borders: false)
         let controller = ShareScreenViewController()
 
@@ -60,11 +58,13 @@ extension Navigator: ShareScreenViewControllerDelegate {
     }
 }
 
-extension Navigator: CollageTemplatePickViewControllerDelegate {
-    func collageImagePickSceneViewController(_ controller: CollageTemplatePickViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate: Collage) {
-        let controller = CollageSceneViewController(collage: didSelectTemplate, templates: templateController.templates)
-        controller.delegate = self
+extension Navigator: TemplatePickerViewControllerDelegate {
+    func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelect: CollageTemplate) {
+        CollageTemplateProvider.collage(from: didSelect, size: .large) { [weak self] collage in
+            let controller = CollageSceneViewController(collage: collage, templates: templateController.templates)
+            controller.delegate = self
 
-        rootViewController.pushViewController(controller, animated: true)
+            self?.rootViewController.pushViewController(controller, animated: true)
+        }
     }
 }

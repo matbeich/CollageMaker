@@ -7,7 +7,7 @@ import UIKit
 import Utils
 
 protocol ImagePickerCollectionViewControllerDelegate: AnyObject {
-    func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelect assets: [PHAsset])
+    func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelectAssets assets: [PHAsset])
 }
 
 class ImagePickerCollectionViewController: CollageBaseViewController {
@@ -117,9 +117,6 @@ extension ImagePickerCollectionViewController: UICollectionViewDataSource {
 }
 
 extension ImagePickerCollectionViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-    }
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionViewCell else {
             return
@@ -134,7 +131,7 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
         }
 
         cell.toogleSelection()
-        delegate?.imagePickerCollectionViewController(self, didSelect: selectedAssets)
+        delegate?.imagePickerCollectionViewController(self, didSelectAssets: selectedAssets)
     }
 }
 

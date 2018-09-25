@@ -107,8 +107,8 @@ class CollageCell: NSObject, NSCopying {
     }
 
     private(set) var id: UUID
-    private(set) var relativeFrame = RelativeFrame.zero
     private(set) var image: UIImage?
+    private(set) var relativeFrame = RelativeFrame.zero
     private(set) var gripPositions: Set<GripPosition> = []
 }
 

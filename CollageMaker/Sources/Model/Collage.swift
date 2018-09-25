@@ -10,7 +10,6 @@ enum Axis {
 
 protocol CollageDelegate: AnyObject {
     func collageChanged()
-    func collage(_ collage: Collage, didChange cellsCount: Int)
     func collage(_ collage: Collage, didChangeSelected cell: CollageCell)
     func collage(_ collage: Collage, didChangeFramesFor cells: [CollageCell])
     func collage(_ collage: Collage, didUpdate cell: CollageCell)
@@ -78,10 +77,7 @@ class Collage: NSObject, NSCopying {
 
     func delete(_ cell: CollageCell) {
         for position in cell.gripPositions {
-            if merge(cell: cell, grip: position, value: position.sideChangeValue(for: cell.relativeFrame)) {
-                delegate?.collage(self, didChange: cells.count)
-                break
-            }
+            if merge(cell: cell, grip: position, value: position.sideChangeValue(for: cell.relativeFrame)) { break }
         }
     }
 

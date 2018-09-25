@@ -32,15 +32,17 @@ class CollageNavigationController: UINavigationController {
         changeSafeAreaInset(top: navBarHeight)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
 
-        changeSafeAreaInset(top: navBarHeight)
+        layout()
     }
 
     private func layout() {
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+
         navBar.snp.remakeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().offset(statusBarHeight)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalTo(navBarHeight)

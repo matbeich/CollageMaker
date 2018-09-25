@@ -49,7 +49,7 @@
 		84E06F222139920D007109BE /* SF-Pro-Display-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84E06F212139920C007109BE /* SF-Pro-Display-Heavy.otf */; };
 		84E2720A211DE8B0001CDCB9 /* CollageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E27209211DE8B0001CDCB9 /* CollageView.swift */; };
 		84E40814214BC5C1006764D0 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40813214BC5C1006764D0 /* SelectionView.swift */; };
-		84E40816214BDD73006764D0 /* CollageTemplatePickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40815214BDD73006764D0 /* CollageTemplatePickViewController.swift */; };
+		84E40816214BDD73006764D0 /* TemplatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */; };
 		84E40818214C03D3006764D0 /* CollageTemplateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */; };
 		84F454BE2158E3E80079CE6C /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454BD2158E3E80079CE6C /* PlusButton.swift */; };
 		84F454C02158E4A10079CE6C /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454BF2158E4A10079CE6C /* PlusView.swift */; };
@@ -130,7 +130,7 @@
 		84E06F212139920C007109BE /* SF-Pro-Display-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Heavy.otf"; sourceTree = "<group>"; };
 		84E27209211DE8B0001CDCB9 /* CollageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageView.swift; sourceTree = "<group>"; };
 		84E40813214BC5C1006764D0 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
-		84E40815214BDD73006764D0 /* CollageTemplatePickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplatePickViewController.swift; sourceTree = "<group>"; };
+		84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickerViewController.swift; sourceTree = "<group>"; };
 		84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplateProvider.swift; sourceTree = "<group>"; };
 		84F454BD2158E3E80079CE6C /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		84F454BF2158E4A10079CE6C /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
@@ -271,13 +271,13 @@
 		843A582A211447F8002FE28D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				849402852153917600160142 /* CollageNavigationController.swift */,
 				848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */,
+				849402852153917600160142 /* CollageNavigationController.swift */,
 				84E06F1A21397ED7007109BE /* PermissionsViewController.swift */,
+				84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */,
 				843A5828211447DC002FE28D /* CollageSceneViewController.swift */,
 				849B681F2121979C0091AD27 /* CollageViewController.swift */,
 				84434D9D214808DF0060B76B /* ShareScreenViewController.swift */,
-				84E40815214BDD73006764D0 /* CollageTemplatePickViewController.swift */,
 				8496B144214AB94200FE45FE /* ImagePickerCollectionViewController */,
 				848713232122E948003519F7 /* TemplateBarCollectionViewController */,
 			);
@@ -657,7 +657,7 @@
 				849402862153917600160142 /* CollageNavigationController.swift in Sources */,
 				84A203932153D5C800AB946C /* CellSelectionView.swift in Sources */,
 				843A57FA21144760002FE28D /* AppDelegate.swift in Sources */,
-				84E40816214BDD73006764D0 /* CollageTemplatePickViewController.swift in Sources */,
+				84E40816214BDD73006764D0 /* TemplatePickerViewController.swift in Sources */,
 				84A91A5921188E5700108C3B /* CollageCell.swift in Sources */,
 				F62618B521415D9C00CD94AE /* UIKit+Extensions.swift in Sources */,
 				8417D1B8211DC1C500334661 /* CollageRenderer.swift in Sources */,
