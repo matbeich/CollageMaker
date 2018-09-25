@@ -64,7 +64,6 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         collectionView.frame = view.bounds
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.refreshControl = refreshControl
         collectionView.alwaysBounceVertical = true
 
         collectionView.register(ImagePickerCollectionViewCell.self, forCellWithReuseIdentifier: ImagePickerCollectionViewCell.identifier)
@@ -73,18 +72,6 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
     private func asset(for indexPath: IndexPath) -> PHAsset? {
         return photoAssets[indexPath.row]
     }
-
-    @objc private func updateAssets() {
-        photoAssets = PhotoLibraryService.getImagesAssets()
-    }
-
-    private lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(updateAssets), for: .valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh photos")
-
-        return refreshControl
-    }()
 
     private(set) var collectionView: UICollectionView
     private var selectedCellsIndexPaths: [IndexPath] = []
