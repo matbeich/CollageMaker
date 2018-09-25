@@ -8,7 +8,7 @@ import UIKit
 import Utils
 
 protocol TemplatePickerViewControllerDelegate: AnyObject {
-    func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelect template: CollageTemplate)
+    func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate template: CollageTemplate)
 }
 
 class TemplatePickerViewController: CollageBaseViewController {
@@ -110,7 +110,7 @@ class TemplatePickerViewController: CollageBaseViewController {
 
     private func select(template: CollageTemplate) {
         CollageTemplateProvider.collage(from: template, size: .large) { collage in
-            self.delegate?.templatePickerViewController(self, templateController: self.templateController, didSelect: template)
+            self.delegate?.templatePickerViewController(self, templateController: self.templateController, didSelectTemplate: template)
         }
     }
 
@@ -180,7 +180,7 @@ extension TemplatePickerViewController: ImagePickerCollectionViewControllerDeleg
 
 extension TemplatePickerViewController: TemplateBarCollectionViewControllerDelegate {
     func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate) {
-        delegate?.templatePickerViewController(self, templateController: controller, didSelect: collageTemplate)
+        delegate?.templatePickerViewController(self, templateController: controller, didSelectTemplate: collageTemplate)
     }
 }
 
