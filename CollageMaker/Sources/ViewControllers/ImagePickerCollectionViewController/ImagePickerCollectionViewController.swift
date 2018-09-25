@@ -34,7 +34,9 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
 
     init(assets: [PHAsset]) {
         self.photoAssets = assets
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+
+        let layout = CustomInsetsGridLayout(insets: UIEdgeInsets(top: 2, left: 2, bottom: 50, right: 2))
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -48,6 +50,11 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
 
         setup()
         view.addSubview(collectionView)
+    }
+
+    func changeLayout(to: UICollectionViewFlowLayout) {
+        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.setCollectionViewLayout(to, animated: false)
     }
 
     @objc private func cancel() {
@@ -116,25 +123,5 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
 
         cell.toogleSelection()
         delegate?.imagePickerCollectionViewController(self, didSelectAssets: selectedAssets)
-    }
-}
-
-extension ImagePickerCollectionViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (view.bounds.width - 2 * 5) / 4
-
-        return CGSize(width: width, height: width)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(repeated: 2)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
     }
 }
