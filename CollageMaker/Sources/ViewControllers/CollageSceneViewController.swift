@@ -150,7 +150,7 @@ extension CollageSceneViewController: CollageToolbarDelegate {
 }
 
 extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegate {
-    func imagePickerCollectionViewControllerShouldDismiss(_ controller: ImagePickerCollectionViewController) {
+    func imagePickerCollectionViewControllerDidCancel(_ controller: ImagePickerCollectionViewController) {
         navigationController?.popViewController(animated: true)
     }
 

@@ -46,15 +46,15 @@ class TemplatePickerViewController: CollageBaseViewController {
     private func setup() {
         imagePickerController.photoAssets = assets
 
-        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(handle(_:)))
+        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(takePhoto))
         let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
         let right = NavigationBarViewItem(view: gradientButton)
 
-        gradientButton.addTarget(self, action: #selector(selectTemplate), for: .touchUpInside)
+        gradientButton.addTarget(self, action: #selector(selectFirstTemplate), for: .touchUpInside)
         navBarItem = NavigationBarItem(left: left, right: right, title: title)
     }
 
-    @objc private func selectTemplate() {
+    @objc private func selectFirstTemplate() {
         guard let template = templateController.templates.first else {
             return
         }
@@ -62,21 +62,21 @@ class TemplatePickerViewController: CollageBaseViewController {
         select(template: template)
     }
 
-    private func openCamera() {
+    @objc private func takePhoto() {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
             return
         }
 
-        let controller = UIImagePickerController()
-        controller.sourceType = .camera
-        controller.delegate = self
-
-        present(controller, animated: true)
+        handle(cameraAuthService.status)
     }
 
     @objc private func handle(_ avAuthorizationStatus: AVAuthorizationStatus) {
         if cameraAuthService.isAuthorized {
-            openCamera()
+            let controller = UIImagePickerController()
+            controller.sourceType = .camera
+            controller.delegate = self
+
+            present(controller, animated: true)
             return
         }
 
@@ -163,7 +163,8 @@ class TemplatePickerViewController: CollageBaseViewController {
 }
 
 extension TemplatePickerViewController: ImagePickerCollectionViewControllerDelegate {
-    func imagePickerCollectionViewControllerShouldDismiss(_ controller: ImagePickerCollectionViewController) {}
+    func imagePickerCollectionViewControllerDidCancel(_ controller: ImagePickerCollectionViewController) {
+    }
 
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelectAssets assets: [PHAsset]) {
         view.layoutIfNeeded()
