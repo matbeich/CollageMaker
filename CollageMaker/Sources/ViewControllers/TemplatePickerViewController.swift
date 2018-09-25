@@ -89,22 +89,38 @@ class TemplatePickerViewController: CollageBaseViewController {
     }
 
     private func showTemplateController() {
-        if !templateViewIsVisible {
-            templateControllerContainer.snp.updateConstraints { make in
-                make.top.equalTo(view.snp.bottom).offset(-templateControllerContainer.frame.height)
-            }
+        let offset = templateControllerContainer.frame.height
 
-            view.layoutIfNeeded()
+        guard !templateViewIsVisible else {
+            return
+        }
+
+        templateControllerContainer.snp.updateConstraints { make in
+            make.top.equalTo(view.snp.bottom).offset(-offset)
+        }
+
+        imagePickerController.changeLayout(to: CustomInsetsGridLayout(insets: UIEdgeInsets(top: 2, left: 2, bottom: offset, right: 2)))
+
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.view.layoutIfNeeded()
         }
     }
 
     private func hideTemplateController() {
-        if templateViewIsVisible {
-            templateControllerContainer.snp.updateConstraints { make in
-                make.top.equalTo(view.snp.bottom).offset(-50)
-            }
+        let offset: CGFloat = 50.0
 
-            view.layoutIfNeeded()
+        guard templateViewIsVisible else {
+            return
+        }
+
+        templateControllerContainer.snp.updateConstraints { make in
+            make.top.equalTo(view.snp.bottom).offset(-offset)
+        }
+
+        imagePickerController.changeLayout(to: CustomInsetsGridLayout(insets: UIEdgeInsets(top: 2, left: 2, bottom: offset, right: 2)))
+
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.view.layoutIfNeeded()
         }
     }
 
@@ -171,9 +187,8 @@ extension TemplatePickerViewController: ImagePickerCollectionViewControllerDeleg
         selectedAssets = assets
 
         let templates = CollageTemplateProvider.templates(for: selectedAssets)
-        let animation = templates.isEmpty ? { self.hideTemplateController() } : { self.showTemplateController() }
 
-        UIView.animate(withDuration: 0.2, animations: animation)
+        templates.isEmpty ? hideTemplateController() : showTemplateController()
         templateController.templates = templates
     }
 }
