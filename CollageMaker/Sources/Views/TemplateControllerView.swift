@@ -32,7 +32,7 @@ class TemplateControllerView: UIView {
         let offset = 20
 
         dimmingView.snp.makeConstraints { make in
-            make.margins.equalToSuperview()
+            make.edges.equalToSuperview()
         }
 
         if withHeader {

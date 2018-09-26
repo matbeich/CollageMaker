@@ -7,7 +7,7 @@ import UIKit
 import Utils
 
 class CollageNavigationController: UINavigationController {
-    var navBarHeight: CGFloat = .navBarHeight {
+    var navBarHeight: CGFloat = CollageNavigationController.preferredNavBarHeight {
         didSet {
             changeSafeAreaInset(top: navBarHeight)
             layout()
@@ -70,6 +70,12 @@ extension CollageNavigationController: UINavigationControllerDelegate {
     }
 }
 
+extension CollageNavigationController {
+    static var preferredNavBarHeight: CGFloat {
+        return 59
+    }
+}
+
 class NavigationBarItem {
     let left: NavigationItem?
     let right: NavigationItem?
@@ -84,10 +90,6 @@ class NavigationBarItem {
 
 extension UIViewController {
     var collageNavigationController: CollageNavigationController? {
-        guard let collageNavigationController = navigationController as? CollageNavigationController else {
-            return nil
-        }
-
-        return collageNavigationController
+        return navigationController as? CollageNavigationController
     }
 }

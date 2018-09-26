@@ -34,9 +34,10 @@ final class Navigator {
 extension Navigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
         let assets = PhotoLibraryService.getImagesAssets()
-        let imagePickSceneController = TemplatePickerViewController(assets: assets)
+        let templatePickerViewController = TemplatePickerViewController(assets: assets)
+        templatePickerViewController.delegate = self
 
-        rootViewController.pushViewController(imagePickSceneController, animated: true)
+        rootViewController.pushViewController(templatePickerViewController, animated: true)
     }
 }
 

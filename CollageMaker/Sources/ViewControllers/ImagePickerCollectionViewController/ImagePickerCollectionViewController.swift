@@ -24,6 +24,12 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
+    var contentInsets: UIEdgeInsets = .zero {
+        didSet {
+            collectionView.contentInset = contentInsets
+        }
+    }
+
     var selectedAssets: [PHAsset] {
         return selectedCellsIndexPaths.compactMap { asset(for: $0) }
     }
@@ -35,8 +41,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
     init(assets: [PHAsset]) {
         self.photoAssets = assets
 
-        let layout = CustomInsetsGridLayout(insets: UIEdgeInsets(top: 2, left: 2, bottom: 50, right: 2))
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -50,11 +55,13 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
 
         setup()
         view.addSubview(collectionView)
-    }
 
-    func changeLayout(to: UICollectionViewFlowLayout) {
-        collectionView.collectionViewLayout.invalidateLayout()
-        collectionView.setCollectionViewLayout(to, animated: false)
+        collectionView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.right.equalToSuperview()
+            make.left.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 
     @objc private func cancel() {
@@ -68,11 +75,9 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         navBarItem = NavigationBarItem(left: left, title: title)
 
         collectionView.backgroundColor = .white
-        collectionView.frame = view.bounds
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.alwaysBounceVertical = true
-
         collectionView.register(ImagePickerCollectionViewCell.self, forCellWithReuseIdentifier: ImagePickerCollectionViewCell.identifier)
     }
 
@@ -123,5 +128,25 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
 
         cell.toogleSelection()
         delegate?.imagePickerCollectionViewController(self, didSelectAssets: selectedAssets)
+    }
+}
+
+extension ImagePickerCollectionViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (view.bounds.width - 2 * 5) / 4
+
+        return CGSize(width: width, height: width)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(repeated: 2)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
     }
 }

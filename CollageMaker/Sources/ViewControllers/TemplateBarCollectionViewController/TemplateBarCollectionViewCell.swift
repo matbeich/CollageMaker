@@ -19,10 +19,10 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        contentView.addSubview(imageView)
-
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+
+        contentView.addSubview(imageView)
 
         makeConstraints()
     }
@@ -51,15 +51,19 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
             collageView.updateCollage(collage)
             collageView.saveCellsVisibleRect()
 
-            CollageRenderer.renderImage(from: collage, with: size) { image in
-                self.imageView.image = image
+            CollageRenderer.renderImage(from: collage, with: size) { [weak self] image in
+                guard let properCollageTemplate = self?.collageTemplate, properCollageTemplate == collageTemplate else {
+                    return
+                }
+
+                self?.imageView.image = image
             }
         }
     }
 
     private func makeConstraints() {
         imageView.snp.makeConstraints { make in
-            make.margins.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
 
