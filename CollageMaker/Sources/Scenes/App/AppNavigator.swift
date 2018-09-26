@@ -7,7 +7,7 @@ import Photos
 import UIKit
 import Utils
 
-final class Navigator {
+final class AppNavigator {
     init(authSerivce: PhotoAuthService = PhotoAuthService()) {
         self.authService = authSerivce
     }
@@ -31,7 +31,7 @@ final class Navigator {
     private let authService: PhotoAuthService
 }
 
-extension Navigator: PermissionsViewControllerDelegate {
+extension AppNavigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
         let assets = PhotoLibraryService.getImagesAssets()
         let templatePickerViewController = TemplatePickerViewController(assets: assets)
@@ -41,7 +41,7 @@ extension Navigator: PermissionsViewControllerDelegate {
     }
 }
 
-extension Navigator: CollageSceneViewControllerDelegate {
+extension AppNavigator: CollageSceneViewControllerDelegate {
     func collageSceneViewController(_ controller: CollageSceneViewController, didEndEditingCollage collage: Collage) {
         let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 500, height: 500), borders: false)
         let controller = ShareScreenViewController()
@@ -53,13 +53,13 @@ extension Navigator: CollageSceneViewControllerDelegate {
     }
 }
 
-extension Navigator: ShareScreenViewControllerDelegate {
+extension AppNavigator: ShareScreenViewControllerDelegate {
     func shareScreenViewControllerCancelSharing(_ controller: ShareScreenViewController) {
         rootViewController.popViewController(animated: true)
     }
 }
 
-extension Navigator: TemplatePickerViewControllerDelegate {
+extension AppNavigator: TemplatePickerViewControllerDelegate {
     func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate template: CollageTemplate) {
         CollageTemplateProvider.collage(from: template, size: .large) { [weak self] collage in
             let controller = CollageSceneViewController(collage: collage, templates: templateController.templates)
