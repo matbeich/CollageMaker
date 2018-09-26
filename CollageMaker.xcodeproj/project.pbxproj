@@ -56,7 +56,7 @@
 		84FD669B2153BD3800C831F0 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FD669A2153BD3800C831F0 /* R.generated.swift */; };
 		EED0F2386CA83A7547A76DEB /* Pods_CollageMakerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFBE0B5378D9DAC0C04B69BA /* Pods_CollageMakerTests.framework */; };
 		F62618AF2141570300CD94AE /* PhotoAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62618AE2141570300CD94AE /* PhotoAuthService.swift */; };
-		F62618B1214159AC00CD94AE /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62618B0214159AC00CD94AE /* Navigator.swift */; };
+		F62618B1214159AC00CD94AE /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62618B0214159AC00CD94AE /* AppNavigator.swift */; };
 		F62618B321415C6200CD94AE /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62618B221415C6200CD94AE /* GradientButton.swift */; };
 		F62618B521415D9C00CD94AE /* UIKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62618B421415D9C00CD94AE /* UIKit+Extensions.swift */; };
 /* End PBXBuildFile section */
@@ -139,7 +139,7 @@
 		9C221B83DC51077FE8EDC16F /* Pods-CollageMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMaker.release.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMaker/Pods-CollageMaker.release.xcconfig"; sourceTree = "<group>"; };
 		E5C2B5278BB477A5EE048C5F /* Pods-CollageMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerTests/Pods-CollageMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F62618AE2141570300CD94AE /* PhotoAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAuthService.swift; sourceTree = "<group>"; };
-		F62618B0214159AC00CD94AE /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
+		F62618B0214159AC00CD94AE /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		F62618B221415C6200CD94AE /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		F62618B421415D9C00CD94AE /* UIKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Extensions.swift"; sourceTree = "<group>"; };
 		FFBE0B5378D9DAC0C04B69BA /* Pods_CollageMakerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMakerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,8 +201,8 @@
 		8417D1B6211DC03C00334661 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				84868BC12138323E00E12152 /* CollageToolbar.swift */,
-				84868BC32138358500E12152 /* CollageBarItem.swift */,
+				847E1C63215BD23900F6F32E /* Controllers */,
+				84E2720B211DE8D7001CDCB9 /* Views */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -268,20 +268,12 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
-		843A582A211447F8002FE28D /* ViewControllers */ = {
+		843A582A211447F8002FE28D /* Share */ = {
 			isa = PBXGroup;
 			children = (
-				848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */,
-				849402852153917600160142 /* CollageNavigationController.swift */,
-				84E06F1A21397ED7007109BE /* PermissionsViewController.swift */,
-				84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */,
-				843A5828211447DC002FE28D /* CollageSceneViewController.swift */,
-				849B681F2121979C0091AD27 /* CollageViewController.swift */,
 				84434D9D214808DF0060B76B /* ShareScreenViewController.swift */,
-				8496B144214AB94200FE45FE /* ImagePickerCollectionViewController */,
-				848713232122E948003519F7 /* TemplateBarCollectionViewController */,
 			);
-			path = ViewControllers;
+			path = Share;
 			sourceTree = "<group>";
 		};
 		8475DD93211DE5B100044225 /* Services */ = {
@@ -292,7 +284,6 @@
 				8417D1B7211DC1C500334661 /* CollageRenderer.swift */,
 				F62618AE2141570300CD94AE /* PhotoAuthService.swift */,
 				846AA2C82142689500DF92FD /* CameraAuthService.swift */,
-				F62618B0214159AC00CD94AE /* Navigator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -301,8 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				843A57F921144760002FE28D /* AppDelegate.swift */,
-				843A582A211447F8002FE28D /* ViewControllers */,
-				84E2720B211DE8D7001CDCB9 /* Views */,
+				847E1C5B215BD00600F6F32E /* Scenes */,
 				84B160392114A4AD00FF4713 /* Model */,
 				8475DD93211DE5B100044225 /* Services */,
 				841469682126F08900C2838A /* Extensions */,
@@ -318,6 +308,95 @@
 				84E06F1C21399195007109BE /* Fonts */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		847E1C5B215BD00600F6F32E /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				847E1C5C215BD00F00F6F32E /* App */,
+				847E1C60215BD12E00F6F32E /* Gallery */,
+				847E1C62215BD18B00F6F32E /* Permissions */,
+				847E1C5D215BD06D00F6F32E /* Collage */,
+				843A582A211447F8002FE28D /* Share */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		847E1C5C215BD00F00F6F32E /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F62618B0214159AC00CD94AE /* AppNavigator.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		847E1C5D215BD06D00F6F32E /* Collage */ = {
+			isa = PBXGroup;
+			children = (
+				847E1C5F215BD0F500F6F32E /* Toolbar */,
+				847E1C5E215BD08C00F6F32E /* Views */,
+				843A5828211447DC002FE28D /* CollageSceneViewController.swift */,
+				849B681F2121979C0091AD27 /* CollageViewController.swift */,
+			);
+			path = Collage;
+			sourceTree = "<group>";
+		};
+		847E1C5E215BD08C00F6F32E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8417D1B9211DCABC00334661 /* CollageCellView.swift */,
+				84E27209211DE8B0001CDCB9 /* CollageView.swift */,
+				84D389E52125CF5200FCDC67 /* GripView.swift */,
+				84A203922153D5C800AB946C /* CellSelectionView.swift */,
+				84F454BD2158E3E80079CE6C /* PlusButton.swift */,
+				84F454BF2158E4A10079CE6C /* PlusView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		847E1C5F215BD0F500F6F32E /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				84868BC12138323E00E12152 /* CollageToolbar.swift */,
+				84868BC32138358500E12152 /* CollageBarItem.swift */,
+			);
+			path = Toolbar;
+			sourceTree = "<group>";
+		};
+		847E1C60215BD12E00F6F32E /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				8496B144214AB94200FE45FE /* ImagePickerCollectionViewController */,
+				847E1C61215BD14600F6F32E /* Views */,
+				84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */,
+			);
+			path = Gallery;
+			sourceTree = "<group>";
+		};
+		847E1C61215BD14600F6F32E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				525EC52A214C26AB009E5393 /* TemplateControllerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		847E1C62215BD18B00F6F32E /* Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				84E06F1A21397ED7007109BE /* PermissionsViewController.swift */,
+			);
+			path = Permissions;
+			sourceTree = "<group>";
+		};
+		847E1C63215BD23900F6F32E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				849402852153917600160142 /* CollageNavigationController.swift */,
+				848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */,
+				848713232122E948003519F7 /* TemplateBarCollectionViewController */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		848713232122E948003519F7 /* TemplateBarCollectionViewController */ = {
@@ -364,15 +443,8 @@
 		84E2720B211DE8D7001CDCB9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				525EC52A214C26AB009E5393 /* TemplateControllerView.swift */,
 				843367CE2150ECB8008EC77D /* AttributedTextLabel.swift */,
-				8417D1B9211DCABC00334661 /* CollageCellView.swift */,
-				84E27209211DE8B0001CDCB9 /* CollageView.swift */,
 				F62618B221415C6200CD94AE /* GradientButton.swift */,
-				84D389E52125CF5200FCDC67 /* GripView.swift */,
-				84A203922153D5C800AB946C /* CellSelectionView.swift */,
-				84F454BD2158E3E80079CE6C /* PlusButton.swift */,
-				84F454BF2158E4A10079CE6C /* PlusView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -646,7 +718,7 @@
 				8496B143214AB93D00FE45FE /* ImagePickerCollectionViewCell.swift in Sources */,
 				848713222122E938003519F7 /* TemplateBarCollectionViewCell.swift in Sources */,
 				8417D1BA211DCABC00334661 /* CollageCellView.swift in Sources */,
-				F62618B1214159AC00CD94AE /* Navigator.swift in Sources */,
+				F62618B1214159AC00CD94AE /* AppNavigator.swift in Sources */,
 				843A5829211447DC002FE28D /* CollageSceneViewController.swift in Sources */,
 				849B68222121CA960091AD27 /* TemplateBarCollectionViewController.swift in Sources */,
 				843367CF2150ECB8008EC77D /* AttributedTextLabel.swift in Sources */,
