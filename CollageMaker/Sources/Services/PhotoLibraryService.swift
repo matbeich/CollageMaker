@@ -30,16 +30,19 @@ final class PhotoLibraryService {
     }
 
     static func photo(from asset: PHAsset, deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize? = nil, callback: @escaping (UIImage?) -> Void) {
-        let sizeForTarget = size ?? CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
+        let sizeForTarget =  size ?? CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
 
         let options = PHImageRequestOptions()
-
+        options.resizeMode = .exact
         options.deliveryMode = deliveryMode
-        manager.requestImage(for: asset,
-                             targetSize: sizeForTarget,
-                             contentMode: .aspectFit,
-                             options: options) { image, _ in callback(image)
-        }
+
+        manager.requestImage(
+            for: asset,
+            targetSize: sizeForTarget,
+            contentMode: .aspectFit,
+            options: options
+        ) { image, _ in
+            callback(image) }
     }
 
     static func add(_ image: UIImage, to library: PHPhotoLibrary = .shared(), callback: @escaping (Bool) -> Void) {

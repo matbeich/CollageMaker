@@ -80,7 +80,7 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
             return
         }
 
-        PhotoLibraryService.photo(from: asset, deliveryMode: .opportunistic, size: CGSize(width: 300, height: 300)) { [weak self] image in
+        PhotoLibraryService.photo(from: asset, deliveryMode: .opportunistic, size: CGSize(width: 200, height: 200)) { [weak self] image in
             if asset == self?.photoAsset {
                 self?.imageView.image = image
             }
