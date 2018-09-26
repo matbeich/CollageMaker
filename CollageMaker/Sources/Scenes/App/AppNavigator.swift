@@ -43,18 +43,15 @@ extension AppNavigator: PermissionsViewControllerDelegate {
 
 extension AppNavigator: CollageSceneViewControllerDelegate {
     func collageSceneViewController(_ controller: CollageSceneViewController, didEndEditingCollage collage: Collage) {
-        let previewImage = CollageRenderer.renderImage(from: collage, with: CGSize(width: 500, height: 500), borders: false)
-        let controller = ShareScreenViewController()
+        let controller = ShareScreenViewController(collage: collage)
 
-        controller.setCollagePreview(image: previewImage)
         controller.delegate = self
-
         rootViewController.pushViewController(controller, animated: true)
     }
 }
 
 extension AppNavigator: ShareScreenViewControllerDelegate {
-    func shareScreenViewControllerCancelSharing(_ controller: ShareScreenViewController) {
+    func shareScreenViewControllerDidCancel(_ controller: ShareScreenViewController) {
         rootViewController.popViewController(animated: true)
     }
 }

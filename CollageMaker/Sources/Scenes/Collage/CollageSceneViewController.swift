@@ -160,7 +160,7 @@ extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegat
             return
         }
 
-        PhotoLibraryService.photo(from: asset, deliveryMode: .opportunistic) { [weak self] in
+        PhotoLibraryService.photo(from: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
             self?.collageViewController.addImageToSelectedCell($0)
         }
 
