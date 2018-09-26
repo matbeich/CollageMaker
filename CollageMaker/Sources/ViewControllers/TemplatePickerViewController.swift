@@ -88,39 +88,23 @@ class TemplatePickerViewController: CollageBaseViewController {
         }
     }
 
-    private func showTemplateController() {
-        let offset = templateControllerContainer.frame.height
+    private func changeTemplateViewVisibilityTo(visible: Bool) {
+        let offset = visible ? templateControllerContainer.frame.height : 50
 
-        guard !templateViewIsVisible else {
-            return
-        }
+        switch (visible, templateViewIsVisible) {
+        case (true, false), (false, true):
+            templateControllerContainer.snp.updateConstraints { make in
+                make.top.equalTo(view.snp.bottom).offset(-offset)
+            }
 
-        templateControllerContainer.snp.updateConstraints { make in
-            make.top.equalTo(view.snp.bottom).offset(-offset)
-        }
+            let layout = CustomInsetsGridLayout(insets: UIEdgeInsets(top: 2, left: 2, bottom: offset, right: 2))
+            imagePickerController.changeLayout(to: layout)
 
-        imagePickerController.changeLayout(to: CustomInsetsGridLayout(insets: UIEdgeInsets(top: 2, left: 2, bottom: offset, right: 2)))
-
-        UIView.animate(withDuration: 0.2) { [weak self] in
-            self?.view.layoutIfNeeded()
-        }
-    }
-
-    private func hideTemplateController() {
-        let offset: CGFloat = 50.0
-
-        guard templateViewIsVisible else {
-            return
-        }
-
-        templateControllerContainer.snp.updateConstraints { make in
-            make.top.equalTo(view.snp.bottom).offset(-offset)
-        }
-
-        imagePickerController.changeLayout(to: CustomInsetsGridLayout(insets: UIEdgeInsets(top: 2, left: 2, bottom: offset, right: 2)))
-
-        UIView.animate(withDuration: 0.2) { [weak self] in
-            self?.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.2) { [weak self] in
+                self?.view.layoutIfNeeded()
+            }
+        default:
+            break
         }
     }
 
@@ -188,7 +172,7 @@ extension TemplatePickerViewController: ImagePickerCollectionViewControllerDeleg
 
         let templates = CollageTemplateProvider.templates(for: selectedAssets)
 
-        templates.isEmpty ? hideTemplateController() : showTemplateController()
+        changeTemplateViewVisibilityTo(visible: templates.isEmpty ? false : true)
         templateController.templates = templates
     }
 }

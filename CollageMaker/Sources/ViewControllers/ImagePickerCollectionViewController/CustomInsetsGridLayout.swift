@@ -36,6 +36,7 @@ class CustomInsetsGridLayout: UICollectionViewFlowLayout {
             return CGSize(width: width, height: width)
         }
         set {
+            
         }
     }
 
