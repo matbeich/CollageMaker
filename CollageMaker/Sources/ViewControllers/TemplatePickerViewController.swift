@@ -15,7 +15,11 @@ class TemplatePickerViewController: CollageBaseViewController {
     weak var delegate: TemplatePickerViewControllerDelegate?
 
     var templateViewIsVisible: Bool {
-        return templateController.templates.count > 0
+        return view.bounds.contains(templateControllerContainer.frame)
+    }
+
+    var templateViewIsEmpty: Bool {
+        return templateController.templates.count <= 0
     }
 
     init(assets: [PHAsset] = []) {
@@ -44,7 +48,13 @@ class TemplatePickerViewController: CollageBaseViewController {
     }
 
     private func setup() {
-        imagePickerController.photoAssets = assets
+        if Environment.isSimulator {
+            imagePickerController.photoAssets = (0 ... 10).map { _ in assets }.flatMap { $0 }
+        } else {
+            imagePickerController.photoAssets = assets
+        }
+
+        imagePickerController.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
 
         let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(takePhoto))
         let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
@@ -88,24 +98,22 @@ class TemplatePickerViewController: CollageBaseViewController {
         }
     }
 
-    private func changeTemplateViewVisibilityTo(visible: Bool) {
+    private func setTemplateViewIsVisible(_ visible: Bool) {
+        guard templateViewIsVisible != visible else {
+            return
+        }
+
         let offset = visible ? templateControllerContainer.frame.height : 50
 
-        switch (visible, templateViewIsVisible) {
-        case (true, false), (false, true):
-            templateControllerContainer.snp.updateConstraints { make in
-                make.top.equalTo(view.snp.bottom).offset(-offset)
-            }
-
-            let layout = CustomInsetsGridLayout(insets: UIEdgeInsets(top: 2, left: 2, bottom: offset, right: 2))
-            imagePickerController.changeLayout(to: layout)
-
-            UIView.animate(withDuration: 0.2) { [weak self] in
-                self?.view.layoutIfNeeded()
-            }
-        default:
-            break
+        templateControllerContainer.snp.updateConstraints { make in
+            make.top.equalTo(view.snp.bottom).offset(-offset)
         }
+
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+
+        imagePickerController.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: offset, right: 0)
     }
 
     private func select(template: CollageTemplate) {
@@ -164,16 +172,15 @@ class TemplatePickerViewController: CollageBaseViewController {
 
 extension TemplatePickerViewController: ImagePickerCollectionViewControllerDelegate {
     func imagePickerCollectionViewControllerDidCancel(_ controller: ImagePickerCollectionViewController) {
+        controller.dismiss(animated: true, completion: nil)
     }
 
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelectAssets assets: [PHAsset]) {
         view.layoutIfNeeded()
         selectedAssets = assets
 
-        let templates = CollageTemplateProvider.templates(for: selectedAssets)
-
-        changeTemplateViewVisibilityTo(visible: templates.isEmpty ? false : true)
-        templateController.templates = templates
+        templateController.templates = CollageTemplateProvider.templates(for: selectedAssets)
+        setTemplateViewIsVisible(templateViewIsEmpty ? false : true)
     }
 }
 
