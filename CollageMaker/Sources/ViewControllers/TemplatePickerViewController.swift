@@ -48,13 +48,13 @@ class TemplatePickerViewController: CollageBaseViewController {
     }
 
     private func setup() {
+        view.backgroundColor = .white
+
         if Environment.isSimulator {
             imagePickerController.photoAssets = (0 ... 10).map { _ in assets }.flatMap { $0 }
         } else {
             imagePickerController.photoAssets = assets
         }
-
-        imagePickerController.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
 
         let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(takePhoto))
         let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
@@ -70,6 +70,13 @@ class TemplatePickerViewController: CollageBaseViewController {
         }
 
         select(template: template)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let offset = templateViewIsVisible ? templateControllerContainer.frame.height : 50
+        imagePickerController.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: offset - view.safeAreaInsets.bottom, right: 0)
     }
 
     @objc private func takePhoto() {
@@ -112,8 +119,6 @@ class TemplatePickerViewController: CollageBaseViewController {
         UIView.animate(withDuration: 0.2) { [weak self] in
             self?.view.layoutIfNeeded()
         }
-
-        imagePickerController.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: offset, right: 0)
     }
 
     private func select(template: CollageTemplate) {

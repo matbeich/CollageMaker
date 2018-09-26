@@ -21,9 +21,3 @@ extension FloatingPoint {
         return isApproximatelyEqual(to: value) || self > value
     }
 }
-
-extension CGFloat {
-    static var navBarHeight: CGFloat {
-        return UIScreen.main.bounds.height * 0.09
-    }
-}

@@ -55,6 +55,13 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
 
         setup()
         view.addSubview(collectionView)
+
+        collectionView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.right.equalToSuperview()
+            make.left.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 
     @objc private func cancel() {
@@ -68,7 +75,6 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         navBarItem = NavigationBarItem(left: left, title: title)
 
         collectionView.backgroundColor = .white
-        collectionView.frame = view.bounds
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.alwaysBounceVertical = true

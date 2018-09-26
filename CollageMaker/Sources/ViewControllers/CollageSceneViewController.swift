@@ -34,9 +34,10 @@ class CollageSceneViewController: CollageBaseViewController {
         view.addSubview(templateControllerView)
         view.addSubview(toolsBar)
 
-        setup()
         addChild(collageViewController, to: collageViewContainer)
         addChild(templateBarController, to: templateControllerView)
+
+        setup()
     }
 
     private func makeConstraints() {

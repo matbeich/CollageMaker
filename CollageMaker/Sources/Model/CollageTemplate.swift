@@ -5,7 +5,7 @@
 import Foundation
 import Photos
 
-struct CollageTemplate {
+struct CollageTemplate: Equatable {
     init(frames: [RelativeFrame], assets: [PHAsset] = []) {
         self.cellFrames = frames
         self.assets = assets
