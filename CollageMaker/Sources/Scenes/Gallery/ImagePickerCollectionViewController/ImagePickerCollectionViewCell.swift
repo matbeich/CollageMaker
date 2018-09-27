@@ -78,7 +78,7 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
         guard let asset = photoAsset else {
             return
         }
-        print(UIScreen.main.scale)
+        
         PhotoLibrary.photo(from: asset, deliveryMode: .opportunistic, size: bounds.size.sameAspectScaled(by: UIScreen.main.scale)) { [weak self] image in
             if asset == self?.photoAsset {
                 self?.imageView.image = image
