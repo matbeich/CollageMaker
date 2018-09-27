@@ -22,15 +22,6 @@ class TemplatePickerViewController: CollageBaseViewController {
         return templateController.templates.count <= 0
     }
 
-    init(assets: [PHAsset] = []) {
-        self.assets = assets
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -49,12 +40,6 @@ class TemplatePickerViewController: CollageBaseViewController {
 
     private func setup() {
         view.backgroundColor = .white
-
-        if Environment.isSimulator {
-            imagePickerController.photoAssets = (0 ... 10).map { _ in assets }.flatMap { $0 }
-        } else {
-            imagePickerController.photoAssets = assets
-        }
 
         let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(takePhoto))
         let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
@@ -149,9 +134,9 @@ class TemplatePickerViewController: CollageBaseViewController {
 
     private var selectedAssets: [PHAsset] = [] {
         willSet {
-            PhotoLibraryService.stopCaching()
+            PhotoLibrary.stopCaching()
         } didSet {
-            PhotoLibraryService.cacheImages(for: self.selectedAssets)
+            PhotoLibrary.cacheImages(for: selectedAssets)
             gradientButton.setTitle(String(selectedAssets.count), for: .normal)
         }
     }
@@ -167,11 +152,10 @@ class TemplatePickerViewController: CollageBaseViewController {
         return button
     }()
 
-    private var assets: [PHAsset]
     private let mainControllerContainer = UIView(frame: .zero)
     private let cameraAuthService = CameraAuthService()
     private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
-    private var imagePickerController = ImagePickerCollectionViewController(assets: [])
+    private var imagePickerController = ImagePickerCollectionViewController()
     private var templateController = TemplateBarCollectionViewController(templates: [])
 }
 
@@ -203,9 +187,8 @@ extension TemplatePickerViewController: UIImagePickerControllerDelegate & UINavi
             return
         }
 
-        PhotoLibraryService.add(image) { [weak self] success in
+        imagePickerController.library.add(image) { success in
             assert(success, "Unable to write asset to photo library")
-            self?.imagePickerController.photoAssets = PhotoLibraryService.getImagesAssets()
         }
     }
 

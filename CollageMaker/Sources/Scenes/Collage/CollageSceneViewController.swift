@@ -26,6 +26,10 @@ class CollageSceneViewController: CollageBaseViewController {
         fatalError()
     }
 
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -77,6 +81,7 @@ class CollageSceneViewController: CollageBaseViewController {
         makeConstraints()
 
         toolsBar.delegate = self
+        photoLibrary.delegate = self
         templateBarController.delegate = self
         collageViewController.delegate = self
     }
@@ -99,8 +104,7 @@ class CollageSceneViewController: CollageBaseViewController {
     }
 
     private func pickImage() {
-        let assets = PhotoLibraryService.getImagesAssets()
-        let controller = ImagePickerCollectionViewController(assets: assets)
+        let controller = ImagePickerCollectionViewController()
 
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
@@ -114,6 +118,7 @@ class CollageSceneViewController: CollageBaseViewController {
 
     private var collageViewController = CollageViewController()
     private let toolsBar = CollageToolbar.standart
+    private let photoLibrary = PhotoLibrary()
     private let templateControllerView = TemplateControllerView()
     private let templateBarController = TemplateBarCollectionViewController()
 }
@@ -124,17 +129,23 @@ extension CollageSceneViewController: CollageViewControllerDelegate {
     }
 }
 
+// FIXME: add logic
+extension CollageSceneViewController: PhotoLibraryDelegate {
+    func photoLibrary(_ library: PhotoLibrary, didUpdateAssets assets: [PHAsset]) {
+    }
+
+    func photoLibrary(_ library: PhotoLibrary, didRemoveAssets assets: [PHAsset]) {
+    }
+
+    func photoLibrary(_ library: PhotoLibrary, didInsertAssets assets: [PHAsset]) {
+    }
+}
+
 extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegate {
     func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate) {
         CollageTemplateProvider.collage(from: collageTemplate, size: .large) { [weak self] collage in
             self?.collageViewController.collage = collage
         }
-    }
-}
-
-extension CollageSceneViewController {
-    override var prefersStatusBarHidden: Bool {
-        return true
     }
 }
 
@@ -160,7 +171,7 @@ extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegat
             return
         }
 
-        PhotoLibraryService.photo(from: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
+        PhotoLibrary.photo(from: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
             self?.collageViewController.addImageToSelectedCell($0)
         }
 

@@ -40,7 +40,6 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         imageView.frame = bounds
     }
 
@@ -79,8 +78,8 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
         guard let asset = photoAsset else {
             return
         }
-
-        PhotoLibraryService.photo(from: asset, deliveryMode: .opportunistic, size: CGSize(width: 200, height: 200)) { [weak self] image in
+        
+        PhotoLibrary.photo(from: asset, deliveryMode: .opportunistic, size: bounds.size.sameAspectScaled(by: UIScreen.main.scale)) { [weak self] image in
             if asset == self?.photoAsset {
                 self?.imageView.image = image
             }
@@ -89,4 +88,10 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
 
     private let imageView = UIImageView()
     private lazy var selectionView = SelectionView()
+}
+
+private extension CGSize {
+    func sameAspectScaled(by multiplier: CGFloat) -> CGSize {
+        return CGSize(width: width * multiplier, height: height * multiplier)
+    }
 }

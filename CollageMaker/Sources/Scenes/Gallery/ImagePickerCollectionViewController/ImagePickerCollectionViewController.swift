@@ -14,12 +14,12 @@ protocol ImagePickerCollectionViewControllerDelegate: AnyObject {
 class ImagePickerCollectionViewController: CollageBaseViewController {
     weak var delegate: ImagePickerCollectionViewControllerDelegate?
 
-    var photoAssets: [PHAsset] {
+    var photoAssets: [PHAsset] = [] {
         willSet {
-            PhotoLibraryService.stopCaching()
+            PhotoLibrary.stopCaching()
         }
         didSet {
-            PhotoLibraryService.cacheImages(for: photoAssets)
+            PhotoLibrary.cacheImages(for: photoAssets)
             collectionView.reloadData()
         }
     }
@@ -34,13 +34,9 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         return selectedCellsIndexPaths.compactMap { asset(for: $0) }
     }
 
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-
-    init(assets: [PHAsset]) {
-        self.photoAssets = assets
-
+    init(library: PhotoLibrary = PhotoLibrary()) {
+        self.library = library
+        self.photoAssets = library.assets.reversed()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
         super.init(nibName: nil, bundle: nil)
@@ -64,11 +60,17 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
     @objc private func cancel() {
         delegate?.imagePickerCollectionViewControllerDidCancel(self)
     }
 
     private func setup() {
+        library.delegate = self
+
         let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
         let left = NavigationBarButtonItem(title: "Cancel", font: R.font.sfProDisplaySemibold(size: 19), target: self, action: #selector(cancel))
 
@@ -85,8 +87,23 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         return photoAssets[indexPath.row]
     }
 
+    private(set) var library: PhotoLibrary
     private(set) var collectionView: UICollectionView
     private var selectedCellsIndexPaths: [IndexPath] = []
+}
+
+extension ImagePickerCollectionViewController: PhotoLibraryDelegate {
+    func photoLibrary(_ library: PhotoLibrary, didUpdateAssets assets: [PHAsset]) {
+        photoAssets = assets.reversed()
+    }
+
+    func photoLibrary(_ library: PhotoLibrary, didRemoveAssets assets: [PHAsset]) {
+        assets.compactMap { photoAssets.index(of: $0) }.forEach { photoAssets.remove(at: $0) }
+    }
+
+    func photoLibrary(_ library: PhotoLibrary, didInsertAssets assets: [PHAsset]) {
+        assets.forEach { photoAssets.insert($0, at: 0) }
+    }
 }
 
 extension ImagePickerCollectionViewController: UICollectionViewDataSource {
