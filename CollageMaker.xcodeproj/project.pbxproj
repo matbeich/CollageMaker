@@ -35,7 +35,7 @@
 		848713222122E938003519F7 /* TemplateBarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848713212122E938003519F7 /* TemplateBarCollectionViewCell.swift */; };
 		849402862153917600160142 /* CollageNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849402852153917600160142 /* CollageNavigationController.swift */; };
 		8496B13F214AA60200FE45FE /* ImagePickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496B13E214AA60200FE45FE /* ImagePickerCollectionViewController.swift */; };
-		8496B141214AA9AF00FE45FE /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496B140214AA9AF00FE45FE /* PhotoLibraryService.swift */; };
+		8496B141214AA9AF00FE45FE /* PhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496B140214AA9AF00FE45FE /* PhotoLibrary.swift */; };
 		8496B143214AB93D00FE45FE /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496B142214AB93D00FE45FE /* ImagePickerCollectionViewCell.swift */; };
 		849B68202121979C0091AD27 /* CollageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B681F2121979C0091AD27 /* CollageViewController.swift */; };
 		849B68222121CA960091AD27 /* TemplateBarCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B68212121CA960091AD27 /* TemplateBarCollectionViewController.swift */; };
@@ -116,7 +116,7 @@
 		8494028421538A6A00160142 /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
 		849402852153917600160142 /* CollageNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageNavigationController.swift; sourceTree = "<group>"; };
 		8496B13E214AA60200FE45FE /* ImagePickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewController.swift; sourceTree = "<group>"; };
-		8496B140214AA9AF00FE45FE /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
+		8496B140214AA9AF00FE45FE /* PhotoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibrary.swift; sourceTree = "<group>"; };
 		8496B142214AB93D00FE45FE /* ImagePickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCell.swift; sourceTree = "<group>"; };
 		849B681F2121979C0091AD27 /* CollageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageViewController.swift; sourceTree = "<group>"; };
 		849B68212121CA960091AD27 /* TemplateBarCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateBarCollectionViewController.swift; sourceTree = "<group>"; };
@@ -279,7 +279,7 @@
 		8475DD93211DE5B100044225 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				8496B140214AA9AF00FE45FE /* PhotoLibraryService.swift */,
+				8496B140214AA9AF00FE45FE /* PhotoLibrary.swift */,
 				84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */,
 				8417D1B7211DC1C500334661 /* CollageRenderer.swift */,
 				F62618AE2141570300CD94AE /* PhotoAuthService.swift */,
@@ -737,7 +737,7 @@
 				525EC52B214C26AB009E5393 /* TemplateControllerView.swift in Sources */,
 				841469672126EEE400C2838A /* UIColor.swift in Sources */,
 				84868BC22138323E00E12152 /* CollageToolbar.swift in Sources */,
-				8496B141214AA9AF00FE45FE /* PhotoLibraryService.swift in Sources */,
+				8496B141214AA9AF00FE45FE /* PhotoLibrary.swift in Sources */,
 				84023CC421369CDA00FF2CC6 /* RelativeFrame.swift in Sources */,
 				84F454C02158E4A10079CE6C /* PlusView.swift in Sources */,
 				84E40818214C03D3006764D0 /* CollageTemplateProvider.swift in Sources */,

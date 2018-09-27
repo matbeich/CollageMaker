@@ -14,8 +14,7 @@ final class AppNavigator {
 
     lazy var rootViewController: UINavigationController = {
         if authService.isAuthorized {
-            let assets = PhotoLibraryService.getImagesAssets()
-            let templatePickerController = TemplatePickerViewController(assets: assets)
+            let templatePickerController = TemplatePickerViewController()
 
             templatePickerController.delegate = self
 
@@ -33,8 +32,7 @@ final class AppNavigator {
 
 extension AppNavigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
-        let assets = PhotoLibraryService.getImagesAssets()
-        let templatePickerViewController = TemplatePickerViewController(assets: assets)
+        let templatePickerViewController = TemplatePickerViewController()
         templatePickerViewController.delegate = self
 
         rootViewController.pushViewController(templatePickerViewController, animated: true)
