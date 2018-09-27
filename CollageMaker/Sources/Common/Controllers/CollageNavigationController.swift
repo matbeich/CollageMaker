@@ -14,9 +14,9 @@ class CollageNavigationController: UINavigationController {
         }
     }
 
-    var navBarItem: NavigationBarItem = NavigationBarItem(left: nil, right: nil, title: nil) {
+    var navBarItem: NavigationBarItem? {
         didSet {
-            setupNavBar(leftItem: navBarItem.left, rightItem: navBarItem.right, titleItem: navBarItem.title)
+            setupNavBar(leftItem: navBarItem?.left, rightItem: navBarItem?.right, titleItem: navBarItem?.title)
         }
     }
 
@@ -59,7 +59,7 @@ class CollageNavigationController: UINavigationController {
         additionalSafeAreaInsets.top = top
     }
 
-    private var navBar = NavigationBar()
+    private lazy var navBar = NavigationBar()
 }
 
 extension CollageNavigationController: UINavigationControllerDelegate {

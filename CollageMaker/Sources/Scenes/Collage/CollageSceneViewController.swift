@@ -81,7 +81,6 @@ class CollageSceneViewController: CollageBaseViewController {
         makeConstraints()
 
         toolsBar.delegate = self
-        photoLibrary.delegate = self
         templateBarController.delegate = self
         collageViewController.delegate = self
     }
@@ -118,7 +117,6 @@ class CollageSceneViewController: CollageBaseViewController {
 
     private var collageViewController = CollageViewController()
     private let toolsBar = CollageToolbar.standart
-    private let photoLibrary = PhotoLibrary()
     private let templateControllerView = TemplateControllerView()
     private let templateBarController = TemplateBarCollectionViewController()
 }
@@ -126,18 +124,6 @@ class CollageSceneViewController: CollageBaseViewController {
 extension CollageSceneViewController: CollageViewControllerDelegate {
     func collageViewControllerPlusButtonTapped(_ controller: CollageViewController) {
         pickImage()
-    }
-}
-
-// FIXME: add logic
-extension CollageSceneViewController: PhotoLibraryDelegate {
-    func photoLibrary(_ library: PhotoLibrary, didUpdateAssets assets: [PHAsset]) {
-    }
-
-    func photoLibrary(_ library: PhotoLibrary, didRemoveAssets assets: [PHAsset]) {
-    }
-
-    func photoLibrary(_ library: PhotoLibrary, didInsertAssets assets: [PHAsset]) {
     }
 }
 
