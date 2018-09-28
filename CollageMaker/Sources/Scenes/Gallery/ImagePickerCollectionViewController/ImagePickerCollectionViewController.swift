@@ -20,6 +20,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
         didSet {
             PhotoLibrary.cacheImages(for: photoAssets)
+            updateSelection()
             collectionView.reloadData()
         }
     }
@@ -28,10 +29,6 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         didSet {
             collectionView.contentInset = contentInsets
         }
-    }
-
-    var selectedAssets: [PHAsset] {
-        return selectedCellsIndexPaths.compactMap { asset(for: $0) }
     }
 
     init(library: PhotoLibrary = PhotoLibrary()) {
@@ -83,8 +80,31 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         collectionView.register(ImagePickerCollectionViewCell.self, forCellWithReuseIdentifier: ImagePickerCollectionViewCell.identifier)
     }
 
+    private func updateSelection() {
+        selectedCellsIndexPaths = selectedAssets.compactMap { indexPath(for: $0) }
+        selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
+    }
+
+    private func indexPath(for asset: PHAsset) -> IndexPath? {
+        guard let assetIndex = photoAssets.index(of: asset) else {
+            return nil
+        }
+
+        return IndexPath(row: assetIndex, section: 0)
+    }
+
     private func asset(for indexPath: IndexPath) -> PHAsset? {
         return photoAssets[indexPath.row]
+    }
+
+    private(set) var selectedAssets: [PHAsset] = [] {
+        didSet {
+            guard selectedAssets != oldValue else {
+                return
+            }
+
+            delegate?.imagePickerCollectionViewController(self, didSelectAssets: selectedAssets)
+        }
     }
 
     private(set) var library: PhotoLibrary
@@ -143,8 +163,9 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
             return
         }
 
+        selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
+
         cell.toogleSelection()
-        delegate?.imagePickerCollectionViewController(self, didSelectAssets: selectedAssets)
     }
 }
 
