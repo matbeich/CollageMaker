@@ -52,7 +52,7 @@ class GradientButton: UIButton {
     override func setTitle(_ title: String?, for state: UIControlState) {
         super.setTitle(title, for: state)
 
-        titleWidth = titleLabel?.text?.size(withAttributes: [NSAttributedStringKey.font: titleLabel?.font as Any]).width ?? 0
+        titleWidth = titleLabel?.text?.size(withAttributes: [.font: titleLabel?.font as Any]).width ?? 0
     }
 
     override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
@@ -62,7 +62,7 @@ class GradientButton: UIButton {
             return rect
         }
 
-        guard let titleWidth = titleLabel?.text?.size(withAttributes: [NSAttributedStringKey.font: titleLabel?.font as Any]).width else {
+        guard let titleWidth = titleLabel?.text?.size(withAttributes: [.font: titleLabel?.font as Any]).width else {
             return rect
         }
 
