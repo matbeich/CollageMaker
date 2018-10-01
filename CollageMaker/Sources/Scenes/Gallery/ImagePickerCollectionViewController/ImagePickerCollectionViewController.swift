@@ -14,6 +14,13 @@ protocol ImagePickerCollectionViewControllerDelegate: AnyObject {
 class ImagePickerCollectionViewController: CollageBaseViewController {
     weak var delegate: ImagePickerCollectionViewControllerDelegate?
 
+    enum SelectionMode {
+        case single
+        case multiply(Int)
+    }
+
+    var mode: SelectionMode = .single
+
     var photoAssets: [PHAsset] = [] {
         willSet {
             PhotoLibrary.stopCaching()
@@ -31,8 +38,9 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
-    init(library: PhotoLibrary = PhotoLibrary()) {
+    init(library: PhotoLibrary = PhotoLibrary(), selectionMode: SelectionMode) {
         self.library = library
+        self.mode = selectionMode
         self.photoAssets = library.assets.reversed()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
@@ -155,17 +163,23 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
             return
         }
 
-        if selectedCellsIndexPaths.contains(indexPath) {
-            selectedCellsIndexPaths = selectedCellsIndexPaths.filter { $0 != indexPath }
-        } else if selectedCellsIndexPaths.count < 8 {
-            selectedCellsIndexPaths.append(indexPath)
-        } else {
-            return
+        switch mode {
+        case let .multiply(maxNumberOfSelectedCells):
+            if selectedCellsIndexPaths.contains(indexPath) {
+                selectedCellsIndexPaths = selectedCellsIndexPaths.filter { $0 != indexPath }
+            } else if selectedCellsIndexPaths.count < maxNumberOfSelectedCells {
+                selectedCellsIndexPaths.append(indexPath)
+            } else {
+                return
+            }
+
+            selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
+            cell.toogleSelection()
+
+        case .single:
+            selectedCellsIndexPaths = [indexPath]
+            selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
         }
-
-        selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
-
-        cell.toogleSelection()
     }
 }
 

@@ -155,7 +155,7 @@ class TemplatePickerViewController: CollageBaseViewController {
     private let mainControllerContainer = UIView(frame: .zero)
     private let cameraAuthService = CameraAuthService()
     private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
-    private var imagePickerController = ImagePickerCollectionViewController()
+    private var imagePickerController = ImagePickerCollectionViewController(selectionMode: .multiply(9))
     private var templateController = TemplateBarCollectionViewController(templates: [])
 }
 

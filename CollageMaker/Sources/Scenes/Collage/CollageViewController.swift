@@ -2,10 +2,12 @@
 // Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
 
+import Photos
 import UIKit
 
 protocol CollageViewControllerDelegate: AnyObject {
     func collageViewControllerPlusButtonTapped(_ controller: CollageViewController)
+    func collageViewController(_ controller: CollageViewController, didDeleteCellView cellView: CollageCellView)
 }
 
 class CollageViewController: CollageBaseViewController {
@@ -15,6 +17,10 @@ class CollageViewController: CollageBaseViewController {
         didSet {
             updateCollage()
         }
+    }
+
+    var selectedCellView: CollageCellView {
+        return collageView.selectedCellView
     }
 
     override func viewDidLoad() {
@@ -54,8 +60,17 @@ class CollageViewController: CollageBaseViewController {
         collage.deleteSelectedCell()
     }
 
+    func addAbstractPhotoToSelectedCell(_ abstractPhoto: AbstractPhoto) {
+        addImageToSelectedCell(abstractPhoto.photo)
+        addAssetToSelectedCell(abstractPhoto.asset)
+    }
+
     func addImageToSelectedCell(_ image: UIImage?) {
         collage.addImageToSelectedCell(image)
+    }
+
+    func addAssetToSelectedCell(_ asset: PHAsset?) {
+        collage.addAssetToSelectedCell(asset)
     }
 
     func splitSelectedCell(by axis: Axis) {
@@ -94,8 +109,8 @@ class CollageViewController: CollageBaseViewController {
         }
     }
 
-    private var shouldBeUpdated: Bool = true
     private let collageView = CollageView()
+    private var shouldBeUpdated: Bool = true
     private var selectedGripPosition: GripPosition?
 }
 
@@ -124,7 +139,16 @@ extension CollageViewController: UIGestureRecognizerDelegate {
 }
 
 extension CollageViewController: CollageDelegate {
-    func collage(_ collage: Collage, didChangeSelected cell: CollageCell) {
+    func collage(_ collage: Collage, didRemoveCell cell: CollageCell) {
+        guard let cellView = collageView.collageCellView(with: cell.id) else {
+            return
+        }
+
+        updateCollage()
+        delegate?.collageViewController(self, didDeleteCellView: cellView)
+    }
+
+    func collage(_ collage: Collage, didChangeSelectedCell cell: CollageCell) {
         guard let selectedCellView = collageView.collageCellView(with: cell.id) else {
             return
         }
@@ -132,16 +156,16 @@ extension CollageViewController: CollageDelegate {
         collageView.select(cellView: selectedCellView)
     }
 
-    func collage(_ collage: Collage, didUpdate cell: CollageCell) {
+    func collage(_ collage: Collage, didUpdateCell cell: CollageCell) {
         collageView.updateSelectedCellView(with: cell)
     }
 
-    func collage(_ collage: Collage, didChangeFramesFor cells: [CollageCell]) {
+    func collage(_ collage: Collage, didChangeFramesForCells cells: [CollageCell]) {
         saveCellsVisibleRect()
         collageView.updateFrames()
     }
 
-    func collageChanged() {
+    func collageChanged(_ collage: Collage) {
         updateCollage()
     }
 }

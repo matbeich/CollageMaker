@@ -2,21 +2,23 @@
 // Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
 
+import Photos
 import UIKit
 
 typealias RelativeFrame = CGRect
 
 class CollageCell: NSObject, NSCopying {
-    let color: UIColor
+    var color: UIColor
     var imageVisibleRect: RelativeFrame = .zero
 
     func copy(with zone: NSZone? = nil) -> Any {
-        return CollageCell(color: color, image: image, relativeFrame: relativeFrame, id: id, imageVisibleRect: imageVisibleRect)
+        return CollageCell(color: color, image: image, photoAsset: photoAsset, relativeFrame: relativeFrame, id: id, imageVisibleRect: imageVisibleRect)
     }
 
-    init(color: UIColor = .random, image: UIImage? = nil, relativeFrame: RelativeFrame) {
+    init(color: UIColor = .random, image: UIImage? = nil, photoAsset: PHAsset? = nil, relativeFrame: RelativeFrame) {
         self.color = color
         self.image = image
+        self.photoAsset = photoAsset
         self.id = UUID()
 
         super.init()
@@ -29,7 +31,7 @@ class CollageCell: NSObject, NSCopying {
         calculateGripPositions()
     }
 
-    private convenience init(color: UIColor, image: UIImage?, relativeFrame: CGRect, id: UUID, imageVisibleRect: RelativeFrame) {
+    private convenience init(color: UIColor, image: UIImage?, photoAsset: PHAsset?, relativeFrame: CGRect, id: UUID, imageVisibleRect: RelativeFrame) {
         self.init(color: color, image: image, relativeFrame: relativeFrame)
         self.id = id
         self.imageVisibleRect = imageVisibleRect
@@ -54,9 +56,18 @@ class CollageCell: NSObject, NSCopying {
         self.image = nil
     }
 
+    func addAbstractPhoto(_ abstractPhoto: AbstractPhoto) {
+        self.image = abstractPhoto.photo
+        self.photoAsset = abstractPhoto.asset
+    }
+
     func addImage(_ image: UIImage?) {
         self.image = image
         imageVisibleRect = .zero
+    }
+
+    func addPhotoAsset(_ photoAsset: PHAsset?) {
+        self.photoAsset = photoAsset
     }
 
     func calculateGripPositions() {
@@ -108,6 +119,7 @@ class CollageCell: NSObject, NSCopying {
 
     private(set) var id: UUID
     private(set) var image: UIImage?
+    private(set) var photoAsset: PHAsset?
     private(set) var relativeFrame = RelativeFrame.zero
     private(set) var gripPositions: Set<GripPosition> = []
 }
