@@ -27,7 +27,7 @@ class AttributedTextLabel: UILabel {
 
     var letterSpacing: CGFloat = 0 {
         didSet {
-            addAttributes(attrs: [NSAttributedStringKey.kern: letterSpacing], to: attributedText?.string ?? "")
+            addAttributes(attrs: [.kern: letterSpacing], to: attributedText?.string ?? "")
         }
     }
 

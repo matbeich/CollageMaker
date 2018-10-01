@@ -51,11 +51,13 @@ class ShareScreenFooter: UIView {
 
         if let hashtagsWords = label.hashtagWords {
             hashtagsWords.forEach {
-                label.addAttributes(attrs: [NSAttributedStringKey.foregroundColor: UIColor.brightLavender,
-                                            NSAttributedStringKey.font: R.font.sfProTextBold(size: 19) as Any],
-                                    to: $0) }
+                label.addAttributes(attrs: [
+                    .foregroundColor: UIColor.brightLavender,
+                    .font: R.font.sfProTextBold(size: 19) as Any
+                ],
+                to: $0) }
         }
-        
+
         label.textAlignment = .center
 
         return label
