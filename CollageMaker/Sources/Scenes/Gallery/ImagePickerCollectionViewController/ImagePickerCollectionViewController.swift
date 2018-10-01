@@ -14,12 +14,21 @@ protocol ImagePickerCollectionViewControllerDelegate: AnyObject {
 class ImagePickerCollectionViewController: CollageBaseViewController {
     weak var delegate: ImagePickerCollectionViewControllerDelegate?
 
+    var maxSelectedCellsAllowed: Int {
+        return mode.maxSelectedCells
+    }
+
     enum SelectionMode {
         case single
         case multiply(Int)
-    }
 
-    var mode: SelectionMode = .single
+        var maxSelectedCells: Int {
+            switch self {
+            case let .multiply(number): return number
+            default: return 1
+            }
+        }
+    }
 
     var photoAssets: [PHAsset] = [] {
         willSet {
@@ -116,6 +125,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
     }
 
     private(set) var library: PhotoLibrary
+    private(set) var mode: SelectionMode
     private(set) var collectionView: UICollectionView
     private var selectedCellsIndexPaths: [IndexPath] = []
 }
