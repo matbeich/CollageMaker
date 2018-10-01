@@ -42,6 +42,10 @@ class CollageTemplateProvider {
             collagesFramesKit = RelativeFrame.sixPhotosFramesKit()
         case 7:
             collagesFramesKit = RelativeFrame.sevenPhotosFramesKit()
+        case 8:
+            collagesFramesKit = RelativeFrame.eightPhotosFramesKit()
+        case 9:
+            collagesFramesKit = RelativeFrame.ninePhotosFramesKit()
         default:
             return []
         }
@@ -133,15 +137,28 @@ fileprivate extension RelativeFrame {
     static func sixPhotosFramesKit() -> [CollageFramesKit] {
         return [
             [
-                .topLeftHalfHeightThirtyThreeWidth, .topCenterHalfHeightThirtyThreeWidth, .topRightHalfHeightThirtyThreeWidth, .bottomLeftHalfHeightThirtyThreeWidth, .bottomCenterHalfHeightThirtyThreeWidth, .bottomRightHalfHeightThirtyThreeWidth
+                .topLeftHalfHeightThirtyThreeWidth,
+                .topCenterHalfHeightThirtyThreeWidth,
+                .topRightHalfHeightThirtyThreeWidth,
+                .bottomLeftHalfHeightThirtyThreeWidth,
+                .bottomCenterHalfHeightThirtyThreeWidth,
+                .bottomRightHalfHeightThirtyThreeWidth
             ],
             [
-                .topLeftThirtyThreeHeightThirtyThreeWidth, .topCenterThirtyThreeHeightThirtyThreeWidth, .topRightThirtyThreeHeightThirtyThreeWidth,
-                .bottomLeftSixtySevenHeightThirtyThreeWidth, .bottomCenterSixtySevenHeightThirtyThreeWidth, .bottomRightSixtySevenHeightThirtyThreeWidth
+                .topLeftThirtyThreeHeightThirtyThreeWidth,
+                .topCenterThirtyThreeHeightThirtyThreeWidth,
+                .topRightThirtyThreeHeightThirtyThreeWidth,
+                .bottomLeftSixtySevenHeightThirtyThreeWidth,
+                .bottomCenterSixtySevenHeightThirtyThreeWidth,
+                .bottomRightSixtySevenHeightThirtyThreeWidth
             ],
             [
-                .topLeftSixtySevenHeightThirtyThreeWidth, topCenterSixtySevenHeightThirtyThreeWidth, .topRightSixtySevenHeightThirtyThreeWidth,
-                .bottomLeftThirtyThreeHeightThirtyThreeWidth, .bottomCenterThirtyThreeHeightThirtyThreeWidth, .bottomRightThirtyThreeHeightThirtyThreeWidth
+                .topLeftSixtySevenHeightThirtyThreeWidth,
+                topCenterSixtySevenHeightThirtyThreeWidth,
+                .topRightSixtySevenHeightThirtyThreeWidth,
+                .bottomLeftThirtyThreeHeightThirtyThreeWidth,
+                .bottomCenterThirtyThreeHeightThirtyThreeWidth,
+                .bottomRightThirtyThreeHeightThirtyThreeWidth
             ]
         ]
     }
@@ -149,18 +166,64 @@ fileprivate extension RelativeFrame {
     static func sevenPhotosFramesKit() -> [CollageFramesKit] {
         return [
             [
-                .topLeftThirtyThreeHeightThirtyThreeWidth, .topCenterThirtyThreeHeightThirtyThreeWidth, .topRightThirtyThreeHeightThirtyThreeWidth,
-                .centerFullWidthThirtyThreeHeight, .bottomLeftThirtyThreeHeightThirtyThreeWidth, .bottomCenterThirtyThreeHeightThirtyThreeWidth, .bottomRightThirtyThreeHeightThirtyThreeWidth
-            ],
+                .topLeftThirtyThreeHeightThirtyThreeWidth,
+                .topCenterThirtyThreeHeightThirtyThreeWidth,
+                .topRightThirtyThreeHeightThirtyThreeWidth,
+                .centerFullWidthThirtyThreeHeight,
+                .bottomLeftThirtyThreeHeightThirtyThreeWidth,
+                .bottomCenterThirtyThreeHeightThirtyThreeWidth,
+                .bottomRightThirtyThreeHeightThirtyThreeWidth
+            ]
+            ,
             [
-                .topLeftThirtyThreeHeightThirtyThreeWidth, .topCenterThirtyThreeHeightThirtyThreeWidth, .topRightThirtyThreeHeightThirtyThreeWidth,
-                .centerLeftThirtyThreeHeightThirtyThreeWidth, .centerThirtyThreeHeightThirtyThreeWidth, .centerRightThirtyThreeHeightThirtyThreeWidth,
+                .topLeftThirtyThreeHeightThirtyThreeWidth,
+                .topCenterThirtyThreeHeightThirtyThreeWidth,
+                .topRightThirtyThreeHeightThirtyThreeWidth,
+                .centerLeftThirtyThreeHeightThirtyThreeWidth,
+                .centerThirtyThreeHeightThirtyThreeWidth,
+                .centerRightThirtyThreeHeightThirtyThreeWidth,
                 .bottomFullWidthThirtyThreeHeight
-            ],
+            ]
+            ,
             [
                 topFullWidthThirtyThreeHeight,
-                centerLeftThirtyThreeHeightThirtyThreeWidth, centerThirtyThreeHeightThirtyThreeWidth, centerRightThirtyThreeHeightThirtyThreeWidth,
-                bottomLeftThirtyThreeHeightThirtyThreeWidth, bottomCenterThirtyThreeHeightThirtyThreeWidth, bottomRightThirtyThreeHeightThirtyThreeWidth
+                centerLeftThirtyThreeHeightThirtyThreeWidth,
+                centerThirtyThreeHeightThirtyThreeWidth,
+                centerRightThirtyThreeHeightThirtyThreeWidth,
+                bottomLeftThirtyThreeHeightThirtyThreeWidth,
+                bottomCenterThirtyThreeHeightThirtyThreeWidth,
+                bottomRightThirtyThreeHeightThirtyThreeWidth
+            ]
+        ]
+    }
+
+    static func eightPhotosFramesKit() -> [CollageFramesKit] {
+        return [
+            [
+                .topLeftTwentyFiveWidthHalfHeight,
+                .topCenterFirstTwentyFiveWidthHalfHeight,
+                .topCenterSecondTwentyFiveWidthHalfHeight,
+                .topRightTwentyFiveWidthHalfHeight,
+                .bottomLeftTwentyFiveWidthHalfHeight,
+                .bottomCenterFirstTwentyFiveWidthHalfHeight,
+                .bottomCenterSecondTwentyFiveWidthHalfHeight,
+                .bottomRightTwentyFiveWidthHalfHeight
+            ]
+        ]
+    }
+
+    static func ninePhotosFramesKit() -> [CollageFramesKit] {
+        return [
+            [
+                .topLeftThirtyThreeHeightThirtyThreeWidth,
+                .topCenterThirtyThreeHeightThirtyThreeWidth,
+                .topRightThirtyThreeHeightThirtyThreeWidth,
+                .centerLeftThirtyThreeHeightThirtyThreeWidth,
+                .centerThirtyThreeHeightThirtyThreeWidth,
+                .centerRightThirtyThreeHeightThirtyThreeWidth,
+                .bottomLeftThirtyThreeHeightThirtyThreeWidth,
+                .bottomCenterThirtyThreeHeightThirtyThreeWidth,
+                .bottomRightThirtyThreeHeightThirtyThreeWidth
             ]
         ]
     }

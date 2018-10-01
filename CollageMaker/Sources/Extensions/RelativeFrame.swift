@@ -139,10 +139,14 @@ extension RelativeFrame {
     static let rightFullHeightTwentyFiveHeight = RelativeFrame(x: 0.75, y: 0, width: 0.25, height: 1)
 
     static let topLeftTwentyFiveWidthHalfHeight = RelativeFrame(x: 0, y: 0, width: 0.25, height: 0.5)
-    static let bottomLeftTwentyFiveWidthHalfHeight = RelativeFrame(x: 0, y: 0.5, width: 0.25, height: 0.5)
-    static let centerHalfWidthFullHeight = RelativeFrame(x: 0.25, y: 0, width: 0.5, height: 1)
+    static let topCenterFirstTwentyFiveWidthHalfHeight = RelativeFrame(x: 0.25, y: 0, width: 0.25, height: 0.5)
+    static let topCenterSecondTwentyFiveWidthHalfHeight = RelativeFrame(x: 0.5, y: 0, width: 0.25, height: 0.5)
     static let topRightTwentyFiveWidthHalfHeight = RelativeFrame(x: 0.75, y: 0, width: 0.25, height: 0.5)
+    static let bottomLeftTwentyFiveWidthHalfHeight = RelativeFrame(x: 0, y: 0.5, width: 0.25, height: 0.5)
+    static let bottomCenterFirstTwentyFiveWidthHalfHeight = RelativeFrame(x: 0.25, y: 0.5, width: 0.25, height: 0.5)
+    static let bottomCenterSecondTwentyFiveWidthHalfHeight = RelativeFrame(x: 0.5, y: 0.5, width: 0.25, height: 0.5)
     static let bottomRightTwentyFiveWidthHalfHeight = RelativeFrame(x: 0.75, y: 0.5, width: 0.25, height: 0.5)
+    static let centerHalfWidthFullHeight = RelativeFrame(x: 0.25, y: 0, width: 0.5, height: 1)
 
     static let topLeftHalfHeightThirtyThreeWidth = RelativeFrame(x: 0, y: 0, width: 0.33, height: 0.5)
     static let topCenterHalfHeightThirtyThreeWidth = RelativeFrame(x: 0.33, y: 0, width: 0.33, height: 0.5)

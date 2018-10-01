@@ -180,7 +180,10 @@ extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegat
 extension CollageSceneViewController: CollageToolbarDelegate {
     func collageToolbar(_ collageToolbar: CollageToolbar, itemTapped: CollageBarItem) {
         switch itemTapped.title {
-        case "HORIZONTAL": collageViewController.splitSelectedCell(by: .horizontal)
+        case "HORIZONTAL":
+            if collageViewController.collage.cells.count < Collage.maximumAllowedCellsCount {
+                collageViewController.splitSelectedCell(by: .horizontal)
+            }
         case "VERTICAL":
             if collageViewController.collage.cells.count < Collage.maximumAllowedCellsCount {
                 collageViewController.splitSelectedCell(by: .vertical)
