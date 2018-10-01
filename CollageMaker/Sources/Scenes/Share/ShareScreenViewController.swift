@@ -19,19 +19,19 @@ class ShareScreenViewController: CollageBaseViewController {
 
     init(collage: Collage) {
         self.collage = collage
+        self.shareFooter = ShareScreenFooter(frame: .zero, with: [.photos, .messages, .instagram, .other])
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
-        self.collage = Collage()
-        super.init(nibName: nil, bundle: nil)
+        fatalError("Not implemented")
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(thumbnailImageView)
-        view.addSubview(shareButton)
+        view.addSubview(shareFooter)
 
         setup()
         makeConstraints()
@@ -88,12 +88,12 @@ class ShareScreenViewController: CollageBaseViewController {
             make.height.equalTo(thumbnailImageView.snp.width)
         }
 
-        shareButton.snp.makeConstraints { make in
-            make.centerX.equalTo(view)
-            make.top.equalTo(thumbnailImageView.snp.bottom).offset(50)
+        shareFooter.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.top.equalTo(thumbnailImageView.snp.bottom)
         }
-
-        shareButton.sizeToFit()
     }
 
     @objc private func share() {
@@ -113,24 +113,8 @@ class ShareScreenViewController: CollageBaseViewController {
         return true
     }
 
-    private let shareButton: UIButton = {
-        let btn = UIButton(type: .system)
-
-        btn.setTitle("Share", for: .normal)
-        btn.setTitleColor(.brightLavender, for: .normal)
-        btn.addTarget(self, action: #selector(share), for: .touchUpInside)
-        btn.isHidden = false
-
-        return btn
-    }()
-
-    private var collageImage: UIImage? {
-        didSet {
-            shareButton.isEnabled = true
-        }
-    }
-
+    private var collageImage: UIImage?
     private var collage: Collage
     private let thumbnailImageView = UIImageView()
-
+    private let shareFooter: ShareScreenFooter
 }

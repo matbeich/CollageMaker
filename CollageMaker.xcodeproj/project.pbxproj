@@ -11,6 +11,8 @@
 		37DA190E0CF686B7993369FD /* Pods_CollageMakerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E937FF543D64801E6FE757 /* Pods_CollageMakerUITests.framework */; };
 		525EC52B214C26AB009E5393 /* TemplateControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525EC52A214C26AB009E5393 /* TemplateControllerView.swift */; };
 		84023CC421369CDA00FF2CC6 /* RelativeFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84023CC321369CDA00FF2CC6 /* RelativeFrame.swift */; };
+		840CC3EB21623FE5001C3C5C /* ShareToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CC3EA21623FE5001C3C5C /* ShareToolbar.swift */; };
+		840CC3ED216241E0001C3C5C /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CC3EC216241E0001C3C5C /* ShareButton.swift */; };
 		841469672126EEE400C2838A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841469662126EEE400C2838A /* UIColor.swift */; };
 		8417D1B8211DC1C500334661 /* CollageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417D1B7211DC1C500334661 /* CollageRenderer.swift */; };
 		8417D1BA211DCABC00334661 /* CollageCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417D1B9211DCABC00334661 /* CollageCellView.swift */; };
@@ -24,6 +26,7 @@
 		843A580F21144761002FE28D /* CollageMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A580E21144761002FE28D /* CollageMakerTests.swift */; };
 		843A581A21144761002FE28D /* CollageMakerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A581921144761002FE28D /* CollageMakerUITests.swift */; };
 		843A5829211447DC002FE28D /* CollageSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A5828211447DC002FE28D /* CollageSceneViewController.swift */; };
+		843F547221625BD700411A33 /* ShareScreenFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F547121625BD700411A33 /* ShareScreenFooter.swift */; };
 		84434D9E214808DF0060B76B /* ShareScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84434D9D214808DF0060B76B /* ShareScreenViewController.swift */; };
 		845044332151362600B082E1 /* CollageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845044322151362600B082E1 /* CollageTemplate.swift */; };
 		846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846AA2C82142689500DF92FD /* CameraAuthService.swift */; };
@@ -87,6 +90,8 @@
 		55E937FF543D64801E6FE757 /* Pods_CollageMakerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMakerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E5F6231635FF3BBC1D62583 /* Pods_CollageMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84023CC321369CDA00FF2CC6 /* RelativeFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeFrame.swift; sourceTree = "<group>"; };
+		840CC3EA21623FE5001C3C5C /* ShareToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareToolbar.swift; sourceTree = "<group>"; };
+		840CC3EC216241E0001C3C5C /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		841469662126EEE400C2838A /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		8417D1B7211DC1C500334661 /* CollageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageRenderer.swift; sourceTree = "<group>"; };
 		8417D1B9211DCABC00334661 /* CollageCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageCellView.swift; sourceTree = "<group>"; };
@@ -106,6 +111,7 @@
 		843A581921144761002FE28D /* CollageMakerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageMakerUITests.swift; sourceTree = "<group>"; };
 		843A581B21144761002FE28D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		843A5828211447DC002FE28D /* CollageSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSceneViewController.swift; sourceTree = "<group>"; };
+		843F547121625BD700411A33 /* ShareScreenFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenFooter.swift; sourceTree = "<group>"; };
 		84434D9D214808DF0060B76B /* ShareScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenViewController.swift; sourceTree = "<group>"; };
 		845044322151362600B082E1 /* CollageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplate.swift; sourceTree = "<group>"; };
 		846AA2C82142689500DF92FD /* CameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAuthService.swift; sourceTree = "<group>"; };
@@ -274,6 +280,9 @@
 			isa = PBXGroup;
 			children = (
 				84434D9D214808DF0060B76B /* ShareScreenViewController.swift */,
+				840CC3EA21623FE5001C3C5C /* ShareToolbar.swift */,
+				840CC3EC216241E0001C3C5C /* ShareButton.swift */,
+				843F547121625BD700411A33 /* ShareScreenFooter.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -730,16 +739,19 @@
 				846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */,
 				84FD669B2153BD3800C831F0 /* R.generated.swift in Sources */,
 				849402862153917600160142 /* CollageNavigationController.swift in Sources */,
+				840CC3EB21623FE5001C3C5C /* ShareToolbar.swift in Sources */,
 				84A203932153D5C800AB946C /* CellSelectionView.swift in Sources */,
 				843A57FA21144760002FE28D /* AppDelegate.swift in Sources */,
 				84E40816214BDD73006764D0 /* TemplatePickerViewController.swift in Sources */,
 				84A91A5921188E5700108C3B /* CollageCell.swift in Sources */,
 				F62618B521415D9C00CD94AE /* UIKit+Extensions.swift in Sources */,
 				8417D1B8211DC1C500334661 /* CollageRenderer.swift in Sources */,
+				840CC3ED216241E0001C3C5C /* ShareButton.swift in Sources */,
 				84868BC42138358500E12152 /* CollageBarItem.swift in Sources */,
 				525EC52B214C26AB009E5393 /* TemplateControllerView.swift in Sources */,
 				841469672126EEE400C2838A /* UIColor.swift in Sources */,
 				84868BC22138323E00E12152 /* CollageToolbar.swift in Sources */,
+				843F547221625BD700411A33 /* ShareScreenFooter.swift in Sources */,
 				8496B141214AA9AF00FE45FE /* PhotoLibrary.swift in Sources */,
 				84023CC421369CDA00FF2CC6 /* RelativeFrame.swift in Sources */,
 				84F454C02158E4A10079CE6C /* PlusView.swift in Sources */,
