@@ -1,6 +1,8 @@
 //
 // Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
+
+import Photos
 import UIKit
 
 enum Axis {
@@ -9,13 +11,16 @@ enum Axis {
 }
 
 protocol CollageDelegate: AnyObject {
-    func collageChanged()
-    func collage(_ collage: Collage, didChangeSelected cell: CollageCell)
-    func collage(_ collage: Collage, didChangeFramesFor cells: [CollageCell])
-    func collage(_ collage: Collage, didUpdate cell: CollageCell)
+    func collageChanged(_ collage: Collage)
+    func collage(_ collage: Collage, didRemoveCell cell: CollageCell)
+    func collage(_ collage: Collage, didChangeSelectedCell cell: CollageCell)
+    func collage(_ collage: Collage, didChangeFramesForCells cells: [CollageCell])
+    func collage(_ collage: Collage, didUpdateCell cell: CollageCell)
 }
 
 class Collage: NSObject, NSCopying {
+    static let maximumAllowedCellsCount = 9
+
     weak var delegate: CollageDelegate?
 
     init(cells: [CollageCell] = []) {
@@ -45,18 +50,24 @@ class Collage: NSObject, NSCopying {
         }
     }
 
+    func fill(with abstractPhotos: [AbstractPhoto]) {
+        for (cell, abstractPhoto) in zip(cells, abstractPhotos) {
+            cell.addAbstractPhoto(abstractPhoto)
+        }
+    }
+
     func deleteImages() {
         cells.forEach { $0.deleteImage() }
     }
 
     func reset() {
         cells.removeAll()
-        delegate?.collageChanged()
+        delegate?.collageChanged(self)
     }
 
     func setSelected(cell: CollageCell) {
         selectedCell = cellWith(id: cell.id) ?? .zeroFrame
-        delegate?.collage(self, didChangeSelected: selectedCell)
+        delegate?.collage(self, didChangeSelectedCell: selectedCell)
     }
 
     func deleteSelectedCell() {
@@ -69,6 +80,10 @@ class Collage: NSObject, NSCopying {
 
     func addImageToSelectedCell(_ image: UIImage?) {
         addImage(image, to: selectedCell)
+    }
+
+    func addAssetToSelectedCell(_ asset: PHAsset?) {
+        addAsset(asset, to: selectedCell)
     }
 
     func changeSizeOfSelectedCell(grip: GripPosition, value: CGFloat) {
@@ -84,7 +99,11 @@ class Collage: NSObject, NSCopying {
     func addImage(_ image: UIImage?, to cell: CollageCell) {
         cell.addImage(image)
 
-        delegate?.collage(self, didUpdate: cell)
+        delegate?.collage(self, didUpdateCell: cell)
+    }
+
+    func addAsset(_ asset: PHAsset?, to cell: CollageCell) {
+        cell.addPhotoAsset(asset)
     }
 
     func split(cell: CollageCell, by axis: Axis) {
@@ -99,7 +118,7 @@ class Collage: NSObject, NSCopying {
             remove(cell: cell)
             setSelected(cell: secondCell)
 
-            delegate?.collageChanged()
+            delegate?.collageChanged(self)
         }
     }
 
@@ -115,12 +134,12 @@ class Collage: NSObject, NSCopying {
 
         guard isFullsized && framesAreAllowed else {
             restoreCellsBeforeChanging()
-            delegate?.collageChanged()
+            delegate?.collageChanged(self)
 
             return
         }
 
-        delegate?.collage(self, didChangeFramesFor: cells)
+        delegate?.collage(self, didChangeFramesForCells: cells)
     }
 
     private func restoreCellsBeforeChanging() {
@@ -135,7 +154,7 @@ class Collage: NSObject, NSCopying {
         calculateCellsNewFrame(cell: cell, grip: grip, value: value, merging: true)
 
         if isFullsized {
-            delegate?.collageChanged()
+            delegate?.collage(self, didRemoveCell: cell)
             setSelected(cell: cells.last ?? .zeroFrame)
 
             return true
@@ -190,6 +209,10 @@ extension Collage {
 
     func cellWith(id: UUID) -> CollageCell? {
         return cells.first(where: { $0.id == id })
+    }
+
+    func cellWith(asset: PHAsset) -> CollageCell? {
+        return cells.first(where: { $0.photoAsset == asset })
     }
 
     func cell(at relativePoint: CGPoint) -> CollageCell? {

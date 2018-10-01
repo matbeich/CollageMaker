@@ -17,6 +17,7 @@
 		841A245F213E935C006E994B /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A245E213E935C006E994B /* UIBarButtonItem.swift */; };
 		843367CF2150ECB8008EC77D /* AttributedTextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843367CE2150ECB8008EC77D /* AttributedTextLabel.swift */; };
 		843380782154DB4C008A5510 /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 843380772154DB4C008A5510 /* SF-Pro-Display-Regular.otf */; };
+		84370C9D21620D31002A7B64 /* AbstractPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84370C9C21620D31002A7B64 /* AbstractPhoto.swift */; };
 		843A57FA21144760002FE28D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843A57F921144760002FE28D /* AppDelegate.swift */; };
 		843A580121144761002FE28D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843A580021144761002FE28D /* Assets.xcassets */; };
 		843A580421144761002FE28D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 843A580221144761002FE28D /* LaunchScreen.storyboard */; };
@@ -92,6 +93,7 @@
 		841A245E213E935C006E994B /* UIBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
 		843367CE2150ECB8008EC77D /* AttributedTextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextLabel.swift; sourceTree = "<group>"; };
 		843380772154DB4C008A5510 /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
+		84370C9C21620D31002A7B64 /* AbstractPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractPhoto.swift; sourceTree = "<group>"; };
 		843A57F621144760002FE28D /* CollageMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollageMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		843A57F921144760002FE28D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		843A580021144761002FE28D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -424,6 +426,7 @@
 				845044322151362600B082E1 /* CollageTemplate.swift */,
 				84B160332114892600FF4713 /* Collage.swift */,
 				84A91A5821188E5700108C3B /* CollageCell.swift */,
+				84370C9C21620D31002A7B64 /* AbstractPhoto.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -741,6 +744,7 @@
 				84023CC421369CDA00FF2CC6 /* RelativeFrame.swift in Sources */,
 				84F454C02158E4A10079CE6C /* PlusView.swift in Sources */,
 				84E40818214C03D3006764D0 /* CollageTemplateProvider.swift in Sources */,
+				84370C9D21620D31002A7B64 /* AbstractPhoto.swift in Sources */,
 				84434D9E214808DF0060B76B /* ShareScreenViewController.swift in Sources */,
 				84868BC02138208100E12152 /* FloatingPoint.swift in Sources */,
 				8496B13F214AA60200FE45FE /* ImagePickerCollectionViewController.swift in Sources */,

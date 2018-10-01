@@ -103,7 +103,7 @@ class CollageSceneViewController: CollageBaseViewController {
     }
 
     private func pickImage() {
-        let controller = ImagePickerCollectionViewController()
+        let controller = ImagePickerCollectionViewController(selectionMode: .single)
 
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
@@ -122,6 +122,19 @@ class CollageSceneViewController: CollageBaseViewController {
 }
 
 extension CollageSceneViewController: CollageViewControllerDelegate {
+    func collageViewController(_ controller: CollageViewController, didDeleteCellView cellView: CollageCellView) {
+        var actualAssets = templateBarController.assets ?? []
+
+        guard let asset = cellView.collageCell.photoAsset, let index = actualAssets.firstIndex(of: asset) else {
+            return
+        }
+
+        actualAssets.remove(at: index)
+        let templates = CollageTemplateProvider.templates(for: actualAssets)
+
+        templateBarController.templates = templates
+    }
+
     func collageViewControllerPlusButtonTapped(_ controller: CollageViewController) {
         pickImage()
     }
@@ -135,32 +148,46 @@ extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegat
     }
 }
 
-extension CollageSceneViewController: CollageToolbarDelegate {
-    func collageToolbar(_ collageToolbar: CollageToolbar, itemTapped: CollageBarItem) {
-        switch itemTapped.title {
-        case "HORIZONTAL": collageViewController.splitSelectedCell(by: .horizontal)
-        case "VERTICAL": collageViewController.splitSelectedCell(by: .vertical)
-        case "ADD IMG": pickImage()
-        case "DELETE": collageViewController.deleteSelectedCell()
-        default: break
-        }
-    }
-}
-
 extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegate {
     func imagePickerCollectionViewControllerDidCancel(_ controller: ImagePickerCollectionViewController) {
         navigationController?.popViewController(animated: true)
     }
 
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelectAssets assets: [PHAsset]) {
-        guard let asset = assets.first else {
+        guard let asset = assets.first, let currentAssets = templateBarController.assets else {
             return
         }
 
-        PhotoLibrary.photo(from: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
-            self?.collageViewController.addImageToSelectedCell($0)
+        var actualAssets = [asset]
+        actualAssets.append(contentsOf: currentAssets)
+
+        if let selectedCellAsset = collageViewController.selectedCellView.collageCell.photoAsset, let index = actualAssets.index(of: selectedCellAsset) {
+            actualAssets.remove(at: index)
         }
 
+        let templates = CollageTemplateProvider.templates(for: actualAssets)
+
+        PhotoLibrary.photo(from: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
+            let abstractPhoto = AbstractPhoto(photo: $0, asset: asset)
+            self?.collageViewController.addAbstractPhotoToSelectedCell(abstractPhoto)
+        }
+
+        templateBarController.templates = templates
         navigationController?.popViewController(animated: true)
+    }
+}
+
+extension CollageSceneViewController: CollageToolbarDelegate {
+    func collageToolbar(_ collageToolbar: CollageToolbar, itemTapped: CollageBarItem) {
+        switch itemTapped.title {
+        case "HORIZONTAL": collageViewController.splitSelectedCell(by: .horizontal)
+        case "VERTICAL":
+            if collageViewController.collage.cells.count < Collage.maximumAllowedCellsCount {
+                collageViewController.splitSelectedCell(by: .vertical)
+            }
+        case "ADD IMG": pickImage()
+        case "DELETE": collageViewController.deleteSelectedCell()
+        default: break
+        }
     }
 }

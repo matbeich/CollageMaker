@@ -54,7 +54,8 @@ class CollageTemplateProvider {
         let collage = Collage(cells: cells)
 
         collectPhotos(from: template.assets, size: size.value) { photos in
-            collage.fill(with: photos)
+            let abstractPhotos = zip(photos, template.assets).map { AbstractPhoto(photo: $0.0, asset: $0.1) }
+            collage.fill(with: abstractPhotos)
             callback(collage)
         }
     }
