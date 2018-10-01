@@ -31,6 +31,12 @@ class AttributedTextLabel: UILabel {
         }
     }
 
+    var hashtagWords: [String]? {
+        let words = attributedText?.string.split(separator: " ").compactMap { String($0) } ?? []
+
+        return words.compactMap { word in word.contains("#") ? word : nil }
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
