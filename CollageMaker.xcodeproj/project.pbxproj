@@ -29,7 +29,6 @@
 		843F547221625BD700411A33 /* ShareScreenFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F547121625BD700411A33 /* ShareScreenFooter.swift */; };
 		84434D9E214808DF0060B76B /* ShareScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84434D9D214808DF0060B76B /* ShareScreenViewController.swift */; };
 		845044332151362600B082E1 /* CollageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845044322151362600B082E1 /* CollageTemplate.swift */; };
-		845096932163962F00B6DA59 /* CollageAllertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845096922163962F00B6DA59 /* CollageAllertController.swift */; };
 		846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846AA2C82142689500DF92FD /* CameraAuthService.swift */; };
 		848214DD2153B7FE009FD986 /* CollageBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */; };
 		848214DE2153BBC3009FD986 /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8494028421538A6A00160142 /* SF-Pro-Display-Semibold.otf */; };
@@ -115,7 +114,6 @@
 		843F547121625BD700411A33 /* ShareScreenFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenFooter.swift; sourceTree = "<group>"; };
 		84434D9D214808DF0060B76B /* ShareScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenViewController.swift; sourceTree = "<group>"; };
 		845044322151362600B082E1 /* CollageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplate.swift; sourceTree = "<group>"; };
-		845096922163962F00B6DA59 /* CollageAllertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageAllertController.swift; sourceTree = "<group>"; };
 		846AA2C82142689500DF92FD /* CameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAuthService.swift; sourceTree = "<group>"; };
 		848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageBaseViewController.swift; sourceTree = "<group>"; };
 		84868BBD2137F33900E12152 /* CollageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTests.swift; sourceTree = "<group>"; };
@@ -407,7 +405,6 @@
 			children = (
 				849402852153917600160142 /* CollageNavigationController.swift */,
 				848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */,
-				845096922163962F00B6DA59 /* CollageAllertController.swift */,
 				848713232122E948003519F7 /* TemplateBarCollectionViewController */,
 			);
 			path = Controllers;
@@ -735,7 +732,6 @@
 				8417D1BA211DCABC00334661 /* CollageCellView.swift in Sources */,
 				F62618B1214159AC00CD94AE /* AppNavigator.swift in Sources */,
 				843A5829211447DC002FE28D /* CollageSceneViewController.swift in Sources */,
-				845096932163962F00B6DA59 /* CollageAllertController.swift in Sources */,
 				849B68222121CA960091AD27 /* TemplateBarCollectionViewController.swift in Sources */,
 				843367CF2150ECB8008EC77D /* AttributedTextLabel.swift in Sources */,
 				84E06F1B21397ED7007109BE /* PermissionsViewController.swift in Sources */,

@@ -5,8 +5,15 @@
 import SnapKit
 import UIKit
 
+protocol ShareScreenFooterDelegate: AnyObject {
+    func shareScreenFooter(_ footer: ShareScreenFooter, didTappedHashtag hashtag: String)
+    func shareScreenFooter(_ footer: ShareScreenFooter, shareToolbar: ShareToolbar, didSelectDestination destination: ShareDestination)
+}
+
 class ShareScreenFooter: UIView {
-    init(frame: CGRect, with destinations: [ShareDestination]) {
+    weak var delegate: ShareScreenFooterDelegate?
+
+    init(frame: CGRect = .zero, destinations: [ShareDestination]) {
         self.destinations = destinations
         self.shareToolbar = ShareToolbar(destinations: destinations)
 
@@ -29,6 +36,7 @@ class ShareScreenFooter: UIView {
 
     private func setup() {
         messageLabel.delegate = self
+        shareToolbar.delegate = self
     }
 
     private func makeConstraints() {
@@ -47,7 +55,7 @@ class ShareScreenFooter: UIView {
         }
     }
 
-    private lazy var messageLabel: AttributedTextLabel = {
+    private(set) lazy var messageLabel: AttributedTextLabel = {
         let label = AttributedTextLabel(text: "Tap #MadeWithCollagist to use this hashtag in your message")
         label.font = R.font.sfProDisplaySemibold(size: 19)
         label.isUserInteractionEnabled = true
@@ -65,19 +73,22 @@ class ShareScreenFooter: UIView {
         return label
     }()
 
-    var hashtagTapped: Bool = false
-    private let destinations: [ShareDestination]
     private let shareToolbar: ShareToolbar
+    private let destinations: [ShareDestination]
 }
 
 extension ShareScreenFooter: AttributedTextLabelDelegate {
     func attributedTextLabelWasTapped(_ label: AttributedTextLabel) {
-        hashtagTapped = true
-        guard let hashtags = label.hashtags else {
+        guard let hashtags = label.hashtags?.joined(separator: ", ") else {
             return
         }
 
-        let hashtagMessage = hashtags.joined(separator: ", ")
-        print(hashtagMessage)
+        delegate?.shareScreenFooter(self, didTappedHashtag: hashtags)
+    }
+}
+
+extension ShareScreenFooter: ShareToolbarDelegate {
+    func shareToolbar(_ shareToolbar: ShareToolbar, didSelectDestination destination: ShareDestination) {
+        delegate?.shareScreenFooter(self, shareToolbar: shareToolbar, didSelectDestination: destination)
     }
 }
