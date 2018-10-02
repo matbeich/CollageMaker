@@ -8,6 +8,7 @@ def defaults
     pod 'SnapKit'
     pod 'R.swift'
     pod 'AppCraftUtils/Interface', '1.2.64'
+    pod 'AppCraftUtils/Sharing', '1.2.64'
 end
 
 def external

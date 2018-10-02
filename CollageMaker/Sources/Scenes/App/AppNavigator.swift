@@ -49,6 +49,19 @@ extension AppNavigator: CollageSceneViewControllerDelegate {
 }
 
 extension AppNavigator: ShareScreenViewControllerDelegate {
+    func shareScreenViewController(_ controller: ShareScreenViewController, didShareCollageImage image: UIImage, withError error: SharingError?) {
+        if let error = error {
+            switch error {
+            case .photoLibraryAccessDenied:
+                let controller = PermissionsViewController()
+                controller.delegate = self
+
+                rootViewController.push(controller)
+            default: break
+            }
+        }
+    }
+
     func shareScreenViewControllerDidCancel(_ controller: ShareScreenViewController) {
         rootViewController.popViewController(animated: true)
     }

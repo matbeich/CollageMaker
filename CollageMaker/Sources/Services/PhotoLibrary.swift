@@ -22,13 +22,13 @@ final class PhotoLibrary: NSObject {
         observeAssets()
     }
 
-    func add(_ image: UIImage, callback: @escaping (Bool) -> Void) {
+    func add(_ image: UIImage, callback: @escaping (Bool, PHAsset?) -> Void) {
         let changeBlock = {
             let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
             let addAssetRequest = PHAssetCollectionChangeRequest(for: PHAssetCollection())
 
             guard let placeholder = creationRequest.placeholderForCreatedAsset else {
-                callback(false)
+                callback(false, nil)
                 return
             }
 
@@ -36,10 +36,27 @@ final class PhotoLibrary: NSObject {
         }
 
         library.performChanges(changeBlock) { success, _ in
-            DispatchQueue.main.async {
-                callback(success)
+            DispatchQueue.main.async { [weak self] in
+                success ? callback(success, self?.getLastAsset()) : callback(success, nil)
             }
         }
+    }
+
+    private func getLastAsset() -> PHAsset? {
+        var asset: PHAsset?
+
+        let options = PHFetchOptions()
+
+        options.includeAssetSourceTypes = .typeUserLibrary
+        options.fetchLimit = 1
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+
+        assetsFetchResult = PHAsset.fetchAssets(with: .image, options: options)
+        assetsFetchResult.enumerateObjects { object, _, _ in
+            asset = object
+        }
+
+        return asset
     }
 
     private func getImagesAssets() {

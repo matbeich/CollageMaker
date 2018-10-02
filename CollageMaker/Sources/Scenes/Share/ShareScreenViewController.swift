@@ -6,8 +6,13 @@ import SnapKit
 import UIKit
 import Utils
 
+enum SharingError: Error {
+    case photoLibraryAccessDenied
+}
+
 protocol ShareScreenViewControllerDelegate: AnyObject {
     func shareScreenViewControllerDidCancel(_ controller: ShareScreenViewController)
+    func shareScreenViewController(_ controller: ShareScreenViewController, didShareCollageImage image: UIImage, withError error: SharingError?)
 }
 
 class ShareScreenViewController: CollageBaseViewController {
@@ -98,10 +103,56 @@ class ShareScreenViewController: CollageBaseViewController {
         }
     }
 
-    @objc private func share() {
-        guard imageIsPrepared else {
+    func saveToPhotos(content: ShareContent) {
+        Pigeon.shared.shareToPhotos(content, with: nil)
+    }
+
+    func shareViaMessage(content: ShareContent) {
+        Pigeon.shared.shareToMessages(content, in: self, with: nil)
+    }
+
+    func shareToInstagram(content: ShareContent) {
+        //        Pigeon.shared.shareToInstagram(content, in: self, from: view.frame, with: nil)
+
+        guard authService.status != .denied else {
+            shareToInstagramViaModalController(content: content, sourceRect: view.frame)
             return
         }
+
+        shareToInstagramViaRedirect(content: content)
+    }
+
+    private func shareToInstagramViaModalController(content: ShareContent, sourceRect: CGRect) {
+        Pigeon.shared.shareToInstagram(
+            content,
+            in: self,
+            from: view.frame,
+            with: nil
+        )
+    }
+
+    private func shareToInstagramViaRedirect(content: ShareContent) {
+        guard let image = content.item as? UIImage else {
+            return
+        }
+
+        photoLibrary.add(image) { [weak self] succes, asset in
+            print(asset)
+            self?.openInstagram(withAssetId: asset?.localIdentifier ?? "")
+        }
+    }
+
+    private func openInstagram(withAssetId assetId: String) {
+        guard let shareURL = URL(string: "instagram://library?LocalIdentifier=\(assetId)") else {
+            return
+        }
+
+        Utils.Application.redirect(to: shareURL)
+    }
+
+    func shareToOther(content: ShareContent) {
+        let settings = ActivityShareSettings()
+        Pigeon.shared.share(content, in: self, from: view.frame, settings: settings, with: nil)
     }
 
     @objc private func close() {
@@ -114,18 +165,39 @@ class ShareScreenViewController: CollageBaseViewController {
 
     private var collage: Collage
     private var collageImage: UIImage?
+    private var hashtag: String?
     private let thumbnailImageView = UIImageView()
     private let shareFooter: ShareScreenFooter
+    private let authService = PhotoAuthService()
+    private let photoLibrary = PhotoLibrary()
 }
 
 extension ShareScreenViewController: ShareScreenFooterDelegate {
     func shareScreenFooter(_ footer: ShareScreenFooter, shareToolbar: ShareToolbar, didSelectDestination destination: ShareDestination) {
-        print(destination)
+        guard let image = collageImage else {
+            return
+        }
+
+        let content = ShareContent()
+        content.item = image
+        content.userCaption = hashtag
+
+        switch destination {
+        case .instagram:
+            shareToInstagram(content: content)
+        case .messages:
+            shareViaMessage(content: content)
+        case .other:
+            shareToOther(content: content)
+        case .photos:
+            saveToPhotos(content: content)
+        }
     }
 
     func shareScreenFooter(_ footer: ShareScreenFooter, didTappedHashtag hashtag: String) {
         let alertController = UIAlertController(title: nil, message: "Hashtag copied to clipboard", preferredStyle: .alert)
         let completion = { alertController.dismiss(animated: true, completion: nil) }
+        self.hashtag = hashtag
 
         present(alertController, animated: true) { DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: completion) }
     }
