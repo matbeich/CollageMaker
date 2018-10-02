@@ -16,6 +16,7 @@ class ShareScreenFooter: UIView {
         addSubview(shareToolbar)
 
         makeConstraints()
+        setup()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -27,6 +28,7 @@ class ShareScreenFooter: UIView {
     }
 
     private func setup() {
+        messageLabel.delegate = self
     }
 
     private func makeConstraints() {
@@ -48,14 +50,14 @@ class ShareScreenFooter: UIView {
     private lazy var messageLabel: AttributedTextLabel = {
         let label = AttributedTextLabel(text: "Tap #MadeWithCollagist to use this hashtag in your message")
         label.font = R.font.sfProDisplaySemibold(size: 19)
+        label.isUserInteractionEnabled = true
 
-        if let hashtagsWords = label.hashtagWords {
+        if let hashtagsWords = label.hashtags {
             hashtagsWords.forEach {
                 label.addAttributes(attrs: [
                     .foregroundColor: UIColor.brightLavender,
                     .font: R.font.sfProTextBold(size: 19) as Any
-                ],
-                to: $0) }
+            ], to: $0) }
         }
 
         label.textAlignment = .center
@@ -63,6 +65,19 @@ class ShareScreenFooter: UIView {
         return label
     }()
 
+    var hashtagTapped: Bool = false
     private let destinations: [ShareDestination]
     private let shareToolbar: ShareToolbar
+}
+
+extension ShareScreenFooter: AttributedTextLabelDelegate {
+    func attributedTextLabelWasTapped(_ label: AttributedTextLabel) {
+        hashtagTapped = true
+        guard let hashtags = label.hashtags else {
+            return
+        }
+
+        let hashtagMessage = hashtags.joined(separator: ", ")
+        print(hashtagMessage)
+    }
 }
