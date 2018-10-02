@@ -19,7 +19,8 @@ class ShareScreenViewController: CollageBaseViewController {
 
     init(collage: Collage) {
         self.collage = collage
-        self.shareFooter = ShareScreenFooter(frame: .zero, with: [.photos, .messages, .instagram, .other])
+        self.shareFooter = ShareScreenFooter(destinations: [.photos, .messages, .instagram, .other])
+
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -63,11 +64,12 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     private func setup() {
+        shareFooter.delegate = self
+
         let left = NavigationBarButtonItem(icon: R.image.close_btn(), target: self, action: #selector(cancel))
         let title = NavigationBarLabelItem(title: "Share", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
 
         navBarItem = NavigationBarItem(left: left, title: title)
-
         view.backgroundColor = .white
     }
 
@@ -100,9 +102,6 @@ class ShareScreenViewController: CollageBaseViewController {
         guard imageIsPrepared else {
             return
         }
-        let activityVC = UIActivityViewController(activityItems: collageImage.flatMap { [$0] } ?? [], applicationActivities: [])
-
-        present(activityVC, animated: true, completion: nil)
     }
 
     @objc private func close() {
@@ -113,8 +112,21 @@ class ShareScreenViewController: CollageBaseViewController {
         return true
     }
 
-    private var collageImage: UIImage?
     private var collage: Collage
+    private var collageImage: UIImage?
     private let thumbnailImageView = UIImageView()
     private let shareFooter: ShareScreenFooter
+}
+
+extension ShareScreenViewController: ShareScreenFooterDelegate {
+    func shareScreenFooter(_ footer: ShareScreenFooter, shareToolbar: ShareToolbar, didSelectDestination destination: ShareDestination) {
+        print(destination)
+    }
+
+    func shareScreenFooter(_ footer: ShareScreenFooter, didTappedHashtag hashtag: String) {
+        let alertController = UIAlertController(title: nil, message: "Hashtag copied to clipboard", preferredStyle: .alert)
+        let completion = { alertController.dismiss(animated: true, completion: nil) }
+
+        present(alertController, animated: true) { DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: completion) }
+    }
 }
