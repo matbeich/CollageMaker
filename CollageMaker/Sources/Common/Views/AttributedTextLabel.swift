@@ -4,7 +4,13 @@
 
 import UIKit
 
+protocol AttributedTextLabelDelegate: AnyObject {
+    func attributedTextLabelWasTapped(_ label: AttributedTextLabel)
+}
+
 class AttributedTextLabel: UILabel {
+    weak var delegate: AttributedTextLabelDelegate?
+
     init(text: String? = nil) {
         super.init(frame: .zero)
 
@@ -13,6 +19,7 @@ class AttributedTextLabel: UILabel {
         textAlignment = .left
 
         set(text: text)
+        setup()
     }
 
     override var text: String? {
@@ -31,7 +38,7 @@ class AttributedTextLabel: UILabel {
         }
     }
 
-    var hashtagWords: [String]? {
+    var hashtags: [String]? {
         let words = attributedText?.string.split(separator: " ").compactMap { String($0) } ?? []
 
         return words.compactMap { word in word.contains("#") ? word : nil }
@@ -41,6 +48,10 @@ class AttributedTextLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
 
+    @objc private func tapped(with recognizer: UITapGestureRecognizer) {
+        delegate?.attributedTextLabelWasTapped(self)
+    }
+
     func addAttributes(attrs: [NSAttributedStringKey: Any], to word: String) {
         guard let range = findRangeOf(word: word, in: attributedText?.string ?? "") else {
             return
@@ -48,6 +59,11 @@ class AttributedTextLabel: UILabel {
 
         attributedString.addAttributes(attrs, range: range)
         attributedText = attributedString
+    }
+
+    private func setup() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        addGestureRecognizer(tapRecognizer)
     }
 
     private func findRangeOf(word: String, in string: String) -> NSRange? {
