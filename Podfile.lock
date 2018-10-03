@@ -10,10 +10,23 @@ PODS:
     - DeepDiff
   - AppCraftUtils/Resources (1.2.64):
     - R.swift
+  - AppCraftUtils/Sharing (1.2.64):
+    - AppCraftUtils/Alert
+    - FBSDKShareKit (= 4.35.0)
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.9.0)
   - Crashlytics (3.10.7):
     - Fabric (~> 1.7.11)
   - DeepDiff (1.2.0)
   - Fabric (1.7.11)
+  - FBSDKCoreKit (4.35.0):
+    - Bolts (~> 1.7)
+  - FBSDKShareKit (4.35.0):
+    - FBSDKCoreKit (~> 4.35.0)
   - R.swift (4.0.0):
     - R.swift.Library (~> 4.0.0)
   - R.swift.Library (4.0.0)
@@ -21,6 +34,7 @@ PODS:
 
 DEPENDENCIES:
   - AppCraftUtils/Interface (= 1.2.64)
+  - AppCraftUtils/Sharing (= 1.2.64)
   - Crashlytics
   - Fabric
   - R.swift
@@ -30,22 +44,28 @@ SPEC REPOS:
   "git@github.com:app-craft/internal-pods.git":
     - AppCraftUtils
   https://github.com/cocoapods/specs.git:
+    - Bolts
     - Crashlytics
     - DeepDiff
     - Fabric
+    - FBSDKCoreKit
+    - FBSDKShareKit
     - R.swift
     - R.swift.Library
     - SnapKit
 
 SPEC CHECKSUMS:
   AppCraftUtils: 8d79b29a5d1ee6c9620b8ca97ef21a3492bed0a0
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: ccaac42660eb9351b9960c0d66106b0bcf99f4fa
   DeepDiff: 0ee83ac6942d441f677c22e981548c6e0937f2b6
   Fabric: f233c9492b3bbc1f04e3882986740f7988a58edb
+  FBSDKCoreKit: 1a5b2e3ceb5ca827a53c54aa5f4a3480efff80d2
+  FBSDKShareKit: 2ddbd7e6432023fff957af62e23a3671b84319f7
   R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
   R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: 50e8731757dd8ef706e03038aed02be91eb45a09
+PODFILE CHECKSUM: efb0dced2279c2fd4ce930e0dd8b9635fe42826a
 
 COCOAPODS: 1.5.3

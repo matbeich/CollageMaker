@@ -187,7 +187,7 @@ extension TemplatePickerViewController: UIImagePickerControllerDelegate & UINavi
             return
         }
 
-        imagePickerController.library.add(image) { success in
+        imagePickerController.library.add(image) { success, _ in
             assert(success, "Unable to write asset to photo library")
         }
     }

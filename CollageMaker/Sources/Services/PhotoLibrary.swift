@@ -18,31 +18,38 @@ final class PhotoLibrary: NSObject {
         self.library = library
         super.init()
 
-        getImagesAssets()
+        fetchImagesAssets()
         observeAssets()
     }
 
-    func add(_ image: UIImage, callback: @escaping (Bool) -> Void) {
+    func assetWith(localIdentifier: String) -> PHAsset? {
+        return PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil).firstObject
+    }
+
+    func add(_ image: UIImage, callback: @escaping (Bool, PHAsset?) -> Void) {
+        var placeholder = PHObjectPlaceholder()
+
         let changeBlock = {
             let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
             let addAssetRequest = PHAssetCollectionChangeRequest(for: PHAssetCollection())
 
-            guard let placeholder = creationRequest.placeholderForCreatedAsset else {
-                callback(false)
+            guard let assetPaceholder = creationRequest.placeholderForCreatedAsset else {
+                callback(false, nil)
                 return
             }
 
+            placeholder = assetPaceholder
             addAssetRequest?.addAssets([placeholder] as NSArray)
         }
 
         library.performChanges(changeBlock) { success, _ in
-            DispatchQueue.main.async {
-                callback(success)
-            }
+            let asset = PHAsset.fetchAssets(withLocalIdentifiers: [placeholder.localIdentifier], options: nil).firstObject
+
+            DispatchQueue.main.async { callback(success, asset) }
         }
     }
 
-    private func getImagesAssets() {
+    private func fetchImagesAssets() {
         let options = PHFetchOptions()
 
         options.includeAssetSourceTypes = .typeUserLibrary

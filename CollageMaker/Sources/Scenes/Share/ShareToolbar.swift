@@ -49,7 +49,7 @@ class ShareToolbar: UIView {
     private lazy var buttonsStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.axis = .horizontal
-        stackView.spacing = 20
+        stackView.spacing = 30
         stackView.distribution = .fillEqually
 
         return stackView

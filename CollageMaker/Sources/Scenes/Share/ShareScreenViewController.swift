@@ -6,8 +6,13 @@ import SnapKit
 import UIKit
 import Utils
 
+enum SharingError: Error {
+    case photoLibraryAccessDenied
+}
+
 protocol ShareScreenViewControllerDelegate: AnyObject {
     func shareScreenViewControllerDidCancel(_ controller: ShareScreenViewController)
+    func shareScreenViewController(_ controller: ShareScreenViewController, didShareCollageImage image: UIImage, withError error: SharingError?)
 }
 
 class ShareScreenViewController: CollageBaseViewController {
@@ -22,6 +27,7 @@ class ShareScreenViewController: CollageBaseViewController {
         self.shareFooter = ShareScreenFooter(destinations: [.photos, .messages, .instagram, .other])
 
         super.init(nibName: nil, bundle: nil)
+        prepareHightResolutionImage()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -36,7 +42,6 @@ class ShareScreenViewController: CollageBaseViewController {
 
         setup()
         makeConstraints()
-        prepareHightResolutionImage()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -45,22 +50,8 @@ class ShareScreenViewController: CollageBaseViewController {
         setThumbnail()
     }
 
-    private func setThumbnail() {
-        if imageIsPrepared {
-            thumbnailImageView.image = collageImage
-
-            return
-        }
-
-        CollageRenderer.renderImage(from: collage, with: thumbnailImageView.bounds.size) { [weak self] image in
-            self?.thumbnailImageView.image = image
-        }
-    }
-
-    private func prepareHightResolutionImage() {
-        CollageRenderer.renderImage(from: collage, with: CGSize(width: 1200, height: 1200)) { [weak self] image in
-            self?.collageImage = image
-        }
+    @objc private func cancel() {
+        delegate?.shareScreenViewControllerDidCancel(self)
     }
 
     private func setup() {
@@ -71,10 +62,6 @@ class ShareScreenViewController: CollageBaseViewController {
 
         navBarItem = NavigationBarItem(left: left, title: title)
         view.backgroundColor = .white
-    }
-
-    @objc private func cancel() {
-        delegate?.shareScreenViewControllerDidCancel(self)
     }
 
     private func makeConstraints() {
@@ -98,14 +85,101 @@ class ShareScreenViewController: CollageBaseViewController {
         }
     }
 
-    @objc private func share() {
-        guard imageIsPrepared else {
+    private func shareToDestination(destination: ShareDestination) {
+        guard let image = collageImage else {
             return
+        }
+
+        let content = ShareContent()
+        content.item = image
+        content.userCaption = hashtag
+
+        switch destination {
+        case .instagram:
+            shareToInstagram(content: content)
+        case .messages:
+            shareViaMessage(content: content)
+        case .other:
+            shareToOther(content: content)
+        case .photos:
+            saveToPhotos(content: content)
         }
     }
 
-    @objc private func close() {
-        delegate?.shareScreenViewControllerDidCancel(self)
+    private func saveToPhotos(content: ShareContent, completion: ((Bool, PHAsset?) -> Void)? = nil) {
+        guard let image = content.item as? UIImage else {
+            return
+        }
+
+        photoLibrary.add(image) { [weak self] succes, asset in
+            self?.popUpMessageAlert("Saved to photos", duration: 0.75)
+            self?.currentImageAsset = asset
+
+            completion?(succes, asset)
+        }
+    }
+
+    private func shareViaMessage(content: ShareContent) {
+        Pigeon.shared.shareToMessages(content, in: self, with: nil)
+    }
+
+    private func shareToOther(content: ShareContent) {
+        let settings = ActivityShareSettings()
+        Pigeon.shared.share(content, in: self, from: view.frame, settings: settings, with: nil)
+    }
+
+    private func shareToInstagram(content: ShareContent) {
+        let completion: (Bool, PHAsset?) -> Void = { [weak self] succes, asset in
+            if succes, let asset = asset {
+                self?.openInstagram(withAssetId: asset.localIdentifier)
+            } else {
+                self?.popUpMessageAlert("Something went wrong", duration: 0.8)
+            }
+        }
+
+        guard
+            let currentImageAsset = currentImageAsset,
+            let asset = photoLibrary.assetWith(localIdentifier: currentImageAsset.localIdentifier),
+            currentImageAsset == asset
+        else {
+            saveToPhotos(content: content, completion: completion)
+            return
+        }
+
+        openInstagram(withAssetId: currentImageAsset.localIdentifier)
+    }
+
+    private func popUpMessageAlert(_ message: String, duration: TimeInterval) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let completion = { alertController.dismiss(animated: true, completion: nil) }
+
+        present(alertController, animated: true) { DispatchQueue.main.asyncAfter(deadline: .now() + duration, execute: completion) }
+    }
+
+    private func openInstagram(withAssetId assetId: String) {
+        guard let shareURL = URL(string: "instagram://library?LocalIdentifier=\(assetId)") else {
+            return
+        }
+
+        Utils.Application.redirect(to: shareURL)
+    }
+
+    private func setThumbnail() {
+        if imageIsPrepared {
+            thumbnailImageView.image = collageImage
+
+            return
+        }
+
+        CollageRenderer.renderImage(from: collage, with: thumbnailImageView.bounds.size) { [weak self] image in
+            self?.thumbnailImageView.image = image
+        }
+    }
+
+    private func prepareHightResolutionImage() {
+        CollageRenderer.renderImage(from: collage, with: CGSize(width: 1200, height: 1200)) { [weak self] image in
+            self?.collageImage = image
+        }
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -114,19 +188,21 @@ class ShareScreenViewController: CollageBaseViewController {
 
     private var collage: Collage
     private var collageImage: UIImage?
+    private var hashtag: String?
+    private var currentImageAsset: PHAsset?
     private let thumbnailImageView = UIImageView()
     private let shareFooter: ShareScreenFooter
+    private let authService = PhotoAuthService()
+    private let photoLibrary = PhotoLibrary()
 }
 
 extension ShareScreenViewController: ShareScreenFooterDelegate {
     func shareScreenFooter(_ footer: ShareScreenFooter, shareToolbar: ShareToolbar, didSelectDestination destination: ShareDestination) {
-        print(destination)
+        shareToDestination(destination: destination)
     }
 
     func shareScreenFooter(_ footer: ShareScreenFooter, didTappedHashtag hashtag: String) {
-        let alertController = UIAlertController(title: nil, message: "Hashtag copied to clipboard", preferredStyle: .alert)
-        let completion = { alertController.dismiss(animated: true, completion: nil) }
-
-        present(alertController, animated: true) { DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: completion) }
+        self.hashtag = hashtag
+        popUpMessageAlert("Hashtag copied to clipboard", duration: 0.75)
     }
 }
