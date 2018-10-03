@@ -51,6 +51,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         self.library = library
         self.mode = selectionMode
         self.photoAssets = library.assets.reversed()
+
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
         super.init(nibName: nil, bundle: nil)
@@ -128,7 +129,11 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
     private(set) var library: PhotoLibrary
     private(set) var mode: SelectionMode
     private(set) var collectionView: UICollectionView
-    private var selectedCellsIndexPaths: [IndexPath] = []
+    private var selectedCellsIndexPaths: [IndexPath] = [] {
+        didSet {
+            selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
+        }
+    }
 }
 
 extension ImagePickerCollectionViewController: PhotoLibraryDelegate {
@@ -176,20 +181,20 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
 
         switch mode {
         case let .multiply(maxNumberOfSelectedCells):
-            if selectedCellsIndexPaths.contains(indexPath) {
-                selectedCellsIndexPaths = selectedCellsIndexPaths.filter { $0 != indexPath }
-            } else if selectedCellsIndexPaths.count < maxNumberOfSelectedCells {
-                selectedCellsIndexPaths.append(indexPath)
-            } else {
+            guard selectedCellsIndexPaths.count < maxNumberOfSelectedCells else {
                 return
             }
 
-            selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
             cell.toogleSelection()
 
+            guard selectedCellsIndexPaths.contains(indexPath) else {
+                selectedCellsIndexPaths.append(indexPath)
+                return
+            }
+
+            selectedCellsIndexPaths = selectedCellsIndexPaths.filter { $0 != indexPath }
         case .single:
             selectedCellsIndexPaths = [indexPath]
-            selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
         }
     }
 }

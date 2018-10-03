@@ -29,7 +29,7 @@ class AttributedTextLabel: UILabel {
     }
 
     var lastWord: String? {
-        return String(attributedText?.string.split(separator: " ").last ?? " ")
+        return String(attributedText?.string.split(separator: " ").last ?? "")
     }
 
     var letterSpacing: CGFloat = 0 {

@@ -22,7 +22,6 @@ class GradientButton: UIButton {
         layer.shadowOpacity = 0.3
 
         contentHorizontalAlignment = .center
-
         setTitleColor(.white, for: .normal)
     }
 
@@ -88,8 +87,6 @@ class GradientButton: UIButton {
                       height: rect.height)
     }
 
-    private var titleWidth: CGFloat = 0
-
     private let gradientLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
         layer.setAxis(.horizontal)
@@ -97,4 +94,6 @@ class GradientButton: UIButton {
 
         return layer
     }()
+
+    private var titleWidth: CGFloat = 0
 }

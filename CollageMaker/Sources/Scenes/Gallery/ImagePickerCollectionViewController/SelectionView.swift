@@ -10,10 +10,8 @@ class SelectionView: UIView {
         super.init(frame: .zero)
 
         backgroundColor = .brightLavender
-
         layer.borderColor = UIColor.white.cgColor
         layer.borderWidth = 2
-
         confirmIconImageView.contentMode = .scaleAspectFit
 
         addSubview(confirmIconImageView)
