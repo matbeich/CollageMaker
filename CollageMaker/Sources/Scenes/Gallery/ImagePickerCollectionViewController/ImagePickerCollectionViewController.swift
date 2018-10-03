@@ -126,14 +126,15 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
-    private(set) var library: PhotoLibrary
-    private(set) var mode: SelectionMode
-    private(set) var collectionView: UICollectionView
     private var selectedCellsIndexPaths: [IndexPath] = [] {
         didSet {
             selectedAssets = selectedCellsIndexPaths.compactMap { asset(for: $0) }
         }
     }
+
+    private(set) var library: PhotoLibrary
+    private(set) var mode: SelectionMode
+    private(set) var collectionView: UICollectionView
 }
 
 extension ImagePickerCollectionViewController: PhotoLibraryDelegate {
