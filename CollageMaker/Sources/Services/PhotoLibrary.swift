@@ -18,48 +18,38 @@ final class PhotoLibrary: NSObject {
         self.library = library
         super.init()
 
-        getImagesAssets()
+        fetchImagesAssets()
         observeAssets()
     }
 
+    func assetWith(localIdentifier: String) -> PHAsset? {
+        return PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil).firstObject
+    }
+
     func add(_ image: UIImage, callback: @escaping (Bool, PHAsset?) -> Void) {
+        var placeholder = PHObjectPlaceholder()
+
         let changeBlock = {
             let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
             let addAssetRequest = PHAssetCollectionChangeRequest(for: PHAssetCollection())
 
-            guard let placeholder = creationRequest.placeholderForCreatedAsset else {
+            guard let assetPaceholder = creationRequest.placeholderForCreatedAsset else {
                 callback(false, nil)
                 return
             }
 
+            placeholder = assetPaceholder
             addAssetRequest?.addAssets([placeholder] as NSArray)
         }
 
         library.performChanges(changeBlock) { success, _ in
-            DispatchQueue.main.async { [weak self] in
-                success ? callback(success, self?.getLastAsset()) : callback(success, nil)
-            }
+            let asset = PHAsset.fetchAssets(withLocalIdentifiers: [placeholder.localIdentifier], options: nil).firstObject
+
+            DispatchQueue.main.async { callback(success, asset) }
         }
     }
 
-    private func getLastAsset() -> PHAsset? {
-        var asset: PHAsset?
-
-        let options = PHFetchOptions()
-
-        options.includeAssetSourceTypes = .typeUserLibrary
-        options.fetchLimit = 1
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-
-        assetsFetchResult = PHAsset.fetchAssets(with: .image, options: options)
-        assetsFetchResult.enumerateObjects { object, _, _ in
-            asset = object
-        }
-
-        return asset
-    }
-
-    private func getImagesAssets() {
+    private func fetchImagesAssets() {
         let options = PHFetchOptions()
 
         options.includeAssetSourceTypes = .typeUserLibrary
