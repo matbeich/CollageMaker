@@ -269,7 +269,6 @@
 		843A58272114477E002FE28D /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				843A580021144761002FE28D /* Assets.xcassets */,
 				843A580221144761002FE28D /* LaunchScreen.storyboard */,
 				843A580521144761002FE28D /* Info.plist */,
 			);
@@ -316,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				84FD669A2153BD3800C831F0 /* R.generated.swift */,
+				843A580021144761002FE28D /* Assets.xcassets */,
 				84E06F1C21399195007109BE /* Fonts */,
 			);
 			path = Resources;

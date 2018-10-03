@@ -83,6 +83,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
     }
 
     private func setup() {
+        view.backgroundColor = .white
         library.delegate = self
 
         let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))

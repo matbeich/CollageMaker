@@ -10,9 +10,7 @@ class ShareButton: UIControl {
         self.destination = shareDestination
         super.init(frame: .zero)
 
-        addSubview(imageView)
-        addSubview(titleLabel)
-
+        addSubview(stackView)
         setup()
         makeConstraints()
     }
@@ -37,28 +35,44 @@ class ShareButton: UIControl {
             titleLabel.text = "other".uppercased()
         }
 
-        titleLabel.font = R.font.sfProDisplaySemibold(size: 13)
-        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.font = R.font.sfProDisplaySemibold(size: 11)
         titleLabel.textAlignment = .center
+
+        imageView.contentMode = .scaleAspectFit
     }
 
     private func makeConstraints() {
-        let offset = 10
+        stackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
 
         imageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.width.equalTo(55)
             make.height.equalTo(imageView.snp.width)
         }
+    }
 
-        titleLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.top.equalTo(imageView.snp.bottom).offset(offset)
-            make.height.equalTo(titleLabel.font.lineHeight)
+    override var isHighlighted: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                guard let `self` = self else {
+                    return
+                }
+
+                self.layer.opacity = self.isHighlighted ? 0.5 : 1 }
         }
     }
+
+    private(set) lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [imageView, titleLabel])
+
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.isUserInteractionEnabled = false
+        stackView.spacing = 12
+
+        return stackView
+    }()
 
     let destination: ShareDestination
     private let imageView = UIImageView()

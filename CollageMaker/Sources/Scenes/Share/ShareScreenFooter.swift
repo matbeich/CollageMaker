@@ -42,16 +42,16 @@ class ShareScreenFooter: UIView {
     private func makeConstraints() {
         messageLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(20)
-            make.width.equalToSuperview().multipliedBy(0.7)
-            make.height.equalToSuperview().multipliedBy(0.2)
+            make.top.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
+            make.height.equalToSuperview().multipliedBy(0.4)
         }
 
         shareToolbar.snp.makeConstraints { make in
-            make.top.equalTo(messageLabel.snp.bottom).offset(20)
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.3)
+            make.top.equalTo(messageLabel.snp.bottom)
+            make.width.equalToSuperview().multipliedBy(0.8)
             make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
 
