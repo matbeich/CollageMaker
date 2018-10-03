@@ -27,10 +27,12 @@ target 'CollageMaker' do
   
   target 'CollageMakerUITests' do
       inherit! :search_paths
+      pod 'FBSnapshotTestCase'
   end
   
   target 'CollageMakerTests' do
       inherit! :search_paths
+      pod 'FBSnapshotTestCase'
   end
 end
 
