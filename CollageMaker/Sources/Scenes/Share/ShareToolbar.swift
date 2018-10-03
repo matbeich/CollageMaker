@@ -49,8 +49,8 @@ class ShareToolbar: UIView {
     private lazy var buttonsStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.axis = .horizontal
-        stackView.spacing = 30
-        stackView.distribution = .fillEqually
+        stackView.alignment = .top
+        stackView.distribution = .equalSpacing
 
         return stackView
     }()
@@ -59,5 +59,6 @@ class ShareToolbar: UIView {
         destinations.map { ShareButton(shareDestination: $0) }
     }()
 
+    private var buttonsTitles: [String] = []
     private let destinations: [ShareDestination]
 }

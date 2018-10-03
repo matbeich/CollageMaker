@@ -56,7 +56,10 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
                     return
                 }
 
+                self?.layer.opacity = 0.0
                 self?.imageView.image = image
+
+                UIView.animate(withDuration: 0.5) { self?.layer.opacity = 1.0 }
             }
         }
     }
