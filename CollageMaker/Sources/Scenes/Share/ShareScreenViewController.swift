@@ -139,7 +139,7 @@ class ShareScreenViewController: CollageBaseViewController {
 
         guard
             let currentImageAsset = currentImageAsset,
-            let asset = photoLibrary.assetWith(localIdentifier: currentImageAsset.localIdentifier),
+            let asset = photoLibrary.assetFor(localIdentifier: currentImageAsset.localIdentifier),
             currentImageAsset == asset
         else {
             saveToPhotos(content: content, completion: completion)
@@ -171,15 +171,15 @@ class ShareScreenViewController: CollageBaseViewController {
             return
         }
 
-        CollageRenderer.renderImage(from: collage, with: thumbnailImageView.bounds.size) { [weak self] image in
-            self?.thumbnailImageView.image = image
-        }
+//        collageRenderer.renderImage(from: collage, with: thumbnailImageView.bounds.size, in: .global()) { [weak self] image in
+//            self?.thumbnailImageView.image = image
+//        }
     }
 
     private func prepareHightResolutionImage() {
-        CollageRenderer.renderImage(from: collage, with: CGSize(width: 1200, height: 1200)) { [weak self] image in
-            self?.collageImage = image
-        }
+//        collageRenderer.renderImage(from: collage, with: CGSize(width: 1200, height: 1200), in: .global()) { [weak self] image in
+//            self?.collageImage = image
+//        }
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -194,6 +194,7 @@ class ShareScreenViewController: CollageBaseViewController {
     private let shareFooter: ShareScreenFooter
     private let authService = PhotoAuthService()
     private let photoLibrary = PhotoLibrary()
+    private let collageRenderer = CollageRenderer()
 }
 
 extension ShareScreenViewController: ShareScreenFooterDelegate {

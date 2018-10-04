@@ -7,7 +7,7 @@ import Photos
 
 typealias CollageFramesKit = [RelativeFrame]
 
-class CollageTemplateProvider {
+final class CollageTemplateProvider {
     enum Size {
         case small
         case medium
@@ -22,8 +22,12 @@ class CollageTemplateProvider {
         }
     }
 
-    static func templates(for assets: [PHAsset] = []) -> [CollageTemplate] {
-        PhotoLibrary.cacheImages(for: assets)
+    init(photoLibrary: PhotoLibraryType = PhotoLibrary()) {
+        self.photoLibrary = photoLibrary
+    }
+
+    func templates(for assets: [PHAsset] = []) -> [CollageTemplate] {
+        photoLibrary.cacheImages(with: assets)
 
         var collagesFramesKit = [CollageFramesKit]()
 
@@ -53,33 +57,18 @@ class CollageTemplateProvider {
         return collagesFramesKit.map { CollageTemplate(frames: $0, assets: assets) }
     }
 
-    static func collage(from template: CollageTemplate, size: Size = .large, callback: @escaping (Collage) -> Void) {
+    func collage(from template: CollageTemplate, size: Size = .large, callback: @escaping (Collage) -> Void) {
         let cells = template.cellFrames.map { CollageCell(relativeFrame: $0) }
         let collage = Collage(cells: cells)
 
-        collectPhotos(from: template.assets, size: size.value) { photos in
+        photoLibrary.collectPhotos(from: template.assets, deliveryMode: .highQualityFormat, size: size.value) { photos in
             let abstractPhotos = zip(photos, template.assets).map { AbstractPhoto(photo: $0.0, asset: $0.1) }
             collage.fill(with: abstractPhotos)
             callback(collage)
         }
     }
 
-    static func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode = .highQualityFormat, size: CGSize, callback: @escaping ([UIImage]) -> Void) {
-        let group = DispatchGroup()
-        var photos: [UIImage?] = Array(repeating: nil, count: assets.count)
-
-        for (index, asset) in assets.enumerated() {
-            group.enter()
-            PhotoLibrary.photo(from: asset, deliveryMode: deliveryMode, size: size) { photo in
-                photos[index] = photo
-                group.leave()
-            }
-        }
-
-        group.notify(queue: .main) {
-            callback(photos.compactMap { $0 })
-        }
-    }
+    private let photoLibrary: PhotoLibraryType
 }
 
 fileprivate extension RelativeFrame {

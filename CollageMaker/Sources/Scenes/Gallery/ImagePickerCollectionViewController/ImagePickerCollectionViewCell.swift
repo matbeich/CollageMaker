@@ -19,13 +19,14 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    var photoAsset: PHAsset? {
+    var image: UIImage? {
         didSet {
             update()
         }
     }
 
     override init(frame: CGRect) {
+        self.photoLibrary = PhotoLibrary()
         super.init(frame: frame)
 
         backgroundColor = .brightLavender
@@ -75,22 +76,21 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
     }
 
     private func update() {
-        guard let asset = photoAsset else {
-            return
-        }
+//        photoLibrary.photo(with: asset, deliveryMode: .opportunistic, size: bounds.size.sameAspectScaled(by: UIScreen.main.scale)) { [weak self] image in
+//            if asset == self?.photoAsset {
+//                self?.imageView.image = image
+//            }
+//        }
 
-        PhotoLibrary.photo(from: asset, deliveryMode: .opportunistic, size: bounds.size.sameAspectScaled(by: UIScreen.main.scale)) { [weak self] image in
-            if asset == self?.photoAsset {
-                self?.imageView.image = image
-            }
-        }
+        imageView.image = image
     }
 
+    private let photoLibrary: PhotoLibraryType
     private let imageView = UIImageView()
     private lazy var selectionView = SelectionView()
 }
 
-private extension CGSize {
+extension CGSize {
     func sameAspectScaled(by multiplier: CGFloat) -> CGSize {
         return CGSize(width: width * multiplier, height: height * multiplier)
     }

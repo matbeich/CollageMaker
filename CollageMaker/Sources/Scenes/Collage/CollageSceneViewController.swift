@@ -117,6 +117,7 @@ class CollageSceneViewController: CollageBaseViewController {
 
     private var collageViewController = CollageViewController()
     private let toolsBar = CollageToolbar.standart
+    private let photoLibrary = PhotoLibrary()
     private let templateControllerView = TemplateControllerView()
     private let templateBarController = TemplateBarCollectionViewController()
 }
@@ -130,7 +131,7 @@ extension CollageSceneViewController: CollageViewControllerDelegate {
         }
 
         actualAssets.remove(at: index)
-        let templates = CollageTemplateProvider.templates(for: actualAssets)
+        let templates = CollageTemplateProvider().templates(for: actualAssets)
 
         templateBarController.templates = templates
     }
@@ -142,7 +143,7 @@ extension CollageSceneViewController: CollageViewControllerDelegate {
 
 extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegate {
     func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate) {
-        CollageTemplateProvider.collage(from: collageTemplate, size: .large) { [weak self] collage in
+        CollageTemplateProvider().collage(from: collageTemplate, size: .large) { [weak self] collage in
             self?.collageViewController.collage = collage
         }
     }
@@ -165,9 +166,9 @@ extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegat
             actualAssets.remove(at: index)
         }
 
-        let templates = CollageTemplateProvider.templates(for: actualAssets)
+        let templates = CollageTemplateProvider().templates(for: actualAssets)
 
-        PhotoLibrary.photo(from: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
+        photoLibrary.photo(with: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
             let abstractPhoto = AbstractPhoto(photo: $0, asset: asset)
             self?.collageViewController.addAbstractPhotoToSelectedCell(abstractPhoto)
         }

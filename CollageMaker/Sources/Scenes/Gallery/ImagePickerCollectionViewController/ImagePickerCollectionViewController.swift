@@ -32,10 +32,10 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
 
     var photoAssets: [PHAsset] = [] {
         willSet {
-            PhotoLibrary.stopCaching()
+            library.stopCaching()
         }
         didSet {
-            PhotoLibrary.cacheImages(for: photoAssets)
+            library.cacheImages(with: photoAssets)
             updateSelection()
             collectionView.reloadData()
         }
@@ -47,7 +47,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
-    init(library: PhotoLibrary = PhotoLibrary(), selectionMode: SelectionMode) {
+    init(library: PhotoLibraryType = PhotoLibrary(), selectionMode: SelectionMode) {
         self.library = library
         self.mode = selectionMode
         self.photoAssets = library.assets.reversed()
@@ -132,7 +132,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
-    private(set) var library: PhotoLibrary
+    private(set) var library: PhotoLibraryType
     private(set) var mode: SelectionMode
     private(set) var collectionView: UICollectionView
 }
@@ -163,7 +163,17 @@ extension ImagePickerCollectionViewController: UICollectionViewDataSource {
             return cell
         }
 
-        pickerCell.photoAsset = photoAssets[indexPath.row]
+        let assetForCell = photoAssets[indexPath.row]
+
+        library.photo(with: assetForCell, deliveryMode: .opportunistic, size: pickerCell.bounds.size.sameAspectScaled(by: UIScreen.main.scale)) { [weak self] image in
+            print(pickerCell.bounds.size.sameAspectScaled(by: UIScreen.main.scale))
+            if assetForCell == self?.photoAssets[indexPath.row] {
+                pickerCell.image = image
+            } else {
+                print("OMG")
+            }
+        }
+
         if selectedCellsIndexPaths.contains(indexPath) {
             DispatchQueue.main.async {
                 pickerCell.cellSelected = true

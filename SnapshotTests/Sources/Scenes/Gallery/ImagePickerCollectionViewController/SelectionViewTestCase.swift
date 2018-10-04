@@ -22,7 +22,7 @@ class SelectionViewTestCase: FBSnapshotTestCase {
         super.tearDown()
     }
 
-    func testSelectionViewIsRound() {
+    func testSelectionViewIsAlwaysRound() {
         selectionView.layer.cornerRadius = 0
         FBSnapshotVerifyView(selectionView)
     }

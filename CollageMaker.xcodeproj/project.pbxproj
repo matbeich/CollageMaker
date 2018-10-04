@@ -30,6 +30,10 @@
 		844CDD232165FE7500AF3B8E /* SnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD222165FE7500AF3B8E /* SnapshotTests.swift */; };
 		844CDD2B2165FE9400AF3B8E /* SelectionViewTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD162165372000AF3B8E /* SelectionViewTestCase.swift */; };
 		844CDD2E2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD2D2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift */; };
+		844CDD352166188100AF3B8E /* TemplateControllerViewTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD342166188100AF3B8E /* TemplateControllerViewTestCase.swift */; };
+		844CDD3921661FC200AF3B8E /* TemplateBarCollectionViewCellTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD3821661FC200AF3B8E /* TemplateBarCollectionViewCellTestCase.swift */; };
+		844CDD3B2166276D00AF3B8E /* test_img.png in Resources */ = {isa = PBXBuildFile; fileRef = 844CDD3A2166276D00AF3B8E /* test_img.png */; };
+		844CDD3E2166307900AF3B8E /* MockPhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */; };
 		845044332151362600B082E1 /* CollageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845044322151362600B082E1 /* CollageTemplate.swift */; };
 		846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846AA2C82142689500DF92FD /* CameraAuthService.swift */; };
 		848214DD2153B7FE009FD986 /* CollageBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */; };
@@ -120,6 +124,10 @@
 		844CDD222165FE7500AF3B8E /* SnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotTests.swift; sourceTree = "<group>"; };
 		844CDD242165FE7500AF3B8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844CDD2D2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCellTestCase.swift; sourceTree = "<group>"; };
+		844CDD342166188100AF3B8E /* TemplateControllerViewTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateControllerViewTestCase.swift; sourceTree = "<group>"; };
+		844CDD3821661FC200AF3B8E /* TemplateBarCollectionViewCellTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateBarCollectionViewCellTestCase.swift; sourceTree = "<group>"; };
+		844CDD3A2166276D00AF3B8E /* test_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_img.png; sourceTree = "<group>"; };
+		844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPhotoLibrary.swift; sourceTree = "<group>"; };
 		845044322151362600B082E1 /* CollageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplate.swift; sourceTree = "<group>"; };
 		846AA2C82142689500DF92FD /* CameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAuthService.swift; sourceTree = "<group>"; };
 		848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageBaseViewController.swift; sourceTree = "<group>"; };
@@ -297,12 +305,88 @@
 		844CDD212165FE7500AF3B8E /* SnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
-				844CDD162165372000AF3B8E /* SelectionViewTestCase.swift */,
-				844CDD2D2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift */,
+				844CDD3F2166317200AF3B8E /* Resources */,
+				844CDD2F2166180D00AF3B8E /* Sources */,
 				844CDD222165FE7500AF3B8E /* SnapshotTests.swift */,
 				844CDD242165FE7500AF3B8E /* Info.plist */,
 			);
 			path = SnapshotTests;
+			sourceTree = "<group>";
+		};
+		844CDD2F2166180D00AF3B8E /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				844CDD3C2166305F00AF3B8E /* Utils */,
+				844CDD302166181D00AF3B8E /* Scenes */,
+				844CDD3621661F8C00AF3B8E /* Common */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		844CDD302166181D00AF3B8E /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				844CDD312166182800AF3B8E /* Gallery */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		844CDD312166182800AF3B8E /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				844CDD332166186C00AF3B8E /* Views */,
+				844CDD322166185E00AF3B8E /* ImagePickerCollectionViewController */,
+			);
+			path = Gallery;
+			sourceTree = "<group>";
+		};
+		844CDD322166185E00AF3B8E /* ImagePickerCollectionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				844CDD162165372000AF3B8E /* SelectionViewTestCase.swift */,
+				844CDD2D2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift */,
+			);
+			path = ImagePickerCollectionViewController;
+			sourceTree = "<group>";
+		};
+		844CDD332166186C00AF3B8E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				844CDD342166188100AF3B8E /* TemplateControllerViewTestCase.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		844CDD3621661F8C00AF3B8E /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				844CDD3721661FB300AF3B8E /* TemplateBarCollectionViewController */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		844CDD3721661FB300AF3B8E /* TemplateBarCollectionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				844CDD3821661FC200AF3B8E /* TemplateBarCollectionViewCellTestCase.swift */,
+			);
+			path = TemplateBarCollectionViewController;
+			sourceTree = "<group>";
+		};
+		844CDD3C2166305F00AF3B8E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		844CDD3F2166317200AF3B8E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				844CDD3A2166276D00AF3B8E /* test_img.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		8475DD93211DE5B100044225 /* Services */ = {
@@ -623,6 +707,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				844CDD3B2166276D00AF3B8E /* test_img.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,8 +918,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				844CDD3E2166307900AF3B8E /* MockPhotoLibrary.swift in Sources */,
 				844CDD232165FE7500AF3B8E /* SnapshotTests.swift in Sources */,
+				844CDD3921661FC200AF3B8E /* TemplateBarCollectionViewCellTestCase.swift in Sources */,
 				844CDD2E2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift in Sources */,
+				844CDD352166188100AF3B8E /* TemplateControllerViewTestCase.swift in Sources */,
 				844CDD2B2165FE9400AF3B8E /* SelectionViewTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

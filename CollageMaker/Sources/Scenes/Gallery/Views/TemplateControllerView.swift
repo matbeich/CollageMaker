@@ -28,15 +28,20 @@ class TemplateControllerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func setHeaderText(_ text: String?) {
+        headerLabel.text = text
+        makeConstraints()
+    }
+
     private func makeConstraints() {
         let offset = 20
 
-        dimmingView.snp.makeConstraints { make in
+        dimmingView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
         }
 
         if withHeader {
-            headerLabel.snp.makeConstraints { make in
+            headerLabel.snp.remakeConstraints { make in
                 make.left.equalToSuperview().offset(offset)
                 make.right.equalToSuperview().offset(-offset)
                 make.top.equalToSuperview()
@@ -44,7 +49,7 @@ class TemplateControllerView: UIView {
             }
         }
 
-        templateContainerView.snp.makeConstraints { make in
+        templateContainerView.snp.remakeConstraints { make in
             make.top.equalToSuperview().offset(withHeader ? offset : 0)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
