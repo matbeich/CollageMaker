@@ -25,6 +25,8 @@ class TemplatePickerViewController: CollageBaseViewController {
     init(photoLibrary: PhotoLibraryType = PhotoLibrary()) {
         self.photoLibrary = photoLibrary
         self.imagePickerController = ImagePickerCollectionViewController(library: photoLibrary, selectionMode: .multiply(9))
+        self.templateProvider = CollageTemplateProvider(photoLibrary: photoLibrary)
+        self.templateController = TemplateBarCollectionViewController(templateProvider: templateProvider)
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -118,7 +120,7 @@ class TemplatePickerViewController: CollageBaseViewController {
     }
 
     private func select(template: CollageTemplate) {
-        CollageTemplateProvider().collage(from: template, size: .large) { collage in
+        templateProvider.collage(from: template, size: .large) { collage in
             self.delegate?.templatePickerViewController(self, templateController: self.templateController, didSelectTemplate: template)
         }
     }
@@ -164,11 +166,12 @@ class TemplatePickerViewController: CollageBaseViewController {
     }()
 
     private let photoLibrary: PhotoLibraryType
-    private let mainControllerContainer = UIView(frame: .zero)
+    private let templateProvider: CollageTemplateProvider
     private let cameraAuthService = CameraAuthService()
+    private let mainControllerContainer = UIView(frame: .zero)
     private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
     private var imagePickerController: ImagePickerCollectionViewController
-    private var templateController = TemplateBarCollectionViewController(templates: [])
+    private var templateController: TemplateBarCollectionViewController
 }
 
 extension TemplatePickerViewController: ImagePickerCollectionViewControllerDelegate {
@@ -180,7 +183,7 @@ extension TemplatePickerViewController: ImagePickerCollectionViewControllerDeleg
         view.layoutIfNeeded()
         selectedAssets = assets
 
-        templateController.templates = CollageTemplateProvider().templates(for: selectedAssets)
+        templateController.templates = templateProvider.templates(for: selectedAssets)
         setTemplateViewIsVisible(templateViewIsEmpty ? false : true)
     }
 }

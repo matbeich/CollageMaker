@@ -7,7 +7,6 @@ import SnapKit
 import UIKit
 
 class ImagePickerCollectionViewCell: UICollectionViewCell {
-    
     var cellSelected: Bool = false {
         didSet {
             if cellSelected {
@@ -25,7 +24,7 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
             update()
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 

@@ -22,8 +22,9 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         }
     }
 
-    init(templates: [CollageTemplate] = []) {
+    init(templates: [CollageTemplate] = [], templateProvider: CollageTemplateProvider = CollageTemplateProvider()) {
         self.templates = templates
+        self.templateProvider = templateProvider
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
 
@@ -79,7 +80,7 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         delegate?.templateBarCollectionViewController(self, didSelect: templates[indexPath.row])
     }
 
-    private let templateProvider = CollageTemplateProvider()
+    private var templateProvider: CollageTemplateProvider
     private let collageRenderer = CollageRenderer()
 }
 

@@ -49,7 +49,7 @@ class ShareScreenFooter: UIView {
 
         shareToolbar.snp.makeConstraints { make in
             make.top.equalTo(messageLabel.snp.bottom)
-            make.width.equalToSuperview().multipliedBy(0.8)
+            make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
         }

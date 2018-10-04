@@ -171,15 +171,15 @@ class ShareScreenViewController: CollageBaseViewController {
             return
         }
 
-//        collageRenderer.renderImage(from: collage, with: thumbnailImageView.bounds.size, in: .global()) { [weak self] image in
-//            self?.thumbnailImageView.image = image
-//        }
+        collageRenderer.renderAsyncImage(from: collage, with: thumbnailImageView.bounds.size) { [weak self] image in
+            self?.thumbnailImageView.image = image
+        }
     }
 
     private func prepareHightResolutionImage() {
-//        collageRenderer.renderImage(from: collage, with: CGSize(width: 1200, height: 1200), in: .global()) { [weak self] image in
-//            self?.collageImage = image
-//        }
+        collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 1200, height: 1200)) { [weak self] image in
+            self?.collageImage = image
+        }
     }
 
     override var prefersStatusBarHidden: Bool {
