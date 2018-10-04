@@ -29,6 +29,7 @@
 		84434D9E214808DF0060B76B /* ShareScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84434D9D214808DF0060B76B /* ShareScreenViewController.swift */; };
 		844CDD232165FE7500AF3B8E /* SnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD222165FE7500AF3B8E /* SnapshotTests.swift */; };
 		844CDD2B2165FE9400AF3B8E /* SelectionViewTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD162165372000AF3B8E /* SelectionViewTestCase.swift */; };
+		844CDD2E2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD2D2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift */; };
 		845044332151362600B082E1 /* CollageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845044322151362600B082E1 /* CollageTemplate.swift */; };
 		846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846AA2C82142689500DF92FD /* CameraAuthService.swift */; };
 		848214DD2153B7FE009FD986 /* CollageBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */; };
@@ -118,6 +119,7 @@
 		844CDD202165FE7500AF3B8E /* SnapshotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnapshotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844CDD222165FE7500AF3B8E /* SnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotTests.swift; sourceTree = "<group>"; };
 		844CDD242165FE7500AF3B8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		844CDD2D2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCellTestCase.swift; sourceTree = "<group>"; };
 		845044322151362600B082E1 /* CollageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplate.swift; sourceTree = "<group>"; };
 		846AA2C82142689500DF92FD /* CameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAuthService.swift; sourceTree = "<group>"; };
 		848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageBaseViewController.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				844CDD162165372000AF3B8E /* SelectionViewTestCase.swift */,
+				844CDD2D2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift */,
 				844CDD222165FE7500AF3B8E /* SnapshotTests.swift */,
 				844CDD242165FE7500AF3B8E /* Info.plist */,
 			);
@@ -831,6 +834,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				844CDD232165FE7500AF3B8E /* SnapshotTests.swift in Sources */,
+				844CDD2E2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift in Sources */,
 				844CDD2B2165FE9400AF3B8E /* SelectionViewTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

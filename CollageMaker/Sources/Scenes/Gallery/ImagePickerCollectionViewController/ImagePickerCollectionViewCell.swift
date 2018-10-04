@@ -26,7 +26,7 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
     }
 
     override init(frame: CGRect) {
-        super.init(frame: .zero)
+        super.init(frame: frame)
 
         backgroundColor = .brightLavender
         imageView.contentMode = .scaleAspectFill
