@@ -165,13 +165,8 @@ extension ImagePickerCollectionViewController: UICollectionViewDataSource {
 
         let assetForCell = photoAssets[indexPath.row]
 
-        library.photo(with: assetForCell, deliveryMode: .opportunistic, size: pickerCell.bounds.size.sameAspectScaled(by: UIScreen.main.scale)) { [weak self] image in
-            print(pickerCell.bounds.size.sameAspectScaled(by: UIScreen.main.scale))
-            if assetForCell == self?.photoAssets[indexPath.row] {
-                pickerCell.image = image
-            } else {
-                print("OMG")
-            }
+        library.photo(with: assetForCell, deliveryMode: .opportunistic, size: pickerCell.bounds.size.sameAspectScaled(by: UIScreen.main.scale)) { image in
+            pickerCell.image = image
         }
 
         if selectedCellsIndexPaths.contains(indexPath) {

@@ -7,6 +7,7 @@ import SnapKit
 import UIKit
 
 class ImagePickerCollectionViewCell: UICollectionViewCell {
+    
     var cellSelected: Bool = false {
         didSet {
             if cellSelected {
@@ -24,9 +25,8 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
             update()
         }
     }
-
+    
     override init(frame: CGRect) {
-        self.photoLibrary = PhotoLibrary()
         super.init(frame: frame)
 
         backgroundColor = .brightLavender
@@ -76,16 +76,9 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
     }
 
     private func update() {
-//        photoLibrary.photo(with: asset, deliveryMode: .opportunistic, size: bounds.size.sameAspectScaled(by: UIScreen.main.scale)) { [weak self] image in
-//            if asset == self?.photoAsset {
-//                self?.imageView.image = image
-//            }
-//        }
-
         imageView.image = image
     }
 
-    private let photoLibrary: PhotoLibraryType
     private let imageView = UIImageView()
     private lazy var selectionView = SelectionView()
 }

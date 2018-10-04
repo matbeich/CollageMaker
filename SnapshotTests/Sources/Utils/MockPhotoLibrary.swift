@@ -9,7 +9,7 @@ import Photos
 class BundleClass {}
 
 class MockPhotoLibrary: PhotoLibraryType {
-    var assets: [PHAsset] = []
+    var assets: [PHAsset] = Array(repeating: PHAsset(), count: 4)
     
     var delegate: PhotoLibraryDelegate?
     
@@ -24,7 +24,7 @@ class MockPhotoLibrary: PhotoLibraryType {
     func cacheImages(with assets: [PHAsset]) {}
     
     func photo(with asset: PHAsset, deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize?, callback: @escaping PhotoCompletion) {
-        let image =  UIImage.init(named: "<#T##String#>")
+        let image =  UIImage(named: "test_img", in: Bundle(for: BundleClass.self), compatibleWith: nil)
         callback(image)
     }
     

@@ -35,10 +35,7 @@ class ImagePickerCollectionViewCellTestCase: FBSnapshotTestCase {
     }
     
     func testCellShowsImage() {
-        let library = PhotoLibrary()
-        let asset = library.assets.last
-        
-        cell.photoAsset = asset
+        let image = UIImage(
         
         FBSnapshotVerifyView(cell)
     }
