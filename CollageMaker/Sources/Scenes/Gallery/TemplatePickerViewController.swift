@@ -15,7 +15,7 @@ class TemplatePickerViewController: CollageBaseViewController {
     weak var delegate: TemplatePickerViewControllerDelegate?
 
     var templateViewIsVisible: Bool {
-        return view.bounds.contains(templateControllerContainer.frame)
+        return view.bounds.contains(templatesView.frame)
     }
 
     var templateViewIsEmpty: Bool {
@@ -40,12 +40,12 @@ class TemplatePickerViewController: CollageBaseViewController {
         setup()
 
         view.addSubview(mainControllerContainer)
-        view.addSubview(templateControllerContainer)
+        view.addSubview(templatesView)
 
         makeConstraints()
 
         addChild(imagePickerController, to: mainControllerContainer)
-        addChild(templateController, to: templateControllerContainer.templateContainerView)
+        addChild(templateController, to: templatesView.contentView)
 
         templateController.delegate = self
         imagePickerController.delegate = self
@@ -73,7 +73,7 @@ class TemplatePickerViewController: CollageBaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let offset = templateViewIsVisible ? templateControllerContainer.frame.height : 50
+        let offset = templateViewIsVisible ? templatesView.frame.height : 50
         imagePickerController.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: offset - view.safeAreaInsets.bottom, right: 0)
     }
 
@@ -108,9 +108,9 @@ class TemplatePickerViewController: CollageBaseViewController {
             return
         }
 
-        let offset = visible ? templateControllerContainer.frame.height : 50
+        let offset = visible ? templatesView.frame.height : 50
 
-        templateControllerContainer.snp.updateConstraints { make in
+        templatesView.snp.updateConstraints { make in
             make.top.equalTo(view.snp.bottom).offset(-offset)
         }
 
@@ -126,7 +126,7 @@ class TemplatePickerViewController: CollageBaseViewController {
     }
 
     private func makeConstraints() {
-        templateControllerContainer.snp.updateConstraints { make in
+        templatesView.snp.updateConstraints { make in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.top.equalTo(view.snp.bottom).offset(-50)
@@ -166,10 +166,10 @@ class TemplatePickerViewController: CollageBaseViewController {
     }()
 
     private let photoLibrary: PhotoLibraryType
+    private let mainControllerContainer = UIView()
     private let templateProvider: CollageTemplateProvider
     private let cameraAuthService = CameraAuthService()
-    private let mainControllerContainer = UIView(frame: .zero)
-    private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
+    private let templatesView = TemplatesContainerView(headerText: "Choose template")
     private var imagePickerController: ImagePickerCollectionViewController
     private var templateController: TemplateBarCollectionViewController
 }
@@ -202,7 +202,7 @@ extension TemplatePickerViewController: UIImagePickerControllerDelegate & UINavi
             return
         }
 
-        imagePickerController.library.add(image) { success, _ in
+        imagePickerController.library.add(image) { success, asset in
             assert(success, "Unable to write asset to photo library")
         }
     }
