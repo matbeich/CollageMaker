@@ -2,31 +2,28 @@ platform :ios, '11.0'
 use_frameworks!
 inhibit_all_warnings!
 
-def defaults
-    pod 'Fabric'
-    pod 'Crashlytics'
-    pod 'SnapKit'
-    pod 'R.swift'
-    pod 'AppCraftUtils/Interface', '1.2.64'
-    pod 'AppCraftUtils/Sharing', '1.2.64'
-end
-
 def external
   source 'https://github.com/CocoaPods/Specs.git'
+  pod 'Fabric'
+  pod 'Crashlytics'
+  pod 'SnapKit'
+  pod 'R.swift'
+
 end
 
 def internal
   source 'git@github.com:app-craft/internal-pods.git'
+  pod 'AppCraftUtils/Interface', '1.2.64'
+  pod 'AppCraftUtils/Sharing', '1.2.64'
 end
 
 target 'CollageMaker' do
   internal
   external
-
-  defaults
   
-  target 'CollageMakerUITests' do
+  target 'SnapshotTests' do
       inherit! :search_paths
+      pod 'iOSSnapshotTestCase'
   end
   
   target 'CollageMakerTests' do
