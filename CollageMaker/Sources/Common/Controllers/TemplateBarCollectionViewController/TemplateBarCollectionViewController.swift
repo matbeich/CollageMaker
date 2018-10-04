@@ -22,8 +22,9 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         }
     }
 
-    init(templates: [CollageTemplate] = []) {
+    init(templates: [CollageTemplate] = [], templateProvider: CollageTemplateProvider = CollageTemplateProvider()) {
         self.templates = templates
+        self.templateProvider = templateProvider
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
 
@@ -46,6 +47,19 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         layout.scrollDirection = .horizontal
     }
 
+    private func getImageForTemplate(_ template: CollageTemplate, callback: @escaping (UIImage?) -> Void) {
+        templateProvider.collage(from: template, size: .medium) { [weak self] collage in
+
+            let collageView = CollageView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+            collageView.updateCollage(collage)
+            collageView.saveCellsVisibleRect()
+
+            self?.collageRenderer.renderAsyncImage(from: collage, with: collageView.bounds.size) { image in
+                callback(image)
+            }
+        }
+    }
+
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return templates.count
     }
@@ -57,7 +71,7 @@ class TemplateBarCollectionViewController: UICollectionViewController {
             return cell
         }
 
-        templateBarCell.collageTemplate = templates[indexPath.row]
+        getImageForTemplate(templates[indexPath.row]) { templateBarCell.collageImage = $0 }
 
         return templateBarCell
     }
@@ -65,6 +79,9 @@ class TemplateBarCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.templateBarCollectionViewController(self, didSelect: templates[indexPath.row])
     }
+
+    private var templateProvider: CollageTemplateProvider
+    private let collageRenderer = CollageRenderer()
 }
 
 extension TemplateBarCollectionViewController: UICollectionViewDelegateFlowLayout {

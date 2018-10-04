@@ -22,6 +22,19 @@ class TemplatePickerViewController: CollageBaseViewController {
         return templateController.templates.count <= 0
     }
 
+    init(photoLibrary: PhotoLibraryType = PhotoLibrary()) {
+        self.photoLibrary = photoLibrary
+        self.imagePickerController = ImagePickerCollectionViewController(library: photoLibrary, selectionMode: .multiply(9))
+        self.templateProvider = CollageTemplateProvider(photoLibrary: photoLibrary)
+        self.templateController = TemplateBarCollectionViewController(templateProvider: templateProvider)
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -107,7 +120,7 @@ class TemplatePickerViewController: CollageBaseViewController {
     }
 
     private func select(template: CollageTemplate) {
-        CollageTemplateProvider.collage(from: template, size: .large) { collage in
+        templateProvider.collage(from: template, size: .large) { collage in
             self.delegate?.templatePickerViewController(self, templateController: self.templateController, didSelectTemplate: template)
         }
     }
@@ -134,9 +147,9 @@ class TemplatePickerViewController: CollageBaseViewController {
 
     private var selectedAssets: [PHAsset] = [] {
         willSet {
-            PhotoLibrary.stopCaching()
+            photoLibrary.stopCaching()
         } didSet {
-            PhotoLibrary.cacheImages(for: selectedAssets)
+            photoLibrary.cacheImages(with: selectedAssets)
             gradientButton.setTitle(String(selectedAssets.count), for: .normal)
         }
     }
@@ -152,11 +165,13 @@ class TemplatePickerViewController: CollageBaseViewController {
         return button
     }()
 
-    private let mainControllerContainer = UIView(frame: .zero)
+    private let photoLibrary: PhotoLibraryType
+    private let templateProvider: CollageTemplateProvider
     private let cameraAuthService = CameraAuthService()
+    private let mainControllerContainer = UIView(frame: .zero)
     private let templateControllerContainer = TemplateControllerView(frame: .zero, headerText: "Choose template")
-    private var imagePickerController = ImagePickerCollectionViewController(selectionMode: .multiply(9))
-    private var templateController = TemplateBarCollectionViewController(templates: [])
+    private var imagePickerController: ImagePickerCollectionViewController
+    private var templateController: TemplateBarCollectionViewController
 }
 
 extension TemplatePickerViewController: ImagePickerCollectionViewControllerDelegate {
@@ -168,7 +183,7 @@ extension TemplatePickerViewController: ImagePickerCollectionViewControllerDeleg
         view.layoutIfNeeded()
         selectedAssets = assets
 
-        templateController.templates = CollageTemplateProvider.templates(for: selectedAssets)
+        templateController.templates = templateProvider.templates(for: selectedAssets)
         setTemplateViewIsVisible(templateViewIsEmpty ? false : true)
     }
 }

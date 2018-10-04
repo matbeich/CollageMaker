@@ -62,3 +62,4 @@ tm_build_errors
 *.app.dSYM.zip
 
 .bundle
+CollageMakerTests/Images/

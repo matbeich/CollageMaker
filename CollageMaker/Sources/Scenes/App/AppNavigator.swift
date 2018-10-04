@@ -10,6 +10,7 @@ import Utils
 final class AppNavigator {
     init(authSerivce: PhotoAuthService = PhotoAuthService()) {
         self.authService = authSerivce
+        templateProvider = CollageTemplateProvider()
     }
 
     lazy var rootViewController: UINavigationController = {
@@ -28,6 +29,7 @@ final class AppNavigator {
     }()
 
     private let authService: PhotoAuthService
+    private let templateProvider: CollageTemplateProvider
 }
 
 extension AppNavigator: PermissionsViewControllerDelegate {
@@ -65,7 +67,7 @@ extension AppNavigator: ShareScreenViewControllerDelegate {
 
 extension AppNavigator: TemplatePickerViewControllerDelegate {
     func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate template: CollageTemplate) {
-        CollageTemplateProvider.collage(from: template, size: .large) { [weak self] collage in
+        templateProvider.collage(from: template, size: .large) { [weak self] collage in
             let controller = CollageSceneViewController(collage: collage, templates: templateController.templates)
             controller.delegate = self
 

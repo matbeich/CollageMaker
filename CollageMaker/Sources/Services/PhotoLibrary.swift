@@ -5,24 +5,40 @@
 import Foundation
 import Photos
 
+protocol PhotoLibraryType {
+    typealias PhotoCompletion = (UIImage?) -> Void
+    typealias PhotosCompletion = ([UIImage]) -> Void
+
+    var assets: [PHAsset] { get }
+    var delegate: PhotoLibraryDelegate? { get set }
+
+    func stopCaching()
+    func cacheImages(with assets: [PHAsset])
+    func assetFor(localIdentifier: String) -> PHAsset?
+    func add(_ image: UIImage, callback: @escaping (Bool, PHAsset?) -> Void)
+    func photo(with asset: PHAsset, deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize?, callback: @escaping PhotoCompletion)
+    func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize, callback: @escaping PhotosCompletion)
+}
+
 protocol PhotoLibraryDelegate: AnyObject {
     func photoLibrary(_ library: PhotoLibrary, didUpdateAssets assets: [PHAsset])
     func photoLibrary(_ library: PhotoLibrary, didRemoveAssets assets: [PHAsset])
     func photoLibrary(_ library: PhotoLibrary, didInsertAssets assets: [PHAsset])
 }
 
-final class PhotoLibrary: NSObject {
+final class PhotoLibrary: NSObject, PhotoLibraryType {
     weak var delegate: PhotoLibraryDelegate?
 
-    init(library: PHPhotoLibrary = .shared()) {
+    init(library: PHPhotoLibrary = .shared(), imageCacher: PHCachingImageManager = .shared) {
         self.library = library
+        self.imageCacher = imageCacher
         super.init()
 
         fetchImagesAssets()
         observeAssets()
     }
 
-    func assetWith(localIdentifier: String) -> PHAsset? {
+    func assetFor(localIdentifier: String) -> PHAsset? {
         return PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil).firstObject
     }
 
@@ -49,10 +65,49 @@ final class PhotoLibrary: NSObject {
         }
     }
 
-    private func fetchImagesAssets() {
+    func cacheImages(with assets: [PHAsset]) {
+        imageCacher.startCachingImages(for: assets, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: nil)
+    }
+
+    func stopCaching() {
+        imageCacher.stopCachingImagesForAllAssets()
+    }
+
+    func photo(with asset: PHAsset, deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize? = nil, callback: @escaping PhotoCompletion) {
+        let sizeForTarget = size ?? CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
+        let options = PHImageRequestOptions()
+
+        options.deliveryMode = deliveryMode
+
+        PHImageManager.default().requestImage(for: asset,
+                                              targetSize: sizeForTarget,
+                                              contentMode: .default,
+                                              options: options) { image, _ in callback(image)
+        }
+    }
+
+    func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode = .highQualityFormat, size: CGSize, callback: @escaping PhotosCompletion) {
+        let group = DispatchGroup()
+        var photos: [UIImage?] = Array(repeating: nil, count: assets.count)
+
+        for (index, asset) in assets.enumerated() {
+            group.enter()
+            photo(with: asset, deliveryMode: deliveryMode, size: size) { photo in
+                photos[index] = photo
+                group.leave()
+            }
+        }
+
+        group.notify(queue: .main) {
+            callback(photos.compactMap { $0 })
+        }
+    }
+
+    private func fetchImagesAssets(count: Int = 0) {
         let options = PHFetchOptions()
 
         options.includeAssetSourceTypes = .typeUserLibrary
+        options.fetchLimit = count
 
         assetsFetchResult = PHAsset.fetchAssets(with: .image, options: options)
         assetsFetchResult.enumerateObjects { [weak self] object, _, _ in
@@ -79,29 +134,8 @@ final class PhotoLibrary: NSObject {
         }
     }
 
-    static func cacheImages(for assets: [PHAsset]) {
-        imageCacher.startCachingImages(for: assets, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: nil)
-    }
-
-    static func stopCaching() {
-        imageCacher.stopCachingImagesForAllAssets()
-    }
-
-    static func photo(from asset: PHAsset, deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize? = nil, callback: @escaping (UIImage?) -> Void) {
-        let sizeForTarget = size ?? CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
-        let options = PHImageRequestOptions()
-
-        options.deliveryMode = deliveryMode
-
-        PHImageManager.default().requestImage(for: asset,
-                                              targetSize: sizeForTarget,
-                                              contentMode: .default,
-                                              options: options) { image, _ in callback(image)
-        }
-    }
-
     private(set) var assets = [PHAsset]()
-    private static let imageCacher = PHCachingImageManager()
+    private let imageCacher: PHCachingImageManager
     private let library: PHPhotoLibrary
     private var assetsFetchResult = PHFetchResult<PHAsset>()
 }
@@ -115,4 +149,8 @@ extension PhotoLibrary: PHPhotoLibraryChangeObserver {
         assetsFetchResult = changeDetails.fetchResultAfterChanges
         updateAssets(with: changeDetails)
     }
+}
+
+private extension PHCachingImageManager {
+    static let shared = PHCachingImageManager()
 }

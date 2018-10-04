@@ -27,6 +27,11 @@ PODS:
     - Bolts (~> 1.7)
   - FBSDKShareKit (4.35.0):
     - FBSDKCoreKit (~> 4.35.0)
+  - iOSSnapshotTestCase (4.0.0):
+    - iOSSnapshotTestCase/SwiftSupport (= 4.0.0)
+  - iOSSnapshotTestCase/Core (4.0.0)
+  - iOSSnapshotTestCase/SwiftSupport (4.0.0):
+    - iOSSnapshotTestCase/Core
   - R.swift (4.0.0):
     - R.swift.Library (~> 4.0.0)
   - R.swift.Library (4.0.0)
@@ -37,6 +42,7 @@ DEPENDENCIES:
   - AppCraftUtils/Sharing (= 1.2.64)
   - Crashlytics
   - Fabric
+  - iOSSnapshotTestCase
   - R.swift
   - SnapKit
 
@@ -50,6 +56,7 @@ SPEC REPOS:
     - Fabric
     - FBSDKCoreKit
     - FBSDKShareKit
+    - iOSSnapshotTestCase
     - R.swift
     - R.swift.Library
     - SnapKit
@@ -62,10 +69,11 @@ SPEC CHECKSUMS:
   Fabric: f233c9492b3bbc1f04e3882986740f7988a58edb
   FBSDKCoreKit: 1a5b2e3ceb5ca827a53c54aa5f4a3480efff80d2
   FBSDKShareKit: 2ddbd7e6432023fff957af62e23a3671b84319f7
+  iOSSnapshotTestCase: 711379b19f69a22c131527df862352c877c2773c
   R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
   R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: efb0dced2279c2fd4ce930e0dd8b9635fe42826a
+PODFILE CHECKSUM: 6a461d6e85d9b584f655cc338fb82b70ae5ece2f
 
 COCOAPODS: 1.5.3

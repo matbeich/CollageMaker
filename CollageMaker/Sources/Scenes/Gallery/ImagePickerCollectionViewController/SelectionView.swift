@@ -7,7 +7,7 @@ import UIKit
 
 class SelectionView: UIView {
     override init(frame: CGRect) {
-        super.init(frame: .zero)
+        super.init(frame: frame)
 
         backgroundColor = .brightLavender
         layer.borderColor = UIColor.white.cgColor

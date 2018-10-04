@@ -23,7 +23,7 @@ class ShareButton: UIControl {
         switch destination {
         case .photos:
             imageView.image = R.image.save_btn()
-            titleLabel.text = "save image".uppercased()
+            titleLabel.text = "save".uppercased()
         case .messages:
             imageView.image = R.image.imessage_btn()
             titleLabel.text = "imessage".uppercased()
@@ -47,7 +47,7 @@ class ShareButton: UIControl {
         }
 
         imageView.snp.makeConstraints { make in
-            make.width.equalTo(55)
+            make.width.equalTo(60)
             make.height.equalTo(imageView.snp.width)
         }
     }

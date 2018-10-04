@@ -10,7 +10,7 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
         return String(describing: self)
     }
 
-    var collageTemplate: CollageTemplate? {
+    var collageImage: UIImage? {
         didSet {
             update()
         }
@@ -23,7 +23,6 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
 
         contentView.addSubview(imageView)
-
         makeConstraints()
     }
 
@@ -34,33 +33,16 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        collageImage = nil
         imageView.image = nil
-        collageTemplate = nil
     }
 
     func update() {
-        guard let collageTemplate = collageTemplate else {
-            return
-        }
+        layer.opacity = 0
 
-        let size = bounds.size
-
-        CollageTemplateProvider.collage(from: collageTemplate, size: .medium) { collage in
-
-            let collageView = CollageView(frame: CGRect(origin: .zero, size: size))
-            collageView.updateCollage(collage)
-            collageView.saveCellsVisibleRect()
-
-            CollageRenderer.renderImage(from: collage, with: size) { [weak self] image in
-                guard let properCollageTemplate = self?.collageTemplate, properCollageTemplate == collageTemplate else {
-                    return
-                }
-
-                self?.layer.opacity = 0.0
-                self?.imageView.image = image
-
-                UIView.animate(withDuration: 0.5) { self?.layer.opacity = 1.0 }
-            }
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.imageView.image = self?.collageImage
+            self?.layer.opacity = 1.0
         }
     }
 
