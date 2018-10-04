@@ -12,8 +12,8 @@ protocol CollageToolbarDelegate: AnyObject {
 class CollageToolbar: UIView {
     weak var delegate: CollageToolbarDelegate?
 
-    convenience init(barItems: [CollageBarItem]) {
-        self.init(frame: .zero)
+    convenience init(frame: CGRect = .zero, barItems: [CollageBarItem]) {
+        self.init(frame: frame)
 
         barItems.forEach { addCollageBarItem($0) }
     }

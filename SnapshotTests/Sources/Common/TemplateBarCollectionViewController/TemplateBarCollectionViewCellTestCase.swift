@@ -10,11 +10,11 @@ import Photos
 class TemplateBarCollectionViewCellTestCase: FBSnapshotTestCase {
     
     var cell: TemplateBarCollectionViewCell!
- 
     
     override func setUp() {
         super.setUp()
-        recordMode = true
+        recordMode = false
+        cell = TemplateBarCollectionViewCell(frame: CGRect(origin: .zero, size: CGSize(width: 300, height: 300)))
     
         cell.layoutIfNeeded()
     }
@@ -25,6 +25,8 @@ class TemplateBarCollectionViewCellTestCase: FBSnapshotTestCase {
     }
     
     func testCellShowImage() {
+        let image = UIImage(named: "test_img.png", in: Bundle.init(for: BundleClass.self), compatibleWith: nil)
+        cell.collageImage = image
         
         FBSnapshotVerifyView(cell)
     }

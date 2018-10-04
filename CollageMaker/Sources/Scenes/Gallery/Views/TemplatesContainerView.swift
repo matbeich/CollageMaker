@@ -5,7 +5,7 @@
 import SnapKit
 import UIKit
 
-class TemplateControllerView: UIView {
+class TemplatesContainerView: UIView {
     var withHeader: Bool {
         return headerLabel.text != nil
     }
@@ -18,7 +18,7 @@ class TemplateControllerView: UIView {
 
         addSubview(dimmingView)
         addSubview(headerLabel)
-        addSubview(templateContainerView)
+        addSubview(contentView)
 
         makeConstraints()
         setup()
@@ -49,7 +49,7 @@ class TemplateControllerView: UIView {
             }
         }
 
-        templateContainerView.snp.remakeConstraints { make in
+        contentView.snp.remakeConstraints { make in
             make.top.equalToSuperview().offset(withHeader ? offset : 0)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
@@ -66,5 +66,5 @@ class TemplateControllerView: UIView {
 
     private let dimmingView = UIView()
     private let headerLabel = AttributedTextLabel()
-    private(set) var templateContainerView = UIView()
+    private(set) var contentView = UIView()
 }

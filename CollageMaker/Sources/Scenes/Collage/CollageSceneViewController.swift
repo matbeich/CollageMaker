@@ -119,7 +119,7 @@ class CollageSceneViewController: CollageBaseViewController {
     private let toolsBar = CollageToolbar.standart
     private let photoLibrary = PhotoLibrary()
     private let templateProvider = CollageTemplateProvider()
-    private let templateControllerView = TemplateControllerView()
+    private let templateControllerView = TemplatesContainerView()
     private var collageViewController = CollageViewController()
     private var templateBarController: TemplateBarCollectionViewController
 }

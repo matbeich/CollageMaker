@@ -35,7 +35,8 @@ class ImagePickerCollectionViewCellTestCase: FBSnapshotTestCase {
     }
     
     func testCellShowsImage() {
-        let image = UIImage(
+        let image = UIImage(named: "test_img.png", in: Bundle.init(for: BundleClass.self), compatibleWith: nil)
+        cell.image = image
         
         FBSnapshotVerifyView(cell)
     }
