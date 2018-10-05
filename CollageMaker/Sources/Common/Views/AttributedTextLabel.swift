@@ -11,8 +11,8 @@ protocol AttributedTextLabelDelegate: AnyObject {
 class AttributedTextLabel: UILabel {
     weak var delegate: AttributedTextLabelDelegate?
 
-    init(text: String? = nil) {
-        super.init(frame: .zero)
+    init(text: String? = nil, frame: CGRect = .zero) {
+        super.init(frame: frame)
 
         numberOfLines = 0
         font = R.font.sfProTextBold(size: 20)

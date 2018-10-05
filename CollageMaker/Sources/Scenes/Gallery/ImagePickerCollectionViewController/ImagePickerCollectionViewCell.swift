@@ -11,10 +11,12 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
         didSet {
             if cellSelected {
                 showSelectionView()
+                backgroundColor = .brightLavender
                 imageView.layer.opacity = 0.5
             } else {
                 hideSelectionView()
-                imageView.layer.opacity = 1
+                backgroundColor = nil
+                imageView.layer.opacity = 1.0
             }
         }
     }
@@ -28,7 +30,6 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundColor = .brightLavender
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         addSubview(imageView)
