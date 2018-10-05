@@ -106,23 +106,22 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
     private func isSelected(_ indexPath: IndexPath) -> Bool {
         return selectedCellsIndexPaths.contains(indexPath)
     }
-    
-    
+
     private func select(cell: ImagePickerCollectionViewCell, at indexPath: IndexPath) {
         switch mode {
         case .single:
             selectedCellsIndexPaths = [indexPath]
-            
+
         case let .multiply(maxSelectedCount) where selectedCellsIndexPaths.count < maxSelectedCount:
             cell.toggleSelection()
-            
+
             isSelected(indexPath) ? unselsect(indexPath) : select(indexPath)
         case let .multiply(maxSelectedCount) where selectedCellsIndexPaths.count == maxSelectedCount:
             if isSelected(indexPath) {
                 unselsect(indexPath)
                 cell.toggleSelection()
             }
-            
+
         default: break
         }
     }
