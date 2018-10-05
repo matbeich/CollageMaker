@@ -18,6 +18,14 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         return mode.maxSelectedCells
     }
 
+    var canToggleCells: Bool {
+        if case .single = mode {
+            return false
+        }
+
+        return true
+    }
+
     enum SelectionMode {
         case single
         case multiply(Int)
@@ -81,6 +89,42 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
 
     @objc private func cancel() {
         delegate?.imagePickerCollectionViewControllerDidCancel(self)
+    }
+
+    private func select(_ indexPath: IndexPath) {
+        if !isSelected(indexPath) {
+            selectedCellsIndexPaths.append(indexPath)
+        }
+    }
+
+    private func unselsect(_ indexPath: IndexPath) {
+        if let index = selectedCellsIndexPaths.firstIndex(of: indexPath) {
+            selectedCellsIndexPaths.remove(at: index)
+        }
+    }
+
+    private func isSelected(_ indexPath: IndexPath) -> Bool {
+        return selectedCellsIndexPaths.contains(indexPath)
+    }
+    
+    
+    private func select(cell: ImagePickerCollectionViewCell, at indexPath: IndexPath) {
+        switch mode {
+        case .single:
+            selectedCellsIndexPaths = [indexPath]
+            
+        case let .multiply(maxSelectedCount) where selectedCellsIndexPaths.count < maxSelectedCount:
+            cell.toggleSelection()
+            
+            isSelected(indexPath) ? unselsect(indexPath) : select(indexPath)
+        case let .multiply(maxSelectedCount) where selectedCellsIndexPaths.count == maxSelectedCount:
+            if isSelected(indexPath) {
+                unselsect(indexPath)
+                cell.toggleSelection()
+            }
+            
+        default: break
+        }
     }
 
     private func setup() {
@@ -185,23 +229,7 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
             return
         }
 
-        switch mode {
-        case let .multiply(maxNumberOfSelectedCells):
-            guard selectedCellsIndexPaths.count < maxNumberOfSelectedCells else {
-                return
-            }
-
-            cell.toogleSelection()
-
-            guard selectedCellsIndexPaths.contains(indexPath) else {
-                selectedCellsIndexPaths.append(indexPath)
-                return
-            }
-
-            selectedCellsIndexPaths = selectedCellsIndexPaths.filter { $0 != indexPath }
-        case .single:
-            selectedCellsIndexPaths = [indexPath]
-        }
+        if canToggleCells { select(cell: cell, at: indexPath) }
     }
 }
 
