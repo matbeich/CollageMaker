@@ -47,7 +47,7 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
         return String(describing: self)
     }
 
-    func toogleSelection() {
+    func toggleSelection() {
         cellSelected = !cellSelected
     }
 
