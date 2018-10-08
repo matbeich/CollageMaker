@@ -2,13 +2,14 @@
 // Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
 
-import Photos
-import XCTest
 @testable import CollageMaker
+import Photos
+import UIKit
+import XCTest
 
+class BundleClass {}
 
 class CollageTests: XCTestCase {
-    
     func testCollageCantDeleteLastCell() {
         let collage = Collage()
         collage.splitSelectedCell(by: .horizontal)
@@ -85,6 +86,30 @@ class CollageTests: XCTestCase {
         let cellForID = collage.cellWith(id: testID)
 
         XCTAssertEqual(cell, cellForID)
+    }
+
+    func testCellSizeChanges() {
+        let cell = CollageCell(color: .red, relativeFrame: .leftFullHeightHalfWidth)
+        let cell2 = CollageCell(color: .red, relativeFrame: .rightFullHeightHalfWidth)
+        let collage = Collage(cells: [cell, cell2])
+        let frameBeforeChanging = collage.selectedCell.relativeFrame
+
+        collage.changeSizeOfSelectedCell(grip: .left, value: 0.3)
+
+        XCTAssertNotEqual(frameBeforeChanging, collage.selectedCell.relativeFrame)
+    }
+
+    func testFillsCellsWithImages() {
+        let image = UIImage.test
+        let images = Array(0 ... 10).compactMap { _ in image }
+
+        let cell = CollageCell(color: .red, relativeFrame: .leftFullHeightHalfWidth)
+        let cell2 = CollageCell(color: .red, relativeFrame: .rightFullHeightHalfWidth)
+        let collage = Collage(cells: [cell, cell2])
+
+        collage.fillWithImages(images)
+        print(collage.cells.count, collage.images.count)
+        XCTAssertTrue(collage.cells.count == collage.images.count)
     }
 }
 
