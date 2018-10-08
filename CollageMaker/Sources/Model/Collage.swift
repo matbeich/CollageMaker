@@ -28,13 +28,11 @@ class Collage: NSObject, NSCopying {
         self.selectedCell = cells.last ?? CollageCell.zeroFrame
         super.init()
 
-        guard isFullsized else {
+        if !isFullsized {
             let initialCell = CollageCell(color: .collagePink, image: R.image.addimg(), relativeFrame: RelativeFrame.fullsized)
 
             self.cells = [initialCell]
             self.selectedCell = initialCell
-
-            return
         }
     }
 
@@ -44,7 +42,7 @@ class Collage: NSObject, NSCopying {
         return Collage(cells: cellsCopy ?? [])
     }
 
-    func fill(with images: [UIImage]) {
+    func fillWithImages(_ images: [UIImage]) {
         for (cell, image) in zip(cells, images) {
             addImage(image, to: cell)
         }
@@ -58,11 +56,6 @@ class Collage: NSObject, NSCopying {
 
     func deleteImages() {
         cells.forEach { $0.deleteImage() }
-    }
-
-    func reset() {
-        cells.removeAll()
-        delegate?.collageChanged(self)
     }
 
     func setSelected(cell: CollageCell) {
@@ -193,26 +186,12 @@ extension Collage {
         return cellsInBounds && collageArea.isApproximatelyEqual(to: cellsArea)
     }
 
-    func contains(cell: CollageCell) -> Bool {
-        return cells.contains(cell)
-    }
-
-    func maxFrameCell() -> CollageCell? {
-        return cells.sorted { $1.relativeFrame.area > $0.relativeFrame.area }.first
-    }
-
-    func randomCell() -> CollageCell? {
-        let random = Int(arc4random_uniform(UInt32(cells.count)))
-
-        return cells[random]
-    }
-
     func cellWith(id: UUID) -> CollageCell? {
         return cells.first(where: { $0.id == id })
     }
 
     func cellWith(asset: PHAsset) -> CollageCell? {
-        return cells.first(where: { $0.photoAsset == asset })
+        return cells.first(where: { $0.photoAsset?.localIdentifier == asset.localIdentifier })
     }
 
     func cell(at relativePoint: CGPoint) -> CollageCell? {
@@ -223,9 +202,18 @@ extension Collage {
         return cell.gripPositions.contains(gripPosition)
     }
 
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? Collage else {
+            return false
+        }
+
+        return self == object
+    }
+
     static func == (lhs: Collage, rhs: Collage) -> Bool {
         let leftPictures = lhs.cells.compactMap { $0.image }
         let rightPictures = rhs.cells.compactMap { $0.image }
+
         return lhs.cells == rhs.cells && leftPictures == rightPictures
     }
 
@@ -238,11 +226,6 @@ extension Collage {
     private func remove(cell: CollageCell) {
         recentlyDeleted = cell
         cells = cells.filter { $0.id != cell.id }
-    }
-
-    private func update(cell: CollageCell) {
-        remove(cell: cell)
-        add(cell: cell)
     }
 
     private func cellsLayingOnLine(with cell: CollageCell, gripPosition: GripPosition) -> [CollageCell] {

@@ -86,10 +86,6 @@ class CollageSceneViewController: CollageBaseViewController {
         collageViewController.delegate = self
     }
 
-    @objc private func resetCollage() {
-        collageViewController.resetCollage()
-    }
-
     @objc private func shareCollage() {
         collageViewController.saveCellsVisibleRect()
         delegate?.collageSceneViewController(self, didEndEditingCollage: collageViewController.collage)

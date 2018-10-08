@@ -1,18 +1,18 @@
 //
-//Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
+// Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
 
-import XCTest
-import FBSnapshotTestCase
 @testable import CollageMaker
+import FBSnapshotTestCase
+import XCTest
 
 class SelectionViewTestCase: FBSnapshotTestCase {
-    
     var selectionView: SelectionView!
 
     override func setUp() {
         super.setUp()
         recordMode = false
+
         selectionView = SelectionView(frame: CGRect(origin: .zero, size: CGSize(width: 75, height: 75)))
     }
 
@@ -26,5 +26,4 @@ class SelectionViewTestCase: FBSnapshotTestCase {
         selectionView.layer.cornerRadius = 0
         FBSnapshotVerifyView(selectionView)
     }
-    
 }

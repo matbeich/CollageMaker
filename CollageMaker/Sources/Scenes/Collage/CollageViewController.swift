@@ -51,10 +51,6 @@ class CollageViewController: CollageBaseViewController {
         }
     }
 
-    func resetCollage() {
-        collage.reset()
-    }
-
     func deleteSelectedCell() {
         saveCellsVisibleRect()
         collage.deleteSelectedCell()

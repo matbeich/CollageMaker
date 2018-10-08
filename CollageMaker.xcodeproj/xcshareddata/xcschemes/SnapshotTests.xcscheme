@@ -16,7 +16,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "844CDD1F2165FE7500AF3B8E"
+               BlueprintIdentifier = "8416A4F7216BA6C300DC6916"
                BuildableName = "SnapshotTests.xctest"
                BlueprintName = "SnapshotTests"
                ReferencedContainer = "container:CollageMaker.xcodeproj">
@@ -76,15 +76,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "843A57F521144760002FE28D"
-            BuildableName = "CollageMaker.app"
-            BlueprintName = "CollageMaker"
-            ReferencedContainer = "container:CollageMaker.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

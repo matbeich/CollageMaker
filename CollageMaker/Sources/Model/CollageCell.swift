@@ -114,7 +114,15 @@ class CollageCell: NSObject, NSCopying {
     }
 
     static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.id.hashValue == rhs.id.hashValue
+    }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? CollageCell else {
+            return false
+        }
+
+        return self == object
     }
 
     private(set) var id: UUID
