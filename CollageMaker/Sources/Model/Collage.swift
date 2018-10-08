@@ -225,8 +225,6 @@ extension Collage {
         let leftPictures = lhs.cells.compactMap { $0.image }
         let rightPictures = rhs.cells.compactMap { $0.image }
 
-        print(lhs.cells == rhs.cells)
-
         return lhs.cells == rhs.cells && leftPictures == rightPictures
     }
 
