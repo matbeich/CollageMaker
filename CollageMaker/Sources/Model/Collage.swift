@@ -28,13 +28,11 @@ class Collage: NSObject, NSCopying {
         self.selectedCell = cells.last ?? CollageCell.zeroFrame
         super.init()
 
-        guard isFullsized else {
+        if !isFullsized {
             let initialCell = CollageCell(color: .collagePink, image: R.image.addimg(), relativeFrame: RelativeFrame.fullsized)
 
             self.cells = [initialCell]
             self.selectedCell = initialCell
-
-            return
         }
     }
 
@@ -212,7 +210,7 @@ extension Collage {
     }
 
     func cellWith(asset: PHAsset) -> CollageCell? {
-        return cells.first(where: { $0.photoAsset == asset })
+        return cells.first(where: { $0.photoAsset?.localIdentifier == asset.localIdentifier })
     }
 
     func cell(at relativePoint: CGPoint) -> CollageCell? {
@@ -226,6 +224,9 @@ extension Collage {
     static func == (lhs: Collage, rhs: Collage) -> Bool {
         let leftPictures = lhs.cells.compactMap { $0.image }
         let rightPictures = rhs.cells.compactMap { $0.image }
+
+        print(lhs.cells == rhs.cells)
+
         return lhs.cells == rhs.cells && leftPictures == rightPictures
     }
 

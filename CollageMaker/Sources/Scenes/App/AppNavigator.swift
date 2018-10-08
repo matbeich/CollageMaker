@@ -10,7 +10,7 @@ import Utils
 final class AppNavigator {
     init(authSerivce: PhotoAuthService = PhotoAuthService()) {
         self.authService = authSerivce
-        templateProvider = CollageTemplateProvider()
+        self.templateProvider = CollageTemplateProvider()
     }
 
     lazy var rootViewController: UINavigationController = {

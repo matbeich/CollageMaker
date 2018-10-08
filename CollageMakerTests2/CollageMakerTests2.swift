@@ -1,24 +1,16 @@
 //
-//  CollageMakerTests.swift
-//  CollageMakerTests
-//
-//  Created by Admin on 8/3/18.
-//  Copyright © 2018 Admin. All rights reserved.
+// Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
 
 import XCTest
-@testable import CollageMaker
 
-class CollageMakerTests: XCTestCase {
-
+class CollageMakerTests2: XCTestCase {
     override func setUp() {
-        super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
     }
 
     func testExample() {
@@ -32,5 +24,4 @@ class CollageMakerTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-
 }
