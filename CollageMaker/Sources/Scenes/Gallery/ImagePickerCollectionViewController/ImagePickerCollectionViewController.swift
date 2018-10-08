@@ -18,14 +18,6 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         return mode.maxSelectedCells
     }
 
-    var canToggleCells: Bool {
-        if case .single = mode {
-            return false
-        }
-
-        return true
-    }
-
     enum SelectionMode {
         case single
         case multiply(Int)
@@ -228,7 +220,7 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
             return
         }
 
-        if canToggleCells { select(cell: cell, at: indexPath) }
+        select(cell: cell, at: indexPath)
     }
 }
 

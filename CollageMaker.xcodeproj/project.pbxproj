@@ -14,6 +14,8 @@
 		840CC3EB21623FE5001C3C5C /* ShareToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CC3EA21623FE5001C3C5C /* ShareToolbar.swift */; };
 		840CC3ED216241E0001C3C5C /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CC3EC216241E0001C3C5C /* ShareButton.swift */; };
 		841469672126EEE400C2838A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841469662126EEE400C2838A /* UIColor.swift */; };
+		8416A4BF216B4A0800DC6916 /* RoundCornersGradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4BE216B4A0800DC6916 /* RoundCornersGradientButton.swift */; };
+		8416A4C1216B4F3800DC6916 /* RoundCornersGradientButtonTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4C0216B4F3800DC6916 /* RoundCornersGradientButtonTestCase.swift */; };
 		8417D1B8211DC1C500334661 /* CollageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417D1B7211DC1C500334661 /* CollageRenderer.swift */; };
 		8417D1BA211DCABC00334661 /* CollageCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417D1B9211DCABC00334661 /* CollageCellView.swift */; };
 		841A245F213E935C006E994B /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A245E213E935C006E994B /* UIBarButtonItem.swift */; };
@@ -104,6 +106,8 @@
 		840CC3EA21623FE5001C3C5C /* ShareToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareToolbar.swift; sourceTree = "<group>"; };
 		840CC3EC216241E0001C3C5C /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		841469662126EEE400C2838A /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		8416A4BE216B4A0800DC6916 /* RoundCornersGradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCornersGradientButton.swift; sourceTree = "<group>"; };
+		8416A4C0216B4F3800DC6916 /* RoundCornersGradientButtonTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCornersGradientButtonTestCase.swift; sourceTree = "<group>"; };
 		8417D1B7211DC1C500334661 /* CollageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageRenderer.swift; sourceTree = "<group>"; };
 		8417D1B9211DCABC00334661 /* CollageCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageCellView.swift; sourceTree = "<group>"; };
 		841A245E213E935C006E994B /* UIBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
@@ -398,6 +402,7 @@
 			children = (
 				846F8D532167B162006EED5A /* GradientButtonTestCase.swift */,
 				843B35572167B2E4005B9F35 /* AttributedTextLabelTestCase.swift */,
+				8416A4C0216B4F3800DC6916 /* RoundCornersGradientButtonTestCase.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -504,6 +509,7 @@
 		847E1C61215BD14600F6F32E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				84E40813214BC5C1006764D0 /* SelectionView.swift */,
 				525EC52A214C26AB009E5393 /* TemplatesContainerView.swift */,
 			);
 			path = Views;
@@ -541,7 +547,6 @@
 			children = (
 				8496B13E214AA60200FE45FE /* ImagePickerCollectionViewController.swift */,
 				8496B142214AB93D00FE45FE /* ImagePickerCollectionViewCell.swift */,
-				84E40813214BC5C1006764D0 /* SelectionView.swift */,
 			);
 			path = ImagePickerCollectionViewController;
 			sourceTree = "<group>";
@@ -572,6 +577,7 @@
 		84E2720B211DE8D7001CDCB9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8416A4BE216B4A0800DC6916 /* RoundCornersGradientButton.swift */,
 				843367CE2150ECB8008EC77D /* AttributedTextLabel.swift */,
 				F62618B221415C6200CD94AE /* GradientButton.swift */,
 			);
@@ -913,6 +919,7 @@
 				84D389E62125CF5200FCDC67 /* GripView.swift in Sources */,
 				F62618B321415C6200CD94AE /* GradientButton.swift in Sources */,
 				848214DD2153B7FE009FD986 /* CollageBaseViewController.swift in Sources */,
+				8416A4BF216B4A0800DC6916 /* RoundCornersGradientButton.swift in Sources */,
 				F62618AF2141570300CD94AE /* PhotoAuthService.swift in Sources */,
 				845044332151362600B082E1 /* CollageTemplate.swift in Sources */,
 				84B160342114892600FF4713 /* Collage.swift in Sources */,
@@ -933,6 +940,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8416A4C1216B4F3800DC6916 /* RoundCornersGradientButtonTestCase.swift in Sources */,
 				844CDD3E2166307900AF3B8E /* MockPhotoLibrary.swift in Sources */,
 				844CDD3921661FC200AF3B8E /* TemplateBarCollectionViewCellTestCase.swift in Sources */,
 				844CDD2E2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift in Sources */,
