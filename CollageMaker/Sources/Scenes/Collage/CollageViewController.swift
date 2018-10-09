@@ -8,6 +8,7 @@ import UIKit
 protocol CollageViewControllerDelegate: AnyObject {
     func collageViewControllerPlusButtonTapped(_ controller: CollageViewController)
     func collageViewController(_ controller: CollageViewController, didDeleteCellView cellView: CollageCellView)
+    func collageViewController(_ controller: CollageViewController, didRestoreCellView cellView: CollageCellView)
 }
 
 class CollageViewController: CollageBaseViewController {
@@ -139,6 +140,19 @@ extension CollageViewController: UIGestureRecognizerDelegate {
 }
 
 extension CollageViewController: CollageDelegate {
+    func collage(_ collage: Collage, didRestoreCell cell: CollageCell?, withError error: CollageError?) {
+        if error == nil {
+            guard let cell = cell, let cellView = collageView.collageCellView(with: cell.id) else {
+                return
+            }
+
+            updateCollage()
+            delegate?.collageViewController(self, didRestoreCellView: cellView)
+        } else {
+            Alerts.popUpMessageAlert("No recently deleted cell", duration: 0.7, in: self)
+        }
+    }
+
     func collage(_ collage: Collage, didRemoveCell cell: CollageCell) {
         guard let cellView = collageView.collageCellView(with: cell.id) else {
             return

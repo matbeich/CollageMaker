@@ -43,6 +43,7 @@
 		843F547221625BD700411A33 /* ShareScreenFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F547121625BD700411A33 /* ShareScreenFooter.swift */; };
 		84434D9E214808DF0060B76B /* ShareScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84434D9D214808DF0060B76B /* ShareScreenViewController.swift */; };
 		845044332151362600B082E1 /* CollageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845044322151362600B082E1 /* CollageTemplate.swift */; };
+		845C2100216CB62800049976 /* SFCompactDisplay-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */; };
 		846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846AA2C82142689500DF92FD /* CameraAuthService.swift */; };
 		846F8D4A21666A54006EED5A /* CollageSceneToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F8D4921666A54006EED5A /* CollageSceneToolbar.swift */; };
 		848214DD2153B7FE009FD986 /* CollageBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */; };
@@ -142,6 +143,7 @@
 		844CDD3A2166276D00AF3B8E /* test_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_img.png; sourceTree = "<group>"; };
 		844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPhotoLibrary.swift; sourceTree = "<group>"; };
 		845044322151362600B082E1 /* CollageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplate.swift; sourceTree = "<group>"; };
+		845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.otf"; sourceTree = "<group>"; };
 		846AA2C82142689500DF92FD /* CameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAuthService.swift; sourceTree = "<group>"; };
 		846F8D4921666A54006EED5A /* CollageSceneToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSceneToolbar.swift; sourceTree = "<group>"; };
 		846F8D532167B162006EED5A /* GradientButtonTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientButtonTestCase.swift; sourceTree = "<group>"; };
@@ -574,6 +576,7 @@
 			isa = PBXGroup;
 			children = (
 				843380772154DB4C008A5510 /* SF-Pro-Display-Regular.otf */,
+				845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */,
 				8494028421538A6A00160142 /* SF-Pro-Display-Semibold.otf */,
 				84E06F1D213991D6007109BE /* SF-Pro-Text-Light.otf */,
 				84E06F212139920C007109BE /* SF-Pro-Display-Heavy.otf */,
@@ -730,6 +733,7 @@
 				84E06F1E213991D6007109BE /* SF-Pro-Text-Light.otf in Resources */,
 				843A580421144761002FE28D /* LaunchScreen.storyboard in Resources */,
 				843380782154DB4C008A5510 /* SF-Pro-Display-Regular.otf in Resources */,
+				845C2100216CB62800049976 /* SFCompactDisplay-Medium.otf in Resources */,
 				843A580121144761002FE28D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

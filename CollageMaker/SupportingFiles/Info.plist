@@ -36,6 +36,7 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
+		<string>SFCompactDisplay-Medium.otf</string>
 		<string>SF-Pro-Display-Regular.otf</string>
 		<string>SF-Pro-Display-Semibold.otf</string>
 		<string>SF-Pro-Text-Light.otf</string>

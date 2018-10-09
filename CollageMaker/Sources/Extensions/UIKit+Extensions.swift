@@ -23,6 +23,17 @@ extension CAGradientLayer {
 }
 
 class Alerts {
+    static func deviceShaked(completion: @escaping (UIAlertAction) -> Void) -> UIAlertController {
+        let alertViewController = UIAlertController(title: nil, message: "Do you want to restore last deleted cell?", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Yes", style: .default, handler: completion)
+        let cancelAction = UIAlertAction(title: "Nope", style: .destructive, handler: nil)
+
+        alertViewController.addAction(action)
+        alertViewController.addAction(cancelAction)
+
+        return alertViewController
+    }
+
     static func photoAccessDenied() -> UIAlertController {
         let alertViewController = UIAlertController(title: "Sorry", message: "To use this app you should grant access to photo library. Would you like to change your opinion and grant photo library access to CollagistApp?", preferredStyle: .alert)
         let action = UIAlertAction(title: "Sure", style: .default) { _ in
@@ -63,6 +74,13 @@ class Alerts {
         alertViewController.addAction(action)
 
         return alertViewController
+    }
+
+    static func popUpMessageAlert(_ message: String, duration: TimeInterval, in viewController: UIViewController) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let completion = { alertController.dismiss(animated: true, completion: nil) }
+
+        viewController.present(alertController, animated: true) { DispatchQueue.main.asyncAfter(deadline: .now() + duration, execute: completion) }
     }
 }
 

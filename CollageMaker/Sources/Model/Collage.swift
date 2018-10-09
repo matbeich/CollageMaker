@@ -5,6 +5,10 @@
 import Photos
 import UIKit
 
+enum CollageError: Error {
+    case noRecentlyDeletedCell
+}
+
 enum Axis {
     case horizontal
     case vertical
@@ -16,6 +20,7 @@ protocol CollageDelegate: AnyObject {
     func collage(_ collage: Collage, didChangeSelectedCell cell: CollageCell)
     func collage(_ collage: Collage, didChangeFramesForCells cells: [CollageCell])
     func collage(_ collage: Collage, didUpdateCell cell: CollageCell)
+    func collage(_ collage: Collage, didRestoreCell cell: CollageCell?, withError error: CollageError?)
 }
 
 class Collage: NSObject, NSCopying {
@@ -72,6 +77,7 @@ class Collage: NSObject, NSCopying {
 
     func restoreRecentlyDeletedCell() {
         guard canRestoreDeletedCell else {
+            delegate?.collage(self, didRestoreCell: nil, withError: .noRecentlyDeletedCell)
             return
         }
 
@@ -184,10 +190,10 @@ class Collage: NSObject, NSCopying {
         }
     }
 
-    private(set) var selectedCell: CollageCell
     private(set) var cells: [CollageCell]
+    private(set) var selectedCell: CollageCell
+    private(set) var canRestoreDeletedCell: Bool = false
     private var cellsBeforeChanging: [CollageCell] = []
-    private var canRestoreDeletedCell: Bool = false
 }
 
 extension Collage {
