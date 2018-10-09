@@ -26,7 +26,7 @@ class ShareButton: UIControl {
             titleLabel.text = "save".uppercased()
         case .messages:
             imageView.image = R.image.imessage_btn()
-            titleLabel.text = "imessage".uppercased()
+            titleLabel.text = "iMESSAGE"
         case .instagram:
             imageView.image = R.image.inst_btn()
             titleLabel.text = "instagram".uppercased()
@@ -35,7 +35,7 @@ class ShareButton: UIControl {
             titleLabel.text = "other".uppercased()
         }
 
-        titleLabel.font = R.font.sfProDisplaySemibold(size: 11)
+        titleLabel.font = R.font.sfCompactDisplayMedium(size: 12)
         titleLabel.textAlignment = .center
 
         imageView.contentMode = .scaleAspectFit

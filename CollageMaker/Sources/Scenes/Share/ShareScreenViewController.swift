@@ -2,7 +2,6 @@
 // Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
 
-import SnapKit
 import UIKit
 import Utils
 
@@ -22,7 +21,13 @@ class ShareScreenViewController: CollageBaseViewController {
         return collageImage != nil
     }
 
-    init(collage: Collage) {
+    init(collage: Collage,
+         authService: PhotoAuthService = PhotoAuthService(),
+         photoLibrary: PhotoLibraryType = PhotoLibrary(),
+         collageRenderer: CollageRenderer = CollageRenderer()) {
+        self.authService = authService
+        self.photoLibrary = photoLibrary
+        self.collageRenderer = collageRenderer
         self.collage = collage
         self.shareFooter = ShareScreenFooter(destinations: [.photos, .messages, .instagram, .other])
 
@@ -112,8 +117,11 @@ class ShareScreenViewController: CollageBaseViewController {
         }
 
         photoLibrary.add(image) { [weak self] succes, asset in
-            self?.popUpMessageAlert("Saved to photos", duration: 0.75)
-            self?.currentImageAsset = asset
+            guard let `self` = self else {
+                return
+            }
+            Alerts.popUpMessageAlert("Saved to photos", duration: 0.75, in: self)
+            self.currentImageAsset = asset
 
             completion?(succes, asset)
         }
@@ -130,10 +138,14 @@ class ShareScreenViewController: CollageBaseViewController {
 
     private func shareToInstagram(content: ShareContent) {
         let completion: (Bool, PHAsset?) -> Void = { [weak self] succes, asset in
+            guard let `self` = self else {
+                return
+            }
+
             if succes, let asset = asset {
-                self?.openInstagram(withAssetId: asset.localIdentifier)
+                self.openInstagram(withAssetId: asset.localIdentifier)
             } else {
-                self?.popUpMessageAlert("Something went wrong", duration: 0.8)
+                Alerts.popUpMessageAlert("Something went wrong", duration: 0.8, in: self)
             }
         }
 
@@ -147,13 +159,6 @@ class ShareScreenViewController: CollageBaseViewController {
         }
 
         openInstagram(withAssetId: currentImageAsset.localIdentifier)
-    }
-
-    private func popUpMessageAlert(_ message: String, duration: TimeInterval) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let completion = { alertController.dismiss(animated: true, completion: nil) }
-
-        present(alertController, animated: true) { DispatchQueue.main.asyncAfter(deadline: .now() + duration, execute: completion) }
     }
 
     private func openInstagram(withAssetId assetId: String) {
@@ -192,9 +197,9 @@ class ShareScreenViewController: CollageBaseViewController {
     private var currentImageAsset: PHAsset?
     private let thumbnailImageView = UIImageView()
     private let shareFooter: ShareScreenFooter
-    private let authService = PhotoAuthService()
-    private let photoLibrary = PhotoLibrary()
-    private let collageRenderer = CollageRenderer()
+    private let authService: PhotoAuthService
+    private let photoLibrary: PhotoLibraryType
+    private let collageRenderer: CollageRenderer
 }
 
 extension ShareScreenViewController: ShareScreenFooterDelegate {
@@ -204,6 +209,6 @@ extension ShareScreenViewController: ShareScreenFooterDelegate {
 
     func shareScreenFooter(_ footer: ShareScreenFooter, didTappedHashtag hashtag: String) {
         self.hashtag = hashtag
-        popUpMessageAlert("Hashtag copied to clipboard", duration: 0.75)
+        Alerts.popUpMessageAlert("Hashtag copied to clipboard", duration: 0.75, in: self)
     }
 }

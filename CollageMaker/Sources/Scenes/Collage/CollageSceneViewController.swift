@@ -2,9 +2,6 @@
 // Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
 
-import AVKit
-import Photos
-import SnapKit
 import UIKit
 import Utils
 
@@ -99,6 +96,20 @@ class CollageSceneViewController: CollageBaseViewController {
         }
     }
 
+    private func showMotionAlert() {
+        let controller = UIAlertController(title: nil, message: "Would you like to restore deleted cell?", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
+            self?.collageViewController.restoreDeletedCell()
+        }
+
+        let cancelAction = UIAlertAction(title: "No", style: .destructive, handler: nil)
+
+        controller.addAction(action)
+        controller.addAction(cancelAction)
+
+        present(controller, animated: true, completion: nil)
+    }
+
     private func pickImage() {
         let controller = ImagePickerCollectionViewController(selectionMode: .single)
 
@@ -122,13 +133,15 @@ class CollageSceneViewController: CollageBaseViewController {
 
 extension CollageSceneViewController {
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            collageViewController.restoreDeletedCell()
-        }
+        if motion == .motionShake { showMotionAlert() }
     }
 }
 
 extension CollageSceneViewController: CollageViewControllerDelegate {
+    func collageViewController(_ controller: CollageViewController, didRestoreCellView cellView: CollageCellView) {
+        // FIXME: add logic
+    }
+
     func collageViewController(_ controller: CollageViewController, didDeleteCellView cellView: CollageCellView) {
         var actualAssets = templateBarController.assets ?? []
 

@@ -57,14 +57,14 @@ class ShareScreenFooter: UIView {
 
     private(set) lazy var messageLabel: AttributedTextLabel = {
         let label = AttributedTextLabel(text: "Tap #MadeWithCollagist to use this hashtag in your message")
-        label.font = R.font.sfProDisplaySemibold(size: 19)
+        label.font = R.font.sfCompactDisplayMedium(size: 16)
         label.isUserInteractionEnabled = true
 
         if let hashtagsWords = label.hashtags {
             hashtagsWords.forEach {
                 label.addAttributes(attrs: [
                     .foregroundColor: UIColor.brightLavender,
-                    .font: R.font.sfProTextBold(size: 19) as Any
+                    .font: R.font.sfProTextBold(size: 16) as Any
             ], to: $0) }
         }
 

@@ -59,6 +59,5 @@ class ShareToolbar: UIView {
         destinations.map { ShareButton(shareDestination: $0) }
     }()
 
-    private var buttonsTitles: [String] = []
     private let destinations: [ShareDestination]
 }
