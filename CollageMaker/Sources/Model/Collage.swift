@@ -50,7 +50,8 @@ class Collage: NSObject, NSCopying {
 
     func fill(with abstractPhotos: [AbstractPhoto]) {
         for (cell, abstractPhoto) in zip(cells, abstractPhotos) {
-            cell.addAbstractPhoto(abstractPhoto)
+            addImage(abstractPhoto.photo, to: cell)
+            addAsset(abstractPhoto.asset, to: cell)
         }
     }
 
@@ -64,7 +65,19 @@ class Collage: NSObject, NSCopying {
     }
 
     func deleteSelectedCell() {
+        cellsBeforeChanging = cells
+        canRestoreDeletedCell = true
         delete(selectedCell)
+    }
+
+    func restoreRecentlyDeletedCell() {
+        guard canRestoreDeletedCell else {
+            return
+        }
+
+        restoreCellsBeforeChanging()
+        delegate?.collageChanged(self)
+        canRestoreDeletedCell = false
     }
 
     func splitSelectedCell(by axis: Axis) {
@@ -171,10 +184,10 @@ class Collage: NSObject, NSCopying {
         }
     }
 
-    var selectedCell: CollageCell
+    private(set) var selectedCell: CollageCell
     private(set) var cells: [CollageCell]
     private var cellsBeforeChanging: [CollageCell] = []
-    private var recentlyDeleted: CollageCell?
+    private var canRestoreDeletedCell: Bool = false
 }
 
 extension Collage {
@@ -224,7 +237,6 @@ extension Collage {
     }
 
     private func remove(cell: CollageCell) {
-        recentlyDeleted = cell
         cells = cells.filter { $0.id != cell.id }
     }
 

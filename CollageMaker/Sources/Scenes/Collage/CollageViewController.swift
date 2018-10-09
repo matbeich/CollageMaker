@@ -56,6 +56,10 @@ class CollageViewController: CollageBaseViewController {
         collage.deleteSelectedCell()
     }
 
+    func restoreDeletedCell() {
+        collage.restoreRecentlyDeletedCell()
+    }
+
     func addAbstractPhotoToSelectedCell(_ abstractPhoto: AbstractPhoto) {
         addImageToSelectedCell(abstractPhoto.photo)
         addAssetToSelectedCell(abstractPhoto.asset)

@@ -107,9 +107,25 @@ class CollageTests: XCTestCase {
         let cell2 = CollageCell(color: .red, relativeFrame: .rightFullHeightHalfWidth)
         let collage = Collage(cells: [cell, cell2])
 
+        collage.deleteImages()
         collage.fillWithImages(images)
-        print(collage.cells.count, collage.images.count)
-        XCTAssertTrue(collage.cells.count == collage.images.count)
+
+        XCTAssertFalse(collage.images.isEmpty)
+    }
+
+    func testFillsCellsWithAbstractPhotos() {
+        let image = UIImage.test
+        let abstractPhoto = AbstractPhoto(photo: image, asset: PHAsset())
+        let testAbstractPhotos = Array(0 ... 10).map { _ in abstractPhoto }
+
+        let cell = CollageCell(color: .red, relativeFrame: .leftFullHeightHalfWidth)
+        let cell2 = CollageCell(color: .red, relativeFrame: .rightFullHeightHalfWidth)
+        let collage = Collage(cells: [cell, cell2])
+
+        collage.deleteImages()
+        collage.fill(with: testAbstractPhotos)
+
+        XCTAssertTrue(!collage.images.isEmpty || !collage.assets.isEmpty)
     }
 }
 
@@ -126,5 +142,9 @@ private extension Collage {
 
     var images: [UIImage] {
         return cells.compactMap { $0.image }
+    }
+
+    var assets: [PHAsset] {
+        return cells.compactMap { $0.photoAsset }
     }
 }

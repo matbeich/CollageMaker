@@ -8,7 +8,12 @@ import UIKit
 class RoundCornersGradientButton: UIControl {
     var contentEdgeInsets: UIEdgeInsets? {
         didSet {
-            // FIXME: add logic
+            updateConstraints(for: contentEdgeInsets)
+        }
+    }
+
+    var spacing: CGFloat = 0 {
+        didSet {
         }
     }
 
@@ -21,8 +26,9 @@ class RoundCornersGradientButton: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        addSubview(titleLabel)
-        addSubview(imageView)
+        addSubview(contentView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(imageView)
 
         setup()
         makeConstraints()
@@ -70,6 +76,10 @@ class RoundCornersGradientButton: UIControl {
     }
 
     private func makeConstraints() {
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
         titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.top.equalToSuperview()
@@ -82,6 +92,19 @@ class RoundCornersGradientButton: UIControl {
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
             make.left.equalTo(titleLabel.snp.right)
+        }
+    }
+
+    private func updateConstraints(for edgeInsets: UIEdgeInsets?) {
+        guard let edgeInsets = edgeInsets else {
+            return
+        }
+
+        contentView.snp.updateConstraints { make in
+            make.top.equalToSuperview().offset(edgeInsets.top)
+            make.bottom.equalToSuperview().offset(-edgeInsets.bottom)
+            make.left.equalToSuperview().offset(edgeInsets.left)
+            make.right.equalToSuperview().offset(-edgeInsets.right)
         }
     }
 
@@ -103,4 +126,5 @@ class RoundCornersGradientButton: UIControl {
 
     private let titleLabel = UILabel()
     private let imageView = UIImageView()
+    private let contentView = UIView()
 }
