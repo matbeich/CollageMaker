@@ -56,11 +56,6 @@ class CollageCell: NSObject, NSCopying {
         self.image = nil
     }
 
-    func addAbstractPhoto(_ abstractPhoto: AbstractPhoto) {
-        self.image = abstractPhoto.photo
-        self.photoAsset = abstractPhoto.asset
-    }
-
     func addImage(_ image: UIImage?) {
         self.image = image
         imageVisibleRect = .zero

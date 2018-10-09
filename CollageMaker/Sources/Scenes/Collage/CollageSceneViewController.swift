@@ -120,6 +120,14 @@ class CollageSceneViewController: CollageBaseViewController {
     private var templateBarController: TemplateBarCollectionViewController
 }
 
+extension CollageSceneViewController {
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            collageViewController.restoreDeletedCell()
+        }
+    }
+}
+
 extension CollageSceneViewController: CollageViewControllerDelegate {
     func collageViewController(_ controller: CollageViewController, didDeleteCellView cellView: CollageCellView) {
         var actualAssets = templateBarController.assets ?? []
