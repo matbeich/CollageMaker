@@ -71,11 +71,9 @@ class CollageSceneViewController: CollageBaseViewController {
     }
 
     private func setup() {
-        let right = NavigationBarButtonItem(icon: R.image.share_btn(), target: self, action: #selector(shareCollage))
-        let left = NavigationBarButtonItem(icon: R.image.back_btn(), target: self, action: #selector(dismissController))
-        let title = NavigationBarLabelItem(title: "Edit", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
+        navBarItem.right = NavigationBarButtonItem(icon: R.image.share_btn(), target: self, action: #selector(shareCollage))
+        navBarItem.title = "Edit"
 
-        navBarItem = NavigationBarItem(left: left, right: right, title: title)
         makeConstraints()
 
         toolsBar.delegate = self

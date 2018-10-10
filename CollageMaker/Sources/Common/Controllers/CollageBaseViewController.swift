@@ -6,5 +6,5 @@ import UIKit
 import Utils
 
 class CollageBaseViewController: UIViewController {
-    var navBarItem: NavigationBarItem = NavigationBarItem()
+    var navBarItem: NavigationBarItem = NavigationBarItem(title: nil)
 }

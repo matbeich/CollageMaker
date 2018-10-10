@@ -62,10 +62,9 @@ class ShareScreenViewController: CollageBaseViewController {
     private func setup() {
         shareFooter.delegate = self
 
-        let left = NavigationBarButtonItem(icon: R.image.close_btn(), target: self, action: #selector(cancel))
-        let title = NavigationBarLabelItem(title: "Share", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
+        navBarItem.left = NavigationBarButtonItem(icon: R.image.close_btn(), target: self, action: #selector(cancel))
+        navBarItem.title = "Share"
 
-        navBarItem = NavigationBarItem(left: left, title: title)
         view.backgroundColor = .white
     }
 
