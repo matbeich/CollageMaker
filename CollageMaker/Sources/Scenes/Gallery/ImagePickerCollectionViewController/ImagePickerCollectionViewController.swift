@@ -122,10 +122,8 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         view.backgroundColor = .white
         library.delegate = self
 
-        let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
-        let left = NavigationBarButtonItem(title: "Cancel", font: R.font.sfProDisplaySemibold(size: 19), target: self, action: #selector(cancel))
-
-        navBarItem = NavigationBarItem(left: left, title: title)
+        navBarItem.left = NavigationBarButtonItem(title: "Cancel", font: R.font.sfProDisplaySemibold(size: 19), target: self, action: #selector(cancel))
+        navBarItem.title = "All Photos"
 
         collectionView.backgroundColor = .white
         collectionView.delegate = self

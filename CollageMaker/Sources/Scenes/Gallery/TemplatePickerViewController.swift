@@ -53,12 +53,11 @@ class TemplatePickerViewController: CollageBaseViewController {
     private func setup() {
         view.backgroundColor = .white
 
-        let left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(takePhoto))
-        let title = NavigationBarLabelItem(title: "All Photos", color: .black, font: R.font.sfProDisplaySemibold(size: 19))
-        let right = NavigationBarViewItem(view: gradientButton)
+        navBarItem.left = NavigationBarButtonItem(icon: R.image.camera_btn(), target: self, action: #selector(takePhoto))
+        navBarItem.right = NavigationBarViewItem(view: gradientButton)
+        navBarItem.title = "All Photos"
 
         gradientButton.addTarget(self, action: #selector(selectFirstTemplate), for: .touchUpInside)
-        navBarItem = NavigationBarItem(left: left, right: right, title: title)
     }
 
     @objc private func selectFirstTemplate() {
