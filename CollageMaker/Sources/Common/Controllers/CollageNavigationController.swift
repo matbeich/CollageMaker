@@ -5,13 +5,7 @@
 import UIKit
 import Utils
 
-protocol CollageNavigationControllerDelegate: AnyObject {
-    func collageNavigationControllerdidTappedLeftButton(_ controller: CollageNavigationController)
-}
-
 final class CollageNavigationController: UINavigationController {
-    weak var buttonsDelegate: CollageNavigationControllerDelegate?
-
     struct Preset {
         let withBackButton: Bool
         var leftItem: NavigationItem?
@@ -46,7 +40,7 @@ final class CollageNavigationController: UINavigationController {
     var showBackButton: Bool = true {
         didSet {
             preset = Preset(withBackButton: showBackButton, left: navBarItem?.left, title: navBarItem?.titleItem, right: navBarItem?.right)
-            
+
             setupForPreset(preset)
         }
     }
