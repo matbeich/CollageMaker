@@ -203,6 +203,7 @@ class ShareScreenViewController: CollageBaseViewController {
 
 extension ShareScreenViewController: ShareScreenFooterDelegate {
     func shareScreenFooter(_ footer: ShareScreenFooter, shareToolbar: ShareToolbar, didSelectDestination destination: ShareDestination) {
+        EventTracker.shared.track(.share(destination: destination))
         shareToDestination(destination: destination)
     }
 
