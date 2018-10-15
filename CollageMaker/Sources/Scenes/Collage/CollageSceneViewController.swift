@@ -137,7 +137,16 @@ extension CollageSceneViewController {
 
 extension CollageSceneViewController: CollageViewControllerDelegate {
     func collageViewController(_ controller: CollageViewController, didRestoreCellView cellView: CollageCellView) {
-        // FIXME: add logic
+        var actualAssets = templateBarController.assets ?? []
+
+        guard let asset = cellView.collageCell.photoAsset else {
+            return
+        }
+
+        actualAssets.append(asset)
+        let templates = templateProvider.templates(for: actualAssets)
+
+        templateBarController.templates = templates
     }
 
     func collageViewController(_ controller: CollageViewController, didDeleteCellView cellView: CollageCellView) {

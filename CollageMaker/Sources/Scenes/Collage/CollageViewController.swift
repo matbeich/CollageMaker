@@ -142,11 +142,12 @@ extension CollageViewController: UIGestureRecognizerDelegate {
 extension CollageViewController: CollageDelegate {
     func collage(_ collage: Collage, didRestoreCell cell: CollageCell?, withError error: CollageError?) {
         if error == nil {
+            updateCollage()
+
             guard let cell = cell, let cellView = collageView.collageCellView(with: cell.id) else {
                 return
             }
 
-            updateCollage()
             delegate?.collageViewController(self, didRestoreCellView: cellView)
         } else {
             Alerts.popUpMessageAlert("No recently deleted cell", duration: 0.7, in: self)

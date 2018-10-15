@@ -99,13 +99,13 @@ extension CollageNavigationController: UINavigationControllerDelegate {
     }
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        guard let controller = viewController as? CollageBaseViewController, let current = navBarItem else {
+        guard let controller = viewController as? CollageBaseViewController, let savedItem = navBarItem else {
             return
         }
 
         navBarItem = controller.navBarItem
         let snaphot = navBar.asImage()
-        navBarItem = current
+        navBarItem = savedItem
 
         let snaphotView = UIImageView(frame: navBar.frame)
 
@@ -121,7 +121,7 @@ extension CollageNavigationController: UINavigationControllerDelegate {
 
         viewController.transitionCoordinator?.animateAlongsideTransition(in: navBar, animation: animation) { [weak self] ctx in
             if ctx.isCancelled {
-                self?.navBarItem = current
+                self?.navBarItem = savedItem
             }
 
             self?.navBar.alpha = 1.0

@@ -26,6 +26,10 @@ protocol CollageDelegate: AnyObject {
 class Collage: NSObject, NSCopying {
     static let maximumAllowedCellsCount = 9
 
+    var canDeleteCells: Bool {
+        return cells.count > 1
+    }
+
     weak var delegate: CollageDelegate?
 
     init(cells: [CollageCell] = []) {
@@ -70,20 +74,29 @@ class Collage: NSObject, NSCopying {
     }
 
     func deleteSelectedCell() {
-        cellsBeforeChanging = cells
+        guard canDeleteCells else {
+            return
+        }
+
+        cellsBeforeChanging = cells.compactMap { $0.copy() as? CollageCell }
         canRestoreDeletedCell = true
+        recentlyDeletedCellID = selectedCell.id
+
         delete(selectedCell)
     }
 
     func restoreRecentlyDeletedCell() {
-        guard canRestoreDeletedCell else {
+        guard canRestoreDeletedCell, let id = recentlyDeletedCellID else {
             delegate?.collage(self, didRestoreCell: nil, withError: .noRecentlyDeletedCell)
+
             return
         }
 
         restoreCellsBeforeChanging()
-        delegate?.collageChanged(self)
+        delegate?.collage(self, didRestoreCell: cellWith(id: id), withError: nil)
+
         canRestoreDeletedCell = false
+        recentlyDeletedCellID = nil
     }
 
     func splitSelectedCell(by axis: Axis) {
@@ -190,10 +203,11 @@ class Collage: NSObject, NSCopying {
         }
     }
 
+    private var recentlyDeletedCellID: UUID?
+    private var cellsBeforeChanging: [CollageCell] = []
     private(set) var cells: [CollageCell]
     private(set) var selectedCell: CollageCell
     private(set) var canRestoreDeletedCell: Bool = false
-    private var cellsBeforeChanging: [CollageCell] = []
 }
 
 extension Collage {

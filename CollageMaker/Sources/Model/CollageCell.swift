@@ -34,6 +34,7 @@ class CollageCell: NSObject, NSCopying {
     private convenience init(color: UIColor, image: UIImage?, photoAsset: PHAsset?, relativeFrame: CGRect, id: UUID, imageVisibleRect: RelativeFrame) {
         self.init(color: color, image: image, relativeFrame: relativeFrame)
         self.id = id
+        self.photoAsset = photoAsset
         self.imageVisibleRect = imageVisibleRect
     }
 
