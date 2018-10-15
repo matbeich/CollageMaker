@@ -125,7 +125,7 @@ class CollageTests: XCTestCase {
         collage.deleteImages()
         collage.fill(with: testAbstractPhotos)
 
-        XCTAssertTrue(!collage.images.isEmpty || !collage.assets.isEmpty)
+        XCTAssertTrue(!collage.images.isEmpty && !collage.assets.isEmpty)
     }
 }
 

@@ -4,10 +4,10 @@
 
 import Foundation
 
-class BundleStub {}
+class BundleForTests {}
 
 extension Bundle {
     static var test: Bundle {
-        return Bundle(for: BundleStub.self)
+        return Bundle(for: BundleForTests.self)
     }
 }
