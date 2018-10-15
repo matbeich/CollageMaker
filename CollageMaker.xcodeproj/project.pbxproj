@@ -63,6 +63,7 @@
 		84A91A5921188E5700108C3B /* CollageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A91A5821188E5700108C3B /* CollageCell.swift */; };
 		84B160342114892600FF4713 /* Collage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B160332114892600FF4713 /* Collage.swift */; };
 		84D389E62125CF5200FCDC67 /* GripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D389E52125CF5200FCDC67 /* GripView.swift */; };
+		84D4156F2174826000A615C1 /* EventTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D4156E2174826000A615C1 /* EventTracker.swift */; };
 		84E06F1B21397ED7007109BE /* PermissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E06F1A21397ED7007109BE /* PermissionsViewController.swift */; };
 		84E06F1E213991D6007109BE /* SF-Pro-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84E06F1D213991D6007109BE /* SF-Pro-Text-Light.otf */; };
 		84E06F20213991F4007109BE /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84E06F1F213991F4007109BE /* SF-Pro-Text-Bold.otf */; };
@@ -164,6 +165,7 @@
 		84A91A5821188E5700108C3B /* CollageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageCell.swift; sourceTree = "<group>"; };
 		84B160332114892600FF4713 /* Collage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collage.swift; sourceTree = "<group>"; };
 		84D389E52125CF5200FCDC67 /* GripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GripView.swift; sourceTree = "<group>"; };
+		84D4156E2174826000A615C1 /* EventTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTracker.swift; sourceTree = "<group>"; };
 		84E06F1A21397ED7007109BE /* PermissionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsViewController.swift; sourceTree = "<group>"; };
 		84E06F1D213991D6007109BE /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Light.otf"; sourceTree = "<group>"; };
 		84E06F1F213991F4007109BE /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
@@ -425,6 +427,7 @@
 				8417D1B7211DC1C500334661 /* CollageRenderer.swift */,
 				F62618AE2141570300CD94AE /* PhotoAuthService.swift */,
 				846AA2C82142689500DF92FD /* CameraAuthService.swift */,
+				84D4156E2174826000A615C1 /* EventTracker.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -641,6 +644,7 @@
 				843A57F321144760002FE28D /* Frameworks */,
 				843A57F421144760002FE28D /* Resources */,
 				6602DC41F30F47EAAE44231C /* [CP] Embed Pods Frameworks */,
+				84D4157021748D5C00A615C1 /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -843,6 +847,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT\"\n";
 		};
+		84D4157021748D5C00A615C1 /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\necho \"Uploading dSYMs..\"\n\"${PODS_ROOT}/Fabric/run\" d6a9c897d065d649ce35ad9ef450ab5c408e6a56 6fc9056f29f7ddf7459ab3374d0000fd7d102ab2b39be4e08790668707c7401e\n\nfind \"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}\" -name \"*.dSYM\" | xargs -I \\{\\} \"${PODS_ROOT}\"/Fabric/upload-symbols -a d6a9c897d065d649ce35ad9ef450ab5c408e6a56 -p ios \\{\\}\nelse\necho \"Skip dSYMs upload\"\nfi\n";
+		};
 		A68283706116FA98A80A9A4F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -942,6 +964,7 @@
 				84A91A5921188E5700108C3B /* CollageCell.swift in Sources */,
 				F62618B521415D9C00CD94AE /* UIKit+Extensions.swift in Sources */,
 				8417D1B8211DC1C500334661 /* CollageRenderer.swift in Sources */,
+				84D4156F2174826000A615C1 /* EventTracker.swift in Sources */,
 				840CC3ED216241E0001C3C5C /* ShareButton.swift in Sources */,
 				84868BC42138358500E12152 /* CollageBarItem.swift in Sources */,
 				525EC52B214C26AB009E5393 /* TemplatesContainerView.swift in Sources */,

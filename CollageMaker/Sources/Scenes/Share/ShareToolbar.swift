@@ -5,7 +5,7 @@
 import SnapKit
 import UIKit
 
-enum ShareDestination {
+enum ShareDestination: String {
     case photos
     case messages
     case instagram

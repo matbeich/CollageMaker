@@ -131,7 +131,10 @@ class CollageSceneViewController: CollageBaseViewController {
 
 extension CollageSceneViewController {
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-        if motion == .motionShake { showMotionAlert() }
+        if motion == .motionShake {
+            EventTracker.shared.track(.shake())
+            showMotionAlert()
+        }
     }
 }
 
@@ -209,10 +212,12 @@ extension CollageSceneViewController: CollageToolbarDelegate {
         switch itemTapped.title {
         case "HORIZONTAL":
             if collageViewController.collage.cells.count < Collage.maximumAllowedCellsCount {
+                EventTracker.shared.track(.split(by: .horizontal))
                 collageViewController.splitSelectedCell(by: .horizontal)
             }
         case "VERTICAL":
             if collageViewController.collage.cells.count < Collage.maximumAllowedCellsCount {
+                EventTracker.shared.track(.split(by: .vertical))
                 collageViewController.splitSelectedCell(by: .vertical)
             }
         case "ADD IMG": pickImage()

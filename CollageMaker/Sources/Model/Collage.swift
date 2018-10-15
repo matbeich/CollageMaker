@@ -9,7 +9,7 @@ enum CollageError: Error {
     case noRecentlyDeletedCell
 }
 
-enum Axis {
+enum Axis: String {
     case horizontal
     case vertical
 }
