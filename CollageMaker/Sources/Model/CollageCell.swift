@@ -15,7 +15,6 @@ struct CollageCell: Equatable, Hashable {
         self.color = color
         self.image = image
         self.photoAsset = photoAsset
-        self.id = UUID()
         self.relativeFrame = isAllowed(relativeFrame) ? relativeFrame : RelativeFrame.zero
 
         if let image = image {
@@ -23,34 +22,6 @@ struct CollageCell: Equatable, Hashable {
         }
 
         calculateGripPositions()
-    }
-
-    mutating func changeRelativeFrame(with value: CGFloat, with gripPosition: GripPosition) {
-        guard isAllowed(relativeFrame) else {
-            return
-        }
-
-        switch gripPosition {
-        case .left: relativeFrame.stretchLeft(with: value)
-        case .right: relativeFrame.stretchRight(with: value)
-        case .top: relativeFrame.stretchUp(with: value)
-        case .bottom: relativeFrame.stretchDown(with: value)
-        }
-
-        relativeFrame.normalizeValueToAllowed()
-    }
-
-    mutating func deleteImage() {
-        self.image = nil
-    }
-
-    mutating func addImage(_ image: UIImage?) {
-        self.image = image
-        imageVisibleRect = .zero
-    }
-
-    mutating func addPhotoAsset(_ photoAsset: PHAsset?) {
-        self.photoAsset = photoAsset
     }
 
     mutating func calculateGripPositions() {
@@ -64,8 +35,6 @@ struct CollageCell: Equatable, Hashable {
         if relativeFrame.minY > .allowableAccuracy { gripPositions.insert(.top) }
         if abs(relativeFrame.maxX - 1) > .allowableAccuracy { gripPositions.insert(.right) }
         if abs(relativeFrame.maxY - 1) > .allowableAccuracy { gripPositions.insert(.bottom) }
-
-        relativeFrame.normalizeValueToAllowed()
     }
 
     func belongsToParallelLine(on axis: Axis, with point: CGPoint) -> Bool {
@@ -97,15 +66,14 @@ struct CollageCell: Equatable, Hashable {
     }
 
     static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
-        return lhs.id.hashValue == rhs.id.hashValue &&
+        return lhs.hashValue == rhs.hashValue &&
             lhs.relativeFrame == rhs.relativeFrame &&
             lhs.gripPositions == rhs.gripPositions
     }
 
-    private(set) var id: UUID
-    private(set) var image: UIImage?
-    private(set) var photoAsset: PHAsset?
-    private(set) var relativeFrame = RelativeFrame.zero
+    var image: UIImage?
+    var photoAsset: PHAsset?
+    var relativeFrame = RelativeFrame.zero
     private(set) var gripPositions: Set<GripPosition> = []
 }
 

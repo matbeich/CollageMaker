@@ -23,70 +23,21 @@ struct Collage: Equatable {
 
     init(cells: [CollageCell] = []) {
         self.cells = cells
-        self.selectedCell = cells.last ?? CollageCell.zeroFrame
 
         if !isFullsized {
             let initialCell = CollageCell(color: .collagePink, image: R.image.addimg(), relativeFrame: RelativeFrame.fullsized)
 
             self.cells = [initialCell]
-            self.selectedCell = initialCell
-        }
-    }
-
-    mutating func fillWithImages(_ images: [UIImage]) {
-        for (cell, image) in zip(cells, images) {
-            addImage(image, to: cell)
-        }
-    }
-
-    mutating func fill(with abstractPhotos: [AbstractPhoto]) {
-        for (cell, abstractPhoto) in zip(cells, abstractPhotos) {
-            addImage(abstractPhoto.photo, to: cell)
-            addAsset(abstractPhoto.asset, to: cell)
         }
     }
 
     mutating func deleteImages() {
-        cells.forEach { $0.deleteImage() }
-    }
+        cells = cells.map {
+            var cell = $0
+            cell.image = nil
 
-    mutating func setSelected(cell: CollageCell) {
-        selectedCell = cellWith(id: cell.id) ?? .zeroFrame
-    }
-
-    mutating func deleteSelectedCell() {
-        guard canDeleteCells else {
-            return
+            return cell
         }
-
-        delete(selectedCell)
-    }
-
-    mutating func restoreRecentlyDeletedCell() {
-        guard canRestoreDeletedCell else {
-            return
-        }
-
-        restoreCellsBeforeChanging()
-
-        canRestoreDeletedCell = false
-        recentlyDeletedCellID = nil
-    }
-
-    mutating func splitSelectedCell(by axis: Axis) {
-        split(cell: selectedCell, by: axis)
-    }
-
-    mutating func addImageToSelectedCell(_ image: UIImage?) {
-        addImage(image, to: selectedCell)
-    }
-
-    mutating func addAssetToSelectedCell(_ asset: PHAsset?) {
-        addAsset(asset, to: selectedCell)
-    }
-
-    mutating func changeSizeOfSelectedCell(grip: GripPosition, value: CGFloat) {
-        changeSize(of: selectedCell, grip: grip, value: value)
     }
 
     mutating func delete(_ cell: CollageCell) {
@@ -96,11 +47,19 @@ struct Collage: Equatable {
     }
 
     mutating func addImage(_ image: UIImage?, to cell: CollageCell) {
-        cell.addImage(image)
+        var newCell = cell
+        newCell.image = image
+
+        remove(cell: cell)
+        add(cell: newCell)
     }
 
     mutating func addAsset(_ asset: PHAsset?, to cell: CollageCell) {
-        cell.addPhotoAsset(asset)
+        var newCell = cell
+        newCell.photoAsset = asset
+
+        remove(cell: cell)
+        add(cell: newCell)
     }
 
     mutating func split(cell: CollageCell, by axis: Axis) {
@@ -113,18 +72,17 @@ struct Collage: Equatable {
             add(cell: firstCell)
             add(cell: secondCell)
             remove(cell: cell)
-            setSelected(cell: secondCell)
         }
     }
 
     mutating func changeSize(cell: CollageCell, grip: GripPosition, value: CGFloat) {
-        changeSize(of: cell, grip: grip, value: value, merging: false)
+        changeSize(of: cell, grip: grip, value: value)
     }
 
     private mutating func changeSize(of cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) {
         undoStackCells.append(cells)
-        calculateCellsNewFrame(cell: cell, grip: grip, value: value)
 
+        changeCellsFrameAffectedFor(cell: cell, grip: grip, value: value, merging: merging)
         let framesAreAllowed = cells.map { $0.isAllowed($0.relativeFrame) }.reduce(true, { $0 && $1 })
 
         guard isFullsized && framesAreAllowed else {
@@ -140,47 +98,37 @@ struct Collage: Equatable {
         }
 
         cells = previousStateCells
-        setSelected(cell: selectedCell)
+        undoStackCells = Array(undoStackCells.dropLast())
     }
 
     private mutating func merge(cell: CollageCell, grip: GripPosition, value: CGFloat) -> Bool {
         undoStackCells.append(cells)
         remove(cell: cell)
+        changeCellsFrameAffectedFor(cell: cell, grip: grip, value: value, merging: true)
 
-        prepareCells(cell: cell, grip: grip, value: value, merging: true)
-
-        calculateCellsNewFrame(cell: cell, grip: grip, value: value, merging: true)
-
-        if isFullsized {
-            setSelected(cell: cells.last ?? .zeroFrame)
-
-            return true
-        }
+        if isFullsized { return true }
 
         restoreCellsBeforeChanging()
         return false
     }
 
-    private func prepareCells(cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) {
-        let changingCells = affectedWithChangeOf(cell: cell, with: grip, merging: merging)
-
-        guard changingCells.count > 0, check(grip, in: cell) else {
-            return
-        }
-    }
-
-    private func calculateCellsNewFrame(cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) {
+    private mutating func changeCellsFrameAffectedFor(cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) {
         let changingCells = affectedWithChangeOf(cell: cell, with: grip, merging: merging)
 
         guard changingCells.count > 0, check(grip, in: cell) else {
             return
         }
 
-        changingCells.forEach {
-            let changeGrip = $0.gripPositionRelativeTo(cell: cell, grip)
-            let frame = measureRelativeFrame(for: $0, with: value, with: grip)
-            $0.re
-            $0.calculateGripPositions()
+        changingCells.forEach { cell in
+            remove(cell: cell)
+            let changeGrip = cell.gripPositionRelativeTo(cell: cell, grip)
+            let frame = measureRelativeFrame(for: cell, with: value, with: changeGrip)
+            var newCell = cell
+
+            newCell.relativeFrame = frame
+            newCell.calculateGripPositions()
+
+            add(cell: newCell)
         }
     }
 
@@ -193,11 +141,8 @@ struct Collage: Equatable {
         }
     }
 
-    private var recentlyDeletedCellID: UUID?
     private var undoStackCells: [[CollageCell]] = []
     private(set) var cells: [CollageCell]
-    private(set) var selectedCell: CollageCell
-    private(set) var canRestoreDeletedCell: Bool = false
 }
 
 extension Collage {
@@ -207,10 +152,6 @@ extension Collage {
         let cellsInBounds = cells.map { $0.relativeFrame.isInBounds(.fullsized) }.reduce(true, { $0 && $1 })
 
         return cellsInBounds && collageArea.isApproximatelyEqual(to: cellsArea)
-    }
-
-    func cellWith(id: UUID) -> CollageCell? {
-        return cells.first(where: { $0.id == id })
     }
 
     func cellWith(asset: PHAsset) -> CollageCell? {
@@ -239,7 +180,7 @@ extension Collage {
     }
 
     private mutating func remove(cell: CollageCell) {
-        cells = cells.filter { $0.id != cell.id }
+        cells = cells.filter { $0 != cell }
     }
 
     private func cellsLayingOnLine(with cell: CollageCell, gripPosition: GripPosition) -> [CollageCell] {
