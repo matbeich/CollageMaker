@@ -72,6 +72,7 @@
 		84E40814214BC5C1006764D0 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40813214BC5C1006764D0 /* SelectionView.swift */; };
 		84E40816214BDD73006764D0 /* TemplatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */; };
 		84E40818214C03D3006764D0 /* CollageTemplateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */; };
+		84E425B721760E3200CE98BE /* CollageMakerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E425B621760E3200CE98BE /* CollageMakerUITests.swift */; };
 		84F454BE2158E3E80079CE6C /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454BD2158E3E80079CE6C /* PlusButton.swift */; };
 		84F454C02158E4A10079CE6C /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454BF2158E4A10079CE6C /* PlusView.swift */; };
 		84FD669B2153BD3800C831F0 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FD669A2153BD3800C831F0 /* R.generated.swift */; };
@@ -91,6 +92,13 @@
 			remoteInfo = CollageMaker;
 		};
 		843A580B21144761002FE28D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843A57EE21144760002FE28D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 843A57F521144760002FE28D;
+			remoteInfo = CollageMaker;
+		};
+		84E425B921760E3200CE98BE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 843A57EE21144760002FE28D /* Project object */;
 			proxyType = 1;
@@ -174,6 +182,9 @@
 		84E40813214BC5C1006764D0 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickerViewController.swift; sourceTree = "<group>"; };
 		84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplateProvider.swift; sourceTree = "<group>"; };
+		84E425B421760E3200CE98BE /* CollageMakerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollageMakerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		84E425B621760E3200CE98BE /* CollageMakerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageMakerUITests.swift; sourceTree = "<group>"; };
+		84E425B821760E3200CE98BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84F454BD2158E3E80079CE6C /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		84F454BF2158E4A10079CE6C /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		84FD669A2153BD3800C831F0 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
@@ -213,6 +224,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EED0F2386CA83A7547A76DEB /* Pods_CollageMakerTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E425B121760E3200CE98BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +283,7 @@
 				843A57F821144760002FE28D /* CollageMaker */,
 				844CDD212165FE7500AF3B8E /* SnapshotTests */,
 				843A580D21144761002FE28D /* CollageMakerTests */,
+				84E425B521760E3200CE98BE /* CollageMakerUITests */,
 				843A57F721144760002FE28D /* Products */,
 				2E7F056D7C2B16B2C9D69F35 /* Pods */,
 				C9146EDE3DD69860E78ABB00 /* Frameworks */,
@@ -277,6 +296,7 @@
 				843A57F621144760002FE28D /* CollageMaker.app */,
 				843A580A21144761002FE28D /* CollageMakerTests.xctest */,
 				8416A4F8216BA6C300DC6916 /* SnapshotTests.xctest */,
+				84E425B421760E3200CE98BE /* CollageMakerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -598,6 +618,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		84E425B521760E3200CE98BE /* CollageMakerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				84E425B621760E3200CE98BE /* CollageMakerUITests.swift */,
+				84E425B821760E3200CE98BE /* Info.plist */,
+			);
+			path = CollageMakerUITests;
+			sourceTree = "<group>";
+		};
 		C9146EDE3DD69860E78ABB00 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -675,6 +704,24 @@
 			productReference = 843A580A21144761002FE28D /* CollageMakerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		84E425B321760E3200CE98BE /* CollageMakerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84E425BE21760E3200CE98BE /* Build configuration list for PBXNativeTarget "CollageMakerUITests" */;
+			buildPhases = (
+				84E425B021760E3200CE98BE /* Sources */,
+				84E425B121760E3200CE98BE /* Frameworks */,
+				84E425B221760E3200CE98BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84E425BA21760E3200CE98BE /* PBXTargetDependency */,
+			);
+			name = CollageMakerUITests;
+			productName = CollageMakerUITests;
+			productReference = 84E425B421760E3200CE98BE /* CollageMakerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -696,6 +743,10 @@
 						CreatedOnToolsVersion = 9.4.1;
 						TestTargetID = 843A57F521144760002FE28D;
 					};
+					84E425B321760E3200CE98BE = {
+						CreatedOnToolsVersion = 10.0;
+						TestTargetID = 843A57F521144760002FE28D;
+					};
 				};
 			};
 			buildConfigurationList = 843A57F121144760002FE28D /* Build configuration list for PBXProject "CollageMaker" */;
@@ -714,6 +765,7 @@
 				843A57F521144760002FE28D /* CollageMaker */,
 				843A580921144761002FE28D /* CollageMakerTests */,
 				8416A4F7216BA6C300DC6916 /* SnapshotTests */,
+				84E425B321760E3200CE98BE /* CollageMakerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -747,6 +799,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8416A515216BC31B00DC6916 /* test_img.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E425B221760E3200CE98BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1003,6 +1062,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		84E425B021760E3200CE98BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E425B721760E3200CE98BE /* CollageMakerUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1015,6 +1082,11 @@
 			isa = PBXTargetDependency;
 			target = 843A57F521144760002FE28D /* CollageMaker */;
 			targetProxy = 843A580B21144761002FE28D /* PBXContainerItemProxy */;
+		};
+		84E425BA21760E3200CE98BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 843A57F521144760002FE28D /* CollageMaker */;
+			targetProxy = 84E425B921760E3200CE98BE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1409,6 +1481,70 @@
 			};
 			name = Test;
 		};
+		84E425BB21760E3200CE98BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P99EM85EA2;
+				INFOPLIST_FILE = CollageMakerUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dimasno1.CollageMakerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CollageMaker;
+			};
+			name = Debug;
+		};
+		84E425BC21760E3200CE98BE /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P99EM85EA2;
+				INFOPLIST_FILE = CollageMakerUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dimasno1.CollageMakerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CollageMaker;
+			};
+			name = Test;
+		};
+		84E425BD21760E3200CE98BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P99EM85EA2;
+				INFOPLIST_FILE = CollageMakerUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dimasno1.CollageMakerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CollageMaker;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1448,6 +1584,16 @@
 				843A582221144761002FE28D /* Debug */,
 				844CDD1A21653A0C00AF3B8E /* Test */,
 				843A582321144761002FE28D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84E425BE21760E3200CE98BE /* Build configuration list for PBXNativeTarget "CollageMakerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84E425BB21760E3200CE98BE /* Debug */,
+				84E425BC21760E3200CE98BE /* Test */,
+				84E425BD21760E3200CE98BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

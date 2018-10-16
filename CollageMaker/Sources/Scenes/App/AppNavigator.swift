@@ -68,10 +68,14 @@ extension AppNavigator: ShareScreenViewControllerDelegate {
 extension AppNavigator: TemplatePickerViewControllerDelegate {
     func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate template: CollageTemplate) {
         templateProvider.collage(from: template, size: .large) { [weak self] collage in
-            let controller = CollageSceneViewController(collage: collage, templates: templateController.templates)
-            controller.delegate = self
+            let sceneController = CollageSceneViewController(collage: collage, templates: templateController.templates)
+            sceneController.delegate = self
 
-            self?.rootViewController.pushViewController(controller, animated: true)
+            guard !(self?.rootViewController.topViewController is CollageSceneViewController) else {
+                return
+            }
+
+            self?.rootViewController.pushViewController(sceneController, animated: true)
         }
     }
 }
