@@ -26,30 +26,27 @@ extension RelativeFrame {
         return self == RelativeFrame.fullsized
     }
 
-    mutating func stretchLeft(with value: CGFloat) {
-        origin.x += value
-        size.width -= value
+    func stretchedLeft(with value: CGFloat) -> RelativeFrame {
+        return RelativeFrame(origin: CGPoint(x: origin.x + value, y: origin.y), size: CGSize(width: width - value, height: height))
     }
 
-    mutating func stretchRight(with value: CGFloat) {
-        size.width += value
+    func stretchedRight(with value: CGFloat) -> RelativeFrame {
+        return RelativeFrame(origin: origin, size: CGSize(width: width + value, height: height))
     }
 
-    mutating func stretchUp(with value: CGFloat) {
-        origin.y += value
-        size.height -= value
+    func stretchedUp(with value: CGFloat) -> RelativeFrame {
+        return RelativeFrame(origin: CGPoint(x: origin.x, y: origin.y + value), size: CGSize(width: width, height: height - value))
     }
 
-    mutating func stretchDown(with value: CGFloat) {
-        size.height += value
+    func stretchedDown(with value: CGFloat) -> RelativeFrame {
+        return RelativeFrame(origin: origin, size: CGSize(width: width, height: height + value))
     }
 
-    mutating func normalizeValueToAllowed() {
-        size.width = max(0.2, width)
-        size.height = max(0.2, height)
+    func normalizedToAllowed() -> RelativeFrame {
+        let normalizedWidth = min(1.0, max(0.2, width))
+        let normalizedHeight = min(1.0, max(0.2, height))
 
-        size.width = min(1.0, width)
-        size.height = min(1.0, height)
+        return RelativeFrame(origin: origin, size: CGSize(width: normalizedWidth, height: normalizedHeight))
     }
 
     func split(axis: Axis) -> (RelativeFrame, RelativeFrame) {

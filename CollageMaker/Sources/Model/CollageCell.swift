@@ -7,21 +7,15 @@ import UIKit
 
 typealias RelativeFrame = CGRect
 
-class CollageCell: NSObject, NSCopying {
+struct CollageCell: Equatable, Hashable {
     var color: UIColor
     var imageVisibleRect: RelativeFrame = .zero
-
-    func copy(with zone: NSZone? = nil) -> Any {
-        return CollageCell(color: color, image: image, photoAsset: photoAsset, relativeFrame: relativeFrame, id: id, imageVisibleRect: imageVisibleRect)
-    }
 
     init(color: UIColor = .random, image: UIImage? = nil, photoAsset: PHAsset? = nil, relativeFrame: RelativeFrame) {
         self.color = color
         self.image = image
         self.photoAsset = photoAsset
         self.id = UUID()
-
-        super.init()
         self.relativeFrame = isAllowed(relativeFrame) ? relativeFrame : RelativeFrame.zero
 
         if let image = image {
@@ -31,14 +25,7 @@ class CollageCell: NSObject, NSCopying {
         calculateGripPositions()
     }
 
-    private convenience init(color: UIColor, image: UIImage?, photoAsset: PHAsset?, relativeFrame: CGRect, id: UUID, imageVisibleRect: RelativeFrame) {
-        self.init(color: color, image: image, relativeFrame: relativeFrame)
-        self.id = id
-        self.photoAsset = photoAsset
-        self.imageVisibleRect = imageVisibleRect
-    }
-
-    func changeRelativeFrame(with value: CGFloat, with gripPosition: GripPosition) {
+    mutating func changeRelativeFrame(with value: CGFloat, with gripPosition: GripPosition) {
         guard isAllowed(relativeFrame) else {
             return
         }
@@ -53,20 +40,20 @@ class CollageCell: NSObject, NSCopying {
         relativeFrame.normalizeValueToAllowed()
     }
 
-    func deleteImage() {
+    mutating func deleteImage() {
         self.image = nil
     }
 
-    func addImage(_ image: UIImage?) {
+    mutating func addImage(_ image: UIImage?) {
         self.image = image
         imageVisibleRect = .zero
     }
 
-    func addPhotoAsset(_ photoAsset: PHAsset?) {
+    mutating func addPhotoAsset(_ photoAsset: PHAsset?) {
         self.photoAsset = photoAsset
     }
 
-    func calculateGripPositions() {
+    mutating func calculateGripPositions() {
         gripPositions.removeAll()
 
         guard relativeFrame.isFullsized == false else {
@@ -110,15 +97,9 @@ class CollageCell: NSObject, NSCopying {
     }
 
     static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
-        return lhs.id.hashValue == rhs.id.hashValue
-    }
-
-    override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? CollageCell else {
-            return false
-        }
-
-        return self == object
+        return lhs.id.hashValue == rhs.id.hashValue &&
+            lhs.relativeFrame == rhs.relativeFrame &&
+            lhs.gripPositions == rhs.gripPositions
     }
 
     private(set) var id: UUID
