@@ -5,10 +5,6 @@
 import Photos
 import UIKit
 
-enum CollageError: Error {
-    case noRecentlyDeletedCell
-}
-
 enum Axis: String {
     case horizontal
     case vertical
@@ -25,7 +21,7 @@ struct Collage: Equatable {
         self.cells = cells
 
         if !isFullsized {
-            let initialCell = CollageCell(color: .collagePink, image: R.image.addimg(), relativeFrame: RelativeFrame.fullsized)
+            let initialCell = CollageCell(color: .red, image: nil, relativeFrame: RelativeFrame.fullsized)
 
             self.cells = [initialCell]
         }
@@ -66,7 +62,7 @@ struct Collage: Equatable {
         let (firstFrame, secondFrame) = cell.relativeFrame.split(axis: axis)
 
         let firstCell = CollageCell(color: cell.color, image: cell.image, photoAsset: cell.photoAsset, relativeFrame: firstFrame)
-        let secondCell = CollageCell(color: .random, image: nil, relativeFrame: secondFrame)
+        let secondCell = CollageCell(color: .red, image: nil, relativeFrame: secondFrame)
 
         if firstCell.isAllowed(firstFrame) && secondCell.isAllowed(secondFrame) {
             add(cell: firstCell)
@@ -119,11 +115,12 @@ struct Collage: Equatable {
             return
         }
 
-        changingCells.forEach { cell in
-            remove(cell: cell)
-            let changeGrip = cell.gripPositionRelativeTo(cell: cell, grip)
-            let frame = measureRelativeFrame(for: cell, with: value, with: changeGrip)
-            var newCell = cell
+        changingCells.forEach { changecell in
+            remove(cell: changecell)
+
+            let changeGrip = changecell.gripPositionRelativeTo(cell: cell, grip)
+            let frame = measureRelativeFrame(for: changecell, with: value, with: changeGrip)
+            var newCell = changecell
 
             newCell.relativeFrame = frame
             newCell.calculateGripPositions()
@@ -154,6 +151,16 @@ extension Collage {
         return cellsInBounds && collageArea.isApproximatelyEqual(to: cellsArea)
     }
 
+    private mutating func add(cell: CollageCell) {
+        if !cells.contains(cell) {
+            cells.append(cell)
+        }
+    }
+
+    private mutating func remove(cell: CollageCell) {
+        cells = cells.filter { $0 != cell }
+    }
+
     func cellWith(asset: PHAsset) -> CollageCell? {
         return cells.first(where: { $0.photoAsset?.localIdentifier == asset.localIdentifier })
     }
@@ -171,16 +178,6 @@ extension Collage {
         let rightPictures = rhs.cells.compactMap { $0.image }
 
         return lhs.cells == rhs.cells && leftPictures == rightPictures
-    }
-
-    private mutating func add(cell: CollageCell) {
-        if !cells.contains(cell) {
-            cells.append(cell)
-        }
-    }
-
-    private mutating func remove(cell: CollageCell) {
-        cells = cells.filter { $0 != cell }
     }
 
     private func cellsLayingOnLine(with cell: CollageCell, gripPosition: GripPosition) -> [CollageCell] {

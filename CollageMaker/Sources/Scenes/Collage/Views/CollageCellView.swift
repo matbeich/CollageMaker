@@ -34,7 +34,7 @@ class CollageCellView: UIView {
     }
 
     func saveVisibleRect() {
-        collageCell.imageVisibleRect = imageVisibleRect
+        collageCell.imageVisibleFrame = imageVisibleRect
     }
 
     private func setup() {
@@ -74,13 +74,13 @@ class CollageCellView: UIView {
 
         setupScrollView(maxZoomScale: fitScale * 3, minZoomScale: fitScale)
 
-        if collageCell.imageVisibleRect != .zero {
-            let scale = bounds.height / collageCell.imageVisibleRect.height
+        if collageCell.imageVisibleFrame != .zero {
+            let scale = bounds.height / collageCell.imageVisibleFrame.height
 
-            let rect = CGRect(x: collageCell.imageVisibleRect.origin.x * scale,
-                              y: collageCell.imageVisibleRect.origin.y * scale,
-                              width: collageCell.imageVisibleRect.width * scale,
-                              height: collageCell.imageVisibleRect.height * scale)
+            let rect = CGRect(x: collageCell.imageVisibleFrame.origin.x * scale,
+                              y: collageCell.imageVisibleFrame.origin.y * scale,
+                              width: collageCell.imageVisibleFrame.width * scale,
+                              height: collageCell.imageVisibleFrame.height * scale)
 
             scrollView.setZoomScale(scale, animated: false)
             scrollView.centerAtPoint(p: rect.center)

@@ -9,16 +9,24 @@ typealias RelativeFrame = CGRect
 
 struct CollageCell: Equatable, Hashable {
     var color: UIColor
-    var imageVisibleRect: RelativeFrame = .zero
+    var image: UIImage?
+    var photoAsset: PHAsset?
+    var relativeFrame = RelativeFrame.zero
+    var imageVisibleFrame: RelativeFrame = .zero
+
+    var hashValue: Int {
+        return color.hashValue ^ photoAsset.hashValue ^ id.hashValue &* 16_777_619
+    }
 
     init(color: UIColor = .random, image: UIImage? = nil, photoAsset: PHAsset? = nil, relativeFrame: RelativeFrame) {
+        self.id = UUID()
         self.color = color
         self.image = image
         self.photoAsset = photoAsset
         self.relativeFrame = isAllowed(relativeFrame) ? relativeFrame : RelativeFrame.zero
 
         if let image = image {
-            self.imageVisibleRect = self.relativeFrame.absolutePosition(in: CGRect(origin: .zero, size: image.size))
+            self.imageVisibleFrame = self.relativeFrame.absolutePosition(in: CGRect(origin: .zero, size: image.size))
         }
 
         calculateGripPositions()
@@ -66,14 +74,10 @@ struct CollageCell: Equatable, Hashable {
     }
 
     static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
-        return lhs.hashValue == rhs.hashValue &&
-            lhs.relativeFrame == rhs.relativeFrame &&
-            lhs.gripPositions == rhs.gripPositions
+        return lhs.hashValue == rhs.hashValue && lhs.relativeFrame == rhs.relativeFrame
     }
 
-    var image: UIImage?
-    var photoAsset: PHAsset?
-    var relativeFrame = RelativeFrame.zero
+    private(set) var id: UUID
     private(set) var gripPositions: Set<GripPosition> = []
 }
 
