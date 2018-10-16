@@ -6,13 +6,13 @@ import SnapKit
 import UIKit
 
 protocol CollageToolbarDelegate: AnyObject {
-    func collageToolbar(_ collageToolbar: CollageToolbar, itemTapped: CollageBarItem)
+    func collageToolbar(_ collageToolbar: CollageToolbar, itemTapped: CollageBarButtonItem)
 }
 
 class CollageToolbar: UIView {
     weak var delegate: CollageToolbarDelegate?
 
-    convenience init(frame: CGRect = .zero, barItems: [CollageBarItem]) {
+    convenience init(frame: CGRect = .zero, barItems: [CollageBarButtonItem]) {
         self.init(frame: frame)
 
         barItems.forEach { addCollageBarItem($0) }
@@ -33,7 +33,7 @@ class CollageToolbar: UIView {
         fatalError("Not implemented")
     }
 
-    func addCollageBarItem(_ item: CollageBarItem) {
+    func addCollageBarItem(_ item: CollageBarButtonItem) {
         buttonsStackView.addArrangedSubview(item)
     }
 
@@ -50,13 +50,11 @@ class CollageToolbar: UIView {
             return
         }
 
-        item.animate()
-
         delegate?.collageToolbar(self, itemTapped: item)
     }
 
-    private func itemForPoint(_ point: CGPoint) -> CollageBarItem? {
-        return buttonsStackView.arrangedSubviews.first(where: { $0.frame.contains(point) }) as? CollageBarItem
+    private func itemForPoint(_ point: CGPoint) -> CollageBarButtonItem? {
+        return buttonsStackView.arrangedSubviews.first(where: { $0.frame.contains(point) }) as? CollageBarButtonItem
     }
 
     private lazy var buttonsStackView: UIStackView = {
@@ -74,10 +72,10 @@ class CollageToolbar: UIView {
 
 extension CollageToolbar {
     static var standart: CollageToolbar {
-        let horizontal = CollageBarItem.horizontal
-        let vertical = CollageBarItem.vertical
-        let addimg = CollageBarItem.addImage
-        let delete = CollageBarItem.delete
+        let horizontal = CollageBarButtonItem.horizontal
+        let vertical = CollageBarButtonItem.vertical
+        let addimg = CollageBarButtonItem.addImage
+        let delete = CollageBarButtonItem.delete
 
         return CollageToolbar(barItems: [horizontal, vertical, addimg, delete])
     }
