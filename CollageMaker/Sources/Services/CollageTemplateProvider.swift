@@ -63,7 +63,7 @@ final class CollageTemplateProvider {
 
         photoLibrary.collectPhotos(from: template.assets, deliveryMode: .highQualityFormat, size: size.value) { photos in
             let abstractPhotos = zip(photos, template.assets).map { AbstractPhoto(photo: $0.0, asset: $0.1) }
-            collage.fill(with: abstractPhotos)
+//            collage.fill(with: abstractPhotos)
             callback(collage)
         }
     }

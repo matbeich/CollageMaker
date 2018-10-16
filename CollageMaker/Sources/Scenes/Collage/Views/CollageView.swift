@@ -13,13 +13,20 @@ protocol CollageViewDelegate: AnyObject {
 class CollageView: UIView {
     weak var delegate: CollageViewDelegate?
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
+    var collage: Collage? {
+        didSet {
+            guard let collage = collage else {
+                return
+            }
+
+            collage == oldValue ? updateFrames() : updateCollage(collage)
+        }
     }
 
-    convenience init() {
-        self.init(frame: .zero)
+    override init(frame: CGRect = .zero) {
+        super.init(frame: frame)
+
+        setup()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -31,7 +38,13 @@ class CollageView: UIView {
     }
 
     func updateFrames() {
-        cellViews.forEach { $0.changeFrame(to: $0.collageCell.relativeFrame.absolutePosition(in: self.bounds)) }
+        guard let collage = collage else {
+            return
+        }
+
+        cellViews.forEach {
+            $0.updateCollageCell(collage.cellWith(id: $0.collageCell.id) ?? $0.collageCell)
+            $0.changeFrame(to: $0.collageCell.relativeFrame.absolutePosition(in: self.bounds)) }
     }
 
     func updateCollage(_ collage: Collage) {
@@ -41,20 +54,22 @@ class CollageView: UIView {
 
         bringSubview(toFront: cellSelectionView)
 
-        if let cell = collageCellView(with: collage.selectedCell.id) {
+        if let id = selectedCellView?.collageCell.id, let cell = collageCellView(with: id) {
             select(cellView: cell)
+        } else {
+            cellSelectionView.hidePlusButton()
         }
     }
 
-    func updateSelectedCellView(with collageCell: CollageCell) {
-        selectedCellView.updateCollageCell(collageCell)
-        selectedCellView.collageCell.image == nil ? cellSelectionView.showPlusButton() : cellSelectionView.hidePlusButton()
-    }
-
-    func select(cellView: CollageCellView) {
+    func select(cellView: CollageCellView?) {
         selectedCellView = cellView
+
+        guard let selectedCellView = selectedCellView else {
+            return
+        }
+
         cellSelectionView.gripPositions = selectedCellView.collageCell.gripPositions
-        cellView.collageCell.image == nil ? cellSelectionView.showPlusButton() : cellSelectionView.hidePlusButton()
+        selectedCellView.collageCell.image == nil ? cellSelectionView.showPlusButton() : cellSelectionView.hidePlusButton()
 
         cellSelectionView.snp.remakeConstraints { make in
             make.edges.equalTo(selectedCellView)
@@ -90,12 +105,21 @@ class CollageView: UIView {
 
     @objc private func pointTapped(with recognizer: UITapGestureRecognizer) {
         let point = recognizer.location(in: self)
-        delegate?.collageView(self, tapped: point)
+        let relativePoint = point.normalized(for: frame.size)
+
+        selectedCell = collage?.cell(at: relativePoint)
+
+        guard let cell = collageCellView(with: selectedCell?.id ?? UUID()) else {
+            return
+        }
+
+        selectedCellView = cell
+        select(cellView: selectedCellView)
     }
 
-    private var collage: Collage?
-    private let cellSelectionView = CellSelectionView()
+    private var selectedCell: CollageCell?
     private(set) var gripViews: [GripView] = []
     private(set) var cellViews: [CollageCellView] = []
-    private(set) var selectedCellView = CollageCellView(collageCell: .zeroFrame, frame: .zero)
+    private(set) var selectedCellView: CollageCellView?
+    private let cellSelectionView = CellSelectionView()
 }

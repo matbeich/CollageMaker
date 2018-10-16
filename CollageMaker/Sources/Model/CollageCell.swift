@@ -11,8 +11,13 @@ struct CollageCell: Equatable, Hashable {
     var color: UIColor
     var image: UIImage?
     var photoAsset: PHAsset?
-    var relativeFrame = RelativeFrame.zero
     var imageVisibleFrame: RelativeFrame = .zero
+
+    var relativeFrame = RelativeFrame.zero {
+        didSet {
+            calculateGripPositions()
+        }
+    }
 
     var hashValue: Int {
         return color.hashValue ^ photoAsset.hashValue ^ id.hashValue &* 16_777_619
@@ -30,19 +35,6 @@ struct CollageCell: Equatable, Hashable {
         }
 
         calculateGripPositions()
-    }
-
-    mutating func calculateGripPositions() {
-        gripPositions.removeAll()
-
-        guard relativeFrame.isFullsized == false else {
-            return
-        }
-
-        if relativeFrame.minX > .allowableAccuracy { gripPositions.insert(.left) }
-        if relativeFrame.minY > .allowableAccuracy { gripPositions.insert(.top) }
-        if abs(relativeFrame.maxX - 1) > .allowableAccuracy { gripPositions.insert(.right) }
-        if abs(relativeFrame.maxY - 1) > .allowableAccuracy { gripPositions.insert(.bottom) }
     }
 
     func belongsToParallelLine(on axis: Axis, with point: CGPoint) -> Bool {
@@ -74,7 +66,20 @@ struct CollageCell: Equatable, Hashable {
     }
 
     static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
-        return lhs.hashValue == rhs.hashValue && lhs.relativeFrame == rhs.relativeFrame
+        return lhs.id.hashValue == rhs.id.hashValue
+    }
+
+    private mutating func calculateGripPositions() {
+        gripPositions.removeAll()
+
+        guard relativeFrame.isFullsized == false else {
+            return
+        }
+
+        if relativeFrame.minX > .allowableAccuracy { gripPositions.insert(.left) }
+        if relativeFrame.minY > .allowableAccuracy { gripPositions.insert(.top) }
+        if abs(relativeFrame.maxX - 1) > .allowableAccuracy { gripPositions.insert(.right) }
+        if abs(relativeFrame.maxY - 1) > .allowableAccuracy { gripPositions.insert(.bottom) }
     }
 
     private(set) var id: UUID

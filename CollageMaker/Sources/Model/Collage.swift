@@ -21,7 +21,7 @@ struct Collage: Equatable {
         self.cells = cells
 
         if !isFullsized {
-            let initialCell = CollageCell(color: .red, image: nil, relativeFrame: RelativeFrame.fullsized)
+            let initialCell = CollageCell(color: .random, image: nil, relativeFrame: RelativeFrame.fullsized)
 
             self.cells = [initialCell]
         }
@@ -43,6 +43,10 @@ struct Collage: Equatable {
     }
 
     mutating func addImage(_ image: UIImage?, to cell: CollageCell) {
+        guard cells.contains(cell) else {
+            return
+        }
+
         var newCell = cell
         newCell.image = image
 
@@ -51,6 +55,10 @@ struct Collage: Equatable {
     }
 
     mutating func addAsset(_ asset: PHAsset?, to cell: CollageCell) {
+        guard cells.contains(cell) else {
+            return
+        }
+
         var newCell = cell
         newCell.photoAsset = asset
 
@@ -59,10 +67,13 @@ struct Collage: Equatable {
     }
 
     mutating func split(cell: CollageCell, by axis: Axis) {
-        let (firstFrame, secondFrame) = cell.relativeFrame.split(axis: axis)
+        guard cells.contains(cell) else {
+            return
+        }
 
+        let (firstFrame, secondFrame) = cell.relativeFrame.split(axis: axis)
         let firstCell = CollageCell(color: cell.color, image: cell.image, photoAsset: cell.photoAsset, relativeFrame: firstFrame)
-        let secondCell = CollageCell(color: .red, image: nil, relativeFrame: secondFrame)
+        let secondCell = CollageCell(color: .random, image: nil, relativeFrame: secondFrame)
 
         if firstCell.isAllowed(firstFrame) && secondCell.isAllowed(secondFrame) {
             add(cell: firstCell)
@@ -123,13 +134,12 @@ struct Collage: Equatable {
             var newCell = changecell
 
             newCell.relativeFrame = frame
-            newCell.calculateGripPositions()
 
             add(cell: newCell)
         }
     }
 
-    func measureRelativeFrame(for cell: CollageCell, with value: CGFloat, with gripPosition: GripPosition) -> RelativeFrame {
+    private func measureRelativeFrame(for cell: CollageCell, with value: CGFloat, with gripPosition: GripPosition) -> RelativeFrame {
         switch gripPosition {
         case .left: return cell.relativeFrame.stretchedLeft(with: value).normalizedToAllowed()
         case .right: return cell.relativeFrame.stretchedRight(with: value).normalizedToAllowed()
@@ -159,6 +169,10 @@ extension Collage {
 
     private mutating func remove(cell: CollageCell) {
         cells = cells.filter { $0 != cell }
+    }
+
+    func cellWith(id: UUID) -> CollageCell? {
+        return cells.first(where: { $0.id == id })
     }
 
     func cellWith(asset: PHAsset) -> CollageCell? {

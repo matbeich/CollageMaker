@@ -51,7 +51,6 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         templateProvider.collage(from: template, size: .medium) { [weak self] collage in
 
             let collageView = CollageView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
-            collageView.updateCollage(collage)
             collageView.saveCellsVisibleRect()
 
             self?.collageRenderer.renderAsyncImage(from: collage, with: collageView.bounds.size) { image in
