@@ -33,6 +33,7 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         addSubview(imageView)
+        accessibilityIdentifier = "image_picker_cell"
     }
 
     required init?(coder aDecoder: NSCoder) {
