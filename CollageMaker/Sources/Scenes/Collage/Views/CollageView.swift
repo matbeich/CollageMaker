@@ -6,7 +6,6 @@ import SnapKit
 import UIKit
 
 protocol CollageViewDelegate: AnyObject {
-    func collageView(_ collageView: CollageView, tapped point: CGPoint)
     func collageViewPlusButtonTapped(_ collageView: CollageView)
 }
 
@@ -34,7 +33,7 @@ class CollageView: UIView {
     }
 
     func saveCellsVisibleRect() {
-        cellViews.forEach { $0.saveVisibleRect() }
+        cellViews.forEach { collage?.updateVisibleRect($0.imageVisibleRect, for: $0.collageCell) }
     }
 
     func updateFrames() {
@@ -57,6 +56,7 @@ class CollageView: UIView {
         if let id = selectedCellView?.collageCell.id, let cell = collageCellView(with: id) {
             select(cellView: cell)
         } else {
+            selectedCellView = nil
             cellSelectionView.hidePlusButton()
         }
     }

@@ -36,10 +36,35 @@ struct Collage: Equatable {
         }
     }
 
+    mutating func fillWithImages(_ images: [UIImage]) {
+        for (cell, image) in zip(cells, images) {
+            addImage(image, to: cell)
+        }
+    }
+
+    mutating func fill(with abstractPhotos: [AbstractPhoto]) {
+        for (cell, abstractPhoto) in zip(cells, abstractPhotos) {
+            addAbstractPhoto(abstractPhoto, to: cell)
+        }
+    }
+
     mutating func delete(_ cell: CollageCell) {
         for position in cell.gripPositions {
             if merge(cell: cell, grip: position, value: position.sideChangeValue(for: cell.relativeFrame)) { break }
         }
+    }
+
+    mutating func addAbstractPhoto(_ abstractPhoto: AbstractPhoto, to cell: CollageCell) {
+        guard cells.contains(cell) else {
+            return
+        }
+
+        var newCell = cell
+        newCell.image = abstractPhoto.photo
+        newCell.photoAsset = abstractPhoto.asset
+
+        remove(cell: cell)
+        add(cell: newCell)
     }
 
     mutating func addImage(_ image: UIImage?, to cell: CollageCell) {
@@ -84,6 +109,14 @@ struct Collage: Equatable {
 
     mutating func changeSize(cell: CollageCell, grip: GripPosition, value: CGFloat) {
         changeSize(of: cell, grip: grip, value: value)
+    }
+
+    mutating func updateVisibleRect(_ rect: CGRect, for cell: CollageCell) {
+        var newCell = cell
+        newCell.imageVisibleFrame = rect
+
+        remove(cell: cell)
+        add(cell: newCell)
     }
 
     private mutating func changeSize(of cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) {
@@ -168,7 +201,7 @@ extension Collage {
     }
 
     private mutating func remove(cell: CollageCell) {
-        cells = cells.filter { $0 != cell }
+        cells = cells.filter { $0.id != cell.id }
     }
 
     func cellWith(id: UUID) -> CollageCell? {

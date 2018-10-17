@@ -14,9 +14,12 @@ protocol CollageViewControllerDelegate: AnyObject {
 class CollageViewController: CollageBaseViewController {
     weak var delegate: CollageViewControllerDelegate?
 
-    var collage: Collage = Collage() {
-        didSet {
-            updateCollage()
+    var collage: Collage {
+        get {
+            return collageView.collage ?? Collage()
+        }
+        set {
+            collageView.collage = newValue
         }
     }
 
@@ -54,12 +57,12 @@ class CollageViewController: CollageBaseViewController {
 
     func deleteSelectedCell() {
         saveCellsVisibleRect()
-        guard let cell = selectedCellView?.collageCell else {
+        guard let cellView = selectedCellView else {
             return
         }
 
-        collage.delete(cell)
-        selectedCell = nil
+        collage.delete(cellView.collageCell)
+        delegate?.collageViewController(self, didDeleteCellView: cellView)
     }
 
     func addAbstractPhotoToSelectedCell(_ abstractPhoto: AbstractPhoto) {
@@ -114,7 +117,6 @@ class CollageViewController: CollageBaseViewController {
     }
 
     private let collageView = CollageView()
-    private var selectedCell: CollageCell?
     private var shouldBeUpdated: Bool = true
     private var selectedGripPosition: GripPosition?
 }
@@ -122,12 +124,6 @@ class CollageViewController: CollageBaseViewController {
 extension CollageViewController: CollageViewDelegate {
     func collageViewPlusButtonTapped(_ collageView: CollageView) {
         delegate?.collageViewControllerPlusButtonTapped(self)
-    }
-
-    func collageView(_ collageView: CollageView, tapped point: CGPoint) {
-        let relativePoint = point.normalized(for: collageView.frame.size)
-
-        selectedCell = collage.cell(at: relativePoint)
     }
 }
 
