@@ -24,11 +24,18 @@ target 'CollageMaker' do
   target 'SnapshotTests' do
       inherit! :search_paths
       pod 'iOSSnapshotTestCase'
+      pod 'EarlGrey'
   end
   
   target 'CollageMakerTests' do
       inherit! :search_paths
       pod 'iOSSnapshotTestCase'
+      pod 'EarlGrey'
+  end
+  
+  target 'CollageMakerUnitTests' do
+      inherit! :search_paths
+      pod 'EarlGrey'
   end
 end
 

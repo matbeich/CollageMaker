@@ -9,7 +9,12 @@
 /* Begin PBXBuildFile section */
 		02E713CA4C234417E53BFED9 /* Pods_SnapshotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8416A4C8216BA2D400DC6916 /* Pods_SnapshotTests.framework */; };
 		1929D0E5095DCC541D5B2D97 /* Pods_CollageMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E5F6231635FF3BBC1D62583 /* Pods_CollageMaker.framework */; };
+		39F3AE5A6D76C547E61ABB1F /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C219823BB8C13A6D61BC53C /* EarlGrey.framework */; };
 		525EC52B214C26AB009E5393 /* TemplatesContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525EC52A214C26AB009E5393 /* TemplatesContainerView.swift */; };
+		651705A53A5AD2993F3849C0 /* EarlGrey.framework in EarlGrey Copy Files */ = {isa = PBXBuildFile; fileRef = 2C219823BB8C13A6D61BC53C /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		694DA10F117C6776AFFFDBB4 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C219823BB8C13A6D61BC53C /* EarlGrey.framework */; };
+		6E31FCD47BDE10A8363EDCA4 /* EarlGrey.framework in EarlGrey Copy Files */ = {isa = PBXBuildFile; fileRef = 2C219823BB8C13A6D61BC53C /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		749FD9FE803E518732E29002 /* Pods_CollageMakerUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C53B5104D51FAD94561FC78 /* Pods_CollageMakerUnitTests.framework */; };
 		84023CC421369CDA00FF2CC6 /* RelativeFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84023CC321369CDA00FF2CC6 /* RelativeFrame.swift */; };
 		840CC3EB21623FE5001C3C5C /* ShareToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CC3EA21623FE5001C3C5C /* ShareToolbar.swift */; };
 		840CC3ED216241E0001C3C5C /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CC3EC216241E0001C3C5C /* ShareButton.swift */; };
@@ -73,9 +78,15 @@
 		84E40816214BDD73006764D0 /* TemplatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */; };
 		84E40818214C03D3006764D0 /* CollageTemplateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */; };
 		84E425B721760E3200CE98BE /* CollageMakerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E425B621760E3200CE98BE /* CollageMakerUITests.swift */; };
+		84E425C621773B2900CE98BE /* CollageMakerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E425C521773B2900CE98BE /* CollageMakerUnitTests.swift */; };
 		84F454BE2158E3E80079CE6C /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454BD2158E3E80079CE6C /* PlusButton.swift */; };
 		84F454C02158E4A10079CE6C /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454BF2158E4A10079CE6C /* PlusView.swift */; };
 		84FD669B2153BD3800C831F0 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FD669A2153BD3800C831F0 /* R.generated.swift */; };
+		A78579E53F6E7C8525D10739 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC83F391F6AD9B086127DE8C /* EarlGrey.swift */; };
+		AC2B3759DEFB8AD62DDE0E94 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7907CE76C3482A566375743 /* EarlGrey.swift */; };
+		C771D5886B5DE0E61F5F90CE /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F561D699CE127870CC5DD92 /* EarlGrey.swift */; };
+		D640B320D81CFF5DE049FB71 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C219823BB8C13A6D61BC53C /* EarlGrey.framework */; };
+		D8388E899FD1D748AD48F547 /* EarlGrey.framework in EarlGrey Copy Files */ = {isa = PBXBuildFile; fileRef = 2C219823BB8C13A6D61BC53C /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		EED0F2386CA83A7547A76DEB /* Pods_CollageMakerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFBE0B5378D9DAC0C04B69BA /* Pods_CollageMakerTests.framework */; };
 		F62618AF2141570300CD94AE /* PhotoAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62618AE2141570300CD94AE /* PhotoAuthService.swift */; };
 		F62618B1214159AC00CD94AE /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62618B0214159AC00CD94AE /* AppNavigator.swift */; };
@@ -105,14 +116,60 @@
 			remoteGlobalIDString = 843A57F521144760002FE28D;
 			remoteInfo = CollageMaker;
 		};
+		84E425C821773B2900CE98BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843A57EE21144760002FE28D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 843A57F521144760002FE28D;
+			remoteInfo = CollageMaker;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		998B72063C9C7D8FAD4E3D48 /* EarlGrey Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(TEST_HOST)/../";
+			dstSubfolderSpec = 0;
+			files = (
+				6E31FCD47BDE10A8363EDCA4 /* EarlGrey.framework in EarlGrey Copy Files */,
+			);
+			name = "EarlGrey Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9B0A7D4251F4CF4D1117438B /* EarlGrey Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(TEST_HOST)/../";
+			dstSubfolderSpec = 0;
+			files = (
+				D8388E899FD1D748AD48F547 /* EarlGrey.framework in EarlGrey Copy Files */,
+			);
+			name = "EarlGrey Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFD1E6BED46A1B1CB6316B97 /* EarlGrey Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(TEST_HOST)/../";
+			dstSubfolderSpec = 0;
+			files = (
+				651705A53A5AD2993F3849C0 /* EarlGrey.framework in EarlGrey Copy Files */,
+			);
+			name = "EarlGrey Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0560397CE2EE951F30D1EE6A /* Pods-CollageMakerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerUITests/Pods-CollageMakerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		11EE96ECD95ED85528F37F43 /* Pods-CollageMakerUITests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerUITests.test.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerUITests/Pods-CollageMakerUITests.test.xcconfig"; sourceTree = "<group>"; };
 		2640F2F2D0480145842B1FE4 /* Pods_SnapshotTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SnapshotTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C219823BB8C13A6D61BC53C /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Pods/EarlGrey/EarlGrey/EarlGrey.framework; sourceTree = SOURCE_ROOT; };
 		363080534D0CDC336C68709A /* Pods-CollageMakerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerTests/Pods-CollageMakerTests.release.xcconfig"; sourceTree = "<group>"; };
+		3C53B5104D51FAD94561FC78 /* Pods_CollageMakerUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMakerUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5ED321D13AAA86EF463EDA /* Pods-CollageMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerUITests/Pods-CollageMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		4DD35E258678EA10200C018B /* Pods-CollageMakerUnitTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerUnitTests.test.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerUnitTests/Pods-CollageMakerUnitTests.test.xcconfig"; sourceTree = "<group>"; };
 		525EC52A214C26AB009E5393 /* TemplatesContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesContainerView.swift; sourceTree = "<group>"; };
 		55E937FF543D64801E6FE757 /* Pods_CollageMakerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMakerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E5F6231635FF3BBC1D62583 /* Pods_CollageMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,19 +242,27 @@
 		84E425B421760E3200CE98BE /* CollageMakerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollageMakerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E425B621760E3200CE98BE /* CollageMakerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageMakerUITests.swift; sourceTree = "<group>"; };
 		84E425B821760E3200CE98BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84E425C321773B2900CE98BE /* CollageMakerUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollageMakerUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		84E425C521773B2900CE98BE /* CollageMakerUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageMakerUnitTests.swift; sourceTree = "<group>"; };
+		84E425C721773B2900CE98BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84F454BD2158E3E80079CE6C /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		84F454BF2158E4A10079CE6C /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		84FD669A2153BD3800C831F0 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		8EC8CDE68905CB672761EFD7 /* Pods-SnapshotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnapshotTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnapshotTests/Pods-SnapshotTests.release.xcconfig"; sourceTree = "<group>"; };
 		939134D3EA6086601A613E2E /* Pods-CollageMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMaker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMaker/Pods-CollageMaker.debug.xcconfig"; sourceTree = "<group>"; };
 		9C221B83DC51077FE8EDC16F /* Pods-CollageMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMaker.release.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMaker/Pods-CollageMaker.release.xcconfig"; sourceTree = "<group>"; };
+		9F561D699CE127870CC5DD92 /* EarlGrey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
+		C7907CE76C3482A566375743 /* EarlGrey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
 		CAFBE90A72814A5BE8E2B9AA /* Pods-CollageMakerTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerTests.test.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerTests/Pods-CollageMakerTests.test.xcconfig"; sourceTree = "<group>"; };
 		DF1BB2EE539F033F42C1B772 /* Pods-SnapshotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnapshotTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnapshotTests/Pods-SnapshotTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E5C2B5278BB477A5EE048C5F /* Pods-CollageMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerTests/Pods-CollageMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EC83F391F6AD9B086127DE8C /* EarlGrey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
+		EF2D35708C0E5FE8A627B3E3 /* Pods-CollageMakerUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerUnitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerUnitTests/Pods-CollageMakerUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 		F62618AE2141570300CD94AE /* PhotoAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAuthService.swift; sourceTree = "<group>"; };
 		F62618B0214159AC00CD94AE /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		F62618B221415C6200CD94AE /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		F62618B421415D9C00CD94AE /* UIKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Extensions.swift"; sourceTree = "<group>"; };
+		F86C5725C7F6340CBA5664CC /* Pods-CollageMakerUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerUnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerUnitTests/Pods-CollageMakerUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FD8F972EE96AF75F4B240841 /* Pods-SnapshotTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnapshotTests.test.xcconfig"; path = "Pods/Target Support Files/Pods-SnapshotTests/Pods-SnapshotTests.test.xcconfig"; sourceTree = "<group>"; };
 		FFBE0B5378D9DAC0C04B69BA /* Pods_CollageMakerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMakerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -208,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				02E713CA4C234417E53BFED9 /* Pods_SnapshotTests.framework in Frameworks */,
+				D640B320D81CFF5DE049FB71 /* EarlGrey.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EED0F2386CA83A7547A76DEB /* Pods_CollageMakerTests.framework in Frameworks */,
+				39F3AE5A6D76C547E61ABB1F /* EarlGrey.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +298,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E425C021773B2900CE98BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				694DA10F117C6776AFFFDBB4 /* EarlGrey.framework in Frameworks */,
+				749FD9FE803E518732E29002 /* Pods_CollageMakerUnitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +328,9 @@
 				DF1BB2EE539F033F42C1B772 /* Pods-SnapshotTests.debug.xcconfig */,
 				FD8F972EE96AF75F4B240841 /* Pods-SnapshotTests.test.xcconfig */,
 				8EC8CDE68905CB672761EFD7 /* Pods-SnapshotTests.release.xcconfig */,
+				F86C5725C7F6340CBA5664CC /* Pods-CollageMakerUnitTests.debug.xcconfig */,
+				4DD35E258678EA10200C018B /* Pods-CollageMakerUnitTests.test.xcconfig */,
+				EF2D35708C0E5FE8A627B3E3 /* Pods-CollageMakerUnitTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -284,6 +363,7 @@
 				844CDD212165FE7500AF3B8E /* SnapshotTests */,
 				843A580D21144761002FE28D /* CollageMakerTests */,
 				84E425B521760E3200CE98BE /* CollageMakerUITests */,
+				84E425C421773B2900CE98BE /* CollageMakerUnitTests */,
 				843A57F721144760002FE28D /* Products */,
 				2E7F056D7C2B16B2C9D69F35 /* Pods */,
 				C9146EDE3DD69860E78ABB00 /* Frameworks */,
@@ -297,6 +377,7 @@
 				843A580A21144761002FE28D /* CollageMakerTests.xctest */,
 				8416A4F8216BA6C300DC6916 /* SnapshotTests.xctest */,
 				84E425B421760E3200CE98BE /* CollageMakerUITests.xctest */,
+				84E425C321773B2900CE98BE /* CollageMakerUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -316,6 +397,7 @@
 			children = (
 				84868BBD2137F33900E12152 /* CollageTests.swift */,
 				843A581021144761002FE28D /* Info.plist */,
+				C7907CE76C3482A566375743 /* EarlGrey.swift */,
 			);
 			path = CollageMakerTests;
 			sourceTree = "<group>";
@@ -346,6 +428,7 @@
 				844CDD3F2166317200AF3B8E /* Resources */,
 				844CDD2F2166180D00AF3B8E /* Sources */,
 				844CDD242165FE7500AF3B8E /* Info.plist */,
+				EC83F391F6AD9B086127DE8C /* EarlGrey.swift */,
 			);
 			path = SnapshotTests;
 			sourceTree = "<group>";
@@ -627,6 +710,16 @@
 			path = CollageMakerUITests;
 			sourceTree = "<group>";
 		};
+		84E425C421773B2900CE98BE /* CollageMakerUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				84E425C521773B2900CE98BE /* CollageMakerUnitTests.swift */,
+				84E425C721773B2900CE98BE /* Info.plist */,
+				9F561D699CE127870CC5DD92 /* EarlGrey.swift */,
+			);
+			path = CollageMakerUnitTests;
+			sourceTree = "<group>";
+		};
 		C9146EDE3DD69860E78ABB00 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,6 +728,8 @@
 				FFBE0B5378D9DAC0C04B69BA /* Pods_CollageMakerTests.framework */,
 				55E937FF543D64801E6FE757 /* Pods_CollageMakerUITests.framework */,
 				2640F2F2D0480145842B1FE4 /* Pods_SnapshotTests.framework */,
+				2C219823BB8C13A6D61BC53C /* EarlGrey.framework */,
+				3C53B5104D51FAD94561FC78 /* Pods_CollageMakerUnitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -651,6 +746,7 @@
 				8416A4F5216BA6C300DC6916 /* Frameworks */,
 				8416A4F6216BA6C300DC6916 /* Resources */,
 				CA6B62FCB7CA04D5F1D5A96C /* [CP] Embed Pods Frameworks */,
+				FFD1E6BED46A1B1CB6316B97 /* EarlGrey Copy Files */,
 			);
 			buildRules = (
 			);
@@ -693,6 +789,7 @@
 				843A580721144761002FE28D /* Frameworks */,
 				843A580821144761002FE28D /* Resources */,
 				F59D7689A1BCE744AE652949 /* [CP] Embed Pods Frameworks */,
+				998B72063C9C7D8FAD4E3D48 /* EarlGrey Copy Files */,
 			);
 			buildRules = (
 			);
@@ -722,6 +819,27 @@
 			productReference = 84E425B421760E3200CE98BE /* CollageMakerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		84E425C221773B2900CE98BE /* CollageMakerUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84E425CD21773B2900CE98BE /* Build configuration list for PBXNativeTarget "CollageMakerUnitTests" */;
+			buildPhases = (
+				3F781B54EC741469B4945289 /* [CP] Check Pods Manifest.lock */,
+				84E425BF21773B2900CE98BE /* Sources */,
+				84E425C021773B2900CE98BE /* Frameworks */,
+				84E425C121773B2900CE98BE /* Resources */,
+				9B0A7D4251F4CF4D1117438B /* EarlGrey Copy Files */,
+				81A93FEE49184FCF9A6B05F9 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84E425C921773B2900CE98BE /* PBXTargetDependency */,
+			);
+			name = CollageMakerUnitTests;
+			productName = CollageMakerUnitTests;
+			productReference = 84E425C321773B2900CE98BE /* CollageMakerUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -747,6 +865,10 @@
 						CreatedOnToolsVersion = 10.0;
 						TestTargetID = 843A57F521144760002FE28D;
 					};
+					84E425C221773B2900CE98BE = {
+						CreatedOnToolsVersion = 10.0;
+						TestTargetID = 843A57F521144760002FE28D;
+					};
 				};
 			};
 			buildConfigurationList = 843A57F121144760002FE28D /* Build configuration list for PBXProject "CollageMaker" */;
@@ -766,6 +888,7 @@
 				843A580921144761002FE28D /* CollageMakerTests */,
 				8416A4F7216BA6C300DC6916 /* SnapshotTests */,
 				84E425B321760E3200CE98BE /* CollageMakerUITests */,
+				84E425C221773B2900CE98BE /* CollageMakerUnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -809,6 +932,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		84E425C121773B2900CE98BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -824,6 +954,24 @@
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-CollageMakerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3F781B54EC741469B4945289 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CollageMakerUnitTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -878,6 +1026,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		81A93FEE49184FCF9A6B05F9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-CollageMakerUnitTests/Pods-CollageMakerUnitTests-frameworks.sh",
+				"${PODS_ROOT}/EarlGrey/EarlGrey/EarlGrey.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EarlGrey.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CollageMakerUnitTests/Pods-CollageMakerUnitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		847B79232152C134007FA6BE /* Format Code */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -911,13 +1077,9 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 			);
 			name = Fabric;
-			outputFileListPaths = (
-			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -949,10 +1111,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SnapshotTests/Pods-SnapshotTests-frameworks.sh",
+				"${PODS_ROOT}/EarlGrey/EarlGrey/EarlGrey.framework",
 				"${BUILT_PRODUCTS_DIR}/iOSSnapshotTestCase/FBSnapshotTestCase.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EarlGrey.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSnapshotTestCase.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -967,10 +1131,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CollageMakerTests/Pods-CollageMakerTests-frameworks.sh",
+				"${PODS_ROOT}/EarlGrey/EarlGrey/EarlGrey.framework",
 				"${BUILT_PRODUCTS_DIR}/iOSSnapshotTestCase/FBSnapshotTestCase.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EarlGrey.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSnapshotTestCase.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -995,6 +1161,7 @@
 				8416A505216BA75A00DC6916 /* MockPhotoLibrary.swift in Sources */,
 				8416A50D216BABA600DC6916 /* GradientButtonTestCase.swift in Sources */,
 				8416A50E216BABA600DC6916 /* AttributedTextLabelTestCase.swift in Sources */,
+				A78579E53F6E7C8525D10739 /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,6 +1226,7 @@
 				84868BBE2137F33900E12152 /* CollageTests.swift in Sources */,
 				8416A511216BC0D100DC6916 /* MockPhotoLibrary.swift in Sources */,
 				8416A50C216BAB9400DC6916 /* ImageStub.swift in Sources */,
+				AC2B3759DEFB8AD62DDE0E94 /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1067,6 +1235,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				84E425B721760E3200CE98BE /* CollageMakerUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E425BF21773B2900CE98BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E425C621773B2900CE98BE /* CollageMakerUnitTests.swift in Sources */,
+				C771D5886B5DE0E61F5F90CE /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1087,6 +1264,11 @@
 			isa = PBXTargetDependency;
 			target = 843A57F521144760002FE28D /* CollageMaker */;
 			targetProxy = 84E425B921760E3200CE98BE /* PBXContainerItemProxy */;
+		};
+		84E425C921773B2900CE98BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 843A57F521144760002FE28D /* CollageMaker */;
+			targetProxy = 84E425C821773B2900CE98BE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1545,6 +1727,76 @@
 			};
 			name = Release;
 		};
+		84E425CA21773B2900CE98BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F86C5725C7F6340CBA5664CC /* Pods-CollageMakerUnitTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P99EM85EA2;
+				INFOPLIST_FILE = CollageMakerUnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dimasno1.CollageMakerUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CollageMaker.app/CollageMaker";
+			};
+			name = Debug;
+		};
+		84E425CB21773B2900CE98BE /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4DD35E258678EA10200C018B /* Pods-CollageMakerUnitTests.test.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P99EM85EA2;
+				INFOPLIST_FILE = CollageMakerUnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dimasno1.CollageMakerUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CollageMaker.app/CollageMaker";
+			};
+			name = Test;
+		};
+		84E425CC21773B2900CE98BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF2D35708C0E5FE8A627B3E3 /* Pods-CollageMakerUnitTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P99EM85EA2;
+				INFOPLIST_FILE = CollageMakerUnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dimasno1.CollageMakerUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CollageMaker.app/CollageMaker";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1594,6 +1846,16 @@
 				84E425BB21760E3200CE98BE /* Debug */,
 				84E425BC21760E3200CE98BE /* Test */,
 				84E425BD21760E3200CE98BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84E425CD21773B2900CE98BE /* Build configuration list for PBXNativeTarget "CollageMakerUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84E425CA21773B2900CE98BE /* Debug */,
+				84E425CB21773B2900CE98BE /* Test */,
+				84E425CC21773B2900CE98BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
