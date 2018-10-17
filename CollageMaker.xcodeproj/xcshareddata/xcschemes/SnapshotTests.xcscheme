@@ -10,7 +10,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "NO">
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -19,6 +19,16 @@
                BlueprintIdentifier = "8416A4F7216BA6C300DC6916"
                BuildableName = "SnapshotTests.xctest"
                BlueprintName = "SnapshotTests"
+               ReferencedContainer = "container:CollageMaker.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "84E425C221773B2900CE98BE"
+               BuildableName = "CollageMakerUnitTests.xctest"
+               BlueprintName = "CollageMakerUnitTests"
                ReferencedContainer = "container:CollageMaker.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -34,6 +44,23 @@
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "IMAGE_DIFF_DIR"
+            value = "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/Images/FailureDiffs&#10;"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "FB_REFERENCE_IMAGE_DIR"
+            value = "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/Images/ReferenceImages&#10;"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "DYLD_INSERT_LIBRARIES"
+            value = "@executable_path/EarlGrey.framework/EarlGrey"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -56,16 +83,6 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "IMAGE_DIFF_DIR"
-            value = "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/Images/FailureDiffs&#10;"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "FB_REFERENCE_IMAGE_DIR"
-            value = "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/Images/ReferenceImages&#10;"
-            isEnabled = "YES">
-         </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>

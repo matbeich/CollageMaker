@@ -12,7 +12,7 @@ class CollageBarButtonItem: UIControl {
                 guard let `self` = self else {
                     return
                 }
-                
+
                 self.layer.opacity = self.isHighlighted ? 0.5 : 1 }
         }
     }
