@@ -33,7 +33,7 @@ class CollageView: UIView {
     }
 
     func saveCellsVisibleRect() {
-        cellViews.forEach { collage?.updateVisibleRect($0.imageVisibleRect, for: $0.collageCell) }
+        cellViews.forEach { collage?.updateImageVisibleRect($0.imageVisibleRect, in: $0.collageCell) }
     }
 
     func updateFrames() {

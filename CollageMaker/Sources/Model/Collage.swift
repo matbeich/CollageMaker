@@ -63,8 +63,7 @@ struct Collage: Equatable {
         newCell.image = abstractPhoto.photo
         newCell.photoAsset = abstractPhoto.asset
 
-        remove(cell: cell)
-        add(cell: newCell)
+        update(with: newCell)
     }
 
     mutating func addImage(_ image: UIImage?, to cell: CollageCell) {
@@ -75,8 +74,7 @@ struct Collage: Equatable {
         var newCell = cell
         newCell.image = image
 
-        remove(cell: cell)
-        add(cell: newCell)
+        update(with: newCell)
     }
 
     mutating func addAsset(_ asset: PHAsset?, to cell: CollageCell) {
@@ -87,8 +85,7 @@ struct Collage: Equatable {
         var newCell = cell
         newCell.photoAsset = asset
 
-        remove(cell: cell)
-        add(cell: newCell)
+        update(with: newCell)
     }
 
     mutating func split(cell: CollageCell, by axis: Axis) {
@@ -111,12 +108,16 @@ struct Collage: Equatable {
         changeSize(of: cell, grip: grip, value: value)
     }
 
-    mutating func updateVisibleRect(_ rect: CGRect, for cell: CollageCell) {
+    mutating func updateImageVisibleRect(_ rect: CGRect, in cell: CollageCell) {
         var newCell = cell
         newCell.imageVisibleFrame = rect
 
+        update(with: newCell)
+    }
+
+    private mutating func update(with cell: CollageCell) {
         remove(cell: cell)
-        add(cell: newCell)
+        add(cell: cell)
     }
 
     private mutating func changeSize(of cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) {
