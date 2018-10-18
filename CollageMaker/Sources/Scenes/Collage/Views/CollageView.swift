@@ -23,6 +23,7 @@ class CollageView: UIView {
     }
 
     override init(frame: CGRect = .zero) {
+        self.selectedCellView = cellViews.last ?? CollageCellView(collageCell: .zeroFrame, frame: .zero)
         super.init(frame: frame)
 
         setup()
@@ -53,27 +54,29 @@ class CollageView: UIView {
 
         bringSubview(toFront: cellSelectionView)
 
-        if let id = selectedCellView?.collageCell.id, let cell = collageCellView(with: id) {
+        if let cell = collageCellView(with: selectedCellView.collageCell.id) {
             select(cellView: cell)
         } else {
-            selectedCellView = nil
-            cellSelectionView.hidePlusButton()
+            select(cellView: cellViews.last)
         }
     }
 
     func select(cellView: CollageCellView?) {
-        selectedCellView = cellView
-
-        guard let selectedCellView = selectedCellView else {
+        guard let cellView = cellView else {
             return
         }
 
+        selectedCellView = cellView
         cellSelectionView.gripPositions = selectedCellView.collageCell.gripPositions
         selectedCellView.collageCell.image == nil ? cellSelectionView.showPlusButton() : cellSelectionView.hidePlusButton()
 
         cellSelectionView.snp.remakeConstraints { make in
             make.edges.equalTo(selectedCellView)
         }
+    }
+
+    func collageCellView(at point: CGPoint) -> CollageCellView? {
+        return cellViews.first(where: { $0.frame.contains(point) })
     }
 
     func collageCellView(with id: UUID) -> CollageCellView? {
@@ -105,21 +108,16 @@ class CollageView: UIView {
 
     @objc private func pointTapped(with recognizer: UITapGestureRecognizer) {
         let point = recognizer.location(in: self)
-        let relativePoint = point.normalized(for: frame.size)
 
-        selectedCell = collage?.cell(at: relativePoint)
-
-        guard let cell = collageCellView(with: selectedCell?.id ?? UUID()) else {
+        guard let cell = collageCellView(at: point) else {
             return
         }
 
-        selectedCellView = cell
-        select(cellView: selectedCellView)
+        select(cellView: cell)
     }
 
-    private var selectedCell: CollageCell?
     private(set) var gripViews: [GripView] = []
     private(set) var cellViews: [CollageCellView] = []
-    private(set) var selectedCellView: CollageCellView?
+    private(set) var selectedCellView: CollageCellView
     private let cellSelectionView = CellSelectionView()
 }

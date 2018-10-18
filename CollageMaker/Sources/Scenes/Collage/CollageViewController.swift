@@ -56,18 +56,19 @@ class CollageViewController: CollageBaseViewController {
     }
 
     func deleteSelectedCell() {
-        saveCellsVisibleRect()
-        guard let cellView = selectedCellView else {
+        guard let cellView = selectedCellView, collage.canDeleteCells else {
             return
         }
 
+        saveCellsVisibleRect()
         collage.delete(cellView.collageCell)
         delegate?.collageViewController(self, didDeleteCellView: cellView)
     }
 
     func addAbstractPhotoToSelectedCell(_ abstractPhoto: AbstractPhoto) {
-        addImageToSelectedCell(abstractPhoto.photo)
-        addAssetToSelectedCell(abstractPhoto.asset)
+        if let selectedCell = selectedCellView?.collageCell {
+            collage.addAbstractPhoto(abstractPhoto, to: selectedCell)
+        }
     }
 
     func addImageToSelectedCell(_ image: UIImage?) {
@@ -77,6 +78,9 @@ class CollageViewController: CollageBaseViewController {
     }
 
     func addAssetToSelectedCell(_ asset: PHAsset?) {
+        if let selectedCell = selectedCellView?.collageCell {
+            collage.addAsset(asset, to: selectedCell)
+        }
     }
 
     func splitSelectedCell(by axis: Axis) {

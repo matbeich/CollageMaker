@@ -180,7 +180,7 @@ extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegat
 
 extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegate {
     func imagePickerCollectionViewControllerDidCancel(_ controller: ImagePickerCollectionViewController) {
-        navigationController?.popViewController(animated: true)
+        collageNavigationController?.popViewController(animated: true)
     }
 
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelectAssets assets: [PHAsset]) {
