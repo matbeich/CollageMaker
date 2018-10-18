@@ -60,6 +60,7 @@ class TemplatesContainerView: UIView {
     private func setup() {
         dimmingView.backgroundColor = .black
         dimmingView.alpha = 0.8
+        accessibilityIdentifier = Accessibility.View.templateView.id
 
         headerLabel.font = R.font.sfProDisplaySemibold(size: 20)
     }
