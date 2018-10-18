@@ -53,6 +53,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         self.photoAssets = library.assets.reversed()
 
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.accessibilityIdentifier = Accessibility.View.imageCollectionView.id
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -197,6 +198,7 @@ extension ImagePickerCollectionViewController: UICollectionViewDataSource {
         }
 
         let assetForCell = photoAssets[indexPath.row]
+        pickerCell.setupIdentifier(with: indexPath.row)
 
         library.photo(with: assetForCell, deliveryMode: .opportunistic, size: pickerCell.bounds.size.sameAspectScaled(by: UIScreen.main.scale)) { image in
             pickerCell.image = image

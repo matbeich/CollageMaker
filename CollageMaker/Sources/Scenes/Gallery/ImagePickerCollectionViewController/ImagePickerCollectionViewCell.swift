@@ -33,7 +33,6 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         addSubview(imageView)
-        accessibilityIdentifier = "image_picker_cell"
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -51,6 +50,10 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
 
     func toggleSelection() {
         cellSelected = !cellSelected
+    }
+
+    func setupIdentifier(with value: Int) {
+        accessibilityIdentifier = Accessibility.View.imagePickerCell(id: value).id
     }
 
     override func prepareForReuse() {
