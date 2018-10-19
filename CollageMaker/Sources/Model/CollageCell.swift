@@ -8,7 +8,6 @@ import UIKit
 typealias RelativeFrame = CGRect
 
 struct CollageCell {
-    
     var color: UIColor
     var image: UIImage?
     var photoAsset: PHAsset?
@@ -83,7 +82,7 @@ extension CollageCell: Equatable, Hashable {
     var hashValue: Int {
         return color.hashValue ^ photoAsset.hashValue ^ id.hashValue &* 16_777_619
     }
-    
+
     static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
         return lhs.id.hashValue == rhs.id.hashValue
     }

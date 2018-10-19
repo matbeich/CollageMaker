@@ -110,7 +110,7 @@ class CollageSceneViewController: CollageBaseViewController {
 
     private func pickImage() {
         let controller = ImagePickerCollectionViewController(selectionMode: .single)
-
+        collageViewController.saveCellsVisibleRect()
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
