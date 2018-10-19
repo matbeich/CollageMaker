@@ -38,6 +38,7 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         collectionView?.register(TemplateBarCollectionViewCell.self, forCellWithReuseIdentifier: TemplateBarCollectionViewCell.identifier)
         collectionView?.backgroundColor = .clear
         collectionView?.alwaysBounceHorizontal = true
+        collectionView?.accessibilityIdentifier = Accessibility.View.templateCollectionView.id
 
         guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return
@@ -71,6 +72,7 @@ class TemplateBarCollectionViewController: UICollectionViewController {
             return cell
         }
 
+        templateBarCell.setupIdentifier(with: indexPath.row)
         getImageForTemplate(templates[indexPath.row]) { templateBarCell.collageImage = $0 }
 
         return templateBarCell

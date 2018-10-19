@@ -5,14 +5,26 @@
 import SnapKit
 import UIKit
 
-class CollageBarItem: UIView {
+class CollageBarButtonItem: UIControl {
+    override var isHighlighted: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                guard let `self` = self else {
+                    return
+                }
+
+                self.layer.opacity = self.isHighlighted ? 0.5 : 1 }
+        }
+    }
+
     let title: String
     let normalStateImage: UIImage
     let tappedStateImage: UIImage
 
-    init(title: String, image: UIImage, tappedImage: UIImage? = nil) {
+    init(title: String, image: UIImage, tappedImage: UIImage? = nil, action: Selector? = nil) {
         self.title = title
         self.normalStateImage = image
+//        addTarget(self, action: action?, for: .touchUpInside)
 
         if let tappedImage = tappedImage {
             self.tappedStateImage = tappedImage
@@ -31,20 +43,6 @@ class CollageBarItem: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func animate() {
-        let completion = {
-            UIView.animate(withDuration: 0.5) {
-                self.imageView.alpha = 1
-            }
-        }
-
-        UIView.animate(
-            withDuration: 0.2,
-            animations: { self.imageView.alpha = 0.2 },
-            completion: { _ in completion() }
-        )
     }
 
     private func setup() {
@@ -76,21 +74,21 @@ class CollageBarItem: UIView {
     private let imageView = UIImageView()
 }
 
-extension CollageBarItem {
-    static var horizontal: CollageBarItem {
-        return CollageBarItem(title: "HORIZONTAL", image: R.image.horizontal() ?? .none)
+extension CollageBarButtonItem {
+    static var horizontal: CollageBarButtonItem {
+        return CollageBarButtonItem(title: "HORIZONTAL", image: R.image.horizontal() ?? .none)
     }
 
-    static var vertical: CollageBarItem {
-        return CollageBarItem(title: "VERTICAL", image: R.image.vertical() ?? .none)
+    static var vertical: CollageBarButtonItem {
+        return CollageBarButtonItem(title: "VERTICAL", image: R.image.vertical() ?? .none)
     }
 
-    static var addImage: CollageBarItem {
-        return CollageBarItem(title: "ADD IMG", image: R.image.addimg() ?? .none)
+    static var addImage: CollageBarButtonItem {
+        return CollageBarButtonItem(title: "ADD IMG", image: R.image.addimg() ?? .none)
     }
 
-    static var delete: CollageBarItem {
-        return CollageBarItem(title: "DELETE", image: R.image.addimg() ?? .none)
+    static var delete: CollageBarButtonItem {
+        return CollageBarButtonItem(title: "DELETE", image: R.image.addimg() ?? .none)
     }
 }
 

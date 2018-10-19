@@ -52,6 +52,10 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
         cellSelected = !cellSelected
     }
 
+    func setupIdentifier(with value: Int) {
+        accessibilityIdentifier = Accessibility.View.imagePickerCell(id: value).id
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
 

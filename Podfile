@@ -18,18 +18,23 @@ def internal
 end
 
 target 'CollageMaker' do
-    internal
-    external
-    
-    target 'SnapshotTests' do
-        inherit! :search_paths
-        pod 'iOSSnapshotTestCase'
-        pod 'EarlGrey'
-    end
-    
-    target 'CollageMakerTests' do
-        inherit! :search_paths
-        pod 'iOSSnapshotTestCase'
-        pod 'EarlGrey'
-    end
+  internal
+  external
+  
+  target 'SnapshotTests' do
+      inherit! :search_paths
+      pod 'iOSSnapshotTestCase'
+      pod 'EarlGrey'
+  end
+  
+  target 'CollageMakerTests' do
+      inherit! :search_paths
+      pod 'iOSSnapshotTestCase'
+      pod 'EarlGrey'
+  end
+  
+  target 'CollageMakerUnitTests' do
+      inherit! :search_paths
+      pod 'EarlGrey'
+  end
 end

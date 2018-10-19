@@ -46,6 +46,10 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
         }
     }
 
+    func setupIdentifier(with value: Int) {
+        accessibilityIdentifier = Accessibility.View.templateCell(id: value).id
+    }
+
     private func makeConstraints() {
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

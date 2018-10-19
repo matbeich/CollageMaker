@@ -2,17 +2,17 @@
 // Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
 
-@testable import CollageMaker
-import Foundation
 import Photos
+@testable import CollageMaker
+
 
 class MockPhotoLibrary: PhotoLibraryType {
     var assets: [PHAsset]
 
     weak var delegate: PhotoLibraryDelegate?
 
-    init(assets: [PHAsset]) {
-        self.assets = assets
+    init() {
+        self.assets = Array(0 ... 100).map { _ in PHAsset()}
     }
 
     func stopCaching() {}

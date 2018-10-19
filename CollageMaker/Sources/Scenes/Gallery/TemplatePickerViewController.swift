@@ -13,8 +13,12 @@ protocol TemplatePickerViewControllerDelegate: AnyObject {
 class TemplatePickerViewController: CollageBaseViewController {
     weak var delegate: TemplatePickerViewControllerDelegate?
 
+    var selectedCellsCount: Int {
+        return imagePickerController.selectedAssets.count
+    }
+
     var templateViewIsVisible: Bool {
-        return view.bounds.contains(templatesView.frame)
+        return view.bounds.contains(templatesView.frame) && !templatesView.frame.isEmpty
     }
 
     var templateViewIsEmpty: Bool {

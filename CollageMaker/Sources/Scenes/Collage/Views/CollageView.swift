@@ -96,6 +96,7 @@ class CollageView: UIView {
     private func setup() {
         clipsToBounds = true
         addSubview(cellSelectionView)
+        accessibilityIdentifier = Accessibility.View.collageView.id
         cellSelectionView.addTargetToPlusButton(self, action: #selector(test), for: .touchUpInside)
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pointTapped(with:)))
