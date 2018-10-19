@@ -33,29 +33,29 @@ struct Collage {
             if merge(cell: cell, grip: position, value: position.sideChangeValue(for: cell.relativeFrame)) { break }
         }
     }
-    
+
     mutating func fill(with abstractPhotos: [AbstractPhoto]) {
         for (cell, abstractPhoto) in zip(cells, abstractPhotos) {
             add(abstractPhoto, to: cell)
         }
     }
-    
+
     mutating func split(cell: CollageCell, by axis: Axis) {
         guard cells.contains(cell) else {
             return
         }
-        
+
         let (firstFrame, secondFrame) = cell.relativeFrame.split(axis: axis)
         let firstCell = CollageCell(color: cell.color, image: cell.image, photoAsset: cell.photoAsset, relativeFrame: firstFrame)
         let secondCell = CollageCell(color: .random, image: nil, relativeFrame: secondFrame)
-        
+
         if firstCell.isAllowed(firstFrame) && secondCell.isAllowed(secondFrame) {
             add(cell: firstCell)
             add(cell: secondCell)
             remove(cell: cell)
         }
     }
-    
+
     mutating func changeSize(cell: CollageCell, grip: GripPosition, value: CGFloat) {
         changeSize(of: cell, grip: grip, value: value)
     }
@@ -68,6 +68,7 @@ struct Collage {
         var newCell = cell
         newCell.image = abstractPhoto.photo
         newCell.photoAsset = abstractPhoto.asset
+        newCell.imageVisibleFrame = .zero
 
         update(with: newCell)
     }
@@ -189,7 +190,7 @@ extension Collage {
     func check(_ gripPosition: GripPosition, in cell: CollageCell) -> Bool {
         return cell.gripPositions.contains(gripPosition)
     }
-   
+
     private func cellsLayingOnLine(with cell: CollageCell, gripPosition: GripPosition) -> [CollageCell] {
         return cells.filter { $0.belongsToParallelLine(on: gripPosition.axis, with: gripPosition.centerPoint(in: cell)) }
     }
@@ -221,16 +222,14 @@ extension Collage {
 }
 
 extension Collage: Equatable, Hashable {
-    
     var hashValue: Int {
         return cells.reduce(0, { $0.hashValue ^ $1.hashValue }) &* 21873
     }
-    
+
     static func == (lhs: Collage, rhs: Collage) -> Bool {
         let leftPictures = lhs.cells.compactMap { $0.image }
         let rightPictures = rhs.cells.compactMap { $0.image }
-        
+
         return lhs.cells == rhs.cells && leftPictures == rightPictures
     }
-
 }
