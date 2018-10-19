@@ -195,6 +195,10 @@ extension Collage {
         return cellsInBounds && collageArea.isApproximatelyEqual(to: cellsArea)
     }
 
+    var randomCell: CollageCell? {
+        return cells.last
+    }
+
     private mutating func add(cell: CollageCell) {
         if !cells.contains(cell) {
             cells.append(cell)
