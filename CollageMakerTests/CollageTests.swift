@@ -10,26 +10,6 @@ import XCTest
 class BundleClass {}
 
 class CollageTests: XCTestCase {
-    func testCollageCantDeleteLastCell() {
-        let collage = Collage()
-        collage.splitSelectedCell(by: .horizontal)
-        collage.splitSelectedCell(by: .horizontal)
-
-        collage.deleteAllCells()
-        collage.deleteSelectedCell()
-
-        XCTAssertFalse(collage.isEmpty)
-    }
-
-    func testCellSizeIsInBounds() {
-        let collage = Collage()
-        let cell = collage.selectedCell
-
-        cell.changeRelativeFrame(with: 20, with: .right)
-
-        XCTAssertTrue(cell.isAllowed(cell.relativeFrame))
-    }
-
     func testCollageIsAlwaysFullsized() {
         var collage = Collage()
         let cell = CollageCell(color: .blue, relativeFrame: .fullsized)
@@ -38,30 +18,6 @@ class CollageTests: XCTestCase {
         collage = Collage(cells: [cell, secondCell])
 
         XCTAssertTrue(collage.isFullsized)
-    }
-
-    func testCanDeleteAllImages() {
-        let image = UIImage.test
-
-        let cell = CollageCell(color: .red, image: image, relativeFrame: .leftFullHeightHalfWidth)
-        let cell2 = CollageCell(color: .red, image: image, relativeFrame: .rightFullHeightHalfWidth)
-        let collage = Collage(cells: [cell, cell2])
-
-        collage.deleteImages()
-
-        XCTAssertTrue(collage.images.isEmpty)
-    }
-
-    func testCopyIsEquatable() {
-        let collage = Collage()
-
-        guard let copy = collage.copy() as? Collage else {
-            XCTAssertTrue(false)
-
-            return
-        }
-
-        XCTAssertEqual(collage, copy)
     }
 
     func testGetCellWithAsset() {
@@ -91,26 +47,12 @@ class CollageTests: XCTestCase {
     func testCellSizeChanges() {
         let cell = CollageCell(color: .red, relativeFrame: .leftFullHeightHalfWidth)
         let cell2 = CollageCell(color: .red, relativeFrame: .rightFullHeightHalfWidth)
-        let collage = Collage(cells: [cell, cell2])
-        let frameBeforeChanging = collage.selectedCell.relativeFrame
+        var collage = Collage(cells: [cell, cell2])
+        let frameBeforeChanging = cell.relativeFrame
 
-        collage.changeSizeOfSelectedCell(grip: .left, value: 0.3)
+        collage.changeSize(cell: cell, grip: .right, value: 0.2)
 
-        XCTAssertNotEqual(frameBeforeChanging, collage.selectedCell.relativeFrame)
-    }
-
-    func testFillsCellsWithImages() {
-        let image = UIImage.test
-        let images = Array(0 ... 10).compactMap { _ in image }
-
-        let cell = CollageCell(color: .red, relativeFrame: .leftFullHeightHalfWidth)
-        let cell2 = CollageCell(color: .red, relativeFrame: .rightFullHeightHalfWidth)
-        let collage = Collage(cells: [cell, cell2])
-
-        collage.deleteImages()
-        collage.fillWithImages(images)
-
-        XCTAssertFalse(collage.images.isEmpty)
+        XCTAssertNotEqual(frameBeforeChanging, collage.cellWith(id: cell.id)?.relativeFrame)
     }
 
     func testFillsCellsWithAbstractPhotos() {
@@ -120,9 +62,8 @@ class CollageTests: XCTestCase {
 
         let cell = CollageCell(color: .red, relativeFrame: .leftFullHeightHalfWidth)
         let cell2 = CollageCell(color: .red, relativeFrame: .rightFullHeightHalfWidth)
-        let collage = Collage(cells: [cell, cell2])
+        var collage = Collage(cells: [cell, cell2])
 
-        collage.deleteImages()
         collage.fill(with: testAbstractPhotos)
 
         XCTAssertTrue(!collage.images.isEmpty && !collage.assets.isEmpty)
@@ -132,12 +73,6 @@ class CollageTests: XCTestCase {
 private extension Collage {
     var isEmpty: Bool {
         return cells.isEmpty
-    }
-
-    func deleteAllCells() {
-        while cells.count > 1 {
-            deleteSelectedCell()
-        }
     }
 
     var images: [UIImage] {

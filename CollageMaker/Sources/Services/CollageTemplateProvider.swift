@@ -59,7 +59,7 @@ final class CollageTemplateProvider {
 
     func collage(from template: CollageTemplate, size: Size = .large, callback: @escaping (Collage) -> Void) {
         let cells = template.cellFrames.map { CollageCell(relativeFrame: $0) }
-        let collage = Collage(cells: cells)
+        var collage = Collage(cells: cells)
 
         photoLibrary.collectPhotos(from: template.assets, deliveryMode: .highQualityFormat, size: size.value) { photos in
             let abstractPhotos = zip(photos, template.assets).map { AbstractPhoto(photo: $0.0, asset: $0.1) }

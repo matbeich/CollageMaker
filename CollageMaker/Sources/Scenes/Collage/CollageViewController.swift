@@ -14,13 +14,16 @@ protocol CollageViewControllerDelegate: AnyObject {
 class CollageViewController: CollageBaseViewController {
     weak var delegate: CollageViewControllerDelegate?
 
-    var collage: Collage = Collage() {
-        didSet {
-            updateCollage()
+    var collage: Collage {
+        get {
+            return collageView.collage ?? Collage()
+        }
+        set {
+            collageView.collage = newValue
         }
     }
 
-    var selectedCellView: CollageCellView {
+    var selectedCellView: CollageCellView? {
         return collageView.selectedCellView
     }
 
@@ -53,30 +56,27 @@ class CollageViewController: CollageBaseViewController {
     }
 
     func deleteSelectedCell() {
-        saveCellsVisibleRect()
-        collage.deleteSelectedCell()
-    }
+        guard let cellView = selectedCellView, collage.canDeleteCells else {
+            return
+        }
 
-    func restoreDeletedCell() {
-        collage.restoreRecentlyDeletedCell()
+        saveCellsVisibleRect()
+        collage.delete(cellView.collageCell)
+        delegate?.collageViewController(self, didDeleteCellView: cellView)
     }
 
     func addAbstractPhotoToSelectedCell(_ abstractPhoto: AbstractPhoto) {
-        addImageToSelectedCell(abstractPhoto.photo)
-        addAssetToSelectedCell(abstractPhoto.asset)
-    }
-
-    func addImageToSelectedCell(_ image: UIImage?) {
-        collage.addImageToSelectedCell(image)
-    }
-
-    func addAssetToSelectedCell(_ asset: PHAsset?) {
-        collage.addAssetToSelectedCell(asset)
+        if let selectedCell = selectedCellView?.collageCell {
+            collage.add(abstractPhoto, to: selectedCell)
+        }
     }
 
     func splitSelectedCell(by axis: Axis) {
         saveCellsVisibleRect()
-        collage.splitSelectedCell(by: axis)
+
+        if let selectedCell = selectedCellView?.collageCell {
+            collage.split(cell: selectedCell, by: axis)
+        }
     }
 
     @objc private func changeSize(with recognizer: UIPanGestureRecognizer) {
@@ -85,7 +85,7 @@ class CollageViewController: CollageBaseViewController {
             selectedGripPosition = collageView.gripPosition(at: recognizer.location(in: view))
 
         case .changed:
-            guard let grip = selectedGripPosition else {
+            guard let grip = selectedGripPosition, let cell = selectedCellView?.collageCell else {
                 return
             }
 
@@ -93,7 +93,7 @@ class CollageViewController: CollageBaseViewController {
             recognizer.setTranslation(.zero, in: view)
 
             let sizeChange = grip.axis == .horizontal ? translation.y : translation.x
-            collage.changeSizeOfSelectedCell(grip: grip, value: sizeChange)
+            collage.changeSize(cell: cell, grip: grip, value: sizeChange)
 
         case .ended, .cancelled:
             selectedGripPosition = nil
@@ -103,10 +103,8 @@ class CollageViewController: CollageBaseViewController {
     }
 
     func updateCollage() {
-        collage.delegate = self
-
         if isViewLoaded {
-            collageView.updateCollage(collage)
+            collageView.collage = collage
         }
     }
 
@@ -119,14 +117,6 @@ extension CollageViewController: CollageViewDelegate {
     func collageViewPlusButtonTapped(_ collageView: CollageView) {
         delegate?.collageViewControllerPlusButtonTapped(self)
     }
-
-    func collageView(_ collageView: CollageView, tapped point: CGPoint) {
-        let relativePoint = point.normalized(for: collageView.frame.size)
-
-        collage.cell(at: relativePoint).flatMap {
-            collage.setSelected(cell: $0)
-        }
-    }
 }
 
 extension CollageViewController: UIGestureRecognizerDelegate {
@@ -136,52 +126,6 @@ extension CollageViewController: UIGestureRecognizerDelegate {
         }
 
         return true
-    }
-}
-
-extension CollageViewController: CollageDelegate {
-    func collage(_ collage: Collage, didRestoreCell cell: CollageCell?, withError error: CollageError?) {
-        if error == nil {
-            updateCollage()
-
-            guard let cell = cell, let cellView = collageView.collageCellView(with: cell.id) else {
-                return
-            }
-
-            delegate?.collageViewController(self, didRestoreCellView: cellView)
-        } else {
-            Alerts.popUpMessageAlert("No recently deleted cell", duration: 0.7, in: self)
-        }
-    }
-
-    func collage(_ collage: Collage, didRemoveCell cell: CollageCell) {
-        guard let cellView = collageView.collageCellView(with: cell.id) else {
-            return
-        }
-
-        updateCollage()
-        delegate?.collageViewController(self, didDeleteCellView: cellView)
-    }
-
-    func collage(_ collage: Collage, didChangeSelectedCell cell: CollageCell) {
-        guard let selectedCellView = collageView.collageCellView(with: cell.id) else {
-            return
-        }
-
-        collageView.select(cellView: selectedCellView)
-    }
-
-    func collage(_ collage: Collage, didUpdateCell cell: CollageCell) {
-        collageView.updateSelectedCellView(with: cell)
-    }
-
-    func collage(_ collage: Collage, didChangeFramesForCells cells: [CollageCell]) {
-        saveCellsVisibleRect()
-        collageView.updateFrames()
-    }
-
-    func collageChanged(_ collage: Collage) {
-        updateCollage()
     }
 }
 

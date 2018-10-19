@@ -97,7 +97,7 @@ class CollageSceneViewController: CollageBaseViewController {
     private func showMotionAlert() {
         let controller = UIAlertController(title: nil, message: "Would you like to restore deleted cell?", preferredStyle: .alert)
         let action = UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
-            self?.collageViewController.restoreDeletedCell()
+//            self?.collageViewController.restoreDeletedCell()
         }
 
         let cancelAction = UIAlertAction(title: "No", style: .destructive, handler: nil)
@@ -180,7 +180,7 @@ extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegat
 
 extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegate {
     func imagePickerCollectionViewControllerDidCancel(_ controller: ImagePickerCollectionViewController) {
-        navigationController?.popViewController(animated: true)
+        collageNavigationController?.popViewController(animated: true)
     }
 
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelectAssets assets: [PHAsset]) {
@@ -191,7 +191,7 @@ extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegat
         var actualAssets = [asset]
         actualAssets.append(contentsOf: currentAssets)
 
-        if let selectedCellAsset = collageViewController.selectedCellView.collageCell.photoAsset, let index = actualAssets.index(of: selectedCellAsset) {
+        if let selectedCellAsset = collageViewController.selectedCellView?.collageCell.photoAsset, let index = actualAssets.index(of: selectedCellAsset) {
             actualAssets.remove(at: index)
         }
 

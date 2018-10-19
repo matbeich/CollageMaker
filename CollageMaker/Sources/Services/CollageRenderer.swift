@@ -23,7 +23,7 @@ class CollageRenderer {
     private func render(cell: CollageCell, in context: UIGraphicsRendererContext, border: Bool) {
         let rect = cell.relativeFrame.absolutePosition(in: context.format.bounds)
 
-        if let image = cell.image?.updateImageOrientionUpSide(), let cropedImage = cropImage(image, toRect: cell.imageVisibleRect) {
+        if let image = cell.image?.updateImageOrientionUpSide(), let cropedImage = cropImage(image, toRect: cell.imageVisibleFrame) {
             cropedImage.draw(in: rect)
         } else {
             cell.color.setFill()

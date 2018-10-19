@@ -7,78 +7,31 @@ import UIKit
 
 typealias RelativeFrame = CGRect
 
-class CollageCell: NSObject, NSCopying {
+struct CollageCell {
+    
     var color: UIColor
-    var imageVisibleRect: RelativeFrame = .zero
+    var image: UIImage?
+    var photoAsset: PHAsset?
+    var imageVisibleFrame: RelativeFrame = .zero
 
-    func copy(with zone: NSZone? = nil) -> Any {
-        return CollageCell(color: color, image: image, photoAsset: photoAsset, relativeFrame: relativeFrame, id: id, imageVisibleRect: imageVisibleRect)
+    var relativeFrame = RelativeFrame.zero {
+        didSet {
+            calculateGripPositions()
+        }
     }
 
     init(color: UIColor = .random, image: UIImage? = nil, photoAsset: PHAsset? = nil, relativeFrame: RelativeFrame) {
+        self.id = UUID()
         self.color = color
         self.image = image
         self.photoAsset = photoAsset
-        self.id = UUID()
-
-        super.init()
         self.relativeFrame = isAllowed(relativeFrame) ? relativeFrame : RelativeFrame.zero
 
         if let image = image {
-            self.imageVisibleRect = self.relativeFrame.absolutePosition(in: CGRect(origin: .zero, size: image.size))
+            self.imageVisibleFrame = self.relativeFrame.absolutePosition(in: CGRect(origin: .zero, size: image.size))
         }
 
         calculateGripPositions()
-    }
-
-    private convenience init(color: UIColor, image: UIImage?, photoAsset: PHAsset?, relativeFrame: CGRect, id: UUID, imageVisibleRect: RelativeFrame) {
-        self.init(color: color, image: image, relativeFrame: relativeFrame)
-        self.id = id
-        self.photoAsset = photoAsset
-        self.imageVisibleRect = imageVisibleRect
-    }
-
-    func changeRelativeFrame(with value: CGFloat, with gripPosition: GripPosition) {
-        guard isAllowed(relativeFrame) else {
-            return
-        }
-
-        switch gripPosition {
-        case .left: relativeFrame.stretchLeft(with: value)
-        case .right: relativeFrame.stretchRight(with: value)
-        case .top: relativeFrame.stretchUp(with: value)
-        case .bottom: relativeFrame.stretchDown(with: value)
-        }
-
-        relativeFrame.normalizeValueToAllowed()
-    }
-
-    func deleteImage() {
-        self.image = nil
-    }
-
-    func addImage(_ image: UIImage?) {
-        self.image = image
-        imageVisibleRect = .zero
-    }
-
-    func addPhotoAsset(_ photoAsset: PHAsset?) {
-        self.photoAsset = photoAsset
-    }
-
-    func calculateGripPositions() {
-        gripPositions.removeAll()
-
-        guard relativeFrame.isFullsized == false else {
-            return
-        }
-
-        if relativeFrame.minX > .allowableAccuracy { gripPositions.insert(.left) }
-        if relativeFrame.minY > .allowableAccuracy { gripPositions.insert(.top) }
-        if abs(relativeFrame.maxX - 1) > .allowableAccuracy { gripPositions.insert(.right) }
-        if abs(relativeFrame.maxY - 1) > .allowableAccuracy { gripPositions.insert(.bottom) }
-
-        relativeFrame.normalizeValueToAllowed()
     }
 
     func belongsToParallelLine(on axis: Axis, with point: CGPoint) -> Bool {
@@ -109,23 +62,31 @@ class CollageCell: NSObject, NSCopying {
         return min(relativeFrame.width, relativeFrame.height).isGreaterOrApproximatelyEqual(to: 0.2) ? true : false
     }
 
-    static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
-        return lhs.id.hashValue == rhs.id.hashValue
-    }
+    private mutating func calculateGripPositions() {
+        gripPositions.removeAll()
 
-    override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? CollageCell else {
-            return false
+        guard relativeFrame.isFullsized == false else {
+            return
         }
 
-        return self == object
+        if relativeFrame.minX > .allowableAccuracy { gripPositions.insert(.left) }
+        if relativeFrame.minY > .allowableAccuracy { gripPositions.insert(.top) }
+        if abs(relativeFrame.maxX - 1) > .allowableAccuracy { gripPositions.insert(.right) }
+        if abs(relativeFrame.maxY - 1) > .allowableAccuracy { gripPositions.insert(.bottom) }
     }
 
     private(set) var id: UUID
-    private(set) var image: UIImage?
-    private(set) var photoAsset: PHAsset?
-    private(set) var relativeFrame = RelativeFrame.zero
     private(set) var gripPositions: Set<GripPosition> = []
+}
+
+extension CollageCell: Equatable, Hashable {
+    var hashValue: Int {
+        return color.hashValue ^ photoAsset.hashValue ^ id.hashValue &* 16_777_619
+    }
+    
+    static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
+        return lhs.id.hashValue == rhs.id.hashValue
+    }
 }
 
 extension CollageCell {
