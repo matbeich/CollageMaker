@@ -172,7 +172,11 @@ extension Collage {
     }
 
     private mutating func remove(cell: CollageCell) {
-        cells = cells.filter { $0.id != cell.id }
+        guard let index = cells.firstIndex(of: cell) else {
+            return
+        }
+
+        cells.remove(at: index)
     }
 
     func cellWith(id: UUID) -> CollageCell? {

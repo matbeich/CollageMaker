@@ -72,9 +72,8 @@ class CollageViewController: CollageBaseViewController {
     }
 
     func splitSelectedCell(by axis: Axis) {
-        saveCellsVisibleRect()
-
         if let selectedCell = selectedCellView?.collageCell {
+            saveCellsVisibleRect()
             collage.split(cell: selectedCell, by: axis)
         }
     }
@@ -93,6 +92,8 @@ class CollageViewController: CollageBaseViewController {
             recognizer.setTranslation(.zero, in: view)
 
             let sizeChange = grip.axis == .horizontal ? translation.y : translation.x
+//            saveCellsVisibleRect()
+
             collage.changeSize(cell: cell, grip: grip, value: sizeChange)
 
         case .ended, .cancelled:

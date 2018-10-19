@@ -48,6 +48,7 @@
 		845C2100216CB62800049976 /* SFCompactDisplay-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */; };
 		846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846AA2C82142689500DF92FD /* CameraAuthService.swift */; };
 		846F8D4A21666A54006EED5A /* CollageSceneToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F8D4921666A54006EED5A /* CollageSceneToolbar.swift */; };
+		847B84542179E48600AD685A /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 847B84532179E48600AD685A /* SF-UI-Display-Medium.otf */; };
 		848214DD2153B7FE009FD986 /* CollageBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */; };
 		848214DE2153BBC3009FD986 /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8494028421538A6A00160142 /* SF-Pro-Display-Semibold.otf */; };
 		84868BBE2137F33900E12152 /* CollageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84868BBD2137F33900E12152 /* CollageTests.swift */; };
@@ -164,6 +165,7 @@
 		846AA2C82142689500DF92FD /* CameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAuthService.swift; sourceTree = "<group>"; };
 		846F8D4921666A54006EED5A /* CollageSceneToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSceneToolbar.swift; sourceTree = "<group>"; };
 		846F8D532167B162006EED5A /* GradientButtonTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientButtonTestCase.swift; sourceTree = "<group>"; };
+		847B84532179E48600AD685A /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
 		847F310E2178CBF6007F9AF9 /* CollageSceneRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSceneRobot.swift; sourceTree = "<group>"; };
 		848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageBaseViewController.swift; sourceTree = "<group>"; };
 		84868BBD2137F33900E12152 /* CollageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTests.swift; sourceTree = "<group>"; };
@@ -315,9 +317,10 @@
 			children = (
 				84E425C421773B2900CE98BE /* UnitTests */,
 				844CDD212165FE7500AF3B8E /* SnapshotTests */,
-				84868BBD2137F33900E12152 /* CollageTests.swift */,
-				843A581021144761002FE28D /* Info.plist */,
+				847B84522179DD9E00AD685A /* Sources */,
+				844CDD3F2166317200AF3B8E /* Resources */,
 				2F319958A827CBE689CABF71 /* EarlGrey.swift */,
+				843A581021144761002FE28D /* Info.plist */,
 			);
 			path = CollageMakerTests;
 			sourceTree = "<group>";
@@ -345,7 +348,6 @@
 		844CDD212165FE7500AF3B8E /* SnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
-				844CDD3F2166317200AF3B8E /* Resources */,
 				844CDD2F2166180D00AF3B8E /* Sources */,
 			);
 			path = SnapshotTests;
@@ -354,7 +356,6 @@
 		844CDD2F2166180D00AF3B8E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				844CDD3C2166305F00AF3B8E /* Utils */,
 				844CDD302166181D00AF3B8E /* Scenes */,
 				844CDD3621661F8C00AF3B8E /* Common */,
 			);
@@ -474,6 +475,30 @@
 				84E06F1C21399195007109BE /* Fonts */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		847B84502179DD1B00AD685A /* CollageSceneTests */ = {
+			isa = PBXGroup;
+			children = (
+				847F310E2178CBF6007F9AF9 /* CollageSceneRobot.swift */,
+			);
+			path = CollageSceneTests;
+			sourceTree = "<group>";
+		};
+		847B84512179DD3E00AD685A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				84868BBD2137F33900E12152 /* CollageTests.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		847B84522179DD9E00AD685A /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				844CDD3C2166305F00AF3B8E /* Utils */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		847E1C5B215BD00600F6F32E /* Scenes */ = {
@@ -604,6 +629,7 @@
 				8494028421538A6A00160142 /* SF-Pro-Display-Semibold.otf */,
 				84E06F1D213991D6007109BE /* SF-Pro-Text-Light.otf */,
 				84E06F212139920C007109BE /* SF-Pro-Display-Heavy.otf */,
+				847B84532179E48600AD685A /* SF-UI-Display-Medium.otf */,
 				84E06F1F213991F4007109BE /* SF-Pro-Text-Bold.otf */,
 			);
 			path = Fonts;
@@ -622,9 +648,10 @@
 		84E425C421773B2900CE98BE /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				847B84502179DD1B00AD685A /* CollageSceneTests */,
 				84EFDF14217770EB00ABA6D2 /* TemplatePickerTests */,
+				847B84512179DD3E00AD685A /* Model */,
 				84C98D33217877DF0096BFB4 /* Robot.swift */,
-				847F310E2178CBF6007F9AF9 /* CollageSceneRobot.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -745,6 +772,7 @@
 				848214DE2153BBC3009FD986 /* SF-Pro-Display-Semibold.otf in Resources */,
 				84E06F20213991F4007109BE /* SF-Pro-Text-Bold.otf in Resources */,
 				84E06F222139920D007109BE /* SF-Pro-Display-Heavy.otf in Resources */,
+				847B84542179E48600AD685A /* SF-UI-Display-Medium.otf in Resources */,
 				84E06F1E213991D6007109BE /* SF-Pro-Text-Light.otf in Resources */,
 				843A580421144761002FE28D /* LaunchScreen.storyboard in Resources */,
 				843380782154DB4C008A5510 /* SF-Pro-Display-Regular.otf in Resources */,
