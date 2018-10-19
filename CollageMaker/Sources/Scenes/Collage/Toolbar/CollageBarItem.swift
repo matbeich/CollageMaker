@@ -8,12 +8,7 @@ import UIKit
 class CollageBarButtonItem: UIControl {
     override var isHighlighted: Bool {
         didSet {
-            UIView.animate(withDuration: 0.3) { [weak self] in
-                guard let `self` = self else {
-                    return
-                }
-
-                self.layer.opacity = self.isHighlighted ? 0.5 : 1 }
+            layer.opacity = isHighlighted ? 0.5 : 1
         }
     }
 
@@ -24,7 +19,7 @@ class CollageBarButtonItem: UIControl {
     init(title: String, image: UIImage, tappedImage: UIImage? = nil, action: Selector? = nil) {
         self.title = title
         self.normalStateImage = image
-//        addTarget(self, action: action?, for: .touchUpInside)
+        //        addTarget(self, action: action?, for: .touchUpInside)
 
         if let tappedImage = tappedImage {
             self.tappedStateImage = tappedImage
@@ -34,9 +29,7 @@ class CollageBarButtonItem: UIControl {
 
         super.init(frame: .zero)
 
-        addSubview(titleLabel)
-        addSubview(imageView)
-
+        addSubview(stackView)
         setup()
         makeConstraints()
     }
@@ -49,28 +42,34 @@ class CollageBarButtonItem: UIControl {
         imageView.image = normalStateImage
         imageView.contentMode = .scaleAspectFit
 
-        titleLabel.font = titleLabel.font.withSize(10.0)
         titleLabel.text = title
+        titleLabel.letterSpacing = 0.3
         titleLabel.textAlignment = .center
+        titleLabel.font = R.font.sfuiDisplayMedium(size: 12)
     }
 
     private func makeConstraints() {
-        titleLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(1.3)
-            make.height.equalToSuperview().dividedBy(4)
+        stackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
 
         imageView.snp.makeConstraints { make in
-            make.bottom.equalTo(titleLabel.snp.top)
-            make.top.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.width.equalTo(imageView.snp.height)
+            make.width.equalTo(25)
+            make.height.equalTo(imageView.snp.width)
         }
     }
 
-    private let titleLabel = UILabel()
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [imageView, titleLabel])
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.isUserInteractionEnabled = false
+        stackView.spacing = 5
+
+        return stackView
+    }()
+
+    private let titleLabel = AttributedTextLabel()
     private let imageView = UIImageView()
 }
 

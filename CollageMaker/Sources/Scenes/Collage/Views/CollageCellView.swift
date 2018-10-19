@@ -6,6 +6,7 @@ import SnapKit
 import UIKit
 
 class CollageCellView: UIView {
+    var collageCell: CollageCell
     var imageVisibleRect: CGRect {
         return convert(scrollView.frame, to: imageView)
     }
@@ -27,14 +28,13 @@ class CollageCellView: UIView {
         updateScrollView()
     }
 
-    func changeFrame(to: CGRect) {
-        self.frame = to
+    func changeFrame(for parentRect: CGRect) {
+        self.frame = collageCell.relativeFrame.absolutePosition(in: parentRect)
     }
 
     func updateCollageCell(_ collageCell: CollageCell) {
         self.collageCell = collageCell
-
-        updateImageView()
+        updateScrollView()
     }
 
     private func setup() {
@@ -101,7 +101,6 @@ class CollageCellView: UIView {
 
     private lazy var imageView = UIImageView()
     private lazy var scrollView = UIScrollView()
-    private(set) var collageCell: CollageCell
 }
 
 extension CollageCellView: UIScrollViewDelegate {

@@ -172,7 +172,11 @@ extension Collage {
     }
 
     private mutating func remove(cell: CollageCell) {
-        cells = cells.filter { $0.id != cell.id }
+        guard let index = cells.firstIndex(of: cell) else {
+            return
+        }
+
+        cells.remove(at: index)
     }
 
     func cellWith(id: UUID) -> CollageCell? {
@@ -221,15 +225,13 @@ extension Collage {
     }
 }
 
-extension Collage: Equatable, Hashable {
-    var hashValue: Int {
-        return cells.reduce(0, { $0.hashValue ^ $1.hashValue }) &* 21873
-    }
-
+extension Collage: Equatable {
     static func == (lhs: Collage, rhs: Collage) -> Bool {
-        let leftPictures = lhs.cells.compactMap { $0.image }
-        let rightPictures = rhs.cells.compactMap { $0.image }
+        let firstImages = lhs.cells.compactMap { $0.image }.sorted { $0.hashValue > $1.hashValue }
+        let secondImages = rhs.cells.compactMap { $0.image }.sorted { $0.hashValue > $1.hashValue }
+        let first = lhs.cells.sorted { $0.id.hashValue > $1.id.hashValue }
+        let second = rhs.cells.sorted { $0.id.hashValue > $1.id.hashValue }
 
-        return lhs.cells == rhs.cells && leftPictures == rightPictures
+        return first == second && first.count == second.count && firstImages == secondImages && firstImages.count == secondImages.count
     }
 }

@@ -16,14 +16,14 @@ class CollageViewController: CollageBaseViewController {
 
     var collage: Collage {
         get {
-            return collageView.collage ?? Collage()
+            return collageView.collage
         }
         set {
             collageView.collage = newValue
         }
     }
 
-    var selectedCellView: CollageCellView? {
+    var selectedCellView: CollageCellView {
         return collageView.selectedCellView
     }
 
@@ -41,7 +41,7 @@ class CollageViewController: CollageBaseViewController {
     }
 
     func saveCellsVisibleRect() {
-        collageView.saveCellsVisibleRect()
+        collageView.setCellsVisibleRect()
     }
 
     override func viewDidLayoutSubviews() {
@@ -56,27 +56,22 @@ class CollageViewController: CollageBaseViewController {
     }
 
     func deleteSelectedCell() {
-        guard let cellView = selectedCellView, collage.canDeleteCells else {
+        guard collage.canDeleteCells else {
             return
         }
 
         saveCellsVisibleRect()
-        collage.delete(cellView.collageCell)
-        delegate?.collageViewController(self, didDeleteCellView: cellView)
+        collage.delete(selectedCellView.collageCell)
+        delegate?.collageViewController(self, didDeleteCellView: selectedCellView)
     }
 
     func addAbstractPhotoToSelectedCell(_ abstractPhoto: AbstractPhoto) {
-        if let selectedCell = selectedCellView?.collageCell {
-            collage.add(abstractPhoto, to: selectedCell)
-        }
+        collage.add(abstractPhoto, to: selectedCellView.collageCell)
     }
 
     func splitSelectedCell(by axis: Axis) {
         saveCellsVisibleRect()
-
-        if let selectedCell = selectedCellView?.collageCell {
-            collage.split(cell: selectedCell, by: axis)
-        }
+        collage.split(cell: selectedCellView.collageCell, by: axis)
     }
 
     @objc private func changeSize(with recognizer: UIPanGestureRecognizer) {
@@ -85,7 +80,7 @@ class CollageViewController: CollageBaseViewController {
             selectedGripPosition = collageView.gripPosition(at: recognizer.location(in: view))
 
         case .changed:
-            guard let grip = selectedGripPosition, let cell = selectedCellView?.collageCell else {
+            guard let grip = selectedGripPosition else {
                 return
             }
 
@@ -93,7 +88,8 @@ class CollageViewController: CollageBaseViewController {
             recognizer.setTranslation(.zero, in: view)
 
             let sizeChange = grip.axis == .horizontal ? translation.y : translation.x
-            collage.changeSize(cell: cell, grip: grip, value: sizeChange)
+
+            collage.changeSize(cell: selectedCellView.collageCell, grip: grip, value: sizeChange)
 
         case .ended, .cancelled:
             selectedGripPosition = nil
