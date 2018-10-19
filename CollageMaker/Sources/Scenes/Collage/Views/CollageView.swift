@@ -12,18 +12,15 @@ protocol CollageViewDelegate: AnyObject {
 class CollageView: UIView {
     weak var delegate: CollageViewDelegate?
 
-    var collage: Collage? {
+    var collage: Collage {
         didSet {
-            guard let collage = collage else {
-                return
-            }
-
             collage == oldValue ? updateFrames() : updateCollage(collage)
         }
     }
 
-    override init(frame: CGRect = .zero) {
+    init(frame: CGRect = .zero, collage: Collage = Collage()) {
         self.selectedCellView = cellViews.last ?? CollageCellView(collageCell: .zeroFrame, frame: .zero)
+        self.collage = collage
         super.init(frame: frame)
 
         setup()
@@ -33,20 +30,17 @@ class CollageView: UIView {
         fatalError("Not implemented")
     }
 
-    func saveCellsVisibleRect() {
+    func setCellsVisibleRect() {
         cellViews.forEach {
-            collage?.updateImageVisibleRect($0.imageVisibleRect, in: $0.collageCell)
+            collage.updateImageVisibleRect($0.imageVisibleRect, in: $0.collageCell)
         }
     }
 
     func updateFrames() {
-        guard let collage = collage else {
-            return
-        }
-
         cellViews.forEach {
+            $0.changeFrame(for: bounds)
             $0.updateCollageCell(collage.cellWith(id: $0.collageCell.id) ?? $0.collageCell)
-            $0.changeFrame(to: $0.collageCell.relativeFrame.absolutePosition(in: self.bounds)) }
+        }
     }
 
     func updateCollage(_ collage: Collage) {

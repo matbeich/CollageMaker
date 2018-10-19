@@ -11,7 +11,9 @@ class CollageSceneRobot: Robot {
     var controller: CollageSceneViewController
 
     init() {
-        self.controller = CollageSceneViewController(templates: [])
+        let collage = Collage(cells: [CollageCell(color: .white, image: UIImage.test, photoAsset: nil, relativeFrame: .fullsized)])
+
+        self.controller = CollageSceneViewController(collage: collage)
         self.window = UIWindow(frame: CGRect(origin: .zero, size: CGSize(width: 375.0, height: 667.0)))
         self.window.rootViewController = controller
         self.window.makeKeyAndVisible()

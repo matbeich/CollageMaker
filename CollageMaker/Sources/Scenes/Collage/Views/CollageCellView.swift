@@ -28,13 +28,12 @@ class CollageCellView: UIView {
         updateScrollView()
     }
 
-    func changeFrame(to: CGRect) {
-        self.frame = to
+    func changeFrame(for parentRect: CGRect) {
+        self.frame = collageCell.relativeFrame.absolutePosition(in: parentRect)
     }
 
     func updateCollageCell(_ collageCell: CollageCell) {
         self.collageCell = collageCell
-
         updateScrollView()
     }
 
