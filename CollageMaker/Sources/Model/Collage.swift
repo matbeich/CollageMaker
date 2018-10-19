@@ -4,13 +4,14 @@
 
 import Photos
 import UIKit
+import Utils
 
 enum Axis: String {
     case horizontal
     case vertical
 }
 
-struct Collage: Equatable {
+struct Collage {
     static let maximumAllowedCellsCount = 9
 
     var canDeleteCells: Bool {
@@ -27,34 +28,39 @@ struct Collage: Equatable {
         }
     }
 
-    mutating func deleteImages() {
-        cells = cells.map {
-            var cell = $0
-            cell.image = nil
-
-            return cell
-        }
-    }
-
-    mutating func fillWithImages(_ images: [UIImage]) {
-        for (cell, image) in zip(cells, images) {
-            addImage(image, to: cell)
-        }
-    }
-
-    mutating func fill(with abstractPhotos: [AbstractPhoto]) {
-        for (cell, abstractPhoto) in zip(cells, abstractPhotos) {
-            addAbstractPhoto(abstractPhoto, to: cell)
-        }
-    }
-
     mutating func delete(_ cell: CollageCell) {
         for position in cell.gripPositions {
             if merge(cell: cell, grip: position, value: position.sideChangeValue(for: cell.relativeFrame)) { break }
         }
     }
+    
+    mutating func fill(with abstractPhotos: [AbstractPhoto]) {
+        for (cell, abstractPhoto) in zip(cells, abstractPhotos) {
+            add(abstractPhoto, to: cell)
+        }
+    }
+    
+    mutating func split(cell: CollageCell, by axis: Axis) {
+        guard cells.contains(cell) else {
+            return
+        }
+        
+        let (firstFrame, secondFrame) = cell.relativeFrame.split(axis: axis)
+        let firstCell = CollageCell(color: cell.color, image: cell.image, photoAsset: cell.photoAsset, relativeFrame: firstFrame)
+        let secondCell = CollageCell(color: .random, image: nil, relativeFrame: secondFrame)
+        
+        if firstCell.isAllowed(firstFrame) && secondCell.isAllowed(secondFrame) {
+            add(cell: firstCell)
+            add(cell: secondCell)
+            remove(cell: cell)
+        }
+    }
+    
+    mutating func changeSize(cell: CollageCell, grip: GripPosition, value: CGFloat) {
+        changeSize(of: cell, grip: grip, value: value)
+    }
 
-    mutating func addAbstractPhoto(_ abstractPhoto: AbstractPhoto, to cell: CollageCell) {
+    mutating func add(_ abstractPhoto: AbstractPhoto, to cell: CollageCell) {
         guard cells.contains(cell) else {
             return
         }
@@ -64,48 +70,6 @@ struct Collage: Equatable {
         newCell.photoAsset = abstractPhoto.asset
 
         update(with: newCell)
-    }
-
-    mutating func addImage(_ image: UIImage?, to cell: CollageCell) {
-        guard cells.contains(cell) else {
-            return
-        }
-
-        var newCell = cell
-        newCell.image = image
-
-        update(with: newCell)
-    }
-
-    mutating func addAsset(_ asset: PHAsset?, to cell: CollageCell) {
-        guard cells.contains(cell) else {
-            return
-        }
-
-        var newCell = cell
-        newCell.photoAsset = asset
-
-        update(with: newCell)
-    }
-
-    mutating func split(cell: CollageCell, by axis: Axis) {
-        guard cells.contains(cell) else {
-            return
-        }
-
-        let (firstFrame, secondFrame) = cell.relativeFrame.split(axis: axis)
-        let firstCell = CollageCell(color: cell.color, image: cell.image, photoAsset: cell.photoAsset, relativeFrame: firstFrame)
-        let secondCell = CollageCell(color: .random, image: nil, relativeFrame: secondFrame)
-
-        if firstCell.isAllowed(firstFrame) && secondCell.isAllowed(secondFrame) {
-            add(cell: firstCell)
-            add(cell: secondCell)
-            remove(cell: cell)
-        }
-    }
-
-    mutating func changeSize(cell: CollageCell, grip: GripPosition, value: CGFloat) {
-        changeSize(of: cell, grip: grip, value: value)
     }
 
     mutating func updateImageVisibleRect(_ rect: CGRect, in cell: CollageCell) {
@@ -160,12 +124,12 @@ struct Collage: Equatable {
             return
         }
 
-        changingCells.forEach { changecell in
-            remove(cell: changecell)
+        changingCells.forEach { changingCell in
+            remove(cell: changingCell)
 
-            let changeGrip = changecell.gripPositionRelativeTo(cell: cell, grip)
-            let frame = measureRelativeFrame(for: changecell, with: value, with: changeGrip)
-            var newCell = changecell
+            let changeGrip = changingCell.gripPositionRelativeTo(cell: cell, grip)
+            let frame = measureRelativeFrame(for: changingCell, with: value, at: changeGrip)
+            var newCell = changingCell
 
             newCell.relativeFrame = frame
 
@@ -173,7 +137,7 @@ struct Collage: Equatable {
         }
     }
 
-    private func measureRelativeFrame(for cell: CollageCell, with value: CGFloat, with gripPosition: GripPosition) -> RelativeFrame {
+    private func measureRelativeFrame(for cell: CollageCell, with value: CGFloat, at gripPosition: GripPosition) -> RelativeFrame {
         switch gripPosition {
         case .left: return cell.relativeFrame.stretchedLeft(with: value).normalizedToAllowed()
         case .right: return cell.relativeFrame.stretchedRight(with: value).normalizedToAllowed()
@@ -196,7 +160,8 @@ extension Collage {
     }
 
     var randomCell: CollageCell? {
-        return cells.last
+        let randomIndex = Int(arc4random_uniform(UInt32(cells.count)))
+        return cells[randomIndex]
     }
 
     private mutating func add(cell: CollageCell) {
@@ -224,22 +189,13 @@ extension Collage {
     func check(_ gripPosition: GripPosition, in cell: CollageCell) -> Bool {
         return cell.gripPositions.contains(gripPosition)
     }
-
-    static func == (lhs: Collage, rhs: Collage) -> Bool {
-        let leftPictures = lhs.cells.compactMap { $0.image }
-        let rightPictures = rhs.cells.compactMap { $0.image }
-
-        return lhs.cells == rhs.cells && leftPictures == rightPictures
-    }
-
+   
     private func cellsLayingOnLine(with cell: CollageCell, gripPosition: GripPosition) -> [CollageCell] {
         return cells.filter { $0.belongsToParallelLine(on: gripPosition.axis, with: gripPosition.centerPoint(in: cell)) }
     }
 
     private func cellIntersected(with cell: CollageCell, gripPosition: GripPosition) -> [CollageCell] {
-        return cells.filter({ $0 != cell }).compactMap { (newcell) -> CollageCell? in
-            newcell.relativeFrame.intersects(rect2: cell.relativeFrame, on: gripPosition) ? newcell : nil
-        }
+        return cells.filter { $0 != cell && $0.relativeFrame.intersects(rect2: cell.relativeFrame, on: gripPosition) }
     }
 
     private func affectedWithChangeOf(cell: CollageCell, with grip: GripPosition, merging: Bool) -> [CollageCell] {
@@ -262,4 +218,19 @@ extension Collage {
 
         return changingCells
     }
+}
+
+extension Collage: Equatable, Hashable {
+    
+    var hashValue: Int {
+        return cells.reduce(0, { $0.hashValue ^ $1.hashValue }) &* 21873
+    }
+    
+    static func == (lhs: Collage, rhs: Collage) -> Bool {
+        let leftPictures = lhs.cells.compactMap { $0.image }
+        let rightPictures = rhs.cells.compactMap { $0.image }
+        
+        return lhs.cells == rhs.cells && leftPictures == rightPictures
+    }
+
 }

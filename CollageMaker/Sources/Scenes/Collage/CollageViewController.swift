@@ -67,19 +67,7 @@ class CollageViewController: CollageBaseViewController {
 
     func addAbstractPhotoToSelectedCell(_ abstractPhoto: AbstractPhoto) {
         if let selectedCell = selectedCellView?.collageCell {
-            collage.addAbstractPhoto(abstractPhoto, to: selectedCell)
-        }
-    }
-
-    func addImageToSelectedCell(_ image: UIImage?) {
-        if let selectedCell = selectedCellView?.collageCell {
-            collage.addImage(image, to: selectedCell)
-        }
-    }
-
-    func addAssetToSelectedCell(_ asset: PHAsset?) {
-        if let selectedCell = selectedCellView?.collageCell {
-            collage.addAsset(asset, to: selectedCell)
+            collage.add(abstractPhoto, to: selectedCell)
         }
     }
 

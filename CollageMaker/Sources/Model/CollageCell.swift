@@ -7,7 +7,8 @@ import UIKit
 
 typealias RelativeFrame = CGRect
 
-struct CollageCell: Equatable, Hashable {
+struct CollageCell {
+    
     var color: UIColor
     var image: UIImage?
     var photoAsset: PHAsset?
@@ -17,10 +18,6 @@ struct CollageCell: Equatable, Hashable {
         didSet {
             calculateGripPositions()
         }
-    }
-
-    var hashValue: Int {
-        return color.hashValue ^ photoAsset.hashValue ^ id.hashValue &* 16_777_619
     }
 
     init(color: UIColor = .random, image: UIImage? = nil, photoAsset: PHAsset? = nil, relativeFrame: RelativeFrame) {
@@ -65,10 +62,6 @@ struct CollageCell: Equatable, Hashable {
         return min(relativeFrame.width, relativeFrame.height).isGreaterOrApproximatelyEqual(to: 0.2) ? true : false
     }
 
-    static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
-        return lhs.id.hashValue == rhs.id.hashValue
-    }
-
     private mutating func calculateGripPositions() {
         gripPositions.removeAll()
 
@@ -84,6 +77,16 @@ struct CollageCell: Equatable, Hashable {
 
     private(set) var id: UUID
     private(set) var gripPositions: Set<GripPosition> = []
+}
+
+extension CollageCell: Equatable, Hashable {
+    var hashValue: Int {
+        return color.hashValue ^ photoAsset.hashValue ^ id.hashValue &* 16_777_619
+    }
+    
+    static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
+        return lhs.id.hashValue == rhs.id.hashValue
+    }
 }
 
 extension CollageCell {
