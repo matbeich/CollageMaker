@@ -185,12 +185,12 @@ extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegat
     }
 
     func imagePickerCollectionViewController(_ controller: ImagePickerCollectionViewController, didSelectAssets assets: [PHAsset]) {
-        guard let asset = assets.first, let currentAssets = templateBarController.assets else {
+        guard let asset = assets.first else {
             return
         }
 
         var actualAssets = [asset]
-        actualAssets.append(contentsOf: currentAssets)
+        actualAssets.append(contentsOf: templateBarController.assets ?? [])
 
         if let selectedCellAsset = collageViewController.selectedCellView.collageCell.photoAsset,
             let index = actualAssets.index(of: selectedCellAsset) {

@@ -84,7 +84,7 @@ extension CollageCell: Equatable, Hashable {
     }
 
     static func == (lhs: CollageCell, rhs: CollageCell) -> Bool {
-        return lhs.hashValue == rhs.hashValue
+        return lhs.id == rhs.id
     }
 }
 
