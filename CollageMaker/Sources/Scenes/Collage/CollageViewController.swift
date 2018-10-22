@@ -35,24 +35,20 @@ class CollageViewController: CollageBaseViewController {
         panGestureRecognizer.delegate = self
 
         collageView.delegate = self
+        collageView.collage = collage
 
         view.addSubview(collageView)
         view.addGestureRecognizer(panGestureRecognizer)
     }
 
     func saveCellsVisibleRect() {
-        collageView.setCellsVisibleRect()
+        collageView.saveCellsVisibleFrames()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         collageView.frame = view.bounds
-
-        if shouldBeUpdated {
-            updateCollage()
-            shouldBeUpdated = false
-        }
     }
 
     func deleteSelectedCell() {
@@ -84,6 +80,7 @@ class CollageViewController: CollageBaseViewController {
                 return
             }
 
+            saveCellsVisibleRect()
             let translation = recognizer.translation(in: view).normalized(for: view.bounds.size)
             recognizer.setTranslation(.zero, in: view)
 
@@ -98,14 +95,7 @@ class CollageViewController: CollageBaseViewController {
         }
     }
 
-    func updateCollage() {
-        if isViewLoaded {
-            collageView.collage = collage
-        }
-    }
-
     private let collageView = CollageView()
-    private var shouldBeUpdated: Bool = true
     private var selectedGripPosition: GripPosition?
 }
 

@@ -47,7 +47,6 @@
 		845044332151362600B082E1 /* CollageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845044322151362600B082E1 /* CollageTemplate.swift */; };
 		845C2100216CB62800049976 /* SFCompactDisplay-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */; };
 		846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846AA2C82142689500DF92FD /* CameraAuthService.swift */; };
-		846F8D4A21666A54006EED5A /* CollageSceneToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F8D4921666A54006EED5A /* CollageSceneToolbar.swift */; };
 		847B84542179E48600AD685A /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 847B84532179E48600AD685A /* SF-UI-Display-Medium.otf */; };
 		848214DD2153B7FE009FD986 /* CollageBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */; };
 		848214DE2153BBC3009FD986 /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8494028421538A6A00160142 /* SF-Pro-Display-Semibold.otf */; };
@@ -163,7 +162,6 @@
 		845044322151362600B082E1 /* CollageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplate.swift; sourceTree = "<group>"; };
 		845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.otf"; sourceTree = "<group>"; };
 		846AA2C82142689500DF92FD /* CameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAuthService.swift; sourceTree = "<group>"; };
-		846F8D4921666A54006EED5A /* CollageSceneToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSceneToolbar.swift; sourceTree = "<group>"; };
 		846F8D532167B162006EED5A /* GradientButtonTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientButtonTestCase.swift; sourceTree = "<group>"; };
 		847B84532179E48600AD685A /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
 		847F310E2178CBF6007F9AF9 /* CollageSceneRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSceneRobot.swift; sourceTree = "<group>"; };
@@ -541,7 +539,6 @@
 				84A203922153D5C800AB946C /* CellSelectionView.swift */,
 				84F454BD2158E3E80079CE6C /* PlusButton.swift */,
 				84F454BF2158E4A10079CE6C /* PlusView.swift */,
-				846F8D4921666A54006EED5A /* CollageSceneToolbar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -953,7 +950,6 @@
 				840CC3ED216241E0001C3C5C /* ShareButton.swift in Sources */,
 				84868BC42138358500E12152 /* CollageBarItem.swift in Sources */,
 				525EC52B214C26AB009E5393 /* TemplatesContainerView.swift in Sources */,
-				846F8D4A21666A54006EED5A /* CollageSceneToolbar.swift in Sources */,
 				841469672126EEE400C2838A /* UIColor.swift in Sources */,
 				84EFDF1221776CAE00ABA6D2 /* ImageStub.swift in Sources */,
 				84868BC22138323E00E12152 /* CollageToolbar.swift in Sources */,
