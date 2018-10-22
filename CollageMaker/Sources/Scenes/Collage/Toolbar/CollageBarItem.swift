@@ -75,19 +75,19 @@ class CollageBarButtonItem: UIControl {
 
 extension CollageBarButtonItem {
     static var horizontal: CollageBarButtonItem {
-        return CollageBarButtonItem(title: "HORIZONTAL", image: R.image.horizontal() ?? .none)
+        return CollageBarButtonItem(title: "HORIZONTAL", image: R.image.horizontal_trim() ?? .none)
     }
 
     static var vertical: CollageBarButtonItem {
-        return CollageBarButtonItem(title: "VERTICAL", image: R.image.vertical() ?? .none)
+        return CollageBarButtonItem(title: "VERTICAL", image: R.image.vertical_trim() ?? .none)
     }
 
     static var addImage: CollageBarButtonItem {
-        return CollageBarButtonItem(title: "ADD IMG", image: R.image.addimg() ?? .none)
+        return CollageBarButtonItem(title: "ADD IMG", image: R.image.pic_icon_() ?? .none)
     }
 
     static var delete: CollageBarButtonItem {
-        return CollageBarButtonItem(title: "DELETE", image: R.image.addimg() ?? .none)
+        return CollageBarButtonItem(title: "DELETE", image: R.image.pic_icon_() ?? .none)
     }
 }
 

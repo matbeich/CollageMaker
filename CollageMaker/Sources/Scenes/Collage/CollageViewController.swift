@@ -60,9 +60,9 @@ class CollageViewController: CollageBaseViewController {
             return
         }
 
+        delegate?.collageViewController(self, didDeleteCellView: selectedCellView)
         saveCellsVisibleRect()
         collage.delete(selectedCellView.collageCell)
-        delegate?.collageViewController(self, didDeleteCellView: selectedCellView)
     }
 
     func addAbstractPhotoToSelectedCell(_ abstractPhoto: AbstractPhoto) {
