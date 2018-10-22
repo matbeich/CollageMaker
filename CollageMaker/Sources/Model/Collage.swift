@@ -81,10 +81,6 @@ struct Collage {
     }
 
     private mutating func update(with cell: CollageCell) {
-        guard let oldcell = cellWith(id: cell.id) else {
-            return
-        }
-
         remove(cell: oldcell)
         add(cell: cell)
     }
