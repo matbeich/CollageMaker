@@ -81,12 +81,17 @@ struct Collage {
     }
 
     private mutating func update(with cell: CollageCell) {
-        remove(cell: cell)
+        guard let oldcell = cellWith(id: cell.id) else {
+            return
+        }
+
+        remove(cell: oldcell)
         add(cell: cell)
     }
 
     private mutating func changeSize(of cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) {
         undoStackCells.append(cells)
+        let cell = cellWith(id: cell.id) ?? cell
 
         changeCellsFrameAffectedFor(cell: cell, grip: grip, value: value, merging: merging)
         let framesAreAllowed = cells.map { $0.isAllowed($0.relativeFrame) }.reduce(true, { $0 && $1 })
@@ -225,13 +230,35 @@ extension Collage {
     }
 }
 
-extension Collage: Equatable {
-    static func == (lhs: Collage, rhs: Collage) -> Bool {
-        let firstImages = lhs.cells.compactMap { $0.image }.sorted { $0.hashValue > $1.hashValue }
-        let secondImages = rhs.cells.compactMap { $0.image }.sorted { $0.hashValue > $1.hashValue }
-        let first = lhs.cells.sorted { $0.id.hashValue > $1.id.hashValue }
-        let second = rhs.cells.sorted { $0.id.hashValue > $1.id.hashValue }
+extension Collage {
+    func hasSameCellsFrames(with collage: Collage) -> Bool {
+        if cells.count != collage.cells.count {
+            return false
+        }
 
-        return first == second && first.count == second.count && firstImages == secondImages && firstImages.count == secondImages.count
+        let selfFrames = cells.compactMap { $0.relativeFrame }.sorted(by: { $0.area > $1.area })
+        let collageFrames = collage.cells.compactMap { $0.relativeFrame }.sorted(by: { $0.area > $1.area })
+
+        return selfFrames.hasSameElements(with: collageFrames)
+    }
+
+    func hasSameImages(with collage: Collage) -> Bool {
+        if cells.count != collage.cells.count {
+            return false
+        }
+
+        let selfImages = cells.compactMap { $0.image }
+        let collageImages = collage.cells.compactMap { $0.image }
+
+        return selfImages.hasSameElements(with: collageImages)
+    }
+}
+
+extension Array where Array.Element: Hashable {
+    func hasSameElements(with: [Array.Element]) -> Bool {
+        let lhs = with.sorted(by: { $0.hashValue < $1.hashValue })
+        let rhs = sorted(by: { $0.hashValue < $1.hashValue })
+
+        return lhs.elementsEqual(rhs, by: { $0 == $1 }) && count == with.count
     }
 }

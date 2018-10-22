@@ -11,7 +11,7 @@ class CollageCellView: UIView {
         return convert(scrollView.frame, to: imageView)
     }
 
-    init(collageCell: CollageCell, frame: CGRect, visibleFrame: CGRect = .zero) {
+    init(collageCell: CollageCell = .zeroFrame, frame: CGRect = .zero) {
         self.collageCell = collageCell
         super.init(frame: frame)
         setup()
