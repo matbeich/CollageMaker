@@ -9,6 +9,7 @@ class CollageBarButtonItem: UIControl {
     override var isHighlighted: Bool {
         didSet {
             layer.opacity = isHighlighted ? 0.5 : 1
+            imageView.image = isHighlighted ? tappedStateImage : normalStateImage
         }
     }
 
@@ -19,7 +20,6 @@ class CollageBarButtonItem: UIControl {
     init(title: String, image: UIImage, tappedImage: UIImage? = nil, action: Selector? = nil) {
         self.title = title
         self.normalStateImage = image
-        //        addTarget(self, action: action?, for: .touchUpInside)
 
         if let tappedImage = tappedImage {
             self.tappedStateImage = tappedImage
@@ -34,6 +34,10 @@ class CollageBarButtonItem: UIControl {
         makeConstraints()
     }
 
+    convenience init(collageItem: CollageItem) {
+        self.init(title: collageItem.title, image: collageItem.image, tappedImage: nil, action: nil)
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -46,6 +50,7 @@ class CollageBarButtonItem: UIControl {
         titleLabel.letterSpacing = 0.3
         titleLabel.textAlignment = .center
         titleLabel.font = R.font.sfuiDisplayMedium(size: 12)
+        titleLabel.adjustsFontSizeToFitWidth = true
     }
 
     private func makeConstraints() {
@@ -74,20 +79,29 @@ class CollageBarButtonItem: UIControl {
 }
 
 extension CollageBarButtonItem {
-    static var horizontal: CollageBarButtonItem {
-        return CollageBarButtonItem(title: "HORIZONTAL", image: R.image.horizontal_trim() ?? .none)
-    }
+    enum CollageItem {
+        case horizontal
+        case vertical
+        case delete
+        case addImage
 
-    static var vertical: CollageBarButtonItem {
-        return CollageBarButtonItem(title: "VERTICAL", image: R.image.vertical_trim() ?? .none)
-    }
+        var title: String {
+            switch self {
+            case .horizontal: return "HORIZONTAL"
+            case .vertical: return "VERTICAL"
+            case .addImage: return "ADD IMG"
+            case .delete: return "DELETE"
+            }
+        }
 
-    static var addImage: CollageBarButtonItem {
-        return CollageBarButtonItem(title: "ADD IMG", image: R.image.pic_icon_() ?? .none)
-    }
-
-    static var delete: CollageBarButtonItem {
-        return CollageBarButtonItem(title: "DELETE", image: R.image.pic_icon_() ?? .none)
+        var image: UIImage {
+            switch self {
+            case .horizontal: return R.image.horizontal_trim() ?? .none
+            case .vertical: return R.image.vertical_trim() ?? .none
+            case .addImage: return R.image.pic_icon_() ?? .none
+            case .delete: return R.image.pic_icon_() ?? .none
+            }
+        }
     }
 }
 

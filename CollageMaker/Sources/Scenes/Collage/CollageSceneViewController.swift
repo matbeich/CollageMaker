@@ -43,9 +43,11 @@ class CollageSceneViewController: CollageBaseViewController {
     }
 
     private func makeConstraints() {
+        let toolsBarHeight: CGFloat = 59.0
+
         collageViewContainer.snp.makeConstraints { make in
             if #available(iOS 11, *) {
-                make.top.equalTo(self.view.safeAreaLayoutGuide)
+                make.top.equalTo(view.safeAreaLayoutGuide)
             } else {
                 make.top.equalTo(topLayoutGuide.snp.bottom)
             }
@@ -56,10 +58,15 @@ class CollageSceneViewController: CollageBaseViewController {
         }
 
         toolsBar.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
+            if #available(iOS 11, *) {
+                make.bottom.equalTo(view.safeAreaLayoutGuide)
+            } else {
+                make.bottom.equalTo(bottomLayoutGuide.snp.bottom)
+            }
+
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(collageViewContainer).dividedBy(6)
+            make.height.equalTo(toolsBarHeight)
         }
 
         templateControllerView.snp.makeConstraints { make in
@@ -211,19 +218,19 @@ extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegat
 
 extension CollageSceneViewController: CollageToolbarDelegate {
     func collageToolbar(_ collageToolbar: CollageToolbar, itemTapped: CollageBarButtonItem) {
-        switch itemTapped.title {
-        case "HORIZONTAL":
+        switch itemTapped.tag {
+        case 0:
             if collageViewController.collage.cells.count < Collage.maximumAllowedCellsCount {
                 EventTracker.shared.track(.split(by: .horizontal))
                 collageViewController.splitSelectedCell(by: .horizontal)
             }
-        case "VERTICAL":
+        case 1:
             if collageViewController.collage.cells.count < Collage.maximumAllowedCellsCount {
                 EventTracker.shared.track(.split(by: .vertical))
                 collageViewController.splitSelectedCell(by: .vertical)
             }
-        case "ADD IMG": pickImage()
-        case "DELETE": collageViewController.deleteSelectedCell()
+        case 2: pickImage()
+        case 3: collageViewController.deleteSelectedCell()
         default: break
         }
     }

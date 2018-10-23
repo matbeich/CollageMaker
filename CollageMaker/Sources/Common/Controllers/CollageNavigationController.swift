@@ -31,7 +31,7 @@ final class CollageNavigationController: UINavigationController {
 
     var navBarItem: NavigationBarItem? {
         didSet {
-            let withBackButton = navBarItem?.back != nil || navBarItem?.left == nil
+            let withBackButton = (navBarItem?.back != nil || navBarItem?.left == nil) && topViewController != viewControllers[0]
             preset = Preset(withBackButton: withBackButton, left: navBarItem?.left, title: navBarItem?.titleItem, right: navBarItem?.right)
             setupForPreset(preset)
         }

@@ -17,8 +17,8 @@ protocol ShareScreenViewControllerDelegate: AnyObject {
 class ShareScreenViewController: CollageBaseViewController {
     weak var delegate: ShareScreenViewControllerDelegate?
 
-    var imageIsPrepared: Bool {
-        return collageImage != nil
+    var thumbnailIsSet: Bool {
+        return thumbnailImageView.image != nil
     }
 
     init(collage: Collage,
@@ -32,6 +32,8 @@ class ShareScreenViewController: CollageBaseViewController {
         self.shareFooter = ShareScreenFooter(destinations: [.photos, .messages, .instagram, .other])
 
         super.init(nibName: nil, bundle: nil)
+
+        setThumbnail()
         prepareHightResolutionImage()
     }
 
@@ -47,12 +49,6 @@ class ShareScreenViewController: CollageBaseViewController {
 
         setup()
         makeConstraints()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        setThumbnail()
     }
 
     @objc private func cancel() {
@@ -169,20 +165,23 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     private func setThumbnail() {
-        if imageIsPrepared {
-            thumbnailImageView.image = collageImage
-
-            return
-        }
-
-        collageRenderer.renderAsyncImage(from: collage, with: thumbnailImageView.bounds.size) { [weak self] image in
-            self?.thumbnailImageView.image = image
+        collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 400, height: 400), borders: false) { [weak self] image in
+            if self?.thumbnailImageView.image == nil { self?.setThumbnailImage(image, animated: true) }
         }
     }
 
     private func prepareHightResolutionImage() {
-        collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 1200, height: 1200)) { [weak self] image in
+        collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 1200, height: 1200), borders: false) { [weak self] image in
             self?.collageImage = image
+        }
+    }
+
+    private func setThumbnailImage(_ image: UIImage?, animated: Bool) {
+        thumbnailImageView.image = image
+
+        if animated {
+            thumbnailImageView.alpha = 0.3
+            UIView.animate(withDuration: 0.3) { self.thumbnailImageView.alpha = 1.0 }
         }
     }
 
@@ -190,8 +189,13 @@ class ShareScreenViewController: CollageBaseViewController {
         return true
     }
 
+    private var collageImage: UIImage? {
+        didSet {
+            setThumbnailImage(collageImage, animated: thumbnailIsSet ? false : true)
+        }
+    }
+
     private var collage: Collage
-    private var collageImage: UIImage?
     private var hashtag: String?
     private var currentImageAsset: PHAsset?
     private let thumbnailImageView = UIImageView()

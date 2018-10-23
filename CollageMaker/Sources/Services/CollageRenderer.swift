@@ -5,9 +5,9 @@
 import UIKit
 
 class CollageRenderer {
-    func renderAsyncImage(from collage: Collage, with size: CGSize, callback: @escaping (UIImage?) -> Void) {
+    func renderAsyncImage(from collage: Collage, with size: CGSize, borders: Bool = true, callback: @escaping (UIImage?) -> Void) {
         DispatchQueue.global().async { [weak self] in
-            let image = self?.renderImage(from: collage, with: size, borders: true)
+            let image = self?.renderImage(from: collage, with: size, borders: borders)
             DispatchQueue.main.async { callback(image) }
         }
     }
