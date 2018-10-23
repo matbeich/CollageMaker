@@ -81,7 +81,7 @@ struct Collage {
     }
 
     private mutating func update(with cell: CollageCell) {
-        remove(cell: oldcell)
+        remove(cell: cell)
         add(cell: cell)
     }
 

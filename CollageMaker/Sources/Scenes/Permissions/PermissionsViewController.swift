@@ -16,6 +16,8 @@ class PermissionsViewController: CollageBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        collageNavigationController?.showBackButton = false
+
         view.backgroundColor = .white
         view.addSubview(titleLabel)
         view.addSubview(allowButton)

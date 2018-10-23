@@ -34,6 +34,7 @@ class CollageToolbar: UIView {
     }
 
     func addCollageBarItem(_ item: CollageBarButtonItem) {
+        item.tag = buttonsStackView.arrangedSubviews.count
         buttonsStackView.addArrangedSubview(item)
     }
 
@@ -72,10 +73,10 @@ class CollageToolbar: UIView {
 
 extension CollageToolbar {
     static var standart: CollageToolbar {
-        let horizontal = CollageBarButtonItem.horizontal
-        let vertical = CollageBarButtonItem.vertical
-        let addimg = CollageBarButtonItem.addImage
-        let delete = CollageBarButtonItem.delete
+        let horizontal = CollageBarButtonItem(collageItem: .horizontal)
+        let vertical = CollageBarButtonItem(collageItem: .vertical)
+        let addimg = CollageBarButtonItem(collageItem: .addImage)
+        let delete = CollageBarButtonItem(collageItem: .delete)
 
         return CollageToolbar(barItems: [horizontal, vertical, addimg, delete])
     }

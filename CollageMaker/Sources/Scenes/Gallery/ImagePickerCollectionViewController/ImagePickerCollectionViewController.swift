@@ -200,7 +200,7 @@ extension ImagePickerCollectionViewController: UICollectionViewDataSource {
         let assetForCell = photoAssets[indexPath.row]
         pickerCell.setupIdentifier(with: indexPath.row)
 
-        library.photo(with: assetForCell, deliveryMode: .opportunistic, size: pickerCell.bounds.size.sameAspectScaled(by: UIScreen.main.scale)) { image in
+        library.photo(with: assetForCell, deliveryMode: .opportunistic, size: pickerCell.bounds.size.scaled(by: 3)) { image in
             pickerCell.image = image
         }
 

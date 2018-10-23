@@ -88,7 +88,7 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
 }
 
 extension CGSize {
-    func sameAspectScaled(by multiplier: CGFloat) -> CGSize {
+    func scaled(by multiplier: CGFloat) -> CGSize {
         return CGSize(width: width * multiplier, height: height * multiplier)
     }
 }
