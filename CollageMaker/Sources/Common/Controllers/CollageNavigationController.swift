@@ -6,22 +6,6 @@ import UIKit
 import Utils
 
 final class CollageNavigationController: UINavigationController {
-    struct Preset {
-        let withBackButton: Bool
-        var leftItem: NavigationItem?
-        var rightItem: NavigationItem?
-        var titleItem: NavigationItem?
-
-        init(withBackButton: Bool = true, left: NavigationItem? = nil, title: NavigationItem? = nil, right: NavigationItem? = nil) {
-            self.withBackButton = withBackButton
-            self.leftItem = withBackButton ? NavigationBarButtonItem(icon: R.image.back_btn(), target: self, action: #selector(back)) : left
-            self.rightItem = right
-            self.titleItem = title
-        }
-    }
-
-    var preset: Preset = Preset(withBackButton: true, left: nil, title: nil, right: nil)
-
     var navBarHeight: CGFloat = CollageNavigationController.preferredNavBarHeight {
         didSet {
             changeSafeAreaInset(top: navBarHeight)
@@ -29,19 +13,23 @@ final class CollageNavigationController: UINavigationController {
         }
     }
 
+    var rootViewController: UIViewController? {
+        guard viewControllers.count > 0 else {
+            return nil
+        }
+
+        return viewControllers[0]
+    }
+
     var navBarItem: NavigationBarItem? {
         didSet {
-            let withBackButton = (navBarItem?.back != nil || navBarItem?.left == nil) && topViewController != viewControllers[0]
-            preset = Preset(withBackButton: withBackButton, left: navBarItem?.left, title: navBarItem?.titleItem, right: navBarItem?.right)
-            setupForPreset(preset)
+            updateNavBar()
         }
     }
 
     var showBackButton: Bool = true {
         didSet {
-            preset = Preset(withBackButton: showBackButton, left: navBarItem?.left, title: navBarItem?.titleItem, right: navBarItem?.right)
-
-            setupForPreset(preset)
+            updateNavBar()
         }
     }
 
@@ -78,10 +66,13 @@ final class CollageNavigationController: UINavigationController {
         }
     }
 
-    private func setupForPreset(_ config: Preset) {
-        navBar.leftItem = config.leftItem
-        navBar.rightItem = config.rightItem
-        navBar.titleItem = config.titleItem
+    private func updateNavBar() {
+        let showBack = topViewController != rootViewController && showBackButton
+        let leftItem = navBarItem?.left ?? (showBack ? backButton : nil)
+
+        navBar.leftItem = leftItem
+        navBar.rightItem = navBarItem?.right
+        navBar.titleItem = navBarItem?.titleItem
     }
 
     private func changeSafeAreaInset(top: CGFloat) {
@@ -89,6 +80,7 @@ final class CollageNavigationController: UINavigationController {
     }
 
     private lazy var navBar = NavigationBar()
+    private lazy var backButton = NavigationBarButtonItem(icon: R.image.back_btn(), target: self, action: #selector(back))
 }
 
 extension CollageNavigationController: UINavigationControllerDelegate {
@@ -136,8 +128,8 @@ extension CollageNavigationController {
     }
 }
 
-struct NavigationBarItem {
-    var back: NavigationBackButtonItem?
+final class NavigationBarItem {
+    var back: NavigationItem?
     var left: NavigationItem?
     var right: NavigationItem?
     var titleItem: NavigationItem?
@@ -153,7 +145,7 @@ struct NavigationBarItem {
         updateTitleItem(with: title)
     }
 
-    private mutating func updateTitleItem(with title: String?) {
+    private func updateTitleItem(with title: String?) {
         self.titleItem = title != nil ? NavigationBarLabelItem(title: title, color: .black, font: R.font.sfProDisplaySemibold(size: 19)) : nil
     }
 }
@@ -171,8 +163,4 @@ extension UIView {
             layer.render(in: rendererContext.cgContext)
         }
     }
-}
-
-class NavigationBackButtonItem: NavigationBarButtonItem {
-    let isBackButton: Bool = true
 }
