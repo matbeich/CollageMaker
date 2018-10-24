@@ -104,7 +104,7 @@ class CollageSceneViewController: CollageBaseViewController {
     private func showMotionAlert() {
         let controller = UIAlertController(title: nil, message: "Would you like to restore deleted cell?", preferredStyle: .alert)
         let action = UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
-            //            self?.collageViewController.restoreDeletedCell()
+            self?.collageViewController.undo()
         }
 
         let cancelAction = UIAlertAction(title: "No", style: .destructive, handler: nil)
@@ -147,14 +147,8 @@ extension CollageSceneViewController {
 }
 
 extension CollageSceneViewController: CollageViewControllerDelegate {
-    func collageViewController(_ controller: CollageViewController, didRestoreCellView cellView: CollageCellView) {
-        var actualAssets = templateBarController.assets ?? []
-
-        guard let asset = cellView.collageCell.photoAsset else {
-            return
-        }
-
-        actualAssets.append(asset)
+    func collageViewControllerDidRestoreCells(_ controller: CollageViewController) {
+        let actualAssets = controller.collage.cells.compactMap { $0.photoAsset }
         let templates = templateProvider.templates(for: actualAssets)
 
         templateBarController.templates = templates
@@ -224,12 +218,15 @@ extension CollageSceneViewController: CollageToolbarDelegate {
                 EventTracker.shared.track(.split(by: .horizontal))
                 collageViewController.splitSelectedCell(by: .horizontal)
             }
+
         case 1:
             if collageViewController.collage.cells.count < Collage.maximumAllowedCellsCount {
                 EventTracker.shared.track(.split(by: .vertical))
                 collageViewController.splitSelectedCell(by: .vertical)
             }
+
         case 2: pickImage()
+
         case 3: collageViewController.deleteSelectedCell()
         default: break
         }

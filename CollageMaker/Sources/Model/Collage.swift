@@ -85,8 +85,17 @@ struct Collage {
         add(cell: cell)
     }
 
+    private mutating func restoreCellsBeforeChanging() {
+        if undoCells.isEmpty {
+            return
+        }
+
+        cells = undoCells
+        undoCells = []
+    }
+
     private mutating func changeSize(of cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) {
-        undoStackCells.append(cells)
+        undoCells = cells
         let cell = cellWith(id: cell.id) ?? cell
 
         changeCellsFrameAffectedFor(cell: cell, grip: grip, value: value, merging: merging)
@@ -94,22 +103,12 @@ struct Collage {
 
         guard isFullsized && framesAreAllowed else {
             restoreCellsBeforeChanging()
-
             return
         }
-    }
-
-    private mutating func restoreCellsBeforeChanging() {
-        guard let previousStateCells = undoStackCells.last else {
-            return
-        }
-
-        cells = previousStateCells
-        undoStackCells = Array(undoStackCells.dropLast())
     }
 
     private mutating func merge(cell: CollageCell, grip: GripPosition, value: CGFloat) -> Bool {
-        undoStackCells.append(cells)
+        undoCells = cells
         remove(cell: cell)
         changeCellsFrameAffectedFor(cell: cell, grip: grip, value: value, merging: true)
 
@@ -148,8 +147,8 @@ struct Collage {
         }
     }
 
-    private var undoStackCells: [[CollageCell]] = []
     private(set) var cells: [CollageCell]
+    private var undoCells: [CollageCell] = []
 }
 
 extension Collage {
@@ -232,8 +231,8 @@ extension Collage {
             return false
         }
 
-        let selfFrames = cells.compactMap { $0.relativeFrame }.sorted(by: { $0.area > $1.area })
-        let collageFrames = collage.cells.compactMap { $0.relativeFrame }.sorted(by: { $0.area > $1.area })
+        let selfFrames = cells.compactMap { $0.relativeFrame }
+        let collageFrames = collage.cells.compactMap { $0.relativeFrame }
 
         return selfFrames.hasSameElements(with: collageFrames)
     }

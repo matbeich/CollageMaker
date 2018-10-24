@@ -7,8 +7,8 @@ import UIKit
 
 protocol CollageViewControllerDelegate: AnyObject {
     func collageViewControllerPlusButtonTapped(_ controller: CollageViewController)
+    func collageViewControllerDidRestoreCells(_ controller: CollageViewController)
     func collageViewController(_ controller: CollageViewController, didDeleteCellView cellView: CollageCellView)
-    func collageViewController(_ controller: CollageViewController, didRestoreCellView cellView: CollageCellView)
 }
 
 class CollageViewController: CollageBaseViewController {
@@ -41,14 +41,22 @@ class CollageViewController: CollageBaseViewController {
         view.addGestureRecognizer(panGestureRecognizer)
     }
 
-    func saveCellsVisibleRect() {
-        collageView.saveCellsVisibleFrames()
-    }
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         collageView.frame = view.bounds
+    }
+
+    func saveCellsVisibleRect() {
+        collageView.saveCellsVisibleFrames()
+    }
+
+    func undo() {
+        if let collage = savedCollage {
+            collageView.collage = collage
+            delegate?.collageViewControllerDidRestoreCells(self)
+            savedCollage = nil
+        }
     }
 
     func deleteSelectedCell() {
@@ -58,6 +66,7 @@ class CollageViewController: CollageBaseViewController {
 
         delegate?.collageViewController(self, didDeleteCellView: selectedCellView)
         saveCellsVisibleRect()
+        savedCollage = collage
         collage.delete(selectedCellView.collageCell)
     }
 
@@ -95,6 +104,7 @@ class CollageViewController: CollageBaseViewController {
         }
     }
 
+    private var savedCollage: Collage?
     private let collageView = CollageView()
     private var selectedGripPosition: GripPosition?
 }
