@@ -61,10 +61,6 @@ class GradientButton: UIButton {
             return rect
         }
 
-        guard let titleWidth = titleLabel?.text?.size(withAttributes: [.font: titleLabel?.font as Any]).width else {
-            return rect
-        }
-
         let leftInset = max(titleEdgeInsets.left, contentEdgeInsets.left)
         let rightInset = max(imageEdgeInsets.right, contentEdgeInsets.right)
 

@@ -8,25 +8,23 @@ import UIKit
 import Utils
 
 final class AppNavigator {
-    init(authSerivce: PhotoAuthService = PhotoAuthService()) {
-        self.authService = authSerivce
-        self.templateProvider = CollageTemplateProvider()
-    }
+    var rootViewController: UINavigationController
 
-    lazy var rootViewController: UINavigationController = {
+    init(authSerivce: PhotoAuthService = PhotoAuthService(),
+         templateProvider: CollageTemplateProvider = CollageTemplateProvider()) {
+        self.authService = authSerivce
+        self.templateProvider = templateProvider
+
         if authService.isAuthorized {
             let templatePickerController = TemplatePickerViewController()
-
+            rootViewController = CollageNavigationController(rootViewController: templatePickerController)
             templatePickerController.delegate = self
-
-            return CollageNavigationController(rootViewController: templatePickerController)
         } else {
             let controller = PermissionsViewController()
+            rootViewController = CollageNavigationController(rootViewController: controller)
             controller.delegate = self
-
-            return CollageNavigationController(rootViewController: controller)
         }
-    }()
+    }
 
     private let authService: PhotoAuthService
     private let templateProvider: CollageTemplateProvider
