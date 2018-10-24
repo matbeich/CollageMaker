@@ -231,8 +231,8 @@ extension Collage {
             return false
         }
 
-        let selfFrames = cells.compactMap { $0.relativeFrame }.sorted(by: { $0.area > $1.area })
-        let collageFrames = collage.cells.compactMap { $0.relativeFrame }.sorted(by: { $0.area > $1.area })
+        let selfFrames = cells.compactMap { $0.relativeFrame }
+        let collageFrames = collage.cells.compactMap { $0.relativeFrame }
 
         return selfFrames.hasSameElements(with: collageFrames)
     }
