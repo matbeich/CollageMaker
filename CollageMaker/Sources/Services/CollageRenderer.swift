@@ -36,7 +36,7 @@ class CollageRenderer {
         }
     }
 
-    func draw(frame part: CGRect, of image: UIImage, in rect: CGRect, in context: CGContext) {
+    private func draw(frame part: CGRect, of image: UIImage, in rect: CGRect, in context: CGContext) {
         context.saveGState()
         context.addRect(rect)
         context.clip()

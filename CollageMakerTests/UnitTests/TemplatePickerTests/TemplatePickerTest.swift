@@ -22,6 +22,6 @@ class TemplatePickerTest: XCTestCase {
     }
 
     func testTemplatePickerCantSelectMoreCells() {
-//        robot.selectAnyImage()
+
     }
 }
