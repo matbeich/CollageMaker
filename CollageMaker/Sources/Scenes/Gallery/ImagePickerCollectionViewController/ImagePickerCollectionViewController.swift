@@ -226,20 +226,20 @@ extension ImagePickerCollectionViewController: UICollectionViewDelegate {
 
 extension ImagePickerCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (view.bounds.width - 2 * 3) / 4
+        let width = (view.bounds.width - 3) / 4
 
         return CGSize(width: width, height: width)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
+        return UIEdgeInsets(top: 1, left: 0, bottom: 1, right: 0)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
+        return 1
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
+        return 1
     }
 }
