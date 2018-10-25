@@ -165,9 +165,9 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     private func setThumbnail() {
-        collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 400, height: 400), borders: false) { [weak self] image in
-            if self?.thumbnailImageView.image == nil { self?.setThumbnailImage(image, animated: true) }
-        }
+//        collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 400, height: 400), borders: false) { [weak self] image in
+//            if self?.thumbnailImageView.image == nil { self?.setThumbnailImage(image, animated: true) }
+//        }
     }
 
     private func prepareHightResolutionImage() {

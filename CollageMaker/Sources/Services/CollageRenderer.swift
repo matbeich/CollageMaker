@@ -23,7 +23,15 @@ class CollageRenderer {
     private func render(cell: CollageCell, in context: UIGraphicsRendererContext, border: Bool) {
         let rect = cell.relativeFrame.absolutePosition(in: context.format.bounds)
 
-        if let image = cell.image?.updateImageOrientionUpSide(), let cropedImage = cropImage(image, toRect: cell.imageVisibleFrame) {
+        if let image = cell.image, let cropedImage = cropImage(image, toRect: cell.imageVisibleFrame) {
+            if image.imageOrientation != .up {
+                context.cgContext.saveGState()
+                defer { context.cgContext.restoreGState() }
+
+                context.cgContext.translateBy(x: 0, y: image.size.height)
+                context.cgContext.scaleBy(x: 1.0, y: -1.0)
+            }
+
             cropedImage.draw(in: rect)
         } else {
             cell.color.setFill()
@@ -32,7 +40,8 @@ class CollageRenderer {
 
         if border {
             UIColor.clear.setStroke()
-            context.stroke(rect) }
+            context.stroke(rect)
+        }
     }
 
     private func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect) -> UIImage? {

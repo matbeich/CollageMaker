@@ -5,6 +5,12 @@
 import Foundation
 import Photos
 
+protocol PhotoLibraryDelegate: AnyObject {
+    func photoLibrary(_ library: PhotoLibrary, didUpdateAssets assets: [PHAsset])
+    func photoLibrary(_ library: PhotoLibrary, didRemoveAssets assets: [PHAsset])
+    func photoLibrary(_ library: PhotoLibrary, didInsertAssets assets: [PHAsset])
+}
+
 protocol PhotoLibraryType {
     typealias PhotoCompletion = (UIImage?) -> Void
     typealias PhotosCompletion = ([UIImage]) -> Void
@@ -18,12 +24,6 @@ protocol PhotoLibraryType {
     func add(_ image: UIImage, callback: @escaping (Bool, PHAsset?) -> Void)
     func photo(with asset: PHAsset, deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize?, callback: @escaping PhotoCompletion)
     func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize, callback: @escaping PhotosCompletion)
-}
-
-protocol PhotoLibraryDelegate: AnyObject {
-    func photoLibrary(_ library: PhotoLibrary, didUpdateAssets assets: [PHAsset])
-    func photoLibrary(_ library: PhotoLibrary, didRemoveAssets assets: [PHAsset])
-    func photoLibrary(_ library: PhotoLibrary, didInsertAssets assets: [PHAsset])
 }
 
 final class PhotoLibrary: NSObject, PhotoLibraryType {
@@ -78,7 +78,7 @@ final class PhotoLibrary: NSObject, PhotoLibraryType {
         let options = PHImageRequestOptions()
 
         options.deliveryMode = deliveryMode
-        options.resizeMode = .exact
+        options.resizeMode = .fast
 
         PHImageManager.default().requestImage(for: asset,
                                               targetSize: sizeForTarget,

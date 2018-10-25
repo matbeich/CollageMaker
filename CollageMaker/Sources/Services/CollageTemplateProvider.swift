@@ -17,7 +17,7 @@ final class CollageTemplateProvider {
             switch self {
             case .small: return CGSize(width: 200, height: 200)
             case .medium: return CGSize(width: 300, height: 300)
-            case .large: return CGSize(width: 1500, height: 1500)
+            case .large: return CGSize(width: 1200, height: 1200)
             }
         }
     }
