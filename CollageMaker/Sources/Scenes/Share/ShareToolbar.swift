@@ -19,6 +19,15 @@ protocol ShareToolbarDelegate: AnyObject {
 class ShareToolbar: UIView {
     weak var delegate: ShareToolbarDelegate?
 
+    var isEnabled: Bool = true {
+        didSet {
+            buttons.forEach {
+                $0.isEnabled = isEnabled
+                $0.layer.opacity = isEnabled ? 1.0 : 0.5
+            }
+        }
+    }
+
     init(destinations: [ShareDestination]) {
         self.destinations = destinations
         super.init(frame: .zero)
@@ -44,6 +53,7 @@ class ShareToolbar: UIView {
 
     private func setup() {
         buttons.forEach { $0.addTarget(self, action: #selector(tapped(with:)), for: .touchUpInside) }
+        isEnabled = false
     }
 
     private lazy var buttonsStackView: UIStackView = {

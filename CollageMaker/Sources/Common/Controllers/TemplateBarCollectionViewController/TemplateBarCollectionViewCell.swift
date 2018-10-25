@@ -40,7 +40,7 @@ class TemplateBarCollectionViewCell: UICollectionViewCell {
     func update() {
         layer.opacity = 0
 
-        UIView.animate(withDuration: 0.4) { [weak self] in
+        UIView.animate(withDuration: 0.2) { [weak self] in
             self?.imageView.image = self?.collageImage
             self?.layer.opacity = 1.0
         }

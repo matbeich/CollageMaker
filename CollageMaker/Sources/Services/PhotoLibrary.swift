@@ -78,7 +78,7 @@ final class PhotoLibrary: NSObject, PhotoLibraryType {
         let options = PHImageRequestOptions()
 
         options.deliveryMode = deliveryMode
-        options.resizeMode = .fast
+        options.resizeMode = .exact
 
         PHImageManager.default().requestImage(for: asset,
                                               targetSize: sizeForTarget,

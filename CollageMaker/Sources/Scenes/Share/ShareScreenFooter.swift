@@ -34,6 +34,10 @@ class ShareScreenFooter: UIView {
         messageLabel.text = message
     }
 
+    func setEnabled(_ enabled: Bool) {
+        shareToolbar.isEnabled = enabled
+    }
+
     private func setup() {
         messageLabel.delegate = self
         shareToolbar.delegate = self

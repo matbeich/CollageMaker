@@ -51,7 +51,7 @@ class TemplateBarCollectionViewController: UICollectionViewController {
     private func getImageForTemplate(_ template: CollageTemplate, callback: @escaping (UIImage?) -> Void) {
         templateProvider.collage(from: template, size: .medium) { [weak self] collage in
 
-            let collageView = CollageView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+            let collageView = CollageView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 150)))
             collageView.collage = collage
             collageView.saveCellsVisibleFrames()
 
