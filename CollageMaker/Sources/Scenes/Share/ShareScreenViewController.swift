@@ -33,7 +33,6 @@ class ShareScreenViewController: CollageBaseViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        setThumbnail()
         prepareHightResolutionImage()
     }
 
@@ -164,14 +163,8 @@ class ShareScreenViewController: CollageBaseViewController {
         Utils.Application.redirect(to: shareURL)
     }
 
-    private func setThumbnail() {
-        collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 400, height: 400), borders: false) { [weak self] image in
-            if self?.thumbnailImageView.image == nil { self?.setThumbnailImage(image, animated: true) }
-        }
-    }
-
     private func prepareHightResolutionImage() {
-        collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 1200, height: 1200), borders: false) { [weak self] image in
+        collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 1200, height: 1200), borders: true) { [weak self] image in
             self?.collageImage = image
         }
     }
@@ -181,7 +174,7 @@ class ShareScreenViewController: CollageBaseViewController {
 
         if animated {
             thumbnailImageView.alpha = 0.3
-            UIView.animate(withDuration: 0.3) { self.thumbnailImageView.alpha = 1.0 }
+            UIView.animate(withDuration: 0.2) { self.thumbnailImageView.alpha = 1.0 }
         }
     }
 
@@ -191,7 +184,8 @@ class ShareScreenViewController: CollageBaseViewController {
 
     private var collageImage: UIImage? {
         didSet {
-            setThumbnailImage(collageImage, animated: thumbnailIsSet ? false : true)
+            setThumbnailImage(collageImage, animated: true)
+            shareFooter.setEnabled(collageImage != nil)
         }
     }
 

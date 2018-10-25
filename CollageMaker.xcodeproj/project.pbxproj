@@ -74,7 +74,6 @@
 		84E40814214BC5C1006764D0 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40813214BC5C1006764D0 /* SelectionView.swift */; };
 		84E40816214BDD73006764D0 /* TemplatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */; };
 		84E40818214C03D3006764D0 /* CollageTemplateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */; };
-		84EFDF1121776C5900ABA6D2 /* MockPhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */; };
 		84EFDF1221776CAE00ABA6D2 /* ImageStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4C4216B8AE700DC6916 /* ImageStub.swift */; };
 		84EFDF1321776CB800ABA6D2 /* BundleClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4C2216B8A6300DC6916 /* BundleClass.swift */; };
 		84EFDF1A2177860400ABA6D2 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFDF192177860400ABA6D2 /* Accessibility.swift */; };
@@ -967,7 +966,6 @@
 				84D389E62125CF5200FCDC67 /* GripView.swift in Sources */,
 				F62618B321415C6200CD94AE /* GradientButton.swift in Sources */,
 				848214DD2153B7FE009FD986 /* CollageBaseViewController.swift in Sources */,
-				84EFDF1121776C5900ABA6D2 /* MockPhotoLibrary.swift in Sources */,
 				8416A4BF216B4A0800DC6916 /* RoundCornersGradientButton.swift in Sources */,
 				F62618AF2141570300CD94AE /* PhotoAuthService.swift in Sources */,
 				845044332151362600B082E1 /* CollageTemplate.swift in Sources */,

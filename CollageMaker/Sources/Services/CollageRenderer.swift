@@ -23,8 +23,8 @@ class CollageRenderer {
     private func render(cell: CollageCell, in context: UIGraphicsRendererContext, border: Bool) {
         let rect = cell.relativeFrame.absolutePosition(in: context.format.bounds)
 
-        if let image = cell.image?.updateImageOrientionUpSide(), let cropedImage = cropImage(image, toRect: cell.imageVisibleFrame) {
-            cropedImage.draw(in: rect)
+        if let image = cell.image {
+            draw(frame: cell.imageVisibleFrame, of: image, in: rect, in: context.cgContext)
         } else {
             cell.color.setFill()
             context.fill(rect)
@@ -32,14 +32,22 @@ class CollageRenderer {
 
         if border {
             UIColor.clear.setStroke()
-            context.stroke(rect) }
+            context.stroke(rect)
+        }
     }
 
-    private func cropImage(_ inputImage: UIImage, toRect cropRect: CGRect) -> UIImage? {
-        guard let cutImageRef: CGImage = inputImage.cgImage?.cropping(to: cropRect) else {
-            return nil
-        }
+    func draw(frame part: CGRect, of image: UIImage, in rect: CGRect, in context: CGContext) {
+        context.saveGState()
+        context.addRect(rect)
+        context.clip()
 
-        return UIImage(cgImage: cutImageRef)
+        let scale = min(rect.size.width / part.width, rect.size.height / part.height)
+        let x = rect.origin.x - part.origin.x * scale
+        let y = rect.origin.y - part.origin.y * scale
+
+        let drawRect = CGRect(origin: CGPoint(x: x, y: y), size: CGSize(width: image.size.width * scale, height: image.size.height * scale))
+        image.draw(in: drawRect)
+
+        context.restoreGState()
     }
 }

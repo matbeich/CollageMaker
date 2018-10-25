@@ -133,14 +133,9 @@ extension UIImage {
         }
 
         UIGraphicsBeginImageContextWithOptions(size, true, scale)
+        defer { UIGraphicsEndImageContext() }
+
         draw(in: CGRect(origin: .zero, size: size))
-
-        if let normalizedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext() {
-            UIGraphicsEndImageContext()
-            return normalizedImage
-        }
-        UIGraphicsEndImageContext()
-
-        return nil
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
 }
