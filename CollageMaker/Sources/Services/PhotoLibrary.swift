@@ -33,13 +33,9 @@ final class PhotoLibrary: NSObject, PhotoLibraryType {
         self.library = library
         self.imageCacher = imageCacher
         super.init()
-        print("inited")
+
         fetchImagesAssets()
         observeAssets()
-    }
-
-    deinit {
-        print("deinited")
     }
 
     func assetFor(localIdentifier: String) -> PHAsset? {

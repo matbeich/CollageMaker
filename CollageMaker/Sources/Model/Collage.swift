@@ -200,28 +200,15 @@ extension Collage {
     }
 
     private func cellIntersected(with cell: CollageCell, gripPosition: GripPosition) -> [CollageCell] {
-        return cells.filter { $0 != cell && $0.relativeFrame.intersects(rect2: cell.relativeFrame, on: gripPosition) }
+        return cells.filter { $0.id != cell.id && $0.relativeFrame.intersects(rect2: cell.relativeFrame, on: gripPosition) }
     }
 
     private func affectedWithChangeOf(cell: CollageCell, with grip: GripPosition, merging: Bool) -> [CollageCell] {
-        var changingCells: [CollageCell]
-
-        if merging {
-            changingCells = cellIntersected(with: cell, gripPosition: grip)
-        } else {
-            let intersectedCells = Set<CollageCell>(cellIntersected(with: cell, gripPosition: grip))
-            let layingOnLineCells = Set<CollageCell>(cellsLayingOnLine(with: cell, gripPosition: grip))
-
-            changingCells = Array(layingOnLineCells.intersection(intersectedCells))
-
-            if changingCells.count == 1, let firstCell = changingCells.first, firstCell.relativeFrame.equallyIntersects(rect2: cell.relativeFrame, on: grip) {
-                changingCells.append(cell)
-            } else {
-                changingCells = cellsLayingOnLine(with: cell, gripPosition: grip)
-            }
+        if let intersectedCell = cells.first(where: { $0.relativeFrame.equallyIntersects(rect2: cell.relativeFrame, on: grip) }) {
+            return [merging ? intersectedCell : cell, intersectedCell]
         }
 
-        return changingCells
+        return merging ? cellIntersected(with: cell, gripPosition: grip) : cellsLayingOnLine(with: cell, gripPosition: grip)
     }
 }
 

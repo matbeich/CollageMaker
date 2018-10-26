@@ -54,6 +54,7 @@ class CollageViewController: CollageBaseViewController {
     func undo() {
         if let collage = savedCollage {
             collageView.collage = collage
+            collageView.update(collage)
             delegate?.collageViewControllerDidRestoreCells(self)
             savedCollage = nil
         }
