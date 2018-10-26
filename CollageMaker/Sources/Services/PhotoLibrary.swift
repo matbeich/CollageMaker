@@ -11,7 +11,7 @@ protocol PhotoLibraryDelegate: AnyObject {
     func photoLibrary(_ library: PhotoLibrary, didInsertAssets assets: [PHAsset])
 }
 
-protocol PhotoLibraryType {
+protocol PhotoLibraryType: AnyObject {
     typealias PhotoCompletion = (UIImage?) -> Void
     typealias PhotosCompletion = ([UIImage]) -> Void
 
@@ -33,9 +33,13 @@ final class PhotoLibrary: NSObject, PhotoLibraryType {
         self.library = library
         self.imageCacher = imageCacher
         super.init()
-
+        print("inited")
         fetchImagesAssets()
         observeAssets()
+    }
+
+    deinit {
+        print("deinited")
     }
 
     func assetFor(localIdentifier: String) -> PHAsset? {

@@ -32,10 +32,10 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
 
     var photoAssets: [PHAsset] = [] {
         willSet {
-            library.stopCaching()
+            context.photoLibrary.stopCaching()
         }
         didSet {
-            library.cacheImages(with: photoAssets)
+            context.photoLibrary.cacheImages(with: photoAssets)
             updateSelection()
             collectionView.reloadData()
         }
@@ -47,10 +47,10 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
-    init(library: PhotoLibraryType = PhotoLibrary(), selectionMode: SelectionMode) {
-        self.library = library
+    init(context: AppContext, selectionMode: SelectionMode) {
+        self.context = context
         self.mode = selectionMode
-        self.photoAssets = library.assets.reversed()
+        self.photoAssets = context.photoLibrary.assets.reversed()
 
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.accessibilityIdentifier = Accessibility.View.imageCollectionView.id
@@ -121,7 +121,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
 
     private func setup() {
         view.backgroundColor = .white
-        library.delegate = self
+        context.photoLibrary.delegate = self
 
         navBarItem.left = NavigationBarButtonItem(title: "Cancel", font: R.font.sfProDisplaySemibold(size: 19), target: self, action: #selector(cancel))
         navBarItem.title = "All Photos"
@@ -166,7 +166,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
-    private(set) var library: PhotoLibraryType
+    private let context: AppContext
     private(set) var mode: SelectionMode
     private(set) var collectionView: UICollectionView
 }
@@ -200,7 +200,7 @@ extension ImagePickerCollectionViewController: UICollectionViewDataSource {
         let assetForCell = photoAssets[indexPath.row]
         pickerCell.setupIdentifier(with: indexPath.row)
 
-        library.photo(with: assetForCell, deliveryMode: .opportunistic, size: pickerCell.bounds.size.scaled(by: 3)) { image in
+        context.photoLibrary.photo(with: assetForCell, deliveryMode: .opportunistic, size: pickerCell.bounds.size.scaled(by: 3)) { image in
             pickerCell.image = image
         }
 

@@ -5,15 +5,17 @@
 import Foundation
 import Photos
 
-protocol PhotoAuthStatusProtocol {
+protocol PhotoAuthServiceType {
     var status: PhotoAuthService.Status { get }
+    var isAuthorized: Bool { get }
 }
 
-final class MockPhotoAuthSerivice {
+final class MockPhotoAuthSerivice: PhotoAuthServiceType {
     var status: PhotoAuthService.Status = .authorized
+    var isAuthorized: Bool { return true }
 }
 
-final class PhotoAuthService {
+final class PhotoAuthService: PhotoAuthServiceType {
     enum Status {
         case authorized
         case denied

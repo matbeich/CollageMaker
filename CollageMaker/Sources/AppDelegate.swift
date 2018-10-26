@@ -11,8 +11,6 @@ import Utils
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
-    let navigator = AppNavigator()
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self])
 
@@ -26,4 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
+
+    private let navigator = AppNavigator()
 }

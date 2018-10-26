@@ -5,7 +5,22 @@
 import AVKit
 import UIKit
 
-final class CameraAuthService {
+protocol CameraAuthServiceType {
+    var status: AVAuthorizationStatus { get }
+    var isAuthorized: Bool { get }
+    func reqestAuthorization(callback: @escaping (AVAuthorizationStatus) -> Void)
+}
+
+final class MockCameraAuthService: CameraAuthServiceType {
+    var status: AVAuthorizationStatus {
+        return AVAuthorizationStatus.authorized
+    }
+
+    var isAuthorized: Bool = true
+    func reqestAuthorization(callback: @escaping (AVAuthorizationStatus) -> Void) { callback(status) }
+}
+
+final class CameraAuthService: CameraAuthServiceType {
     var isAuthorized: Bool {
         if case .authorized = status {
             return true

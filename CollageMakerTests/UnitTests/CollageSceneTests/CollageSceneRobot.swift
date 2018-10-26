@@ -5,7 +5,7 @@
 @testable import CollageMaker
 import EarlGrey
 import Foundation
-
+import Photos
 
 enum CollageSceneElements: RobotElement {
     case deleteButton
@@ -13,7 +13,7 @@ enum CollageSceneElements: RobotElement {
     case verticalButton
     case addImageButton
     case collageView
-    
+
     var id: String {
         switch self {
         case .horizontalButton: return Accessibility.Button.horizontalButton.id
@@ -28,17 +28,40 @@ enum CollageSceneElements: RobotElement {
 class CollageSceneRobot: Robot {
     var window: UIWindow
     var controller: CollageSceneViewController
+    var library: PhotoLibraryType
+    var templateProvider: CollageTemplateProvider
 
-    init() {
+    init(library: PhotoLibraryType = MockPhotoLibrary()) {
         let collage = Collage(cells: [CollageCell(color: .white, image: UIImage.test, photoAsset: nil, relativeFrame: .fullsized)])
 
-        self.controller = CollageSceneViewController(collage: collage)
+        self.templateProvider = CollageTemplateProvider(photoLibrary: MockPhotoLibrary())
+        let templates = templateProvider.templates(for: Array(1 ... 3).map { _ in PHAsset() })
+        self.controller = CollageSceneViewController(collage: collage, templates: templates, templateProvider: templateProvider)
         self.window = UIWindow(frame: CGRect(origin: .zero, size: CGSize(width: 375.0, height: 667.0)))
         self.window.rootViewController = CollageNavigationController(rootViewController: controller)
         self.window.makeKeyAndVisible()
     }
-    
-    func splitHorizontaly() {
-        self.tap(CollageSceneElements.horizontalButton)
+
+    @discardableResult
+    func splitHorizontaly() -> Self {
+        return self.tap(CollageSceneElements.horizontalButton)
+    }
+
+    @discardableResult
+    func splitVerticaly() -> Self {
+        return self.tap(CollageSceneElements.verticalButton)
+    }
+
+    @discardableResult
+    func deleteCell() -> Self {
+        return self.tap(CollageSceneElements.deleteButton)
+    }
+
+    @discardableResult
+    func addImage() -> Self {
+        return self.tap(CollageSceneElements.addImageButton)
+            .expect(ImagePickerElements.imageCollectionView, isVisible: true)
+            .tap(ImagePickerElements.image_cell(0))
+            .expect(CollageSceneElements.collageView, isVisible: true)
     }
 }

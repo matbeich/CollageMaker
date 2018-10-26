@@ -51,6 +51,7 @@
 		84706AA32183012D007F4B98 /* CollageNavigationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84706AA22183012D007F4B98 /* CollageNavigationTest.swift */; };
 		84706AA521830171007F4B98 /* CollageNavigationRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84706AA421830171007F4B98 /* CollageNavigationRobot.swift */; };
 		84706AA82183128E007F4B98 /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84706AA72183128E007F4B98 /* ShareService.swift */; };
+		84706AAA21833196007F4B98 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84706AA921833196007F4B98 /* AppContext.swift */; };
 		847B84542179E48600AD685A /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 847B84532179E48600AD685A /* SF-UI-Display-Medium.otf */; };
 		848214DD2153B7FE009FD986 /* CollageBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */; };
 		848214DE2153BBC3009FD986 /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8494028421538A6A00160142 /* SF-Pro-Display-Semibold.otf */; };
@@ -170,6 +171,7 @@
 		84706AA22183012D007F4B98 /* CollageNavigationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageNavigationTest.swift; sourceTree = "<group>"; };
 		84706AA421830171007F4B98 /* CollageNavigationRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageNavigationRobot.swift; sourceTree = "<group>"; };
 		84706AA72183128E007F4B98 /* ShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareService.swift; sourceTree = "<group>"; };
+		84706AA921833196007F4B98 /* AppContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 		847B84532179E48600AD685A /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
 		847F310E2178CBF6007F9AF9 /* CollageSceneRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSceneRobot.swift; sourceTree = "<group>"; };
 		848214DC2153B7FE009FD986 /* CollageBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageBaseViewController.swift; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 		847E1C5C215BD00F00F6F32E /* App */ = {
 			isa = PBXGroup;
 			children = (
+				84706AA921833196007F4B98 /* AppContext.swift */,
 				F62618B0214159AC00CD94AE /* AppNavigator.swift */,
 			);
 			path = App;
@@ -944,6 +947,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				841A245F213E935C006E994B /* UIBarButtonItem.swift in Sources */,
+				84706AAA21833196007F4B98 /* AppContext.swift in Sources */,
 				84F454BE2158E3E80079CE6C /* PlusButton.swift in Sources */,
 				8496B143214AB93D00FE45FE /* ImagePickerCollectionViewCell.swift in Sources */,
 				848713222122E938003519F7 /* TemplateBarCollectionViewCell.swift in Sources */,
