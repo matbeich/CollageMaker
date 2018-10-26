@@ -78,6 +78,11 @@ extension CollageToolbar {
         let addimg = CollageBarButtonItem(collageItem: .addImage)
         let delete = CollageBarButtonItem(collageItem: .delete)
 
+        horizontal.accessibilityIdentifier = Accessibility.Button.horizontalButton.id
+        vertical.accessibilityIdentifier = Accessibility.Button.verticalButton.id
+        addimg.accessibilityIdentifier = Accessibility.Button.addImageButton.id
+        delete.accessibilityIdentifier = Accessibility.Button.deleteButton.id
+
         return CollageToolbar(barItems: [horizontal, vertical, addimg, delete])
     }
 }

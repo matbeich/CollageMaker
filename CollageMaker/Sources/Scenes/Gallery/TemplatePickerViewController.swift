@@ -122,9 +122,12 @@ class TemplatePickerViewController: CollageBaseViewController {
     }
 
     private func select(template: CollageTemplate) {
-        templateProvider.collage(from: template, size: .large) { collage in
-            self.delegate?.templatePickerViewController(self, templateController: self.templateController, didSelectTemplate: template)
+        if Environment.isTestEnvironment {
+            let collage = Collage()
+            navigationController?.pushViewController(CollageSceneViewController(collage: collage), animated: true)
         }
+
+        delegate?.templatePickerViewController(self, templateController: self.templateController, didSelectTemplate: template)
     }
 
     private func makeConstraints() {
@@ -163,6 +166,7 @@ class TemplatePickerViewController: CollageBaseViewController {
         button.showShadow = false
         button.titleLabel?.font = R.font.sfProDisplaySemibold(size: 17)
         button.contentHorizontalAlignment = .fill
+        button.accessibilityIdentifier = Accessibility.NavigationControl.select.id
 
         return button
     }()
