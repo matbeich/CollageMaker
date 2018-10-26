@@ -22,7 +22,7 @@ final class CollageTemplateProvider {
         }
     }
 
-    init(photoLibrary: PhotoLibraryType = PhotoLibrary()) {
+    init(photoLibrary: PhotoLibraryType) {
         self.photoLibrary = photoLibrary
     }
 

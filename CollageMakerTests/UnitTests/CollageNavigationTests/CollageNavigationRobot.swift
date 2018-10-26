@@ -8,16 +8,15 @@ import Foundation
 
 class CollageNavigationRobot: Robot {
     var window: UIWindow
-    var library: PhotoLibraryType
+    var context: AppContext
     var startController: CollageBaseViewController
     var controller: CollageNavigationController
-    var templateProvider: CollageTemplateProvider
 
-    init(library: PhotoLibraryType = MockPhotoLibrary()) {
-        self.library = library
-        self.startController = TemplatePickerViewController(photoLibrary: library)
+    init(library: PhotoLibraryType = MockPhotoLibrary(assetsCount: 100)) {
+        self.context = AppContext(photoLibrary: library)
+        self.startController = TemplatePickerViewController(context: context)
         self.controller = CollageNavigationController(rootViewController: startController)
-        self.templateProvider = CollageTemplateProvider(photoLibrary: library)
+
         self.window = UIWindow(frame: CGRect(origin: .zero, size: CGSize(width: 375.0, height: 667.0)))
         self.window.rootViewController = controller
         self.window.makeKeyAndVisible()

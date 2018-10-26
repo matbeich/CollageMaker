@@ -32,12 +32,12 @@ enum TemplatePickerElements: RobotElement {
 
 class TemplatePickerRobot: Robot {
     var window: UIWindow
-    var library: PhotoLibraryType
+    var context: AppContext
     var controller: TemplatePickerViewController
 
-    init(library: PhotoLibraryType = MockPhotoLibrary()) {
-        self.library = library
-        self.controller = TemplatePickerViewController(photoLibrary: library)
+    init(library: PhotoLibraryType = MockPhotoLibrary(assetsCount: 100)) {
+        self.context = AppContext(photoLibrary: library)
+        self.controller = TemplatePickerViewController(context: context)
         self.window = UIWindow(frame: CGRect(origin: .zero, size: CGSize(width: 375.0, height: 667.0)))
         self.window.rootViewController = CollageNavigationController(rootViewController: controller)
         self.window.makeKeyAndVisible()

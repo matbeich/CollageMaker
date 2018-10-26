@@ -96,7 +96,7 @@ struct Collage {
         let framesAreAllowed = cells.map { $0.isAllowed($0.relativeFrame) }.reduce(true, { $0 && $1 })
 
         if isFullsized && framesAreAllowed { return }
-        
+
         restoreCellsBeforeChanging()
     }
 

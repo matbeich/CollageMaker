@@ -10,23 +10,24 @@ class MockPhotoLibrary: PhotoLibraryType {
 
     weak var delegate: PhotoLibraryDelegate?
 
-    init() {
-        self.assets = Array(0 ... 100).map { _ in PHAsset() }
+    init(assetsCount: Int) {
+        self.assets = Array(1 ... assetsCount).map { _ in PHAsset() }
     }
 
     func stopCaching() {}
 
     func assetFor(localIdentifier: String) -> PHAsset? {
-        return assets.first(where: { $0.localIdentifier == localIdentifier })
+        return PHAsset()
     }
 
-    func add(_ image: UIImage, callback: @escaping (Bool, PHAsset?) -> Void) {}
+    func add(_ image: UIImage, callback: @escaping (Bool, PHAsset?) -> Void) {
+        callback(true, PHAsset())
+    }
 
     func cacheImages(with assets: [PHAsset]) {}
 
     func photo(with asset: PHAsset, deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize?, callback: @escaping PhotoCompletion) {
-        let image = UIImage.test
-        callback(image)
+        callback(UIImage.test)
     }
 
     func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize, callback: @escaping PhotosCompletion) {
