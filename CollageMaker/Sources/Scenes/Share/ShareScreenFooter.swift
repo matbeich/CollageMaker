@@ -39,6 +39,7 @@ class ShareScreenFooter: UIView {
     }
 
     private func setup() {
+        accessibilityIdentifier = Accessibility.View.shareFooter.id
         messageLabel.delegate = self
         shareToolbar.delegate = self
     }

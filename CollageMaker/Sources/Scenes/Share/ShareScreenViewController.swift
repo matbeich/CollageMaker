@@ -24,12 +24,13 @@ class ShareScreenViewController: CollageBaseViewController {
     init(collage: Collage,
          authService: PhotoAuthService = PhotoAuthService(),
          photoLibrary: PhotoLibraryType = PhotoLibrary(),
-         collageRenderer: CollageRenderer = CollageRenderer()) {
+         collageRenderer: CollageRenderer = CollageRenderer(),
+         shareService: ShareServiceType = ShareService()) {
         self.authService = authService
-        self.photoLibrary = photoLibrary
         self.collageRenderer = collageRenderer
         self.collage = collage
         self.shareFooter = ShareScreenFooter(destinations: [.photos, .messages, .instagram, .other])
+        self.shareService = shareService
 
         super.init(nibName: nil, bundle: nil)
 
@@ -51,13 +52,19 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     @objc private func cancel() {
+        if Environment.isTestEnvironment {
+            collageNavigationController?.pop()
+        }
+
         delegate?.shareScreenViewControllerDidCancel(self)
     }
 
     private func setup() {
         shareFooter.delegate = self
 
-        navBarItem.left = NavigationBarButtonItem(icon: R.image.close_btn(), target: self, action: #selector(cancel))
+        let btn = NavigationBarButtonItem(icon: R.image.close_btn(), target: self, action: #selector(cancel))
+        btn.button.accessibilityIdentifier = Accessibility.NavigationControl.close.id
+        navBarItem.left = btn
         navBarItem.title = "Share"
 
         view.backgroundColor = .white
@@ -105,24 +112,12 @@ class ShareScreenViewController: CollageBaseViewController {
         }
     }
 
-    private func saveToPhotos(content: ShareContent, completion: ((Bool, PHAsset?) -> Void)? = nil) {
-        guard let image = content.item as? UIImage else {
-            return
-        }
-
-        photoLibrary.add(image) { [weak self] succes, asset in
-            guard let `self` = self else {
-                return
-            }
-            Alerts.popUpMessageAlert("Saved to photos", duration: 0.75, in: self)
-            self.currentImageAsset = asset
-
-            completion?(succes, asset)
-        }
+    private func saveToPhotos(content: ShareContent) {
+        shareService.saveToPhotos(content, in: self, with: nil)
     }
 
     private func shareViaMessage(content: ShareContent) {
-        Pigeon.shared.shareToMessages(content, in: self, with: nil)
+        shareService.shareToMessages(content, in: self, with: nil)
     }
 
     private func shareToOther(content: ShareContent) {
@@ -131,36 +126,7 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     private func shareToInstagram(content: ShareContent) {
-        let completion: (Bool, PHAsset?) -> Void = { [weak self] succes, asset in
-            guard let `self` = self else {
-                return
-            }
-
-            if succes, let asset = asset {
-                self.openInstagram(withAssetId: asset.localIdentifier)
-            } else {
-                Alerts.popUpMessageAlert("Something went wrong", duration: 0.8, in: self)
-            }
-        }
-
-        guard
-            let currentImageAsset = currentImageAsset,
-            let asset = photoLibrary.assetFor(localIdentifier: currentImageAsset.localIdentifier),
-            currentImageAsset == asset
-        else {
-            saveToPhotos(content: content, completion: completion)
-            return
-        }
-
-        openInstagram(withAssetId: currentImageAsset.localIdentifier)
-    }
-
-    private func openInstagram(withAssetId assetId: String) {
-        guard let shareURL = URL(string: "instagram://library?LocalIdentifier=\(assetId)") else {
-            return
-        }
-
-        Utils.Application.redirect(to: shareURL)
+        shareService.shareToInstagram(content, in: self, with: nil)
     }
 
     private func prepareHightResolutionImage() {
@@ -191,12 +157,11 @@ class ShareScreenViewController: CollageBaseViewController {
 
     private var collage: Collage
     private var hashtag: String?
-    private var currentImageAsset: PHAsset?
     private let thumbnailImageView = UIImageView()
     private let shareFooter: ShareScreenFooter
     private let authService: PhotoAuthService
-    private let photoLibrary: PhotoLibraryType
     private let collageRenderer: CollageRenderer
+    private let shareService: ShareServiceType
 }
 
 extension ShareScreenViewController: ShareScreenFooterDelegate {

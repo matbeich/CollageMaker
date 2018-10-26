@@ -68,7 +68,7 @@ final class CollageTemplateProvider {
         }
     }
 
-    private let photoLibrary: PhotoLibraryType
+    let photoLibrary: PhotoLibraryType
 }
 
 fileprivate extension RelativeFrame {

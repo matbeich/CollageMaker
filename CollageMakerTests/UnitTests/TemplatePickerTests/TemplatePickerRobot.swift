@@ -6,18 +6,26 @@
 import EarlGrey
 import Foundation
 
-enum TemplatePickerElements: RobotElement {
-    case templateView
-    case imageViewCollection
+enum ImagePickerElements: RobotElement {
     case image_cell(Int)
-    case template_cell(Int)
+    case imageCollectionView
 
     var id: String {
         switch self {
         case let .image_cell(index): return Accessibility.View.imagePickerCell(id: index).id
+        case .imageCollectionView: return Accessibility.View.imageCollectionView.id
+        }
+    }
+}
+
+enum TemplatePickerElements: RobotElement {
+    case templateView
+    case template_cell(Int)
+
+    var id: String {
+        switch self {
         case let .template_cell(index): return Accessibility.View.templateCell(id: index).id
         case .templateView: return Accessibility.View.templateView.id
-        default: return ""
         }
     }
 }

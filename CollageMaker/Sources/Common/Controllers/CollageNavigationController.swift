@@ -40,6 +40,7 @@ final class CollageNavigationController: UINavigationController {
         navigationBar.isHidden = true
         navBar.passInsideTouches = false
         view.addSubview(navBar)
+        backButton.button.accessibilityIdentifier = Accessibility.NavigationControl.back.id
 
         layout()
         changeSafeAreaInset(top: navBarHeight)

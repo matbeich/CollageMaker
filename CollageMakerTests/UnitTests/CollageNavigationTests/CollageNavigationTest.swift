@@ -6,13 +6,13 @@
 import EarlGrey
 import XCTest
 
-class TemplatePickerTest: XCTestCase {
-    var robot: TemplatePickerRobot!
+class CollageNavigationTest: XCTestCase {
+    var robot: CollageNavigationRobot!
 
     override func setUp() {
         super.setUp()
 
-        robot = TemplatePickerRobot()
+        robot = CollageNavigationRobot()
     }
 
     override func tearDown() {
@@ -21,7 +21,7 @@ class TemplatePickerTest: XCTestCase {
         super.tearDown()
     }
 
-    func testTemplatePickerCantSelectMoreCells() {
-
+    func testCollageSceneNavigation() {
+        robot.navigateToCollageScene()
     }
 }

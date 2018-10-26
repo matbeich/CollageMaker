@@ -12,7 +12,11 @@ protocol CollageSceneViewControllerDelegate: AnyObject {
 class CollageSceneViewController: CollageBaseViewController {
     weak var delegate: CollageSceneViewControllerDelegate?
 
-    init(collage: Collage, templates: [CollageTemplate] = []) {
+    var photoLibrary: PhotoLibraryType {
+        return templateProvider.photoLibrary
+    }
+
+    init(collage: Collage, templates: [CollageTemplate] = [], templateProvider: CollageTemplateProvider = CollageTemplateProvider()) {
         templateBarController = TemplateBarCollectionViewController(templateProvider: self.templateProvider)
         templateBarController.templates = templates
 
@@ -78,7 +82,9 @@ class CollageSceneViewController: CollageBaseViewController {
     }
 
     private func setup() {
-        navBarItem.right = NavigationBarButtonItem(icon: R.image.share_btn(), target: self, action: #selector(shareCollage))
+        let btn = NavigationBarButtonItem(icon: R.image.share_btn(), target: self, action: #selector(shareCollage))
+        btn.button.accessibilityIdentifier = Accessibility.NavigationControl.share.id
+        navBarItem.right = btn
         navBarItem.title = "Edit"
 
         makeConstraints()
@@ -90,6 +96,11 @@ class CollageSceneViewController: CollageBaseViewController {
 
     @objc private func shareCollage() {
         collageViewController.saveCellsVisibleRect()
+
+        if Environment.isTestEnvironment {
+            collageNavigationController?.push(ShareScreenViewController(collage: collageViewController.collage))
+        }
+
         delegate?.collageSceneViewController(self, didEndEditingCollage: collageViewController.collage)
     }
 
@@ -130,7 +141,6 @@ class CollageSceneViewController: CollageBaseViewController {
     }()
 
     private let toolsBar = CollageToolbar.standart
-    private let photoLibrary = PhotoLibrary()
     private let templateProvider = CollageTemplateProvider()
     private let templateControllerView = TemplatesContainerView()
     private var collageViewController = CollageViewController()
@@ -200,7 +210,7 @@ extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegat
 
         let templates = templateProvider.templates(for: actualAssets)
 
-        photoLibrary.photo(with: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
+        templateProvider.photoLibrary.photo(with: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
             let abstractPhoto = AbstractPhoto(photo: $0, asset: asset)
             self?.collageViewController.addAbstractPhotoToSelectedCell(abstractPhoto)
         }
