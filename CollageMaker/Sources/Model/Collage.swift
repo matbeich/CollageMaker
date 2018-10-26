@@ -101,10 +101,8 @@ struct Collage {
         changeCellsFrameAffectedFor(cell: cell, grip: grip, value: value, merging: merging)
         let framesAreAllowed = cells.map { $0.isAllowed($0.relativeFrame) }.reduce(true, { $0 && $1 })
 
-        guard isFullsized && framesAreAllowed else {
-            restoreCellsBeforeChanging()
-            return
-        }
+        if isFullsized && framesAreAllowed { return }
+        restoreCellsBeforeChanging()
     }
 
     private mutating func merge(cell: CollageCell, grip: GripPosition, value: CGFloat) -> Bool {
