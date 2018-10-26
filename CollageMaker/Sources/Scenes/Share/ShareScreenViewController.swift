@@ -21,16 +21,10 @@ class ShareScreenViewController: CollageBaseViewController {
         return thumbnailImageView.image != nil
     }
 
-    init(collage: Collage,
-         authService: PhotoAuthService = PhotoAuthService(),
-         photoLibrary: PhotoLibraryType = PhotoLibrary(),
-         collageRenderer: CollageRenderer = CollageRenderer(),
-         shareService: ShareServiceType = ShareService()) {
-        self.authService = authService
-        self.collageRenderer = collageRenderer
+    init(collage: Collage, context: AppContext) {
+        self.context = context
         self.collage = collage
         self.shareFooter = ShareScreenFooter(destinations: [.photos, .messages, .instagram, .other])
-        self.shareService = shareService
 
         super.init(nibName: nil, bundle: nil)
 
@@ -113,11 +107,11 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     private func saveToPhotos(content: ShareContent) {
-        shareService.saveToPhotos(content, in: self, with: nil)
+        context.shareService.saveToPhotos(content, in: self, with: nil)
     }
 
     private func shareViaMessage(content: ShareContent) {
-        shareService.shareToMessages(content, in: self, with: nil)
+        context.shareService.shareToMessages(content, in: self, with: nil)
     }
 
     private func shareToOther(content: ShareContent) {
@@ -126,11 +120,11 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     private func shareToInstagram(content: ShareContent) {
-        shareService.shareToInstagram(content, in: self, with: nil)
+        context.shareService.shareToInstagram(content, in: self, with: nil)
     }
 
     private func prepareHightResolutionImage() {
-        collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 1200, height: 1200), borders: true) { [weak self] image in
+        context.collageRenderer.renderAsyncImage(from: collage, with: CGSize(width: 1200, height: 1200), borders: true) { [weak self] image in
             self?.collageImage = image
         }
     }
@@ -157,11 +151,9 @@ class ShareScreenViewController: CollageBaseViewController {
 
     private var collage: Collage
     private var hashtag: String?
-    private let thumbnailImageView = UIImageView()
+    private let context: AppContext
     private let shareFooter: ShareScreenFooter
-    private let authService: PhotoAuthService
-    private let collageRenderer: CollageRenderer
-    private let shareService: ShareServiceType
+    private let thumbnailImageView = UIImageView()
 }
 
 extension ShareScreenViewController: ShareScreenFooterDelegate {

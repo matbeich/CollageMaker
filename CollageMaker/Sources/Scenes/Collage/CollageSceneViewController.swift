@@ -12,15 +12,11 @@ protocol CollageSceneViewControllerDelegate: AnyObject {
 class CollageSceneViewController: CollageBaseViewController {
     weak var delegate: CollageSceneViewControllerDelegate?
 
-    var photoLibrary: PhotoLibraryType {
-        return templateProvider.photoLibrary
-    }
-
     init(collage: Collage,
          templates: [CollageTemplate] = [],
-         templateProvider: CollageTemplateProvider) {
-        self.templateProvider = templateProvider
-        templateBarController = TemplateBarCollectionViewController(templateProvider: self.templateProvider)
+         context: AppContext) {
+        self.context = context
+        templateBarController = TemplateBarCollectionViewController(context: context)
         templateBarController.templates = templates
 
         super.init(nibName: nil, bundle: nil)
@@ -101,7 +97,7 @@ class CollageSceneViewController: CollageBaseViewController {
         collageViewController.saveCellsVisibleRect()
 
         if Environment.isTestEnvironment {
-            collageNavigationController?.push(ShareScreenViewController(collage: collageViewController.collage))
+            collageNavigationController?.push(ShareScreenViewController(collage: collageViewController.collage, context: context))
         }
 
         delegate?.collageSceneViewController(self, didEndEditingCollage: collageViewController.collage)
@@ -130,7 +126,7 @@ class CollageSceneViewController: CollageBaseViewController {
     }
 
     private func pickImage() {
-        let controller = ImagePickerCollectionViewController(library: photoLibrary, selectionMode: .single)
+        let controller = ImagePickerCollectionViewController(context: context, selectionMode: .single)
         controller.delegate = self
 
         collageViewController.saveCellsVisibleRect()
@@ -143,8 +139,8 @@ class CollageSceneViewController: CollageBaseViewController {
         return view
     }()
 
+    private let context: AppContext
     private let toolsBar = CollageToolbar.standart
-    private let templateProvider: CollageTemplateProvider
     private let templateControllerView = TemplatesContainerView()
     private var collageViewController = CollageViewController()
     private var templateBarController: TemplateBarCollectionViewController
@@ -162,7 +158,7 @@ extension CollageSceneViewController {
 extension CollageSceneViewController: CollageViewControllerDelegate {
     func collageViewControllerDidRestoreCells(_ controller: CollageViewController) {
         let actualAssets = controller.collage.cells.compactMap { $0.photoAsset }
-        let templates = templateProvider.templates(for: actualAssets)
+        let templates = context.templateProvider.templates(for: actualAssets)
 
         templateBarController.templates = templates
     }
@@ -175,7 +171,7 @@ extension CollageSceneViewController: CollageViewControllerDelegate {
         }
 
         actualAssets.remove(at: index)
-        let templates = templateProvider.templates(for: actualAssets)
+        let templates = context.templateProvider.templates(for: actualAssets)
 
         templateBarController.templates = templates
     }
@@ -187,7 +183,7 @@ extension CollageSceneViewController: CollageViewControllerDelegate {
 
 extension CollageSceneViewController: TemplateBarCollectionViewControllerDelegate {
     func templateBarCollectionViewController(_ controller: TemplateBarCollectionViewController, didSelect collageTemplate: CollageTemplate) {
-        templateProvider.collage(from: collageTemplate, size: .large) { [weak self] collage in
+        context.templateProvider.collage(from: collageTemplate, size: .large) { [weak self] collage in
             self?.collageViewController.collage = collage
         }
     }
@@ -211,9 +207,9 @@ extension CollageSceneViewController: ImagePickerCollectionViewControllerDelegat
             actualAssets.remove(at: index)
         }
 
-        let templates = templateProvider.templates(for: actualAssets)
+        let templates = context.templateProvider.templates(for: actualAssets)
 
-        templateProvider.photoLibrary.photo(with: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
+        context.templateProvider.photoLibrary.photo(with: asset, deliveryMode: .highQualityFormat, size: CGSize(width: 1000, height: 1000)) { [weak self] in
             let abstractPhoto = AbstractPhoto(photo: $0, asset: asset)
             self?.collageViewController.addAbstractPhotoToSelectedCell(abstractPhoto)
         }

@@ -534,6 +534,7 @@
 		847E1C5C215BD00F00F6F32E /* App */ = {
 			isa = PBXGroup;
 			children = (
+				84706AA921833196007F4B98 /* AppContext.swift */,
 				F62618B0214159AC00CD94AE /* AppNavigator.swift */,
 			);
 			path = App;
@@ -622,7 +623,6 @@
 			isa = PBXGroup;
 			children = (
 				8496B13E214AA60200FE45FE /* ImagePickerCollectionViewController.swift */,
-				84706AA921833196007F4B98 /* AppContext.swift */,
 				8496B142214AB93D00FE45FE /* ImagePickerCollectionViewCell.swift */,
 			);
 			path = ImagePickerCollectionViewController;

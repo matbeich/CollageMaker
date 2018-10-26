@@ -25,11 +25,10 @@ class TemplatePickerViewController: CollageBaseViewController {
         return templateController.templates.count <= 0
     }
 
-    init(photoLibrary: PhotoLibraryType = PhotoLibrary()) {
-        self.photoLibrary = photoLibrary
-        self.imagePickerController = ImagePickerCollectionViewController(library: photoLibrary, selectionMode: .multiply(9))
-        self.templateProvider = CollageTemplateProvider(photoLibrary: photoLibrary)
-        self.templateController = TemplateBarCollectionViewController(templateProvider: templateProvider)
+    init(context: AppContext) {
+        self.context = context
+        self.imagePickerController = ImagePickerCollectionViewController(context: context, selectionMode: .multiply(9))
+        self.templateController = TemplateBarCollectionViewController(context: context)
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -84,11 +83,11 @@ class TemplatePickerViewController: CollageBaseViewController {
             return
         }
 
-        handle(cameraAuthService.status)
+        handle(context.cameraAuthService.status)
     }
 
     @objc private func handle(_ avAuthorizationStatus: AVAuthorizationStatus) {
-        if cameraAuthService.isAuthorized {
+        if context.cameraAuthService.isAuthorized {
             let controller = UIImagePickerController()
             controller.sourceType = .camera
             controller.delegate = self
@@ -98,7 +97,7 @@ class TemplatePickerViewController: CollageBaseViewController {
         }
 
         switch avAuthorizationStatus {
-        case .notDetermined: cameraAuthService.reqestAuthorization { self.handle($0) }
+        case .notDetermined: context.cameraAuthService.reqestAuthorization { self.handle($0) }
         case .denied: present(Alerts.cameraAccessDenied(), animated: true, completion: nil)
         case .restricted: present(Alerts.cameraAccessRestricted(), animated: true, completion: nil)
         default: break
@@ -124,7 +123,7 @@ class TemplatePickerViewController: CollageBaseViewController {
     private func select(template: CollageTemplate) {
         if Environment.isTestEnvironment {
             let collage = Collage()
-            navigationController?.pushViewController(CollageSceneViewController(collage: collage, templates: templateController.templates, templateProvider: templateProvider), animated: true)
+            navigationController?.pushViewController(CollageSceneViewController(collage: collage, templates: templateController.templates, context: context), animated: true)
         }
 
         delegate?.templatePickerViewController(self, templateController: self.templateController, didSelectTemplate: template)
@@ -152,9 +151,9 @@ class TemplatePickerViewController: CollageBaseViewController {
 
     private var selectedAssets: [PHAsset] = [] {
         willSet {
-            photoLibrary.stopCaching()
+            context.photoLibrary.stopCaching()
         } didSet {
-            photoLibrary.cacheImages(with: selectedAssets)
+            context.photoLibrary.cacheImages(with: selectedAssets)
             gradientButton.setTitle(String(selectedAssets.count), for: .normal)
         }
     }
@@ -171,10 +170,8 @@ class TemplatePickerViewController: CollageBaseViewController {
         return button
     }()
 
-    let photoLibrary: PhotoLibraryType
+    private let context: AppContext
     private let mainControllerContainer = UIView()
-    private let templateProvider: CollageTemplateProvider
-    private let cameraAuthService = CameraAuthService()
     private let templatesView = TemplatesContainerView(headerText: "Choose template")
     private var imagePickerController: ImagePickerCollectionViewController
     private var templateController: TemplateBarCollectionViewController
@@ -189,7 +186,7 @@ extension TemplatePickerViewController: ImagePickerCollectionViewControllerDeleg
         view.layoutIfNeeded()
         selectedAssets = assets
 
-        templateController.templates = templateProvider.templates(for: selectedAssets)
+        templateController.templates = context.templateProvider.templates(for: selectedAssets)
         setTemplateViewIsVisible(templateViewIsEmpty ? false : true)
     }
 }
@@ -208,7 +205,7 @@ extension TemplatePickerViewController: UIImagePickerControllerDelegate & UINavi
             return
         }
 
-        imagePickerController.library.add(image) { success, asset in
+        context.photoLibrary.add(image) { success, asset in
             assert(success, "Unable to write asset to photo library")
         }
     }

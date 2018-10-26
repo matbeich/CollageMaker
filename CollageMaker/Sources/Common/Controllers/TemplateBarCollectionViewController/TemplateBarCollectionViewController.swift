@@ -22,12 +22,9 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         }
     }
 
-    init(templates: [CollageTemplate] = [],
-         templateProvider: CollageTemplateProvider,
-         collageRenderer: CollageRenderer = CollageRenderer()) {
+    init(context: AppContext, templates: [CollageTemplate] = []) {
+        self.context = context
         self.templates = templates
-        self.templateProvider = templateProvider
-        self.collageRenderer = collageRenderer
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
 
@@ -52,13 +49,13 @@ class TemplateBarCollectionViewController: UICollectionViewController {
     }
 
     private func getImageForTemplate(_ template: CollageTemplate, callback: @escaping (UIImage?) -> Void) {
-        templateProvider.collage(from: template, size: .medium) { [weak self] collage in
+        context.templateProvider.collage(from: template, size: .medium) { [weak self] collage in
 
             let collageView = CollageView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 150)))
             collageView.collage = collage
             collageView.saveCellsVisibleFrames()
 
-            self?.collageRenderer.renderAsyncImage(from: collageView.collage, with: collageView.bounds.size) { image in
+            self?.context.collageRenderer.renderAsyncImage(from: collageView.collage, with: collageView.bounds.size) { image in
                 callback(image)
             }
         }
@@ -85,8 +82,7 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         delegate?.templateBarCollectionViewController(self, didSelect: templates[indexPath.row])
     }
 
-    private let templateProvider: CollageTemplateProvider
-    private let collageRenderer: CollageRenderer
+    private let context: AppContext
 }
 
 extension TemplateBarCollectionViewController: UICollectionViewDelegateFlowLayout {

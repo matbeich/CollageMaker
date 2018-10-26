@@ -11,7 +11,7 @@ protocol PhotoLibraryDelegate: AnyObject {
     func photoLibrary(_ library: PhotoLibrary, didInsertAssets assets: [PHAsset])
 }
 
-protocol PhotoLibraryType {
+protocol PhotoLibraryType: AnyObject {
     typealias PhotoCompletion = (UIImage?) -> Void
     typealias PhotosCompletion = ([UIImage]) -> Void
 
