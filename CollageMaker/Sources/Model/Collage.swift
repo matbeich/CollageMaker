@@ -21,11 +21,7 @@ struct Collage {
     init(cells: [CollageCell] = []) {
         self.cells = cells
 
-        if !isFullsized {
-            let initialCell = CollageCell(color: .random, image: nil, relativeFrame: RelativeFrame.fullsized)
-
-            self.cells = [initialCell]
-        }
+        if !isFullsized { self.cells = [CollageCell(color: .random, relativeFrame: RelativeFrame.fullsized)] }
     }
 
     mutating func delete(_ cell: CollageCell) {
@@ -86,12 +82,10 @@ struct Collage {
     }
 
     private mutating func restoreCellsBeforeChanging() {
-        if undoCells.isEmpty {
-            return
-        }
+        if undoCells.isEmpty { return }
 
         cells = undoCells
-        undoCells = []
+        undoCells.removeAll()
     }
 
     private mutating func changeSize(of cell: CollageCell, grip: GripPosition, value: CGFloat, merging: Bool = false) {
@@ -102,6 +96,7 @@ struct Collage {
         let framesAreAllowed = cells.map { $0.isAllowed($0.relativeFrame) }.reduce(true, { $0 && $1 })
 
         if isFullsized && framesAreAllowed { return }
+
         restoreCellsBeforeChanging()
     }
 

@@ -28,15 +28,13 @@ enum CollageSceneElements: RobotElement {
 class CollageSceneRobot: Robot {
     var window: UIWindow
     var controller: CollageSceneViewController
-    var library: PhotoLibraryType
-    var templateProvider: CollageTemplateProvider
+    var context: AppContext
 
-    init(library: PhotoLibraryType = MockPhotoLibrary()) {
+    init(library: PhotoLibraryType = MockPhotoLibrary(assetsCount: 100)) {
         let collage = Collage(cells: [CollageCell(color: .white, image: UIImage.test, photoAsset: nil, relativeFrame: .fullsized)])
 
-        self.templateProvider = CollageTemplateProvider(photoLibrary: MockPhotoLibrary())
-        let templates = templateProvider.templates(for: Array(1 ... 3).map { _ in PHAsset() })
-        self.controller = CollageSceneViewController(collage: collage, templates: templates, templateProvider: templateProvider)
+        self.context = AppContext(photoLibrary: library, photoAuthService: MockPhotoAuthService())
+        self.controller = CollageSceneViewController(collage: collage, context: context)
         self.window = UIWindow(frame: CGRect(origin: .zero, size: CGSize(width: 375.0, height: 667.0)))
         self.window.rootViewController = CollageNavigationController(rootViewController: controller)
         self.window.makeKeyAndVisible()
