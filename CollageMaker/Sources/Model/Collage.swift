@@ -101,10 +101,8 @@ struct Collage {
         changeCellsFrameAffectedFor(cell: cell, grip: grip, value: value, merging: merging)
         let framesAreAllowed = cells.map { $0.isAllowed($0.relativeFrame) }.reduce(true, { $0 && $1 })
 
-        guard isFullsized && framesAreAllowed else {
-            restoreCellsBeforeChanging()
-            return
-        }
+        if isFullsized && framesAreAllowed { return }
+        restoreCellsBeforeChanging()
     }
 
     private mutating func merge(cell: CollageCell, grip: GripPosition, value: CGFloat) -> Bool {
@@ -200,28 +198,15 @@ extension Collage {
     }
 
     private func cellIntersected(with cell: CollageCell, gripPosition: GripPosition) -> [CollageCell] {
-        return cells.filter { $0 != cell && $0.relativeFrame.intersects(rect2: cell.relativeFrame, on: gripPosition) }
+        return cells.filter { $0.id != cell.id && $0.relativeFrame.intersects(rect2: cell.relativeFrame, on: gripPosition) }
     }
 
     private func affectedWithChangeOf(cell: CollageCell, with grip: GripPosition, merging: Bool) -> [CollageCell] {
-        var changingCells: [CollageCell]
-
-        if merging {
-            changingCells = cellIntersected(with: cell, gripPosition: grip)
-        } else {
-            let intersectedCells = Set<CollageCell>(cellIntersected(with: cell, gripPosition: grip))
-            let layingOnLineCells = Set<CollageCell>(cellsLayingOnLine(with: cell, gripPosition: grip))
-
-            changingCells = Array(layingOnLineCells.intersection(intersectedCells))
-
-            if changingCells.count == 1, let firstCell = changingCells.first, firstCell.relativeFrame.equallyIntersects(rect2: cell.relativeFrame, on: grip) {
-                changingCells.append(cell)
-            } else {
-                changingCells = cellsLayingOnLine(with: cell, gripPosition: grip)
-            }
+        if let intersectedCell = cells.first(where: { $0.relativeFrame.equallyIntersects(rect2: cell.relativeFrame, on: grip) }) {
+            return [merging ? intersectedCell : cell, intersectedCell]
         }
 
-        return changingCells
+        return merging ? cellIntersected(with: cell, gripPosition: grip) : cellsLayingOnLine(with: cell, gripPosition: grip)
     }
 }
 

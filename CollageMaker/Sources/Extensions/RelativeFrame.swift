@@ -73,18 +73,18 @@ extension RelativeFrame {
             let isInHeightBounds = minY.isGreaterOrApproximatelyEqual(to: rect2.minY) && maxY.isLessOrApproximatelyEqual(to: rect2.maxY)
 
             if gripPosition == .left {
-                return isInHeightBounds && maxX.isApproximatelyEqual(to: rect2.minX) ? true : false
+                return isInHeightBounds && maxX.isApproximatelyEqual(to: rect2.minX)
             } else {
-                return isInHeightBounds && minX.isApproximatelyEqual(to: rect2.maxX) ? true : false
+                return isInHeightBounds && minX.isApproximatelyEqual(to: rect2.maxX)
             }
 
         case .horizontal:
             let isInWidthBounds = minX.isGreaterOrApproximatelyEqual(to: rect2.minX) && maxX.isLessOrApproximatelyEqual(to: rect2.maxX)
 
             if gripPosition == .top {
-                return isInWidthBounds && maxY.isApproximatelyEqual(to: rect2.minY) ? true : false
+                return isInWidthBounds && maxY.isApproximatelyEqual(to: rect2.minY)
             } else {
-                return isInWidthBounds && minY.isApproximatelyEqual(to: rect2.maxY) ? true : false
+                return isInWidthBounds && minY.isApproximatelyEqual(to: rect2.maxY)
             }
         }
     }
