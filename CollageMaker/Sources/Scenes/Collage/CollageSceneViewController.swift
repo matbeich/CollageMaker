@@ -16,7 +16,10 @@ class CollageSceneViewController: CollageBaseViewController {
         return templateProvider.photoLibrary
     }
 
-    init(collage: Collage, templates: [CollageTemplate] = [], templateProvider: CollageTemplateProvider = CollageTemplateProvider()) {
+    init(collage: Collage,
+         templates: [CollageTemplate] = [],
+         templateProvider: CollageTemplateProvider) {
+        self.templateProvider = templateProvider
         templateBarController = TemplateBarCollectionViewController(templateProvider: self.templateProvider)
         templateBarController.templates = templates
 
@@ -127,7 +130,7 @@ class CollageSceneViewController: CollageBaseViewController {
     }
 
     private func pickImage() {
-        let controller = ImagePickerCollectionViewController(selectionMode: .single)
+        let controller = ImagePickerCollectionViewController(library: photoLibrary, selectionMode: .single)
         controller.delegate = self
 
         collageViewController.saveCellsVisibleRect()
@@ -141,7 +144,7 @@ class CollageSceneViewController: CollageBaseViewController {
     }()
 
     private let toolsBar = CollageToolbar.standart
-    private let templateProvider = CollageTemplateProvider()
+    private let templateProvider: CollageTemplateProvider
     private let templateControllerView = TemplatesContainerView()
     private var collageViewController = CollageViewController()
     private var templateBarController: TemplateBarCollectionViewController

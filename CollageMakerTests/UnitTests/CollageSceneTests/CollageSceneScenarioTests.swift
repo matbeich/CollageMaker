@@ -47,4 +47,18 @@ class CollageSceneScenarioTests: XCTestCase {
             .tap(NavigationControllerElements.close)
             .expect(CollageSceneElements.collageView, isVisible: true)
     }
+
+    func testHorizontalSplit() {
+        robot.splitHorizontaly()
+    }
+
+    func testSplitCellHorizontalyAndAddImage() {
+        robot.splitHorizontaly()
+            .addImage()
+    }
+
+    func testSplitAndRemoveCell() {
+        robot.splitVerticaly()
+            .deleteCell()
+    }
 }

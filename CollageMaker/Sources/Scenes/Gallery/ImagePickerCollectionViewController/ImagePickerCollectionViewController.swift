@@ -47,7 +47,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
-    init(library: PhotoLibraryType = PhotoLibrary(), selectionMode: SelectionMode) {
+    init(library: PhotoLibraryType, selectionMode: SelectionMode) {
         self.library = library
         self.mode = selectionMode
         self.photoAssets = library.assets.reversed()

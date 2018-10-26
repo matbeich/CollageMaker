@@ -124,7 +124,7 @@ class TemplatePickerViewController: CollageBaseViewController {
     private func select(template: CollageTemplate) {
         if Environment.isTestEnvironment {
             let collage = Collage()
-            navigationController?.pushViewController(CollageSceneViewController(collage: collage), animated: true)
+            navigationController?.pushViewController(CollageSceneViewController(collage: collage, templates: templateController.templates, templateProvider: templateProvider), animated: true)
         }
 
         delegate?.templatePickerViewController(self, templateController: self.templateController, didSelectTemplate: template)
@@ -171,7 +171,7 @@ class TemplatePickerViewController: CollageBaseViewController {
         return button
     }()
 
-    private let photoLibrary: PhotoLibraryType
+    let photoLibrary: PhotoLibraryType
     private let mainControllerContainer = UIView()
     private let templateProvider: CollageTemplateProvider
     private let cameraAuthService = CameraAuthService()

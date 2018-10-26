@@ -16,7 +16,7 @@ final class AppNavigator {
         self.templateProvider = templateProvider
 
         if authService.isAuthorized {
-            let templatePickerController = TemplatePickerViewController()
+            let templatePickerController = TemplatePickerViewController(photoLibrary: templateProvider.photoLibrary)
             rootViewController = CollageNavigationController(rootViewController: templatePickerController)
             templatePickerController.delegate = self
         } else {
@@ -66,14 +66,19 @@ extension AppNavigator: ShareScreenViewControllerDelegate {
 extension AppNavigator: TemplatePickerViewControllerDelegate {
     func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate template: CollageTemplate) {
         templateProvider.collage(from: template, size: .large) { [weak self] collage in
-            let sceneController = CollageSceneViewController(collage: collage, templates: templateController.templates)
-            sceneController.delegate = self
-
-            guard !(self?.rootViewController.topViewController is CollageSceneViewController) else {
+            guard
+                let `self` = self,
+                !(self.rootViewController.topViewController is CollageSceneViewController)
+            else {
                 return
             }
 
-            self?.rootViewController.pushViewController(sceneController, animated: true)
+            let sceneController = CollageSceneViewController(collage: collage,
+                                                             templates: templateController.templates,
+                                                             templateProvider: self.templateProvider)
+
+            sceneController.delegate = self
+            self.rootViewController.pushViewController(sceneController, animated: true)
         }
     }
 }
