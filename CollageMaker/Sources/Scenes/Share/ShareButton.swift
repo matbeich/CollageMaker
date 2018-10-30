@@ -22,15 +22,19 @@ class ShareButton: UIControl {
     private func setup() {
         switch destination {
         case .photos:
+            accessibilityIdentifier = Accessibility.Button.photosButton.id
             imageView.image = R.image.save_btn()
             titleLabel.text = "save".uppercased()
         case .messages:
+            accessibilityIdentifier = Accessibility.Button.messagesButton.id
             imageView.image = R.image.imessage_btn()
             titleLabel.text = "iMESSAGE"
         case .instagram:
+            accessibilityIdentifier = Accessibility.Button.instagramButton.id
             imageView.image = R.image.inst_btn()
             titleLabel.text = "instagram".uppercased()
         case .other:
+            accessibilityIdentifier = Accessibility.Button.otherButton.id
             imageView.image = R.image.other_btn()
             titleLabel.text = "other".uppercased()
         }

@@ -24,7 +24,7 @@ class TemplateBarCollectionViewCellTestCase: FBSnapshotTestCase {
     }
 
     func testCellShowImage() {
-        let image = UIImage.test
+        let image = UIImage.testing
         cell.collageImage = image
 
         FBSnapshotVerifyView(cell)

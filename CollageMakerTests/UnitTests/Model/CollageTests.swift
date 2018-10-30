@@ -10,8 +10,21 @@ import XCTest
 class BundleClass {}
 
 class CollageTests: XCTestCase {
+    var collage: Collage!
+
+    override func setUp() {
+        super.setUp()
+
+        collage = Collage()
+    }
+
+    override func tearDown() {
+        collage = nil
+
+        super.tearDown()
+    }
+
     func testCollageIsAlwaysFullsized() {
-        var collage = Collage()
         let cell = CollageCell(color: .blue, relativeFrame: .fullsized)
         let secondCell = CollageCell(color: .blue, relativeFrame: .fullsized)
 
@@ -22,10 +35,11 @@ class CollageTests: XCTestCase {
 
     func testGetCellWithAsset() {
         let asset = PHAsset()
-        let image = UIImage.test
+        let image = UIImage.testing
         let cell = CollageCell(color: .red, photoAsset: asset, relativeFrame: .leftFullHeightHalfWidth)
         let cell2 = CollageCell(color: .red, image: image, relativeFrame: .rightFullHeightHalfWidth)
-        let collage = Collage(cells: [cell, cell2])
+
+        collage = Collage(cells: [cell, cell2])
 
         let cellForAsset = collage.cellWith(asset: asset)
 
@@ -33,10 +47,10 @@ class CollageTests: XCTestCase {
     }
 
     func testGetCellWithID() {
-        let image = UIImage.test
+        let image = UIImage.testing
         let cell = CollageCell(color: .red, relativeFrame: .leftFullHeightHalfWidth)
         let cell2 = CollageCell(color: .red, image: image, relativeFrame: .rightFullHeightHalfWidth)
-        let collage = Collage(cells: [cell, cell2])
+        collage = Collage(cells: [cell, cell2])
 
         let testID = cell.id
         let cellForID = collage.cellWith(id: testID)
@@ -47,7 +61,9 @@ class CollageTests: XCTestCase {
     func testCellSizeChanges() {
         let cell = CollageCell(color: .red, relativeFrame: .leftFullHeightHalfWidth)
         let cell2 = CollageCell(color: .red, relativeFrame: .rightFullHeightHalfWidth)
-        var collage = Collage(cells: [cell, cell2])
+
+        collage = Collage(cells: [cell, cell2])
+
         let frameBeforeChanging = cell.relativeFrame
 
         collage.changeSize(cell: cell, grip: .right, value: 0.2)
@@ -56,14 +72,14 @@ class CollageTests: XCTestCase {
     }
 
     func testFillsCellsWithAbstractPhotos() {
-        let image = UIImage.test
+        let image = UIImage.testing
         let abstractPhoto = AbstractPhoto(photo: image, asset: PHAsset())
         let testAbstractPhotos = Array(0 ... 10).map { _ in abstractPhoto }
 
         let cell = CollageCell(color: .red, relativeFrame: .leftFullHeightHalfWidth)
         let cell2 = CollageCell(color: .red, relativeFrame: .rightFullHeightHalfWidth)
-        var collage = Collage(cells: [cell, cell2])
 
+        collage = Collage(cells: [cell, cell2])
         collage.fill(with: testAbstractPhotos)
 
         XCTAssertTrue(!collage.images.isEmpty && !collage.assets.isEmpty)

@@ -36,7 +36,7 @@ class RoundCornersGradientButtonTestCase: FBSnapshotTestCase {
     }
 
     func testWithImage() {
-        let image = UIImage.test
+        let image = UIImage.testing
         button.setImage(image)
 
         FBSnapshotVerifyView(button)

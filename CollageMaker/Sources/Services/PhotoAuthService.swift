@@ -10,11 +10,6 @@ protocol PhotoAuthServiceType {
     var isAuthorized: Bool { get }
 }
 
-final class MockPhotoAuthService: PhotoAuthServiceType {
-    var status: PhotoAuthService.Status = .authorized
-    var isAuthorized: Bool { return true }
-}
-
 final class PhotoAuthService: PhotoAuthServiceType {
     enum Status {
         case authorized

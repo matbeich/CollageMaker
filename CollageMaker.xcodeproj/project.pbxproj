@@ -19,7 +19,7 @@
 		8416A50B216BAB9400DC6916 /* BundleClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4C2216B8A6300DC6916 /* BundleClass.swift */; };
 		8416A50C216BAB9400DC6916 /* ImageStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4C4216B8AE700DC6916 /* ImageStub.swift */; };
 		8416A511216BC0D100DC6916 /* MockPhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */; };
-		8416A515216BC31B00DC6916 /* test_img.png in Resources */ = {isa = PBXBuildFile; fileRef = 844CDD3A2166276D00AF3B8E /* test_img.png */; };
+		8416A515216BC31B00DC6916 /* test_img in Resources */ = {isa = PBXBuildFile; fileRef = 844CDD3A2166276D00AF3B8E /* test_img */; };
 		8417D1B8211DC1C500334661 /* CollageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417D1B7211DC1C500334661 /* CollageRenderer.swift */; };
 		8417D1BA211DCABC00334661 /* CollageCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8417D1B9211DCABC00334661 /* CollageCellView.swift */; };
 		841A245F213E935C006E994B /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A245E213E935C006E994B /* UIBarButtonItem.swift */; };
@@ -33,8 +33,7 @@
 		843F547221625BD700411A33 /* ShareScreenFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F547121625BD700411A33 /* ShareScreenFooter.swift */; };
 		84434D9E214808DF0060B76B /* ShareScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84434D9D214808DF0060B76B /* ShareScreenViewController.swift */; };
 		844DF46D2179C4D900A7B0C4 /* TemplatePickerRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFDF152177712300ABA6D2 /* TemplatePickerRobot.swift */; };
-		844DF46E2179C4D900A7B0C4 /* TemplateViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E425C521773B2900CE98BE /* TemplateViewTest.swift */; };
-		844DF46F2179C4D900A7B0C4 /* TemplatePickerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFDF17217773C500ABA6D2 /* TemplatePickerTest.swift */; };
+		844DF46E2179C4D900A7B0C4 /* TemplatePickerScenarioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E425C521773B2900CE98BE /* TemplatePickerScenarioTests.swift */; };
 		844DF4702179C4D900A7B0C4 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C98D33217877DF0096BFB4 /* Robot.swift */; };
 		844DF4712179C4D900A7B0C4 /* CollageSceneRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F310E2178CBF6007F9AF9 /* CollageSceneRobot.swift */; };
 		844DF4722179C4F800A7B0C4 /* TemplateControllerViewTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD342166188100AF3B8E /* TemplateControllerViewTestCase.swift */; };
@@ -46,6 +45,15 @@
 		844DF4782179C50F00A7B0C4 /* TemplateBarCollectionViewCellTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD3821661FC200AF3B8E /* TemplateBarCollectionViewCellTestCase.swift */; };
 		845044332151362600B082E1 /* CollageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845044322151362600B082E1 /* CollageTemplate.swift */; };
 		845C2100216CB62800049976 /* SFCompactDisplay-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */; };
+		84617EC821884FF8004A3C1D /* ReferenceImages_64 in Resources */ = {isa = PBXBuildFile; fileRef = 84617EC721884FF8004A3C1D /* ReferenceImages_64 */; };
+		84617ECA21885050004A3C1D /* MockPhotoAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617EC921885050004A3C1D /* MockPhotoAuthService.swift */; };
+		84617ECC2188509D004A3C1D /* MockCameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ECB2188509D004A3C1D /* MockCameraAuthService.swift */; };
+		84617ECE21885453004A3C1D /* MockShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ECD21885453004A3C1D /* MockShareService.swift */; };
+		84617ED021885B87004A3C1D /* ShareScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ECF21885B87004A3C1D /* ShareScreenRobot.swift */; };
+		84617ED321886A8E004A3C1D /* ShareScreenScenarioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ED221886A8E004A3C1D /* ShareScreenScenarioTests.swift */; };
+		84617ED521886CA3004A3C1D /* MockCollageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ED421886CA3004A3C1D /* MockCollageRenderer.swift */; };
+		84617ED821888203004A3C1D /* CollageRendererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ED721888203004A3C1D /* CollageRendererTests.swift */; };
+		84617EDC2188919E004A3C1D /* test_img_hq in Resources */ = {isa = PBXBuildFile; fileRef = 84617EDB2188919E004A3C1D /* test_img_hq */; };
 		846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846AA2C82142689500DF92FD /* CameraAuthService.swift */; };
 		84706AA121821E6C007F4B98 /* CollageSceneScenarioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84706AA021821E6C007F4B98 /* CollageSceneScenarioTests.swift */; };
 		84706AA32183012D007F4B98 /* CollageNavigationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84706AA22183012D007F4B98 /* CollageNavigationTest.swift */; };
@@ -79,8 +87,6 @@
 		84E40814214BC5C1006764D0 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40813214BC5C1006764D0 /* SelectionView.swift */; };
 		84E40816214BDD73006764D0 /* TemplatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */; };
 		84E40818214C03D3006764D0 /* CollageTemplateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */; };
-		84EFDF1221776CAE00ABA6D2 /* ImageStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4C4216B8AE700DC6916 /* ImageStub.swift */; };
-		84EFDF1321776CB800ABA6D2 /* BundleClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4C2216B8A6300DC6916 /* BundleClass.swift */; };
 		84EFDF1A2177860400ABA6D2 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFDF192177860400ABA6D2 /* Accessibility.swift */; };
 		84F454BE2158E3E80079CE6C /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454BD2158E3E80079CE6C /* PlusButton.swift */; };
 		84F454C02158E4A10079CE6C /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454BF2158E4A10079CE6C /* PlusView.swift */; };
@@ -161,10 +167,19 @@
 		844CDD2D2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCellTestCase.swift; sourceTree = "<group>"; };
 		844CDD342166188100AF3B8E /* TemplateControllerViewTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateControllerViewTestCase.swift; sourceTree = "<group>"; };
 		844CDD3821661FC200AF3B8E /* TemplateBarCollectionViewCellTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateBarCollectionViewCellTestCase.swift; sourceTree = "<group>"; };
-		844CDD3A2166276D00AF3B8E /* test_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_img.png; sourceTree = "<group>"; };
+		844CDD3A2166276D00AF3B8E /* test_img */ = {isa = PBXFileReference; lastKnownFileType = file; path = test_img; sourceTree = "<group>"; };
 		844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPhotoLibrary.swift; sourceTree = "<group>"; };
 		845044322151362600B082E1 /* CollageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplate.swift; sourceTree = "<group>"; };
 		845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.otf"; sourceTree = "<group>"; };
+		84617EC721884FF8004A3C1D /* ReferenceImages_64 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ReferenceImages_64; path = CollageMakerTests/ReferenceImages_64; sourceTree = SOURCE_ROOT; };
+		84617EC921885050004A3C1D /* MockPhotoAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPhotoAuthService.swift; sourceTree = "<group>"; };
+		84617ECB2188509D004A3C1D /* MockCameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCameraAuthService.swift; sourceTree = "<group>"; };
+		84617ECD21885453004A3C1D /* MockShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockShareService.swift; sourceTree = "<group>"; };
+		84617ECF21885B87004A3C1D /* ShareScreenRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenRobot.swift; sourceTree = "<group>"; };
+		84617ED221886A8E004A3C1D /* ShareScreenScenarioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenScenarioTests.swift; sourceTree = "<group>"; };
+		84617ED421886CA3004A3C1D /* MockCollageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCollageRenderer.swift; sourceTree = "<group>"; };
+		84617ED721888203004A3C1D /* CollageRendererTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageRendererTests.swift; sourceTree = "<group>"; };
+		84617EDB2188919E004A3C1D /* test_img_hq */ = {isa = PBXFileReference; lastKnownFileType = file; path = test_img_hq; sourceTree = "<group>"; };
 		846AA2C82142689500DF92FD /* CameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAuthService.swift; sourceTree = "<group>"; };
 		846F8D532167B162006EED5A /* GradientButtonTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientButtonTestCase.swift; sourceTree = "<group>"; };
 		84706AA021821E6C007F4B98 /* CollageSceneScenarioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSceneScenarioTests.swift; sourceTree = "<group>"; };
@@ -201,9 +216,8 @@
 		84E40813214BC5C1006764D0 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickerViewController.swift; sourceTree = "<group>"; };
 		84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplateProvider.swift; sourceTree = "<group>"; };
-		84E425C521773B2900CE98BE /* TemplateViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateViewTest.swift; sourceTree = "<group>"; };
+		84E425C521773B2900CE98BE /* TemplatePickerScenarioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickerScenarioTests.swift; sourceTree = "<group>"; };
 		84EFDF152177712300ABA6D2 /* TemplatePickerRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickerRobot.swift; sourceTree = "<group>"; };
-		84EFDF17217773C500ABA6D2 /* TemplatePickerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickerTest.swift; sourceTree = "<group>"; };
 		84EFDF192177860400ABA6D2 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		84F454BD2158E3E80079CE6C /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		84F454BF2158E4A10079CE6C /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
@@ -322,6 +336,7 @@
 		843A580D21144761002FE28D /* CollageMakerTests */ = {
 			isa = PBXGroup;
 			children = (
+				84617ED62188813E004A3C1D /* UITests */,
 				84E425C421773B2900CE98BE /* UnitTests */,
 				844CDD212165FE7500AF3B8E /* SnapshotTests */,
 				847B84522179DD9E00AD685A /* Sources */,
@@ -348,7 +363,6 @@
 				840CC3EA21623FE5001C3C5C /* ShareToolbar.swift */,
 				840CC3EC216241E0001C3C5C /* ShareButton.swift */,
 				843F547121625BD700411A33 /* ShareScreenFooter.swift */,
-				84706AA72183128E007F4B98 /* ShareService.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -356,6 +370,7 @@
 		844CDD212165FE7500AF3B8E /* SnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
+				84617EC721884FF8004A3C1D /* ReferenceImages_64 */,
 				844CDD2F2166180D00AF3B8E /* Sources */,
 			);
 			path = SnapshotTests;
@@ -425,8 +440,12 @@
 			isa = PBXGroup;
 			children = (
 				844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */,
+				84617EC921885050004A3C1D /* MockPhotoAuthService.swift */,
+				84617ECB2188509D004A3C1D /* MockCameraAuthService.swift */,
 				8416A4C2216B8A6300DC6916 /* BundleClass.swift */,
 				8416A4C4216B8AE700DC6916 /* ImageStub.swift */,
+				84617ECD21885453004A3C1D /* MockShareService.swift */,
+				84617ED421886CA3004A3C1D /* MockCollageRenderer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -434,9 +453,31 @@
 		844CDD3F2166317200AF3B8E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				844CDD3A2166276D00AF3B8E /* test_img.png */,
+				84617EDB2188919E004A3C1D /* test_img_hq */,
+				844CDD3A2166276D00AF3B8E /* test_img */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		84617ED121885B8D004A3C1D /* ShareScreenTests */ = {
+			isa = PBXGroup;
+			children = (
+				84617ECF21885B87004A3C1D /* ShareScreenRobot.swift */,
+				84617ED221886A8E004A3C1D /* ShareScreenScenarioTests.swift */,
+			);
+			path = ShareScreenTests;
+			sourceTree = "<group>";
+		};
+		84617ED62188813E004A3C1D /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				84706AA621830175007F4B98 /* CollageNavigationTests */,
+				847B84502179DD1B00AD685A /* CollageSceneTests */,
+				84EFDF14217770EB00ABA6D2 /* TemplatePickerTests */,
+				84617ED121885B8D004A3C1D /* ShareScreenTests */,
+				84C98D33217877DF0096BFB4 /* Robot.swift */,
+			);
+			path = UITests;
 			sourceTree = "<group>";
 		};
 		846F8D552167B16E006EED5A /* Views */ = {
@@ -452,8 +493,8 @@
 		84706AA621830175007F4B98 /* CollageNavigationTests */ = {
 			isa = PBXGroup;
 			children = (
-				84706AA22183012D007F4B98 /* CollageNavigationTest.swift */,
 				84706AA421830171007F4B98 /* CollageNavigationRobot.swift */,
+				84706AA22183012D007F4B98 /* CollageNavigationTest.swift */,
 			);
 			path = CollageNavigationTests;
 			sourceTree = "<group>";
@@ -462,6 +503,7 @@
 			isa = PBXGroup;
 			children = (
 				8496B140214AA9AF00FE45FE /* PhotoLibrary.swift */,
+				84706AA72183128E007F4B98 /* ShareService.swift */,
 				84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */,
 				8417D1B7211DC1C500334661 /* CollageRenderer.swift */,
 				F62618AE2141570300CD94AE /* PhotoAuthService.swift */,
@@ -666,11 +708,8 @@
 		84E425C421773B2900CE98BE /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				84706AA621830175007F4B98 /* CollageNavigationTests */,
-				847B84502179DD1B00AD685A /* CollageSceneTests */,
-				84EFDF14217770EB00ABA6D2 /* TemplatePickerTests */,
 				847B84512179DD3E00AD685A /* Model */,
-				84C98D33217877DF0096BFB4 /* Robot.swift */,
+				84617ED721888203004A3C1D /* CollageRendererTests.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -679,8 +718,7 @@
 			isa = PBXGroup;
 			children = (
 				84EFDF152177712300ABA6D2 /* TemplatePickerRobot.swift */,
-				84E425C521773B2900CE98BE /* TemplateViewTest.swift */,
-				84EFDF17217773C500ABA6D2 /* TemplatePickerTest.swift */,
+				84E425C521773B2900CE98BE /* TemplatePickerScenarioTests.swift */,
 			);
 			path = TemplatePickerTests;
 			sourceTree = "<group>";
@@ -804,7 +842,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8416A515216BC31B00DC6916 /* test_img.png in Resources */,
+				84617EDC2188919E004A3C1D /* test_img_hq in Resources */,
+				84617EC821884FF8004A3C1D /* ReferenceImages_64 in Resources */,
+				8416A515216BC31B00DC6916 /* test_img in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -975,11 +1015,9 @@
 				84868BC42138358500E12152 /* CollageBarItem.swift in Sources */,
 				525EC52B214C26AB009E5393 /* TemplatesContainerView.swift in Sources */,
 				841469672126EEE400C2838A /* UIColor.swift in Sources */,
-				84EFDF1221776CAE00ABA6D2 /* ImageStub.swift in Sources */,
 				84868BC22138323E00E12152 /* CollageToolbar.swift in Sources */,
 				843F547221625BD700411A33 /* ShareScreenFooter.swift in Sources */,
 				8496B141214AA9AF00FE45FE /* PhotoLibrary.swift in Sources */,
-				84EFDF1321776CB800ABA6D2 /* BundleClass.swift in Sources */,
 				84023CC421369CDA00FF2CC6 /* RelativeFrame.swift in Sources */,
 				84F454C02158E4A10079CE6C /* PlusView.swift in Sources */,
 				84E40818214C03D3006764D0 /* CollageTemplateProvider.swift in Sources */,
@@ -1007,11 +1045,13 @@
 				84706AA121821E6C007F4B98 /* CollageSceneScenarioTests.swift in Sources */,
 				844DF4722179C4F800A7B0C4 /* TemplateControllerViewTestCase.swift in Sources */,
 				844DF4732179C50000A7B0C4 /* SelectionViewTestCase.swift in Sources */,
+				84617ED521886CA3004A3C1D /* MockCollageRenderer.swift in Sources */,
 				844DF46D2179C4D900A7B0C4 /* TemplatePickerRobot.swift in Sources */,
-				844DF46F2179C4D900A7B0C4 /* TemplatePickerTest.swift in Sources */,
 				84706AA32183012D007F4B98 /* CollageNavigationTest.swift in Sources */,
 				8416A50B216BAB9400DC6916 /* BundleClass.swift in Sources */,
+				84617ED021885B87004A3C1D /* ShareScreenRobot.swift in Sources */,
 				84868BBE2137F33900E12152 /* CollageTests.swift in Sources */,
+				84617ECC2188509D004A3C1D /* MockCameraAuthService.swift in Sources */,
 				844DF4702179C4D900A7B0C4 /* Robot.swift in Sources */,
 				844DF4762179C50800A7B0C4 /* AttributedTextLabelTestCase.swift in Sources */,
 				8416A511216BC0D100DC6916 /* MockPhotoLibrary.swift in Sources */,
@@ -1019,7 +1059,11 @@
 				844DF4782179C50F00A7B0C4 /* TemplateBarCollectionViewCellTestCase.swift in Sources */,
 				844DF4712179C4D900A7B0C4 /* CollageSceneRobot.swift in Sources */,
 				844DF4752179C50800A7B0C4 /* GradientButtonTestCase.swift in Sources */,
-				844DF46E2179C4D900A7B0C4 /* TemplateViewTest.swift in Sources */,
+				84617ED821888203004A3C1D /* CollageRendererTests.swift in Sources */,
+				84617ECE21885453004A3C1D /* MockShareService.swift in Sources */,
+				84617ECA21885050004A3C1D /* MockPhotoAuthService.swift in Sources */,
+				84617ED321886A8E004A3C1D /* ShareScreenScenarioTests.swift in Sources */,
+				844DF46E2179C4D900A7B0C4 /* TemplatePickerScenarioTests.swift in Sources */,
 				844DF4742179C50000A7B0C4 /* ImagePickerCollectionViewCellTestCase.swift in Sources */,
 				8416A50C216BAB9400DC6916 /* ImageStub.swift in Sources */,
 				B7B173AFBF9441FE4B79C877 /* EarlGrey.swift in Sources */,

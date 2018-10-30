@@ -14,10 +14,6 @@ protocol ImagePickerCollectionViewControllerDelegate: AnyObject {
 class ImagePickerCollectionViewController: CollageBaseViewController {
     weak var delegate: ImagePickerCollectionViewControllerDelegate?
 
-    var maxSelectedCellsAllowed: Int {
-        return mode.maxSelectedCells
-    }
-
     enum SelectionMode {
         case single
         case multiply(Int)
@@ -28,6 +24,10 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
             default: return 1
             }
         }
+    }
+
+    var maxSelectedCellsAllowed: Int {
+        return mode.maxSelectedCells
     }
 
     var photoAssets: [PHAsset] = [] {
@@ -197,10 +197,9 @@ extension ImagePickerCollectionViewController: UICollectionViewDataSource {
             return cell
         }
 
-        let assetForCell = photoAssets[indexPath.row]
         pickerCell.setupIdentifier(with: indexPath.row)
 
-        context.photoLibrary.photo(with: assetForCell, deliveryMode: .opportunistic, size: pickerCell.bounds.size.scaled(by: 3)) { image in
+        context.photoLibrary.photo(with: photoAssets[indexPath.row], deliveryMode: .opportunistic, size: pickerCell.bounds.size.scaled(by: 3)) { image in
             pickerCell.image = image
         }
 

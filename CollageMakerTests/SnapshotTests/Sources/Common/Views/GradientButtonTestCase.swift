@@ -36,7 +36,7 @@ class GradientButtonTestCase: FBSnapshotTestCase {
     }
 
     func testWithImage() {
-        let image = UIImage.test
+        let image = UIImage.testing
         button.setImage(image, for: .normal)
 
         FBSnapshotVerifyView(button)

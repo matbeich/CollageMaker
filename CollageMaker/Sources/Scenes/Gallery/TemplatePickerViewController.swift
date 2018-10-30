@@ -121,11 +121,6 @@ class TemplatePickerViewController: CollageBaseViewController {
     }
 
     private func select(template: CollageTemplate) {
-        if Environment.isTestEnvironment {
-            let collage = Collage()
-            navigationController?.pushViewController(CollageSceneViewController(collage: collage, templates: templateController.templates, context: context), animated: true)
-        }
-
         delegate?.templatePickerViewController(self, templateController: self.templateController, didSelectTemplate: template)
     }
 

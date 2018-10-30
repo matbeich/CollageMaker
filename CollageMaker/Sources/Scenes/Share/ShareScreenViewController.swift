@@ -46,9 +46,7 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     @objc private func cancel() {
-        if Environment.isTestEnvironment {
-            collageNavigationController?.pop()
-        }
+        if Environment.isTestEnvironment { collageNavigationController?.pop() }
 
         delegate?.shareScreenViewControllerDidCancel(self)
     }
@@ -115,8 +113,7 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     private func shareToOther(content: ShareContent) {
-        let settings = ActivityShareSettings()
-        Pigeon.shared.share(content, in: self, from: view.frame, settings: settings, with: nil)
+        context.shareService.shareToOther(content, in: self, with: nil)
     }
 
     private func shareToInstagram(content: ShareContent) {
