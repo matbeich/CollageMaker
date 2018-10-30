@@ -33,8 +33,7 @@
 		843F547221625BD700411A33 /* ShareScreenFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F547121625BD700411A33 /* ShareScreenFooter.swift */; };
 		84434D9E214808DF0060B76B /* ShareScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84434D9D214808DF0060B76B /* ShareScreenViewController.swift */; };
 		844DF46D2179C4D900A7B0C4 /* TemplatePickerRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFDF152177712300ABA6D2 /* TemplatePickerRobot.swift */; };
-		844DF46E2179C4D900A7B0C4 /* TemplateViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E425C521773B2900CE98BE /* TemplateViewTest.swift */; };
-		844DF46F2179C4D900A7B0C4 /* TemplatePickerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFDF17217773C500ABA6D2 /* TemplatePickerTest.swift */; };
+		844DF46E2179C4D900A7B0C4 /* TemplatePickerScenarioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E425C521773B2900CE98BE /* TemplatePickerScenarioTests.swift */; };
 		844DF4702179C4D900A7B0C4 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C98D33217877DF0096BFB4 /* Robot.swift */; };
 		844DF4712179C4D900A7B0C4 /* CollageSceneRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F310E2178CBF6007F9AF9 /* CollageSceneRobot.swift */; };
 		844DF4722179C4F800A7B0C4 /* TemplateControllerViewTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD342166188100AF3B8E /* TemplateControllerViewTestCase.swift */; };
@@ -46,6 +45,13 @@
 		844DF4782179C50F00A7B0C4 /* TemplateBarCollectionViewCellTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD3821661FC200AF3B8E /* TemplateBarCollectionViewCellTestCase.swift */; };
 		845044332151362600B082E1 /* CollageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845044322151362600B082E1 /* CollageTemplate.swift */; };
 		845C2100216CB62800049976 /* SFCompactDisplay-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */; };
+		84617EC821884FF8004A3C1D /* ReferenceImages_64 in Resources */ = {isa = PBXBuildFile; fileRef = 84617EC721884FF8004A3C1D /* ReferenceImages_64 */; };
+		84617ECA21885050004A3C1D /* MockPhotoAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617EC921885050004A3C1D /* MockPhotoAuthService.swift */; };
+		84617ECC2188509D004A3C1D /* MockCameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ECB2188509D004A3C1D /* MockCameraAuthService.swift */; };
+		84617ECE21885453004A3C1D /* MockShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ECD21885453004A3C1D /* MockShareService.swift */; };
+		84617ED021885B87004A3C1D /* ShareScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ECF21885B87004A3C1D /* ShareScreenRobot.swift */; };
+		84617ED321886A8E004A3C1D /* ShareScreenScenarioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ED221886A8E004A3C1D /* ShareScreenScenarioTests.swift */; };
+		84617ED521886CA3004A3C1D /* MockCollageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84617ED421886CA3004A3C1D /* MockCollageRenderer.swift */; };
 		846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846AA2C82142689500DF92FD /* CameraAuthService.swift */; };
 		84706AA121821E6C007F4B98 /* CollageSceneScenarioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84706AA021821E6C007F4B98 /* CollageSceneScenarioTests.swift */; };
 		84706AA32183012D007F4B98 /* CollageNavigationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84706AA22183012D007F4B98 /* CollageNavigationTest.swift */; };
@@ -165,6 +171,13 @@
 		844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPhotoLibrary.swift; sourceTree = "<group>"; };
 		845044322151362600B082E1 /* CollageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplate.swift; sourceTree = "<group>"; };
 		845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.otf"; sourceTree = "<group>"; };
+		84617EC721884FF8004A3C1D /* ReferenceImages_64 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ReferenceImages_64; path = CollageMakerTests/ReferenceImages_64; sourceTree = SOURCE_ROOT; };
+		84617EC921885050004A3C1D /* MockPhotoAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPhotoAuthService.swift; sourceTree = "<group>"; };
+		84617ECB2188509D004A3C1D /* MockCameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCameraAuthService.swift; sourceTree = "<group>"; };
+		84617ECD21885453004A3C1D /* MockShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockShareService.swift; sourceTree = "<group>"; };
+		84617ECF21885B87004A3C1D /* ShareScreenRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenRobot.swift; sourceTree = "<group>"; };
+		84617ED221886A8E004A3C1D /* ShareScreenScenarioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScreenScenarioTests.swift; sourceTree = "<group>"; };
+		84617ED421886CA3004A3C1D /* MockCollageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCollageRenderer.swift; sourceTree = "<group>"; };
 		846AA2C82142689500DF92FD /* CameraAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAuthService.swift; sourceTree = "<group>"; };
 		846F8D532167B162006EED5A /* GradientButtonTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientButtonTestCase.swift; sourceTree = "<group>"; };
 		84706AA021821E6C007F4B98 /* CollageSceneScenarioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSceneScenarioTests.swift; sourceTree = "<group>"; };
@@ -201,9 +214,8 @@
 		84E40813214BC5C1006764D0 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		84E40815214BDD73006764D0 /* TemplatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickerViewController.swift; sourceTree = "<group>"; };
 		84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTemplateProvider.swift; sourceTree = "<group>"; };
-		84E425C521773B2900CE98BE /* TemplateViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateViewTest.swift; sourceTree = "<group>"; };
+		84E425C521773B2900CE98BE /* TemplatePickerScenarioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickerScenarioTests.swift; sourceTree = "<group>"; };
 		84EFDF152177712300ABA6D2 /* TemplatePickerRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickerRobot.swift; sourceTree = "<group>"; };
-		84EFDF17217773C500ABA6D2 /* TemplatePickerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickerTest.swift; sourceTree = "<group>"; };
 		84EFDF192177860400ABA6D2 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		84F454BD2158E3E80079CE6C /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		84F454BF2158E4A10079CE6C /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
@@ -348,7 +360,6 @@
 				840CC3EA21623FE5001C3C5C /* ShareToolbar.swift */,
 				840CC3EC216241E0001C3C5C /* ShareButton.swift */,
 				843F547121625BD700411A33 /* ShareScreenFooter.swift */,
-				84706AA72183128E007F4B98 /* ShareService.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -356,6 +367,7 @@
 		844CDD212165FE7500AF3B8E /* SnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
+				84617EC721884FF8004A3C1D /* ReferenceImages_64 */,
 				844CDD2F2166180D00AF3B8E /* Sources */,
 			);
 			path = SnapshotTests;
@@ -425,8 +437,12 @@
 			isa = PBXGroup;
 			children = (
 				844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */,
+				84617EC921885050004A3C1D /* MockPhotoAuthService.swift */,
+				84617ECB2188509D004A3C1D /* MockCameraAuthService.swift */,
 				8416A4C2216B8A6300DC6916 /* BundleClass.swift */,
 				8416A4C4216B8AE700DC6916 /* ImageStub.swift */,
+				84617ECD21885453004A3C1D /* MockShareService.swift */,
+				84617ED421886CA3004A3C1D /* MockCollageRenderer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -437,6 +453,15 @@
 				844CDD3A2166276D00AF3B8E /* test_img.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		84617ED121885B8D004A3C1D /* ShareScreenTests */ = {
+			isa = PBXGroup;
+			children = (
+				84617ECF21885B87004A3C1D /* ShareScreenRobot.swift */,
+				84617ED221886A8E004A3C1D /* ShareScreenScenarioTests.swift */,
+			);
+			path = ShareScreenTests;
 			sourceTree = "<group>";
 		};
 		846F8D552167B16E006EED5A /* Views */ = {
@@ -462,6 +487,7 @@
 			isa = PBXGroup;
 			children = (
 				8496B140214AA9AF00FE45FE /* PhotoLibrary.swift */,
+				84706AA72183128E007F4B98 /* ShareService.swift */,
 				84E40817214C03D3006764D0 /* CollageTemplateProvider.swift */,
 				8417D1B7211DC1C500334661 /* CollageRenderer.swift */,
 				F62618AE2141570300CD94AE /* PhotoAuthService.swift */,
@@ -669,6 +695,7 @@
 				84706AA621830175007F4B98 /* CollageNavigationTests */,
 				847B84502179DD1B00AD685A /* CollageSceneTests */,
 				84EFDF14217770EB00ABA6D2 /* TemplatePickerTests */,
+				84617ED121885B8D004A3C1D /* ShareScreenTests */,
 				847B84512179DD3E00AD685A /* Model */,
 				84C98D33217877DF0096BFB4 /* Robot.swift */,
 			);
@@ -679,8 +706,7 @@
 			isa = PBXGroup;
 			children = (
 				84EFDF152177712300ABA6D2 /* TemplatePickerRobot.swift */,
-				84E425C521773B2900CE98BE /* TemplateViewTest.swift */,
-				84EFDF17217773C500ABA6D2 /* TemplatePickerTest.swift */,
+				84E425C521773B2900CE98BE /* TemplatePickerScenarioTests.swift */,
 			);
 			path = TemplatePickerTests;
 			sourceTree = "<group>";
@@ -804,6 +830,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84617EC821884FF8004A3C1D /* ReferenceImages_64 in Resources */,
 				8416A515216BC31B00DC6916 /* test_img.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1007,11 +1034,13 @@
 				84706AA121821E6C007F4B98 /* CollageSceneScenarioTests.swift in Sources */,
 				844DF4722179C4F800A7B0C4 /* TemplateControllerViewTestCase.swift in Sources */,
 				844DF4732179C50000A7B0C4 /* SelectionViewTestCase.swift in Sources */,
+				84617ED521886CA3004A3C1D /* MockCollageRenderer.swift in Sources */,
 				844DF46D2179C4D900A7B0C4 /* TemplatePickerRobot.swift in Sources */,
-				844DF46F2179C4D900A7B0C4 /* TemplatePickerTest.swift in Sources */,
 				84706AA32183012D007F4B98 /* CollageNavigationTest.swift in Sources */,
 				8416A50B216BAB9400DC6916 /* BundleClass.swift in Sources */,
+				84617ED021885B87004A3C1D /* ShareScreenRobot.swift in Sources */,
 				84868BBE2137F33900E12152 /* CollageTests.swift in Sources */,
+				84617ECC2188509D004A3C1D /* MockCameraAuthService.swift in Sources */,
 				844DF4702179C4D900A7B0C4 /* Robot.swift in Sources */,
 				844DF4762179C50800A7B0C4 /* AttributedTextLabelTestCase.swift in Sources */,
 				8416A511216BC0D100DC6916 /* MockPhotoLibrary.swift in Sources */,
@@ -1019,7 +1048,10 @@
 				844DF4782179C50F00A7B0C4 /* TemplateBarCollectionViewCellTestCase.swift in Sources */,
 				844DF4712179C4D900A7B0C4 /* CollageSceneRobot.swift in Sources */,
 				844DF4752179C50800A7B0C4 /* GradientButtonTestCase.swift in Sources */,
-				844DF46E2179C4D900A7B0C4 /* TemplateViewTest.swift in Sources */,
+				84617ECE21885453004A3C1D /* MockShareService.swift in Sources */,
+				84617ECA21885050004A3C1D /* MockPhotoAuthService.swift in Sources */,
+				84617ED321886A8E004A3C1D /* ShareScreenScenarioTests.swift in Sources */,
+				844DF46E2179C4D900A7B0C4 /* TemplatePickerScenarioTests.swift in Sources */,
 				844DF4742179C50000A7B0C4 /* ImagePickerCollectionViewCellTestCase.swift in Sources */,
 				8416A50C216BAB9400DC6916 /* ImageStub.swift in Sources */,
 				B7B173AFBF9441FE4B79C877 /* EarlGrey.swift in Sources */,

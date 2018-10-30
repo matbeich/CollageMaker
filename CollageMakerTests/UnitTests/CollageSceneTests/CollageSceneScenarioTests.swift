@@ -18,16 +18,6 @@ enum NavigationControllerElements: RobotElement {
     }
 }
 
-enum ShareScreenElements: RobotElement {
-    case shareFooter
-
-    var id: String {
-        switch self {
-        case .shareFooter: return Accessibility.View.shareFooter.id
-        }
-    }
-}
-
 @testable import CollageMaker
 import EarlGrey
 import XCTest
@@ -41,6 +31,12 @@ class CollageSceneScenarioTests: XCTestCase {
         robot = CollageSceneRobot()
     }
 
+    override func tearDown() {
+        robot = nil
+
+        super.tearDown()
+    }
+
     func testShareScreenOpening() {
         robot.tap(NavigationControllerElements.share)
             .expect(ShareScreenElements.shareFooter, isVisible: true)
@@ -48,17 +44,17 @@ class CollageSceneScenarioTests: XCTestCase {
             .expect(CollageSceneElements.collageView, isVisible: true)
     }
 
-    func testHorizontalSplit() {
-        robot.splitHorizontaly()
+    func testSplitHorizontal() {
+        robot.splitBy(axis: .horizontal)
     }
 
-    func testSplitCellHorizontalyAndAddImage() {
-        robot.splitHorizontaly()
+    func testSplitVerticalAndAddImage() {
+        robot.splitBy(axis: .vertical)
             .addImage()
     }
 
     func testSplitAndRemoveCell() {
-        robot.splitVerticaly()
+        robot.splitBy(axis: .vertical)
             .deleteCell()
     }
 }

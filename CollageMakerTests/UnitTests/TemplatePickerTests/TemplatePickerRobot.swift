@@ -35,8 +35,8 @@ class TemplatePickerRobot: Robot {
     var context: AppContext
     var controller: TemplatePickerViewController
 
-    init(library: PhotoLibraryType = MockPhotoLibrary(assetsCount: 100)) {
-        self.context = AppContext(photoLibrary: library)
+    init(context: AppContext = .mock) {
+        self.context = context
         self.controller = TemplatePickerViewController(context: context)
         self.window = UIWindow(frame: CGRect(origin: .zero, size: CGSize(width: 375.0, height: 667.0)))
         self.window.rootViewController = CollageNavigationController(rootViewController: controller)
@@ -44,7 +44,7 @@ class TemplatePickerRobot: Robot {
     }
 
     @discardableResult
-    func selectImage(at index: UInt) -> TemplatePickerRobot {
+    func selectImage(at index: UInt) -> Robot {
         if selected.contains(index) { return self }
 
         selected.insert(index)
@@ -53,10 +53,10 @@ class TemplatePickerRobot: Robot {
     }
 
     @discardableResult
-    func deselectAllImages() -> TemplatePickerRobot {
+    func deselectAllImages() -> Self {
         selected.forEach(deselectImage(at:))
 
-        return self
+        return self.expect(TemplatePickerElements.templateView, isVisible: false)
     }
 
     func deselectImage(at index: UInt) {
@@ -64,22 +64,28 @@ class TemplatePickerRobot: Robot {
     }
 
     @discardableResult
-    func selectAnyImage() -> TemplatePickerRobot {
-        let randomIndex = UInt(arc4random_uniform(UInt32(controller.selectedCellsCount)))
-        selectImage(at: randomIndex)
+    func selectFirstImage() -> Self {
+        selectImage(at: 0)
 
         return self
     }
 
     @discardableResult
-    func selectTemplate(at index: UInt) -> CollageSceneRobot {
+    func selectFirstTemplate() -> Robot {
+        return self.expect(TemplatePickerElements.templateView, isVisible: true)
+            .selectTemplate(at: 0)
+            .expect(CollageSceneElements.collageView, isVisible: true)
+    }
+
+    @discardableResult
+    func selectTemplate(at index: UInt) -> Robot {
         template(at: index).perform(grey_tap())
 
         return CollageSceneRobot()
     }
 
     @discardableResult
-    func expect(_ element: RobotElement, isVisible: Bool) -> TemplatePickerRobot {
+    func expect(_ element: RobotElement, isVisible: Bool) -> Self {
         if element.id == Accessibility.View.templateView.id {
             let assertion = GREYAssertions.isFullyOnScreen(isVisible)
             element.greyInteraction.assert(assertion)

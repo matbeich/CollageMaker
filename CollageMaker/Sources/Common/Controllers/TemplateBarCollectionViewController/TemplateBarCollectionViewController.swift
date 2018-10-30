@@ -55,7 +55,7 @@ class TemplateBarCollectionViewController: UICollectionViewController {
             collageView.collage = collage
             collageView.saveCellsVisibleFrames()
 
-            self?.context.collageRenderer.renderAsyncImage(from: collageView.collage, with: collageView.bounds.size) { image in
+            self?.context.collageRenderer.renderAsyncImage(from: collageView.collage, with: collageView.bounds.size, borders: true) { image in
                 callback(image)
             }
         }

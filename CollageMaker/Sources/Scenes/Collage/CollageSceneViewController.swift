@@ -141,8 +141,8 @@ class CollageSceneViewController: CollageBaseViewController {
 
     private let context: AppContext
     private let toolsBar = CollageToolbar.standart
-    private let templateControllerView = TemplatesContainerView()
-    private var collageViewController = CollageViewController()
+    let collageViewController = CollageViewController()
+    let templateControllerView = TemplatesContainerView()
     private var templateBarController: TemplateBarCollectionViewController
 }
 

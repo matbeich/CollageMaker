@@ -9,18 +9,28 @@ import Utils
 typealias SavePhotoCompletion = (Bool, PHAsset?) -> Void
 
 protocol ShareServiceType {
+    var lastShareDestination: ShareDestination? { get }
+
     func shareToMessages(_ content: Shareable, in controller: UIViewController, with completion: ShareCompletion?)
     func shareToInstagram(_ content: Shareable, in controller: UIViewController, with completion: ShareCompletion?)
     func saveToPhotos(_ content: Shareable, in controller: UIViewController, with completion: SavePhotoCompletion?)
+    func shareToOther(_ content: Shareable, in controller: UIViewController, with completion: ShareCompletion?)
 }
 
 final class ShareService: ShareServiceType {
+    var lastShareDestination: ShareDestination?
 
     init(photoLibrary: PhotoLibraryType = PhotoLibrary()) {
         self.photoLibrary = photoLibrary
     }
 
+    func shareToOther(_ content: Shareable, in controller: UIViewController, with completion: ShareCompletion?) {
+        lastShareDestination = .other
+        Pigeon.shared.share(content, in: controller, from: controller.view.frame, settings: ActivityShareSettings(), with: nil)
+    }
+
     func shareToMessages(_ content: Shareable, in controller: UIViewController, with completion: ShareCompletion?) {
+        lastShareDestination = .messages
         Pigeon.shared.shareToMessages(content, in: controller, with: completion)
     }
 
@@ -46,6 +56,7 @@ final class ShareService: ShareServiceType {
             return
         }
 
+        lastShareDestination = .instagram
         openInstagram(withAssetId: currentImageAsset.localIdentifier)
     }
 
@@ -54,6 +65,7 @@ final class ShareService: ShareServiceType {
             return
         }
 
+        lastShareDestination = .photos
         photoLibrary.add(image) { [weak self] succes, asset in
             guard let `self` = self else {
                 return

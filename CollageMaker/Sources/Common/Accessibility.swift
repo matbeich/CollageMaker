@@ -58,6 +58,10 @@ struct Accessibility {
         case horizontalButton
         case verticalButton
         case addImageButton
+        case instagramButton
+        case messagesButton
+        case photosButton
+        case otherButton
 
         var value: String {
             switch self {
@@ -65,6 +69,10 @@ struct Accessibility {
             case .verticalButton: return "split_vertical_button"
             case .addImageButton: return "add_image_button"
             case .deleteButton: return "delete_button"
+            case .instagramButton: return "instagram_button"
+            case .messagesButton: return "messages_button"
+            case .otherButton: return "other_button"
+            case .photosButton: return "photos_button"
             }
         }
 

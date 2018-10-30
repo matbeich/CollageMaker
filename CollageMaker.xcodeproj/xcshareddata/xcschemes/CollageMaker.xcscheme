@@ -38,56 +38,6 @@
                ReferencedContainer = "container:CollageMaker.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84E425B321760E3200CE98BE"
-               BuildableName = "CollageMakerUITests.xctest"
-               BlueprintName = "CollageMakerUITests"
-               ReferencedContainer = "container:CollageMaker.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8416A4F7216BA6C300DC6916"
-               BuildableName = "SnapshotTests.xctest"
-               BlueprintName = "SnapshotTests"
-               ReferencedContainer = "container:CollageMaker.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8416A4CD216BA30300DC6916"
-               BuildableName = "CollageMakerTesting.xctest"
-               BlueprintName = "CollageMakerTesting"
-               ReferencedContainer = "container:CollageMaker.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8416A4E6216BA57C00DC6916"
-               BuildableName = "CollageMakerTests2.xctest"
-               BlueprintName = "CollageMakerTests2"
-               ReferencedContainer = "container:CollageMaker.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84E425C221773B2900CE98BE"
-               BuildableName = "CollageMakerUnitTests.xctest"
-               BlueprintName = "CollageMakerUnitTests"
-               ReferencedContainer = "container:CollageMaker.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
@@ -102,6 +52,16 @@
          <EnvironmentVariable
             key = "DYLD_INSERT_LIBRARIES"
             value = "@executable_path/EarlGrey.framework/EarlGrey"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "FB_REFERENCE_IMAGE_DIR"
+            value = "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/ReferenceImages"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "IMAGE_DIFF_DIR"
+            value = "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/FailureDiffs"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

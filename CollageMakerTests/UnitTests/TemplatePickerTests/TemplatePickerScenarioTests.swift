@@ -6,7 +6,7 @@
 import EarlGrey
 import XCTest
 
-class TemplateViewTest: XCTestCase {
+class TemplatePickerScenarioTests: XCTestCase {
     var robot: TemplatePickerRobot!
 
     override func setUp() {
@@ -22,17 +22,13 @@ class TemplateViewTest: XCTestCase {
     }
 
     func testTemplateViewChangesVisibility() {
-        robot.expect(TemplatePickerElements.templateView, isVisible: false)
-            .selectAnyImage()
+        robot.selectFirstImage()
             .expect(TemplatePickerElements.templateView, isVisible: true)
             .deselectAllImages()
-            .expect(TemplatePickerElements.templateView, isVisible: false)
     }
 
     func testCollageSceneOpening() {
-        robot.selectAnyImage()
-            .expect(TemplatePickerElements.templateView, isVisible: true)
-            .selectTemplate(at: 0)
-            .expect(CollageSceneElements.collageView, isVisible: true)
+        robot.selectFirstImage()
+            .selectFirstTemplate()
     }
 }

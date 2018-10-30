@@ -12,8 +12,8 @@ class CollageNavigationRobot: Robot {
     var startController: CollageBaseViewController
     var controller: CollageNavigationController
 
-    init(library: PhotoLibraryType = MockPhotoLibrary(assetsCount: 100)) {
-        self.context = AppContext(photoLibrary: library)
+    init(context: AppContext = .mock) {
+        self.context = context
         self.startController = TemplatePickerViewController(context: context)
         self.controller = CollageNavigationController(rootViewController: startController)
 
@@ -31,5 +31,15 @@ class CollageNavigationRobot: Robot {
             .expect(CollageSceneElements.collageView, isVisible: true)
 
         return self
+    }
+}
+
+extension AppContext {
+    static var mock: AppContext {
+        return AppContext(photoLibrary: MockPhotoLibrary(assetsCount: 50),
+                          collageRenderer: MockCollageRenderer(),
+                          cameraAuthService: MockCameraAuthService(),
+                          photoAuthService: MockPhotoAuthService(),
+                          shareService: MockShareService())
     }
 }

@@ -14,6 +14,8 @@ protocol CollageViewControllerDelegate: AnyObject {
 class CollageViewController: CollageBaseViewController {
     weak var delegate: CollageViewControllerDelegate?
 
+    let collageView = CollageView()
+
     var collage: Collage {
         get {
             return collageView.collage
@@ -106,7 +108,6 @@ class CollageViewController: CollageBaseViewController {
     }
 
     private var savedCollage: Collage?
-    private let collageView = CollageView()
     private var selectedGripPosition: GripPosition?
 }
 
