@@ -6,12 +6,19 @@
 import Photos
 
 class MockPhotoLibrary: PhotoLibraryType {
+    enum Quality {
+        case high
+        case medium
+    }
+
+    var quality: Quality
     var assets: [PHAsset]
 
     weak var delegate: PhotoLibraryDelegate?
 
-    init(assetsCount: Int) {
+    init(assetsCount: Int = 50, quality: Quality = .medium) {
         self.assets = Array(1 ... assetsCount).map { _ in PHAsset() }
+        self.quality = quality
     }
 
     func stopCaching() {}
@@ -27,10 +34,13 @@ class MockPhotoLibrary: PhotoLibraryType {
     func cacheImages(with assets: [PHAsset]) {}
 
     func photo(with asset: PHAsset, deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize?, callback: @escaping PhotoCompletion) {
-        callback(UIImage.test)
+        callback(quality == .medium ? UIImage.testing : UIImage.testingHQ)
     }
 
     func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize, callback: @escaping PhotosCompletion) {
-        callback(assets.compactMap { _ in UIImage.test })
+        callback(assets.compactMap { _ in
+            let img = quality == .medium ? UIImage.testing : UIImage.testingHQ
+            return img
+        })
     }
 }

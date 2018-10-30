@@ -5,7 +5,11 @@
 import UIKit
 
 extension UIImage {
-    static var test: UIImage? {
-        return UIImage(named: "test_img.png", in: Bundle.test, compatibleWith: nil)
+    static var testing: UIImage? {
+        return UIImage(named: "test_img", in: Bundle.test, compatibleWith: nil)
+    }
+
+    static var testingHQ: UIImage? {
+        return UIImage(named: "test_img_hq", in: Bundle.test, compatibleWith: nil)
     }
 }

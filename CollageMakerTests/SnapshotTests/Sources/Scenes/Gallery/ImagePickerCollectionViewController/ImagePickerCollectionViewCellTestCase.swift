@@ -13,7 +13,7 @@ class ImagePickerCollectionViewCellTestCase: FBSnapshotTestCase {
         super.setUp()
         recordMode = false
 
-        let image = UIImage.test
+        let image = UIImage.testing
 
         cell = ImagePickerCollectionViewCell(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 100)))
         cell.image = image

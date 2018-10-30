@@ -29,7 +29,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
     var maxSelectedCellsAllowed: Int {
         return mode.maxSelectedCells
     }
-    
+
     var photoAssets: [PHAsset] = [] {
         willSet {
             context.photoLibrary.stopCaching()
@@ -196,7 +196,7 @@ extension ImagePickerCollectionViewController: UICollectionViewDataSource {
         guard let pickerCell = cell as? ImagePickerCollectionViewCell else {
             return cell
         }
-        
+
         pickerCell.setupIdentifier(with: indexPath.row)
 
         context.photoLibrary.photo(with: photoAssets[indexPath.row], deliveryMode: .opportunistic, size: pickerCell.bounds.size.scaled(by: 3)) { image in
