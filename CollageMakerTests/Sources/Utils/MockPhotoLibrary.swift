@@ -11,14 +11,13 @@ class MockPhotoLibrary: PhotoLibraryType {
         case medium
     }
 
-    var quality: Quality
     var assets: [PHAsset]
 
     weak var delegate: PhotoLibraryDelegate?
 
     init(assetsCount: Int = 50, quality: Quality = .medium) {
         self.assets = Array(1 ... assetsCount).map { _ in PHAsset() }
-        self.quality = quality
+        self.image = quality == .medium ? UIImage.testing : UIImage.testingHQ
     }
 
     func stopCaching() {}
@@ -34,13 +33,12 @@ class MockPhotoLibrary: PhotoLibraryType {
     func cacheImages(with assets: [PHAsset]) {}
 
     func photo(with asset: PHAsset, deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize?, callback: @escaping PhotoCompletion) {
-        callback(quality == .medium ? UIImage.testing : UIImage.testingHQ)
+        callback(image)
     }
 
     func collectPhotos(from assets: [PHAsset], deliveryMode: PHImageRequestOptionsDeliveryMode, size: CGSize, callback: @escaping PhotosCompletion) {
-        callback(assets.compactMap { _ in
-            let img = quality == .medium ? UIImage.testing : UIImage.testingHQ
-            return img
-        })
+        callback(assets.compactMap { _ in image })
     }
+
+    private let image: UIImage?
 }

@@ -105,6 +105,7 @@ final class PhotoLibrary: NSObject, PhotoLibraryType {
     }
 
     private func fetchImagesAssets(count: Int = 0) {
+        assets.removeAll()
         let options = PHFetchOptions()
 
         options.includeAssetSourceTypes = .typeUserLibrary
@@ -144,6 +145,11 @@ final class PhotoLibrary: NSObject, PhotoLibraryType {
 extension PhotoLibrary: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         guard let changeDetails = changeInstance.changeDetails(for: assetsFetchResult) else {
+            return
+        }
+
+        guard changeDetails.hasIncrementalChanges else {
+            fetchImagesAssets()
             return
         }
 
