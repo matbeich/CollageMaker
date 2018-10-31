@@ -4,6 +4,10 @@
 
 import Foundation
 
+struct Config {
+    static let maximumAllowedCellsCount = 9
+}
+
 class AppContext {
     let photoLibrary: PhotoLibraryType
     let collageRenderer: CollageRendererType

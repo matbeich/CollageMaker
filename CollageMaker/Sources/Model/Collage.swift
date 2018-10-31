@@ -12,8 +12,6 @@ enum Axis: String {
 }
 
 struct Collage {
-    static let maximumAllowedCellsCount = 9
-
     var canDeleteCells: Bool {
         return cells.count > 1
     }

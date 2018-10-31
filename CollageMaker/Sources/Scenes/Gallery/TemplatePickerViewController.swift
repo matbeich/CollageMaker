@@ -27,7 +27,7 @@ class TemplatePickerViewController: CollageBaseViewController {
 
     init(context: AppContext) {
         self.context = context
-        self.imagePickerController = ImagePickerCollectionViewController(context: context, selectionMode: .multiply(9))
+        self.imagePickerController = ImagePickerCollectionViewController(context: context, selectionMode: .multiply(Config.maximumAllowedCellsCount))
         self.templateController = TemplateBarCollectionViewController(context: context)
 
         super.init(nibName: nil, bundle: nil)

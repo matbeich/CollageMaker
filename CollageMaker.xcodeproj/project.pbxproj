@@ -75,6 +75,7 @@
 		849B68202121979C0091AD27 /* CollageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B681F2121979C0091AD27 /* CollageViewController.swift */; };
 		849B68222121CA960091AD27 /* TemplateBarCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B68212121CA960091AD27 /* TemplateBarCollectionViewController.swift */; };
 		84A203932153D5C800AB946C /* CellSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A203922153D5C800AB946C /* CellSelectionView.swift */; };
+		84A8D3A621898EDE0018EDB0 /* CollageRendererTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8D3A521898EDE0018EDB0 /* CollageRendererTestCase.swift */; };
 		84A91A5921188E5700108C3B /* CollageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A91A5821188E5700108C3B /* CollageCell.swift */; };
 		84B160342114892600FF4713 /* Collage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B160332114892600FF4713 /* Collage.swift */; };
 		84D389E62125CF5200FCDC67 /* GripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D389E52125CF5200FCDC67 /* GripView.swift */; };
@@ -203,6 +204,7 @@
 		849B681F2121979C0091AD27 /* CollageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageViewController.swift; sourceTree = "<group>"; };
 		849B68212121CA960091AD27 /* TemplateBarCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateBarCollectionViewController.swift; sourceTree = "<group>"; };
 		84A203922153D5C800AB946C /* CellSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSelectionView.swift; sourceTree = "<group>"; };
+		84A8D3A521898EDE0018EDB0 /* CollageRendererTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageRendererTestCase.swift; sourceTree = "<group>"; };
 		84A91A5821188E5700108C3B /* CollageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageCell.swift; sourceTree = "<group>"; };
 		84B160332114892600FF4713 /* Collage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collage.swift; sourceTree = "<group>"; };
 		84C98D33217877DF0096BFB4 /* Robot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 			children = (
 				844CDD302166181D00AF3B8E /* Scenes */,
 				844CDD3621661F8C00AF3B8E /* Common */,
+				84A8D3A721898EE30018EDB0 /* Services */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -668,6 +671,14 @@
 				8496B142214AB93D00FE45FE /* ImagePickerCollectionViewCell.swift */,
 			);
 			path = ImagePickerCollectionViewController;
+			sourceTree = "<group>";
+		};
+		84A8D3A721898EE30018EDB0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				84A8D3A521898EDE0018EDB0 /* CollageRendererTestCase.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		84B160392114A4AD00FF4713 /* Model */ = {
@@ -1056,6 +1067,7 @@
 				844DF4762179C50800A7B0C4 /* AttributedTextLabelTestCase.swift in Sources */,
 				8416A511216BC0D100DC6916 /* MockPhotoLibrary.swift in Sources */,
 				844DF4772179C50800A7B0C4 /* RoundCornersGradientButtonTestCase.swift in Sources */,
+				84A8D3A621898EDE0018EDB0 /* CollageRendererTestCase.swift in Sources */,
 				844DF4782179C50F00A7B0C4 /* TemplateBarCollectionViewCellTestCase.swift in Sources */,
 				844DF4712179C4D900A7B0C4 /* CollageSceneRobot.swift in Sources */,
 				844DF4752179C50800A7B0C4 /* GradientButtonTestCase.swift in Sources */,
