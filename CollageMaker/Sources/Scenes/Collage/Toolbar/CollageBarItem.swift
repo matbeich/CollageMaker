@@ -17,7 +17,7 @@ class CollageBarButtonItem: UIControl {
     let normalStateImage: UIImage
     let tappedStateImage: UIImage
 
-    init(title: String, image: UIImage, tappedImage: UIImage? = nil, action: Selector? = nil) {
+    init(title: String, image: UIImage, tappedImage: UIImage? = nil) {
         self.title = title
         self.normalStateImage = image
 
@@ -35,7 +35,7 @@ class CollageBarButtonItem: UIControl {
     }
 
     convenience init(collageItem: CollageItem) {
-        self.init(title: collageItem.title, image: collageItem.image, tappedImage: nil, action: nil)
+        self.init(title: collageItem.title, image: collageItem.image, tappedImage: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

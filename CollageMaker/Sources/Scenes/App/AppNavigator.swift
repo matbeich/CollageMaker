@@ -2,7 +2,6 @@
 // Copyright © 2018 Dimasno1. All rights reserved. Product:  CollageMaker
 //
 
-import Foundation
 import Photos
 import UIKit
 import Utils
@@ -30,6 +29,7 @@ final class AppNavigator {
 extension AppNavigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
         let templatePickerViewController = TemplatePickerViewController(context: context)
+
         templatePickerViewController.delegate = self
 
         rootViewController.pushViewController(templatePickerViewController, animated: true)
