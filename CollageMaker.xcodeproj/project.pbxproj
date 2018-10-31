@@ -77,6 +77,8 @@
 		84A203932153D5C800AB946C /* CellSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A203922153D5C800AB946C /* CellSelectionView.swift */; };
 		84A8D3A621898EDE0018EDB0 /* CollageRendererTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8D3A521898EDE0018EDB0 /* CollageRendererTestCase.swift */; };
 		84A91A5921188E5700108C3B /* CollageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A91A5821188E5700108C3B /* CollageCell.swift */; };
+		84AFF3992189C0E10068810A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84AFF3982189C0E10068810A /* GoogleService-Info.plist */; };
+		84AFF39B2189D6910068810A /* RemoteSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFF39A2189D6910068810A /* RemoteSettingsService.swift */; };
 		84B160342114892600FF4713 /* Collage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B160332114892600FF4713 /* Collage.swift */; };
 		84D389E62125CF5200FCDC67 /* GripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D389E52125CF5200FCDC67 /* GripView.swift */; };
 		84D4156F2174826000A615C1 /* EventTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D4156E2174826000A615C1 /* EventTracker.swift */; };
@@ -206,6 +208,8 @@
 		84A203922153D5C800AB946C /* CellSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSelectionView.swift; sourceTree = "<group>"; };
 		84A8D3A521898EDE0018EDB0 /* CollageRendererTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageRendererTestCase.swift; sourceTree = "<group>"; };
 		84A91A5821188E5700108C3B /* CollageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageCell.swift; sourceTree = "<group>"; };
+		84AFF3982189C0E10068810A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		84AFF39A2189D6910068810A /* RemoteSettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSettingsService.swift; sourceTree = "<group>"; };
 		84B160332114892600FF4713 /* Collage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collage.swift; sourceTree = "<group>"; };
 		84C98D33217877DF0096BFB4 /* Robot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
 		84D389E52125CF5200FCDC67 /* GripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GripView.swift; sourceTree = "<group>"; };
@@ -353,6 +357,7 @@
 			isa = PBXGroup;
 			children = (
 				843A580221144761002FE28D /* LaunchScreen.storyboard */,
+				84AFF3982189C0E10068810A /* GoogleService-Info.plist */,
 				843A580521144761002FE28D /* Info.plist */,
 			);
 			path = SupportingFiles;
@@ -512,6 +517,7 @@
 				F62618AE2141570300CD94AE /* PhotoAuthService.swift */,
 				846AA2C82142689500DF92FD /* CameraAuthService.swift */,
 				84D4156E2174826000A615C1 /* EventTracker.swift */,
+				84AFF39A2189D6910068810A /* RemoteSettingsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -844,6 +850,7 @@
 				84E06F1E213991D6007109BE /* SF-Pro-Text-Light.otf in Resources */,
 				843A580421144761002FE28D /* LaunchScreen.storyboard in Resources */,
 				843380782154DB4C008A5510 /* SF-Pro-Display-Regular.otf in Resources */,
+				84AFF3992189C0E10068810A /* GoogleService-Info.plist in Resources */,
 				845C2100216CB62800049976 /* SFCompactDisplay-Medium.otf in Resources */,
 				843A580121144761002FE28D /* Assets.xcassets in Resources */,
 			);
@@ -892,8 +899,11 @@
 				"${BUILT_PRODUCTS_DIR}/DeepDiff/DeepDiff.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -902,8 +912,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeepDiff.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -997,6 +1010,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84AFF39B2189D6910068810A /* RemoteSettingsService.swift in Sources */,
 				841A245F213E935C006E994B /* UIBarButtonItem.swift in Sources */,
 				84706AAA21833196007F4B98 /* AppContext.swift in Sources */,
 				84F454BE2158E3E80079CE6C /* PlusButton.swift in Sources */,

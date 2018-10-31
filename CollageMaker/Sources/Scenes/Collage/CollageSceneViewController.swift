@@ -224,13 +224,13 @@ extension CollageSceneViewController: CollageToolbarDelegate {
     func collageToolbar(_ collageToolbar: CollageToolbar, itemTapped: CollageBarButtonItem) {
         switch itemTapped.tag {
         case 0:
-            if collageViewController.collage.cells.count < Config.maximumAllowedCellsCount {
+            if collageViewController.collage.cells.count < context.remoteSettingsService.numberOfCells {
                 EventTracker.shared.track(.split(by: .horizontal))
                 collageViewController.splitSelectedCell(by: .horizontal)
             }
 
         case 1:
-            if collageViewController.collage.cells.count < Config.maximumAllowedCellsCount {
+            if collageViewController.collage.cells.count < context.remoteSettingsService.numberOfCells {
                 EventTracker.shared.track(.split(by: .vertical))
                 collageViewController.splitSelectedCell(by: .vertical)
             }
