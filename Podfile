@@ -8,7 +8,8 @@ def external
     pod 'Crashlytics'
     pod 'SnapKit'
     pod 'R.swift'
-    
+    pod 'Firebase/Core'
+    pod 'Firebase/RemoteConfig'
 end
 
 def internal

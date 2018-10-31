@@ -4,6 +4,7 @@
 
 import Crashlytics
 import Fabric
+import Firebase
 import UIKit
 import Utils
 
@@ -12,9 +13,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        Fabric.with([Crashlytics.self])
-
         if Environment.isTestEnvironment { return true }
+
+        Fabric.with([Crashlytics.self])
+        FirebaseApp.configure()
 
         self.window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigator.rootViewController
