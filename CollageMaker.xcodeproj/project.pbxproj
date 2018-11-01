@@ -75,6 +75,7 @@
 		849B68202121979C0091AD27 /* CollageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B681F2121979C0091AD27 /* CollageViewController.swift */; };
 		849B68222121CA960091AD27 /* TemplateBarCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B68212121CA960091AD27 /* TemplateBarCollectionViewController.swift */; };
 		84A203932153D5C800AB946C /* CellSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A203922153D5C800AB946C /* CellSelectionView.swift */; };
+		84A63866218B507000074A86 /* Signal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A63865218B507000074A86 /* Signal.swift */; };
 		84A8D3A621898EDE0018EDB0 /* CollageRendererTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8D3A521898EDE0018EDB0 /* CollageRendererTestCase.swift */; };
 		84A91A5921188E5700108C3B /* CollageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A91A5821188E5700108C3B /* CollageCell.swift */; };
 		84AFF3992189C0E10068810A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84AFF3982189C0E10068810A /* GoogleService-Info.plist */; };
@@ -207,6 +208,7 @@
 		849B681F2121979C0091AD27 /* CollageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageViewController.swift; sourceTree = "<group>"; };
 		849B68212121CA960091AD27 /* TemplateBarCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateBarCollectionViewController.swift; sourceTree = "<group>"; };
 		84A203922153D5C800AB946C /* CellSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSelectionView.swift; sourceTree = "<group>"; };
+		84A63865218B507000074A86 /* Signal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signal.swift; sourceTree = "<group>"; };
 		84A8D3A521898EDE0018EDB0 /* CollageRendererTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageRendererTestCase.swift; sourceTree = "<group>"; };
 		84A91A5821188E5700108C3B /* CollageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageCell.swift; sourceTree = "<group>"; };
 		84AFF3982189C0E10068810A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -520,6 +522,7 @@
 				846AA2C82142689500DF92FD /* CameraAuthService.swift */,
 				84D4156E2174826000A615C1 /* EventTracker.swift */,
 				84AFF39A2189D6910068810A /* RemoteSettingsService.swift */,
+				84A63865218B507000074A86 /* Signal.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1026,6 +1029,7 @@
 				843367CF2150ECB8008EC77D /* AttributedTextLabel.swift in Sources */,
 				84E06F1B21397ED7007109BE /* PermissionsViewController.swift in Sources */,
 				849B68202121979C0091AD27 /* CollageViewController.swift in Sources */,
+				84A63866218B507000074A86 /* Signal.swift in Sources */,
 				846AA2C92142689500DF92FD /* CameraAuthService.swift in Sources */,
 				84EFDF1A2177860400ABA6D2 /* Accessibility.swift in Sources */,
 				84FD669B2153BD3800C831F0 /* R.generated.swift in Sources */,
