@@ -32,6 +32,8 @@ class CollageViewController: CollageBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        registerForPreviewing(with: self, sourceView: collageView)
+
         let panGestureRecognizer = UIPanGestureRecognizer()
         panGestureRecognizer.addTarget(self, action: #selector(changeSize(with:)))
         panGestureRecognizer.delegate = self
@@ -124,6 +126,38 @@ extension CollageViewController: UIGestureRecognizerDelegate {
         }
 
         return true
+    }
+}
+
+extension CollageViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard
+            let cellView = collageView.collageCellView(at: location),
+            let img = cellView.collageCell.image
+        else {
+            return nil
+        }
+
+        collageView.select(cellView: cellView)
+        previewingContext.sourceRect = cellView.frame
+        let previewController = PreviewViewController(image: img)
+        previewController.delegate = self
+
+        return previewController
+    }
+
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        present(viewControllerToCommit, animated: true)
+    }
+}
+
+extension CollageViewController: PreviewViewControllerDelegate {
+    func previewViewController(_ controller: PreviewViewController, didChooseAction action: PreviewViewController.Action) {
+        controller.dismiss(animated: true)
+
+        if action == .delete {
+            deleteSelectedCell()
+        }
     }
 }
 
