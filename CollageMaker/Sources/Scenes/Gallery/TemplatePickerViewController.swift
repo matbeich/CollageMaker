@@ -28,8 +28,7 @@ class TemplatePickerViewController: CollageBaseViewController {
 
     init(context: AppContext) {
         self.context = context
-        let cellsCount = context.remoteSettingsService.numberOfCells
-        self.imagePickerController = ImagePickerCollectionViewController(context: context, selectionMode: .multiply(cellsCount))
+        self.imagePickerController = ImagePickerCollectionViewController(context: context, selectionMode: .multiply(context.remoteSettingsService.cellsCount))
         self.templateController = TemplateBarCollectionViewController(context: context)
 
         super.init(nibName: nil, bundle: nil)
@@ -37,6 +36,10 @@ class TemplatePickerViewController: CollageBaseViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        tokens.removeAll()
     }
 
     override func viewDidLoad() {
@@ -63,6 +66,11 @@ class TemplatePickerViewController: CollageBaseViewController {
         navBarItem.title = "All Photos"
 
         gradientButton.addTarget(self, action: #selector(selectFirstTemplate), for: .touchUpInside)
+        context.remoteSettingsService.fetchRemoteSettings()
+
+        tokens.append(context.remoteSettingsService.subscribe(on: .main) { [weak self] in
+            self?.imagePickerController.mode = .multiply($0.numberOfCells)
+        })
     }
 
     @objc private func selectFirstTemplate() {
@@ -167,6 +175,7 @@ class TemplatePickerViewController: CollageBaseViewController {
         return button
     }()
 
+    private var tokens = [Any]()
     private let context: AppContext
     private let mainControllerContainer = UIView()
     private let templatesView = TemplatesContainerView(headerText: "Choose template")
