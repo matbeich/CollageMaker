@@ -3,51 +3,58 @@
 //
 
 import FirebaseRemoteConfig
-import Foundation
+import UIKit
 
 final class RemoteSettingsService {
-    var numberOfCells: Int {
-        return config.configValue(forKey: Constants.Key.numberOfCells).numberValue?.intValue ?? 0
+    var cellsCount: Int {
+        return remoteEvent.value.numberOfCells
     }
 
-    static let shared = RemoteSettingsService(remoteConfig: .remoteConfig(), defaultConfig: .default)
+    static let shared = RemoteSettingsService(remoteConfig: .remoteConfig(), remoteEvent: EventProperty(value: .default))
 
-    init(remoteConfig: RemoteConfig, defaultConfig: Config) {
+    init(remoteConfig: RemoteConfig, remoteEvent: EventProperty<Config>) {
         self.config = remoteConfig
-        self.defaultConfig = defaultConfig
+        self.remoteEvent = remoteEvent
+        config.configSettings = RemoteConfigSettings(developerModeEnabled: true)
 
-        applyDefaultSettings() // FIXME: apply only at first start
-        applyRemoteSettings()
+        setup()
     }
 
-    func applyRemoteSettings() {
-        config.fetch { [weak self] status, error in
+    func subscribe(on queue: DispatchQueue? = nil, with callback: @escaping (Config) -> Void) {
+        remoteEvent.subscribe(on: queue, with: callback)
+    }
+
+    func fetchRemoteSettings() {
+        config.fetch(withExpirationDuration: 70) { [weak self] status, error in
             guard let `self` = self else {
                 return
             }
 
-            if status == .success { self.config.activateFetched() }
+            if status == .success {
+                self.config.activateFetched()
+                self.remoteEvent.value = self.constructConfig()
+            }
         }
     }
 
-    func applyDefaultSettings() {
-        config.setDefaults(defaultConfig.values)
+    private func setup() {
+        fetchRemoteSettings()
+        setUpdateTimer(with: 70)
     }
 
-    private let config: RemoteConfig
-    private(set) var defaultConfig: Config
-}
-
-struct Config {
-    let values: [String: NSObject]
-
-    init(numberOfCells: Int) {
-        self.values = [Constants.Key.numberOfCells: NSNumber(value: numberOfCells)]
+    private func setUpdateTimer(with timeInterval: TimeInterval) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + timeInterval) { [weak self] in
+            self?.fetchRemoteSettings()
+            self?.setUpdateTimer(with: timeInterval)
+        }
     }
-}
 
-extension Config {
-    static let `default` = Config(numberOfCells: 9)
+    private func constructConfig() -> Config {
+        return Config(numberOfCells: config.configValue(forKey: Constants.Key.numberOfCells).numberValue?.intValue ?? 9)
+    }
+
+    private var config: RemoteConfig
+    private let remoteEvent: EventProperty<Config>
 }
 
 struct Constants {

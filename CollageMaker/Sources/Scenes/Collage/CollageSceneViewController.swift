@@ -17,6 +17,8 @@ class CollageSceneViewController: CollageBaseViewController {
          templates: [CollageTemplate] = [],
          context: AppContext) {
         self.context = context
+        self.cellsCount = context.remoteSettingsService.cellsCount
+
         templateBarController = TemplateBarCollectionViewController(context: context)
         templateBarController.templates = templates
 
@@ -26,6 +28,10 @@ class CollageSceneViewController: CollageBaseViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError()
+    }
+
+    deinit {
+        tokens.removeAll()
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -92,6 +98,8 @@ class CollageSceneViewController: CollageBaseViewController {
         toolsBar.delegate = self
         templateBarController.delegate = self
         collageViewController.delegate = self
+
+        tokens.append(context.remoteSettingsService.subscribe(on: .main) { [weak self] in self?.cellsCount = $0.numberOfCells })
     }
 
     @objc private func shareCollage() {
@@ -140,6 +148,8 @@ class CollageSceneViewController: CollageBaseViewController {
         return view
     }()
 
+    private var cellsCount: Int
+    private var tokens = [Any]()
     private let context: AppContext
     private let toolsBar = CollageToolbar.standart
     let collageViewController = CollageViewController()
@@ -224,13 +234,13 @@ extension CollageSceneViewController: CollageToolbarDelegate {
     func collageToolbar(_ collageToolbar: CollageToolbar, itemTapped: CollageBarButtonItem) {
         switch itemTapped.tag {
         case 0:
-            if collageViewController.collage.cells.count < context.remoteSettingsService.numberOfCells {
+            if collageViewController.collage.cells.count < cellsCount {
                 EventTracker.shared.track(.split(by: .horizontal))
                 collageViewController.splitSelectedCell(by: .horizontal)
             }
 
         case 1:
-            if collageViewController.collage.cells.count < context.remoteSettingsService.numberOfCells {
+            if collageViewController.collage.cells.count < cellsCount {
                 EventTracker.shared.track(.split(by: .vertical))
                 collageViewController.splitSelectedCell(by: .vertical)
             }

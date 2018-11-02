@@ -27,6 +27,8 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
+    var mode: SelectionMode
+
     var maxSelectedCellsAllowed: Int {
         return mode.maxSelectedCells
     }
@@ -168,7 +170,6 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
     }
 
     private let context: AppContext
-    private(set) var mode: SelectionMode
     private(set) var collectionView: UICollectionView
 }
 
