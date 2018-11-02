@@ -6,24 +6,39 @@ import Photos
 import UIKit
 import Utils
 
-final class AppNavigator {
-    var rootViewController: UINavigationController
+final class AppNavigator: NSObject {
+    let context: AppContext
 
     init(context: AppContext = AppContext()) {
         self.context = context
-
-        if context.photoAuthService.isAuthorized {
-            let templatePickerController = TemplatePickerViewController(context: context)
-            rootViewController = CollageNavigationController(rootViewController: templatePickerController)
-            templatePickerController.delegate = self
-        } else {
-            let controller = PermissionsViewController()
-            rootViewController = CollageNavigationController(rootViewController: controller)
-            controller.delegate = self
-        }
+        super.init()
     }
 
-    let context: AppContext
+    private func pinAsPopover(_ viewController: UIViewController, on point: CGPoint) {
+        viewController.modalPresentationStyle = .popover
+
+        let popover = viewController.popoverPresentationController
+        popover?.delegate = self
+        popover?.sourceView = rootViewController.view
+        popover?.sourceRect = CGRect(origin: point, size: .zero)
+        popover?.permittedArrowDirections = .up
+
+        rootViewController.present(viewController, animated: true, completion: nil)
+    }
+
+    lazy var rootViewController: CollageNavigationController = {
+        if context.photoAuthService.isAuthorized {
+            let templatePickerController = TemplatePickerViewController(context: context)
+            templatePickerController.delegate = self
+
+            return CollageNavigationController(rootViewController: templatePickerController)
+        } else {
+            let controller = PermissionsViewController()
+            controller.delegate = self
+
+            return CollageNavigationController(rootViewController: controller)
+        }
+    }()
 }
 
 extension AppNavigator: PermissionsViewControllerDelegate {
@@ -38,10 +53,14 @@ extension AppNavigator: PermissionsViewControllerDelegate {
 
 extension AppNavigator: CollageSceneViewControllerDelegate {
     func collageSceneViewController(_ controller: CollageSceneViewController, didEndEditingCollage collage: Collage) {
-        let controller = ShareScreenViewController(collage: collage, context: context)
+        let shareController = ShareScreenViewController(collage: collage, context: context)
+        shareController.delegate = self
 
-        controller.delegate = self
-        rootViewController.pushViewController(controller, animated: true)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            pinAsPopover(shareController, on: CGPoint(x: 500, y: 100))
+        } else {
+            rootViewController.pushViewController(shareController, animated: true)
+        }
     }
 }
 
@@ -59,6 +78,8 @@ extension AppNavigator: ShareScreenViewControllerDelegate {
         rootViewController.popViewController(animated: true)
     }
 }
+
+extension AppNavigator: UIPopoverPresentationControllerDelegate {}
 
 extension AppNavigator: TemplatePickerViewControllerDelegate {
     func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate template: CollageTemplate) {

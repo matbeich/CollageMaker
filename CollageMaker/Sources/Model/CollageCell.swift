@@ -5,7 +5,7 @@
 import Photos
 import UIKit
 
-typealias RelativeFrame = CGRect
+public typealias RelativeFrame = CGRect
 
 struct CollageCell {
     var color: UIColor

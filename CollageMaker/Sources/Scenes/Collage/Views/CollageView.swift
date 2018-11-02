@@ -39,11 +39,7 @@ class CollageView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
-        if shouldBeUpdated {
-            update(collage)
-            shouldBeUpdated = false
-        }
+        layoutCellsIfNeeded()
     }
 
     func saveCellsVisibleFrames() {
@@ -52,10 +48,13 @@ class CollageView: UIView {
         }
     }
 
-    func updateFrames() {
-        cellViews.forEach {
-            $0.updateCollageCell(collage.cellWith(id: $0.collageCell.id) ?? $0.collageCell)
-            $0.changeFrame(for: bounds)
+    func layoutCellsIfNeeded() {
+        cellViews.forEach { cellView in
+            let frame = cellView.collageCell.relativeFrame.absolutePosition(in: bounds)
+
+            if cellView.frame != frame {
+                cellView.frame = frame
+            }
         }
     }
 
@@ -101,16 +100,6 @@ class CollageView: UIView {
         return cellSelectionView.gripPosition(in: rect)
     }
 
-    private func setup() {
-        clipsToBounds = true
-        addSubview(cellSelectionView)
-        accessibilityIdentifier = Accessibility.View.collageView.id
-        cellSelectionView.addTargetToPlusButton(self, action: #selector(buttonTapped), for: .touchUpInside)
-
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pointTapped(with:)))
-        addGestureRecognizer(tapGestureRecognizer)
-    }
-
     @objc private func buttonTapped() {
         delegate?.collageViewPlusButtonTapped(self)
     }
@@ -125,7 +114,24 @@ class CollageView: UIView {
         select(cellView: cell)
     }
 
-    private var shouldBeUpdated: Bool = true
+    private func setup() {
+        clipsToBounds = true
+        addSubview(cellSelectionView)
+        accessibilityIdentifier = Accessibility.View.collageView.id
+        cellSelectionView.addTargetToPlusButton(self, action: #selector(buttonTapped), for: .touchUpInside)
+
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pointTapped(with:)))
+        addGestureRecognizer(tapGestureRecognizer)
+    }
+
+    private func updateFrames() {
+        cellViews.forEach {
+            $0.updateCollageCell(collage.cellWith(id: $0.collageCell.id) ?? $0.collageCell)
+            $0.changeFrame(for: bounds)
+        }
+    }
+
+    private var shouldUpdate = true
     private(set) var gripViews: [GripView] = []
     private(set) var cellViews: [CollageCellView] = []
     private(set) var selectedCellView: CollageCellView
