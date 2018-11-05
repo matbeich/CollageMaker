@@ -28,8 +28,9 @@ class TemplatePickerViewController: CollageBaseViewController {
 
     init(context: AppContext) {
         self.context = context
-        self.imagePickerController = ImagePickerCollectionViewController(context: context, selectionMode: .multiply(context.remoteSettingsService.cellsCount))
         self.templateController = TemplateBarCollectionViewController(context: context)
+        self.imagePickerController = ImagePickerCollectionViewController(context: context,
+                                                                         selectionMode: .multiply(context.remoteSettingsService.cellsCount))
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -131,7 +132,7 @@ class TemplatePickerViewController: CollageBaseViewController {
     }
 
     private func select(template: CollageTemplate) {
-        delegate?.templatePickerViewController(self, templateController: self.templateController, didSelectTemplate: template)
+        delegate?.templatePickerViewController(self, templateController: templateController, didSelectTemplate: template)
     }
 
     private func makeConstraints() {
@@ -159,7 +160,7 @@ class TemplatePickerViewController: CollageBaseViewController {
             context.photoLibrary.stopCaching()
         } didSet {
             context.photoLibrary.cacheImages(with: selectedAssets)
-            gradientButton.setTitle(String(selectedAssets.count), for: .normal)
+            gradientButton.setTitle("\(selectedAssets.count)", for: .normal)
         }
     }
 

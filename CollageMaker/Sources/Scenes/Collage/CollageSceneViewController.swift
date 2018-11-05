@@ -57,6 +57,11 @@ class CollageSceneViewController: CollageBaseViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         makeConstraints(for: UIDevice.current.orientation)
+        updateTemplateBarAppearence()
+    }
+
+    private func updateTemplateBarAppearence() {
+        templateBarController.scrollDirection = UIDevice.current.orientation.isLandscape ? .vertical : .horizontal
     }
 
     func makeConstraints(for orientation: UIDeviceOrientation) {
@@ -117,6 +122,7 @@ class CollageSceneViewController: CollageBaseViewController {
         navBarItem.title = "Edit"
 
         makeConstraints()
+        updateTemplateBarAppearence()
 
         toolsBar.delegate = self
         templateBarController.delegate = self

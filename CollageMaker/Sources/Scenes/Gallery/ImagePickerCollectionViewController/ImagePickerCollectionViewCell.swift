@@ -71,7 +71,7 @@ class ImagePickerCollectionViewCell: UICollectionViewCell {
         selectionView.snp.remakeConstraints { make in
             make.top.equalToSuperview().offset(offset)
             make.right.equalToSuperview().offset(-offset)
-            make.size.equalToSuperview().dividedBy(4.84)
+            make.size.equalTo(16)
         }
     }
 
