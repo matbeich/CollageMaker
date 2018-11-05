@@ -65,6 +65,7 @@ class CollageSceneViewController: CollageBaseViewController {
     }
 
     func makeConstraints(for orientation: UIDeviceOrientation) {
+        collageViewContainer.snp.removeConstraints()
         collageViewContainer.snp.remakeConstraints { make in
             if #available(iOS 11, *) {
                 make.top.equalTo(view.safeAreaLayoutGuide)
@@ -83,6 +84,7 @@ class CollageSceneViewController: CollageBaseViewController {
             }
         }
 
+        templateControllerView.snp.removeConstraints()
         templateControllerView.snp.remakeConstraints { make in
             make.right.equalToSuperview()
             make.bottom.equalTo(toolsBar.snp.top)
