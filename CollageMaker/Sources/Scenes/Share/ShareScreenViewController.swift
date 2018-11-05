@@ -66,20 +66,17 @@ class ShareScreenViewController: CollageBaseViewController {
     private func makeConstraints() {
         thumbnailImageView.snp.makeConstraints { make in
             if #available(iOS 11, *) {
-                make.top.equalTo(self.view.safeAreaLayoutGuide)
+                make.top.equalTo(view.safeAreaLayoutGuide)
             } else {
                 make.top.equalTo(topLayoutGuide.snp.bottom)
             }
 
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.height.equalTo(thumbnailImageView.snp.width)
         }
 
         shareFooter.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.right.bottom.equalToSuperview()
             make.top.equalTo(thumbnailImageView.snp.bottom)
         }
     }

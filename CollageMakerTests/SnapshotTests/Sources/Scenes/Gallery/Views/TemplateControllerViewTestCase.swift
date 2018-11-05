@@ -7,13 +7,13 @@ import FBSnapshotTestCase
 import XCTest
 
 class TemplateControllerViewTestCase: FBSnapshotTestCase {
-    var templateView: TemplatesContainerView!
+    var templateView: TemplatesView!
 
     override func setUp() {
         super.setUp()
         recordMode = false
 
-        templateView = TemplatesContainerView(frame: CGRect(origin: .zero, size: CGSize(width: 300, height: 200)))
+        templateView = TemplatesView(frame: CGRect(origin: .zero, size: CGSize(width: 300, height: 200)))
     }
 
     override func tearDown() {

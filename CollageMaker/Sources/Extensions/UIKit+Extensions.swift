@@ -125,17 +125,3 @@ extension UIViewController {
         didMove(toParentViewController: nil)
     }
 }
-
-extension UIImage {
-    func updateImageOrientionUpSide() -> UIImage? {
-        if self.imageOrientation == .up {
-            return self
-        }
-
-        UIGraphicsBeginImageContextWithOptions(size, true, scale)
-        defer { UIGraphicsEndImageContext() }
-
-        draw(in: CGRect(origin: .zero, size: size))
-        return UIGraphicsGetImageFromCurrentImageContext()
-    }
-}

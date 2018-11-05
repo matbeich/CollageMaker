@@ -9,13 +9,12 @@
 /* Begin PBXBuildFile section */
 		1929D0E5095DCC541D5B2D97 /* Pods_CollageMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E5F6231635FF3BBC1D62583 /* Pods_CollageMaker.framework */; };
 		39F3AE5A6D76C547E61ABB1F /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C219823BB8C13A6D61BC53C /* EarlGrey.framework */; };
-		525EC52B214C26AB009E5393 /* TemplatesContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525EC52A214C26AB009E5393 /* TemplatesContainerView.swift */; };
+		525EC52B214C26AB009E5393 /* TemplatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525EC52A214C26AB009E5393 /* TemplatesView.swift */; };
 		6E31FCD47BDE10A8363EDCA4 /* EarlGrey.framework in EarlGrey Copy Files */ = {isa = PBXBuildFile; fileRef = 2C219823BB8C13A6D61BC53C /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		84023CC421369CDA00FF2CC6 /* RelativeFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84023CC321369CDA00FF2CC6 /* RelativeFrame.swift */; };
 		840CC3EB21623FE5001C3C5C /* ShareToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CC3EA21623FE5001C3C5C /* ShareToolbar.swift */; };
 		840CC3ED216241E0001C3C5C /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CC3EC216241E0001C3C5C /* ShareButton.swift */; };
 		841469672126EEE400C2838A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841469662126EEE400C2838A /* UIColor.swift */; };
-		8416A4BF216B4A0800DC6916 /* RoundCornersGradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4BE216B4A0800DC6916 /* RoundCornersGradientButton.swift */; };
 		8416A50B216BAB9400DC6916 /* BundleClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4C2216B8A6300DC6916 /* BundleClass.swift */; };
 		8416A50C216BAB9400DC6916 /* ImageStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4C4216B8AE700DC6916 /* ImageStub.swift */; };
 		8416A511216BC0D100DC6916 /* MockPhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD3D2166307900AF3B8E /* MockPhotoLibrary.swift */; };
@@ -40,7 +39,6 @@
 		844DF4742179C50000A7B0C4 /* ImagePickerCollectionViewCellTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD2D2166114000AF3B8E /* ImagePickerCollectionViewCellTestCase.swift */; };
 		844DF4752179C50800A7B0C4 /* GradientButtonTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F8D532167B162006EED5A /* GradientButtonTestCase.swift */; };
 		844DF4762179C50800A7B0C4 /* AttributedTextLabelTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843B35572167B2E4005B9F35 /* AttributedTextLabelTestCase.swift */; };
-		844DF4772179C50800A7B0C4 /* RoundCornersGradientButtonTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416A4C0216B4F3800DC6916 /* RoundCornersGradientButtonTestCase.swift */; };
 		844DF4782179C50F00A7B0C4 /* TemplateBarCollectionViewCellTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDD3821661FC200AF3B8E /* TemplateBarCollectionViewCellTestCase.swift */; };
 		845044332151362600B082E1 /* CollageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845044322151362600B082E1 /* CollageTemplate.swift */; };
 		845C2100216CB62800049976 /* SFCompactDisplay-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 845C20FF216CB62800049976 /* SFCompactDisplay-Medium.otf */; };
@@ -140,7 +138,7 @@
 		3C53B5104D51FAD94561FC78 /* Pods_CollageMakerUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMakerUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5ED321D13AAA86EF463EDA /* Pods-CollageMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerUITests/Pods-CollageMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		4DD35E258678EA10200C018B /* Pods-CollageMakerUnitTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMakerUnitTests.test.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMakerUnitTests/Pods-CollageMakerUnitTests.test.xcconfig"; sourceTree = "<group>"; };
-		525EC52A214C26AB009E5393 /* TemplatesContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesContainerView.swift; sourceTree = "<group>"; };
+		525EC52A214C26AB009E5393 /* TemplatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesView.swift; sourceTree = "<group>"; };
 		55E937FF543D64801E6FE757 /* Pods_CollageMakerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMakerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E5F6231635FF3BBC1D62583 /* Pods_CollageMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollageMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E2C31F0A624441E96013D1 /* Pods-CollageMaker.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollageMaker.test.xcconfig"; path = "Pods/Target Support Files/Pods-CollageMaker/Pods-CollageMaker.test.xcconfig"; sourceTree = "<group>"; };
@@ -148,8 +146,6 @@
 		840CC3EA21623FE5001C3C5C /* ShareToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareToolbar.swift; sourceTree = "<group>"; };
 		840CC3EC216241E0001C3C5C /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		841469662126EEE400C2838A /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
-		8416A4BE216B4A0800DC6916 /* RoundCornersGradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCornersGradientButton.swift; sourceTree = "<group>"; };
-		8416A4C0216B4F3800DC6916 /* RoundCornersGradientButtonTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCornersGradientButtonTestCase.swift; sourceTree = "<group>"; };
 		8416A4C2216B8A6300DC6916 /* BundleClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleClass.swift; sourceTree = "<group>"; };
 		8416A4C4216B8AE700DC6916 /* ImageStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStub.swift; sourceTree = "<group>"; };
 		8416A4C8216BA2D400DC6916 /* Pods_SnapshotTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_SnapshotTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -503,7 +499,6 @@
 			children = (
 				846F8D532167B162006EED5A /* GradientButtonTestCase.swift */,
 				843B35572167B2E4005B9F35 /* AttributedTextLabelTestCase.swift */,
-				8416A4C0216B4F3800DC6916 /* RoundCornersGradientButtonTestCase.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -649,7 +644,7 @@
 			isa = PBXGroup;
 			children = (
 				84E40813214BC5C1006764D0 /* SelectionView.swift */,
-				525EC52A214C26AB009E5393 /* TemplatesContainerView.swift */,
+				525EC52A214C26AB009E5393 /* TemplatesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -727,7 +722,6 @@
 		84E2720B211DE8D7001CDCB9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				8416A4BE216B4A0800DC6916 /* RoundCornersGradientButton.swift */,
 				843367CE2150ECB8008EC77D /* AttributedTextLabel.swift */,
 				F62618B221415C6200CD94AE /* GradientButton.swift */,
 			);
@@ -1053,7 +1047,7 @@
 				84D4156F2174826000A615C1 /* EventTracker.swift in Sources */,
 				840CC3ED216241E0001C3C5C /* ShareButton.swift in Sources */,
 				84868BC42138358500E12152 /* CollageBarItem.swift in Sources */,
-				525EC52B214C26AB009E5393 /* TemplatesContainerView.swift in Sources */,
+				525EC52B214C26AB009E5393 /* TemplatesView.swift in Sources */,
 				841469672126EEE400C2838A /* UIColor.swift in Sources */,
 				84868BC22138323E00E12152 /* CollageToolbar.swift in Sources */,
 				843F547221625BD700411A33 /* ShareScreenFooter.swift in Sources */,
@@ -1070,7 +1064,6 @@
 				F62618B321415C6200CD94AE /* GradientButton.swift in Sources */,
 				84A63868218C4AA500074A86 /* Config.swift in Sources */,
 				848214DD2153B7FE009FD986 /* CollageBaseViewController.swift in Sources */,
-				8416A4BF216B4A0800DC6916 /* RoundCornersGradientButton.swift in Sources */,
 				F62618AF2141570300CD94AE /* PhotoAuthService.swift in Sources */,
 				845044332151362600B082E1 /* CollageTemplate.swift in Sources */,
 				84B160342114892600FF4713 /* Collage.swift in Sources */,
@@ -1096,7 +1089,6 @@
 				844DF4702179C4D900A7B0C4 /* Robot.swift in Sources */,
 				844DF4762179C50800A7B0C4 /* AttributedTextLabelTestCase.swift in Sources */,
 				8416A511216BC0D100DC6916 /* MockPhotoLibrary.swift in Sources */,
-				844DF4772179C50800A7B0C4 /* RoundCornersGradientButtonTestCase.swift in Sources */,
 				84A8D3A621898EDE0018EDB0 /* CollageRendererTestCase.swift in Sources */,
 				844DF4782179C50F00A7B0C4 /* TemplateBarCollectionViewCellTestCase.swift in Sources */,
 				844DF4712179C4D900A7B0C4 /* CollageSceneRobot.swift in Sources */,
