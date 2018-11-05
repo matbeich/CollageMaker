@@ -42,9 +42,9 @@ class CollageSceneViewController: CollageBaseViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        view.addSubview(collageViewContainer)
         view.addSubview(templatesView)
         view.addSubview(toolsBar)
+        view.addSubview(collageViewContainer)
 
         addChild(collageViewController, to: collageViewContainer)
         addChild(templateBarController, to: templatesView.contentView)

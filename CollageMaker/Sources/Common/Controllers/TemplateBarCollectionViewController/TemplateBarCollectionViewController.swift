@@ -12,14 +12,14 @@ protocol TemplateBarCollectionViewControllerDelegate: AnyObject {
 class TemplateBarCollectionViewController: UICollectionViewController {
     weak var delegate: TemplateBarCollectionViewControllerDelegate?
 
-    var assets: [PHAsset]? {
-        return templates.first?.assets
-    }
-
     var scrollDirection: UICollectionView.ScrollDirection = .horizontal {
         didSet {
             setScrollDirection()
         }
+    }
+
+    var assets: [PHAsset]? {
+        return templates.first?.assets
     }
 
     var templates: [CollageTemplate] {
@@ -74,7 +74,6 @@ class TemplateBarCollectionViewController: UICollectionViewController {
 
     private func getImageForTemplate(_ template: CollageTemplate, callback: @escaping (UIImage?) -> Void) {
         context.templateProvider.collage(from: template, size: .medium) { [weak self] collage in
-
             let collageView = CollageView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 150)))
             collageView.collage = collage
             collageView.saveCellsVisibleFrames()
