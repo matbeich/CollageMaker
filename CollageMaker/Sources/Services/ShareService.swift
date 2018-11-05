@@ -60,7 +60,7 @@ final class ShareService: ShareServiceType {
         openInstagram(withAssetId: currentImageAsset.localIdentifier)
     }
 
-    internal func saveToPhotos(_ content: Shareable, in controller: UIViewController, with completion: SavePhotoCompletion?) {
+    func saveToPhotos(_ content: Shareable, in controller: UIViewController, with completion: SavePhotoCompletion?) {
         guard let image = content.item as? UIImage else {
             return
         }

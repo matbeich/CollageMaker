@@ -8,6 +8,7 @@ import Utils
 
 enum SharingError: Error {
     case photoLibraryAccessDenied
+    case unableToSaveImage
 }
 
 protocol ShareScreenViewControllerDelegate: AnyObject {
@@ -103,7 +104,15 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     private func saveToPhotos(content: ShareContent) {
-        context.shareService.saveToPhotos(content, in: self, with: nil)
+        context.shareService.saveToPhotos(content, in: self) { [weak self] success, _ in
+            guard let `self` = self else {
+                return
+            }
+
+            self.delegate?.shareScreenViewController(self,
+                                                     didShareCollageImage: self.collageImage ?? UIImage(),
+                                                     withError: success ? nil : .unableToSaveImage)
+        }
     }
 
     private func shareViaMessage(content: ShareContent) {
