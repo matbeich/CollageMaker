@@ -42,8 +42,7 @@ class PermissionsViewController: CollageBaseViewController {
 
         subtitleLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(UIScreen.main.bounds.height * 0.02)
-            make.left.equalTo(titleLabel)
-            make.right.equalTo(titleLabel)
+            make.left.right.equalTo(titleLabel)
         }
 
         allowButton.snp.makeConstraints { make in
@@ -51,8 +50,7 @@ class PermissionsViewController: CollageBaseViewController {
         }
 
         bottomStackView.snp.makeConstraints { make in
-            make.left.equalTo(titleLabel)
-            make.right.equalTo(titleLabel)
+            make.left.right.equalTo(titleLabel)
             make.top.equalTo(subtitleLabel.snp.bottom).offset(topOffset)
             make.bottom.equalToSuperview().offset(-sideOffset)
         }

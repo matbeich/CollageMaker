@@ -43,21 +43,21 @@ class CollageSceneViewController: CollageBaseViewController {
 
         view.backgroundColor = .white
         view.addSubview(collageViewContainer)
-        view.addSubview(templateControllerView)
+        view.addSubview(templatesView)
         view.addSubview(toolsBar)
 
         addChild(collageViewController, to: collageViewContainer)
-        addChild(templateBarController, to: templateControllerView)
+        addChild(templateBarController, to: templatesView.contentView)
 
         setup()
-        makeConstraints()
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        makeConstraints(for: UIDevice.current.orientation)
         updateTemplateBarAppearence()
+        templatesView.setNeedsLayout()
+        makeConstraints(for: UIDevice.current.orientation)
+
+        super.viewWillTransition(to: size, with: coordinator)
     }
 
     private func updateTemplateBarAppearence() {
@@ -65,10 +65,9 @@ class CollageSceneViewController: CollageBaseViewController {
     }
 
     func makeConstraints(for orientation: UIDeviceOrientation) {
-        collageViewContainer.snp.removeConstraints()
         collageViewContainer.snp.remakeConstraints { make in
             if #available(iOS 11, *) {
-                make.top.equalTo(view.safeAreaLayoutGuide)
+                make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             } else {
                 make.top.equalTo(topLayoutGuide.snp.bottom)
             }
@@ -84,8 +83,7 @@ class CollageSceneViewController: CollageBaseViewController {
             }
         }
 
-        templateControllerView.snp.removeConstraints()
-        templateControllerView.snp.remakeConstraints { make in
+        templatesView.snp.remakeConstraints { make in
             make.right.equalToSuperview()
             make.bottom.equalTo(toolsBar.snp.top)
 
@@ -93,8 +91,8 @@ class CollageSceneViewController: CollageBaseViewController {
                 make.top.equalTo(collageViewContainer)
                 make.left.equalTo(collageViewContainer.snp.right)
             } else {
-                make.left.equalToSuperview()
                 make.top.equalTo(collageViewContainer.snp.bottom)
+                make.left.equalToSuperview()
             }
         }
     }
@@ -102,15 +100,14 @@ class CollageSceneViewController: CollageBaseViewController {
     private func makeConstraints() {
         let toolsBarHeight: CGFloat = 59.0
 
-        toolsBar.snp.makeConstraints { make in
+        toolsBar.snp.remakeConstraints { make in
             if #available(iOS 11, *) {
-                make.bottom.equalTo(view.safeAreaLayoutGuide)
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             } else {
                 make.bottom.equalTo(bottomLayoutGuide.snp.bottom)
             }
 
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.height.equalTo(toolsBarHeight)
         }
 
@@ -123,8 +120,8 @@ class CollageSceneViewController: CollageBaseViewController {
         navBarItem.right = btn
         navBarItem.title = "Edit"
 
-        makeConstraints()
         updateTemplateBarAppearence()
+        makeConstraints()
 
         toolsBar.delegate = self
         templateBarController.delegate = self
@@ -175,16 +172,16 @@ class CollageSceneViewController: CollageBaseViewController {
 
     private let collageViewContainer: UIView = {
         let view = UIView()
-        view.contentMode = .scaleAspectFit
+
         return view
     }()
 
+    let collageViewController = CollageViewController()
+    let templatesView = TemplatesView()
     private var cellsCount: Int
     private var tokens = [Any]()
     private let context: AppContext
     private let toolsBar = CollageToolbar.standart
-    let collageViewController = CollageViewController()
-    let templateControllerView = TemplatesContainerView()
     private var templateBarController: TemplateBarCollectionViewController
 }
 

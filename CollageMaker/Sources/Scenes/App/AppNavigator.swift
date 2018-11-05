@@ -41,6 +41,16 @@ final class AppNavigator: NSObject {
     }()
 }
 
+extension AppNavigator: UIPopoverPresentationControllerDelegate {
+    func popoverPresentationController(_ popoverPresentationController: UIPopoverPresentationController, willRepositionPopoverTo rect: UnsafeMutablePointer<CGRect>, in view: AutoreleasingUnsafeMutablePointer<UIView>) {
+        guard let newPoint = rootViewController.rightButtonPosition else {
+            return
+        }
+
+        rect.initialize(to: CGRect(origin: newPoint, size: .zero))
+    }
+}
+
 extension AppNavigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
         let templatePickerViewController = TemplatePickerViewController(context: context)
@@ -57,7 +67,7 @@ extension AppNavigator: CollageSceneViewControllerDelegate {
         shareController.delegate = self
 
         if UIDevice.current.userInterfaceIdiom == .pad {
-            pinAsPopover(shareController, on: CGPoint(x: 500, y: 100))
+            pinAsPopover(shareController, on: rootViewController.rightButtonPosition ?? .zero)
         } else {
             rootViewController.pushViewController(shareController, animated: true)
         }
@@ -66,7 +76,7 @@ extension AppNavigator: CollageSceneViewControllerDelegate {
 
 extension AppNavigator: ShareScreenViewControllerDelegate {
     func shareScreenViewController(_ controller: ShareScreenViewController, didShareCollageImage image: UIImage, withError error: SharingError?) {
-        if error != nil {
+        if error == .photoLibraryAccessDenied {
             let controller = PermissionsViewController()
             controller.delegate = self
 
@@ -78,8 +88,6 @@ extension AppNavigator: ShareScreenViewControllerDelegate {
         rootViewController.popViewController(animated: true)
     }
 }
-
-extension AppNavigator: UIPopoverPresentationControllerDelegate {}
 
 extension AppNavigator: TemplatePickerViewControllerDelegate {
     func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate template: CollageTemplate) {

@@ -40,7 +40,7 @@ class CollageToolbar: UIView {
 
     private func makeConstraints() {
         buttonsStackView.snp.makeConstraints { make in
-            make.margins.equalToSuperview()
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
         }
     }
 

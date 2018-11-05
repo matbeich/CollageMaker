@@ -8,6 +8,7 @@ import Utils
 
 enum SharingError: Error {
     case photoLibraryAccessDenied
+    case unableToSaveImage
 }
 
 protocol ShareScreenViewControllerDelegate: AnyObject {
@@ -66,20 +67,17 @@ class ShareScreenViewController: CollageBaseViewController {
     private func makeConstraints() {
         thumbnailImageView.snp.makeConstraints { make in
             if #available(iOS 11, *) {
-                make.top.equalTo(self.view.safeAreaLayoutGuide)
+                make.top.equalTo(view.safeAreaLayoutGuide)
             } else {
                 make.top.equalTo(topLayoutGuide.snp.bottom)
             }
 
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.height.equalTo(thumbnailImageView.snp.width)
         }
 
         shareFooter.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.right.bottom.equalToSuperview()
             make.top.equalTo(thumbnailImageView.snp.bottom)
         }
     }
@@ -106,7 +104,15 @@ class ShareScreenViewController: CollageBaseViewController {
     }
 
     private func saveToPhotos(content: ShareContent) {
-        context.shareService.saveToPhotos(content, in: self, with: nil)
+        context.shareService.saveToPhotos(content, in: self) { [weak self] success, _ in
+            guard let `self` = self else {
+                return
+            }
+
+            self.delegate?.shareScreenViewController(self,
+                                                     didShareCollageImage: self.collageImage ?? UIImage(),
+                                                     withError: success ? nil : .unableToSaveImage)
+        }
     }
 
     private func shareViaMessage(content: ShareContent) {

@@ -72,9 +72,7 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         view.addSubview(collectionView)
 
         collectionView.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.right.equalToSuperview()
-            make.left.equalToSuperview()
+            make.left.right.bottom.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
         }
     }

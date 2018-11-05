@@ -111,13 +111,15 @@ class TemplateBarCollectionViewController: UICollectionViewController {
 
 extension TemplateBarCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let value = min(collectionView.frame.height, collectionView.frame.width) * 0.8
+        let value = min(collectionView.frame.height, collectionView.frame.width) * 0.75
 
         return CGSize(width: value, height: value)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        let insets = scrollDirection == .horizontal ? UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) : UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
+
+        return insets
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

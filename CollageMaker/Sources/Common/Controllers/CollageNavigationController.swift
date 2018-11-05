@@ -6,6 +6,10 @@ import UIKit
 import Utils
 
 final class CollageNavigationController: UINavigationController {
+    var rightButtonPosition: CGPoint? {
+        return navBar.rightItem?.view.center
+    }
+
     var navBarHeight: CGFloat = CollageNavigationController.preferredNavBarHeight {
         didSet {
             changeSafeAreaInset(top: navBarHeight)
@@ -61,8 +65,7 @@ final class CollageNavigationController: UINavigationController {
 
         navBar.snp.remakeConstraints { make in
             make.top.equalToSuperview().offset(statusBarHeight)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.height.equalTo(navBarHeight)
         }
     }

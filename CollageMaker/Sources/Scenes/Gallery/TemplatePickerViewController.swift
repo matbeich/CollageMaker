@@ -136,18 +136,14 @@ class TemplatePickerViewController: CollageBaseViewController {
     }
 
     private func makeConstraints() {
-        templatesView.snp.updateConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+        templatesView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
             make.top.equalTo(view.snp.bottom).offset(-50)
             make.height.equalTo(view.bounds.height / 3.5)
         }
 
         mainControllerContainer.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
 
@@ -179,7 +175,7 @@ class TemplatePickerViewController: CollageBaseViewController {
     private var tokens = [Any]()
     private let context: AppContext
     private let mainControllerContainer = UIView()
-    private let templatesView = TemplatesContainerView(headerText: "Choose template")
+    private let templatesView = TemplatesView(headerText: "Choose template")
     private var imagePickerController: ImagePickerCollectionViewController
     private var templateController: TemplateBarCollectionViewController
 }
