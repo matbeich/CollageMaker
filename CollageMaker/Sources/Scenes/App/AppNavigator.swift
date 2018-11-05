@@ -3,19 +3,80 @@
 //
 
 import Photos
+import SnapKit
 import UIKit
 import Utils
 
 final class AppNavigator: NSObject {
-    let context: AppContext
+    var rootViewController: CollageNavigationController
 
     init(context: AppContext = AppContext()) {
         self.context = context
+        let controller = context.photoAuthService.isAuthorized ? TemplatePickerViewController(context: context) : PermissionsViewController()
+        rootViewController = CollageNavigationController(rootViewController: controller)
+
         super.init()
+
+        if let controller = controller as? TemplatePickerViewController {
+            controller.delegate = self
+        } else if let controller = controller as? PermissionsViewController {
+            controller.delegate = self
+        }
     }
 
-    private func pinAsPopover(_ viewController: UIViewController, on point: CGPoint) {
+    private func routeToTemplatePickerScene() {
+        let templatePickerViewController = TemplatePickerViewController(context: context)
+        templatePickerViewController.delegate = self
+
+        rootViewController.pushViewController(templatePickerViewController, animated: true)
+    }
+
+    private func routeToCollageScene(with collage: Collage, templates: [CollageTemplate]) {
+        let sceneController = CollageSceneViewController(collage: collage, templates: templates, context: context)
+        sceneController.delegate = self
+
+        rootViewController.pushViewController(sceneController, animated: true)
+    }
+
+    private func routeToPermissionScene() {
+        let controller = PermissionsViewController()
+        controller.delegate = self
+
+        rootViewController.push(controller)
+    }
+
+    private func routeToShareScreen(with collage: Collage) {
+        let shareController = ShareScreenViewController(collage: collage, context: context)
+        shareController.delegate = self
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let point = rootViewController.rightItemPosition ?? .zero
+            showInPopover(shareController, pinnedTo: point, withBlur: true)
+        } else {
+            rootViewController.pushViewController(shareController, animated: true)
+        }
+    }
+
+    private func dismissToPrevious() {
+        rootViewController.popViewController(animated: true)
+    }
+
+    private func blur(view: UIView) {
+        UIView.animate(withDuration: 0.5) { view.addSubview(self.blurView) }
+
+        blurView.snp.remakeConstraints { make in
+            make.edges.equalTo(view)
+        }
+    }
+
+    private func removeBlur() {
+        blurView.removeFromSuperview()
+        blurView.snp.removeConstraints()
+    }
+
+    private func showInPopover(_ viewController: UIViewController, pinnedTo point: CGPoint, withBlur: Bool) {
         viewController.modalPresentationStyle = .popover
+        viewController.preferredContentSize = CGSize(width: 400, height: 600)
 
         let popover = viewController.popoverPresentationController
         popover?.delegate = self
@@ -23,86 +84,60 @@ final class AppNavigator: NSObject {
         popover?.sourceRect = CGRect(origin: point, size: .zero)
         popover?.permittedArrowDirections = .up
 
+        if withBlur { blur(view: rootViewController.view) }
         rootViewController.present(viewController, animated: true, completion: nil)
     }
 
-    lazy var rootViewController: CollageNavigationController = {
-        if context.photoAuthService.isAuthorized {
-            let templatePickerController = TemplatePickerViewController(context: context)
-            templatePickerController.delegate = self
-
-            return CollageNavigationController(rootViewController: templatePickerController)
-        } else {
-            let controller = PermissionsViewController()
-            controller.delegate = self
-
-            return CollageNavigationController(rootViewController: controller)
-        }
-    }()
-}
-
-extension AppNavigator: UIPopoverPresentationControllerDelegate {
-    func popoverPresentationController(_ popoverPresentationController: UIPopoverPresentationController, willRepositionPopoverTo rect: UnsafeMutablePointer<CGRect>, in view: AutoreleasingUnsafeMutablePointer<UIView>) {
-        guard let newPoint = rootViewController.rightButtonPosition else {
-            return
-        }
-
-        rect.initialize(to: CGRect(origin: newPoint, size: .zero))
-    }
+    private let context: AppContext
+    private lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
 }
 
 extension AppNavigator: PermissionsViewControllerDelegate {
     func permissionViewControllerDidReceivePermission(_ controller: PermissionsViewController) {
-        let templatePickerViewController = TemplatePickerViewController(context: context)
-
-        templatePickerViewController.delegate = self
-
-        rootViewController.pushViewController(templatePickerViewController, animated: true)
-    }
-}
-
-extension AppNavigator: CollageSceneViewControllerDelegate {
-    func collageSceneViewController(_ controller: CollageSceneViewController, didEndEditingCollage collage: Collage) {
-        let shareController = ShareScreenViewController(collage: collage, context: context)
-        shareController.delegate = self
-
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            pinAsPopover(shareController, on: rootViewController.rightButtonPosition ?? .zero)
-        } else {
-            rootViewController.pushViewController(shareController, animated: true)
-        }
-    }
-}
-
-extension AppNavigator: ShareScreenViewControllerDelegate {
-    func shareScreenViewController(_ controller: ShareScreenViewController, didShareCollageImage image: UIImage, withError error: SharingError?) {
-        if error == .photoLibraryAccessDenied {
-            let controller = PermissionsViewController()
-            controller.delegate = self
-
-            rootViewController.push(controller)
-        }
-    }
-
-    func shareScreenViewControllerDidCancel(_ controller: ShareScreenViewController) {
-        rootViewController.popViewController(animated: true)
+        routeToTemplatePickerScene()
     }
 }
 
 extension AppNavigator: TemplatePickerViewControllerDelegate {
     func templatePickerViewController(_ controller: TemplatePickerViewController, templateController: TemplateBarCollectionViewController, didSelectTemplate template: CollageTemplate) {
         context.templateProvider.collage(from: template, size: .large) { [weak self] collage in
-            guard
-                let `self` = self,
-                !(self.rootViewController.topViewController is CollageSceneViewController)
-            else {
+            guard let `self` = self, !(self.rootViewController.topViewController is CollageSceneViewController) else {
                 return
             }
 
-            let sceneController = CollageSceneViewController(collage: collage, templates: templateController.templates, context: self.context)
-
-            sceneController.delegate = self
-            self.rootViewController.pushViewController(sceneController, animated: true)
+            self.routeToCollageScene(with: collage, templates: templateController.templates)
         }
+    }
+}
+
+extension AppNavigator: CollageSceneViewControllerDelegate {
+    func collageSceneViewController(_ controller: CollageSceneViewController, didEndEditingCollage collage: Collage) {
+        routeToShareScreen(with: collage)
+    }
+}
+
+extension AppNavigator: ShareScreenViewControllerDelegate {
+    func shareScreenViewController(_ controller: ShareScreenViewController, didShareCollageImage image: UIImage, withError error: SharingError?) {
+        if error == .photoLibraryAccessDenied {
+            routeToPermissionScene()
+        }
+    }
+
+    func shareScreenViewControllerDidCancel(_ controller: ShareScreenViewController) {
+        dismissToPrevious()
+    }
+}
+
+extension AppNavigator: UIPopoverPresentationControllerDelegate {
+    func popoverPresentationController(_ popoverPresentationController: UIPopoverPresentationController, willRepositionPopoverTo rect: UnsafeMutablePointer<CGRect>, in view: AutoreleasingUnsafeMutablePointer<UIView>) {
+        guard let newPoint = rootViewController.rightItemPosition else {
+            return
+        }
+
+        rect.initialize(to: CGRect(origin: newPoint, size: .zero))
+    }
+
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+        removeBlur()
     }
 }

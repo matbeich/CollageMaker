@@ -6,8 +6,12 @@ import UIKit
 import Utils
 
 final class CollageNavigationController: UINavigationController {
-    var rightButtonPosition: CGPoint? {
-        return navBar.rightItem?.view.center
+    var rightItemPosition: CGPoint? {
+        guard let rightItemView = navBar.rightItem?.view else {
+            return nil
+        }
+
+        return CGPoint(x: rightItemView.frame.midX, y: rightItemView.frame.maxY)
     }
 
     var navBarHeight: CGFloat = CollageNavigationController.preferredNavBarHeight {
