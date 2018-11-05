@@ -4,6 +4,7 @@
 
 import FirebaseRemoteConfig
 import UIKit
+import Utils
 
 final class RemoteSettingsService {
     var cellsCount: Int {
@@ -39,13 +40,13 @@ final class RemoteSettingsService {
 
     private func setup() {
         fetchRemoteSettings()
-        setUpdateTimer(with: 70)
+        updateAfter(20.minutes)
     }
 
-    private func setUpdateTimer(with timeInterval: TimeInterval) {
-        DispatchQueue.global().asyncAfter(deadline: .now() + timeInterval) { [weak self] in
+    private func updateAfter(_ time: TimeInterval) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + time) { [weak self] in
             self?.fetchRemoteSettings()
-            self?.setUpdateTimer(with: timeInterval)
+            self?.updateAfter(time)
         }
     }
 
@@ -60,5 +61,11 @@ final class RemoteSettingsService {
 struct Constants {
     struct Key {
         static let numberOfCells = "number_of_cells"
+    }
+}
+
+extension Int {
+    var minutes: TimeInterval {
+        return TimeInterval(self * 60)
     }
 }

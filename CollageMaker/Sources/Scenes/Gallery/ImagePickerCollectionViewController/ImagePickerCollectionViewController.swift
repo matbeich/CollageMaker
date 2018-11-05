@@ -79,6 +79,12 @@ class ImagePickerCollectionViewController: CollageBaseViewController {
         }
     }
 
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
+
     override var prefersStatusBarHidden: Bool {
         return true
     }

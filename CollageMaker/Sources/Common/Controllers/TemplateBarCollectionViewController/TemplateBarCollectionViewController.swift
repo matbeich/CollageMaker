@@ -16,6 +16,12 @@ class TemplateBarCollectionViewController: UICollectionViewController {
         return templates.first?.assets
     }
 
+    var scrollDirection: UICollectionView.ScrollDirection = .horizontal {
+        didSet {
+            setScrollDirection()
+        }
+    }
+
     var templates: [CollageTemplate] {
         didSet {
             collectionView?.reloadData()
@@ -35,17 +41,35 @@ class TemplateBarCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setup()
+    }
+
+    private func setup() {
         collectionView?.register(TemplateBarCollectionViewCell.self, forCellWithReuseIdentifier: TemplateBarCollectionViewCell.identifier)
         collectionView?.backgroundColor = .clear
-        collectionView?.alwaysBounceHorizontal = true
         collectionView?.accessibilityIdentifier = Accessibility.View.templateCollectionView.id
+        collectionView?.showsVerticalScrollIndicator = false
+        collectionView?.showsHorizontalScrollIndicator = false
 
+        setScrollDirection()
+    }
+
+    private func setScrollDirection() {
         guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return
         }
 
-        layout.minimumInteritemSpacing = 20
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = scrollDirection
+
+        switch scrollDirection {
+        case .horizontal:
+            collectionView?.alwaysBounceHorizontal = true
+            collectionView?.alwaysBounceVertical = false
+
+        case .vertical:
+            collectionView?.alwaysBounceHorizontal = false
+            collectionView?.alwaysBounceVertical = true
+        }
     }
 
     private func getImageForTemplate(_ template: CollageTemplate, callback: @escaping (UIImage?) -> Void) {
@@ -87,14 +111,20 @@ class TemplateBarCollectionViewController: UICollectionViewController {
 
 extension TemplateBarCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.height - 40, height: collectionView.frame.height - 40)
+        let value = min(collectionView.frame.height, collectionView.frame.width) * 0.8
+
+        return CGSize(width: value, height: value)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        return UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
 }

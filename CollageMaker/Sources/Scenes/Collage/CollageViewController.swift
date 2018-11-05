@@ -3,6 +3,7 @@
 //
 
 import Photos
+import SnapKit
 import UIKit
 
 protocol CollageViewControllerDelegate: AnyObject {
@@ -43,12 +44,10 @@ class CollageViewController: CollageBaseViewController {
 
         view.addSubview(collageView)
         view.addGestureRecognizer(panGestureRecognizer)
-    }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        collageView.frame = view.bounds
+        collageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 
     func saveCellsVisibleRect() {

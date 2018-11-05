@@ -50,12 +50,23 @@ class CollageSceneViewController: CollageBaseViewController {
         addChild(templateBarController, to: templateControllerView)
 
         setup()
+        makeConstraints()
     }
 
-    private func makeConstraints() {
-        let toolsBarHeight: CGFloat = 59.0
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
 
-        collageViewContainer.snp.makeConstraints { make in
+        makeConstraints(for: UIDevice.current.orientation)
+        updateTemplateBarAppearence()
+    }
+
+    private func updateTemplateBarAppearence() {
+        templateBarController.scrollDirection = UIDevice.current.orientation.isLandscape ? .vertical : .horizontal
+    }
+
+    func makeConstraints(for orientation: UIDeviceOrientation) {
+        collageViewContainer.snp.removeConstraints()
+        collageViewContainer.snp.remakeConstraints { make in
             if #available(iOS 11, *) {
                 make.top.equalTo(view.safeAreaLayoutGuide)
             } else {
@@ -63,9 +74,33 @@ class CollageSceneViewController: CollageBaseViewController {
             }
 
             make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(collageViewContainer.snp.width)
+
+            if orientation.isLandscape {
+                make.bottom.equalTo(toolsBar.snp.top)
+                make.width.equalTo(collageViewContainer.snp.height)
+            } else {
+                make.right.equalToSuperview()
+                make.height.equalTo(collageViewContainer.snp.width)
+            }
         }
+
+        templateControllerView.snp.removeConstraints()
+        templateControllerView.snp.remakeConstraints { make in
+            make.right.equalToSuperview()
+            make.bottom.equalTo(toolsBar.snp.top)
+
+            if orientation.isLandscape {
+                make.top.equalTo(collageViewContainer)
+                make.left.equalTo(collageViewContainer.snp.right)
+            } else {
+                make.left.equalToSuperview()
+                make.top.equalTo(collageViewContainer.snp.bottom)
+            }
+        }
+    }
+
+    private func makeConstraints() {
+        let toolsBarHeight: CGFloat = 59.0
 
         toolsBar.snp.makeConstraints { make in
             if #available(iOS 11, *) {
@@ -79,12 +114,7 @@ class CollageSceneViewController: CollageBaseViewController {
             make.height.equalTo(toolsBarHeight)
         }
 
-        templateControllerView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.bottom.equalTo(toolsBar.snp.top)
-            make.top.equalTo(collageViewContainer.snp.bottom)
-        }
+        makeConstraints(for: UIDevice.current.orientation)
     }
 
     private func setup() {
@@ -94,6 +124,7 @@ class CollageSceneViewController: CollageBaseViewController {
         navBarItem.title = "Edit"
 
         makeConstraints()
+        updateTemplateBarAppearence()
 
         toolsBar.delegate = self
         templateBarController.delegate = self

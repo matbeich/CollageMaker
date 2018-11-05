@@ -98,8 +98,8 @@ extension CollageBarButtonItem {
             switch self {
             case .horizontal: return R.image.horizontal_trim() ?? .none
             case .vertical: return R.image.vertical_trim() ?? .none
-            case .addImage: return R.image.pic_icon_() ?? .none
-            case .delete: return R.image.pic_icon_() ?? .none
+            case .addImage: return R.image.add_btn() ?? .none
+            case .delete: return R.image.delete_btn() ?? .none
             }
         }
     }
