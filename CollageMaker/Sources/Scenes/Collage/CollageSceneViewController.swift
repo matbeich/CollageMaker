@@ -64,7 +64,24 @@ class CollageSceneViewController: CollageBaseViewController {
         templateBarController.scrollDirection = UIDevice.current.orientation.isLandscape ? .vertical : .horizontal
     }
 
-    func makeConstraints(for orientation: UIDeviceOrientation) {
+    private func makeConstraints() {
+        let toolsBarHeight: CGFloat = 59.0
+
+        toolsBar.snp.remakeConstraints { make in
+            if #available(iOS 11, *) {
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalTo(bottomLayoutGuide.snp.bottom)
+            }
+
+            make.left.right.equalToSuperview()
+            make.height.equalTo(toolsBarHeight)
+        }
+
+        makeConstraints(for: UIDevice.current.orientation)
+    }
+
+    private func makeConstraints(for orientation: UIDeviceOrientation) {
         collageViewContainer.snp.remakeConstraints { make in
             if #available(iOS 11, *) {
                 make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -97,23 +114,6 @@ class CollageSceneViewController: CollageBaseViewController {
         }
     }
 
-    private func makeConstraints() {
-        let toolsBarHeight: CGFloat = 59.0
-
-        toolsBar.snp.remakeConstraints { make in
-            if #available(iOS 11, *) {
-                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            } else {
-                make.bottom.equalTo(bottomLayoutGuide.snp.bottom)
-            }
-
-            make.left.right.equalToSuperview()
-            make.height.equalTo(toolsBarHeight)
-        }
-
-        makeConstraints(for: UIDevice.current.orientation)
-    }
-
     private func setup() {
         let btn = NavigationBarButtonItem(icon: R.image.share_btn(), target: self, action: #selector(shareCollage))
         btn.button.accessibilityIdentifier = Accessibility.NavigationControl.share.id
@@ -138,14 +138,6 @@ class CollageSceneViewController: CollageBaseViewController {
         }
 
         delegate?.collageSceneViewController(self, didEndEditingCollage: collageViewController.collage)
-    }
-
-    @objc private func dismissController() {
-        if let navigationController = navigationController {
-            navigationController.popViewController(animated: true)
-        } else {
-            dismiss(animated: true, completion: nil)
-        }
     }
 
     private func showMotionAlert() {

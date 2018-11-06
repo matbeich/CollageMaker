@@ -115,6 +115,14 @@ final class PhotoLibrary: NSObject, PhotoLibraryType {
         assetsFetchResult.enumerateObjects { [weak self] object, _, _ in
             self?.assets.append(object)
         }
+
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+
+            self.delegate?.photoLibrary(self, didUpdateAssets: self.assets)
+        }
     }
 
     private func observeAssets() {
@@ -124,6 +132,15 @@ final class PhotoLibrary: NSObject, PhotoLibraryType {
     private func updateAssets(with changeDetails: PHFetchResultChangeDetails<PHAsset>) {
         changeDetails.removedObjects.forEach { asset in assets = assets.filter { $0 != asset } }
         assets.append(contentsOf: changeDetails.insertedObjects)
+
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+
+            self.delegate?.photoLibrary(self, didInsertAssets: changeDetails.insertedObjects)
+            self.delegate?.photoLibrary(self, didRemoveAssets: changeDetails.removedObjects)
+        }
     }
 
     private(set) var assets = [PHAsset]()
@@ -137,25 +154,11 @@ extension PhotoLibrary: PHPhotoLibraryChangeObserver {
         guard let changeDetails = changeInstance.changeDetails(for: assetsFetchResult) else {
             return
         }
-
         if changeDetails.hasIncrementalChanges {
             assetsFetchResult = changeDetails.fetchResultAfterChanges
             updateAssets(with: changeDetails)
         } else {
             fetchImagesAssets()
-        }
-
-        DispatchQueue.main.async { [weak self] in
-            guard let `self` = self else {
-                return
-            }
-
-            if changeDetails.hasIncrementalChanges {
-                self.delegate?.photoLibrary(self, didInsertAssets: changeDetails.insertedObjects)
-                self.delegate?.photoLibrary(self, didRemoveAssets: changeDetails.removedObjects)
-            } else {
-                self.delegate?.photoLibrary(self, didUpdateAssets: self.assets)
-            }
         }
     }
 }
