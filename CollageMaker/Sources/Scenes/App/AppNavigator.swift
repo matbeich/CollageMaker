@@ -61,8 +61,11 @@ final class AppNavigator: NSObject {
         rootViewController.popViewController(animated: true)
     }
 
-    private func blur(view: UIView) {
-        UIView.animate(withDuration: 0.5) { view.addSubview(self.blurView) }
+    private func addBlur(to view: UIView) {
+        UIView.animate(withDuration: 0.3) {
+            view.addSubview(self.blurView)
+            self.blurView.alpha = 1.0
+        }
 
         blurView.snp.remakeConstraints { make in
             make.edges.equalTo(view)
@@ -70,8 +73,12 @@ final class AppNavigator: NSObject {
     }
 
     private func removeBlur() {
-        blurView.removeFromSuperview()
-        blurView.snp.removeConstraints()
+        UIView.animate(withDuration: 0.3,
+                       animations: { self.blurView.alpha = 0 },
+                       completion: { _ in
+                           self.blurView.removeFromSuperview()
+                           self.blurView.snp.removeConstraints()
+        })
     }
 
     private func showInPopover(_ viewController: UIViewController, pinnedTo point: CGPoint, withBlur: Bool) {
@@ -84,7 +91,7 @@ final class AppNavigator: NSObject {
         popover?.sourceRect = CGRect(origin: point, size: .zero)
         popover?.permittedArrowDirections = .up
 
-        if withBlur { blur(view: rootViewController.view) }
+        if withBlur { addBlur(to: rootViewController.view) }
         rootViewController.present(viewController, animated: true, completion: nil)
     }
 
