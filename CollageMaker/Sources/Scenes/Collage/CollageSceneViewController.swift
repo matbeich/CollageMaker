@@ -53,10 +53,8 @@ class CollageSceneViewController: CollageBaseViewController {
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        
-        updateTemplateBarAppearence()
         templatesView.setNeedsLayout()
+        updateTemplateBarAppearence()
         makeConstraints(for: UIDevice.current.orientation)
     }
 
