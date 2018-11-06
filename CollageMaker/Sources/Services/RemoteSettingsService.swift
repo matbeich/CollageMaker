@@ -40,7 +40,10 @@ final class RemoteSettingsService {
 
     private func setup() {
         fetchRemoteSettings()
-        updateAfter(20.minutes)
+
+        if !Environment.isDebug {
+            updateAfter(20.minutes)
+        }
     }
 
     private func updateAfter(_ time: TimeInterval) {
