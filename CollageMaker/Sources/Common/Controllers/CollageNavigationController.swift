@@ -108,7 +108,6 @@ extension CollageNavigationController: UINavigationControllerDelegate {
         navBarItem = savedItem
 
         let snaphotView = UIImageView(frame: navBar.frame)
-
         snaphotView.image = snaphot
         snaphotView.alpha = 0
 

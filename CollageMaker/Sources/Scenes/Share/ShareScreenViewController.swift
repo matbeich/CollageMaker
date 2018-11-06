@@ -13,7 +13,7 @@ enum SharingError: Error {
 
 protocol ShareScreenViewControllerDelegate: AnyObject {
     func shareScreenViewControllerDidCancel(_ controller: ShareScreenViewController)
-    func shareScreenViewController(_ controller: ShareScreenViewController, didShareCollageImage image: UIImage, withError error: SharingError?)
+    func shareScreenViewController(_ controller: ShareScreenViewController, didShareCollageImage image: UIImage?, withError error: SharingError?)
 }
 
 class ShareScreenViewController: CollageBaseViewController {
@@ -110,7 +110,7 @@ class ShareScreenViewController: CollageBaseViewController {
             }
 
             self.delegate?.shareScreenViewController(self,
-                                                     didShareCollageImage: self.collageImage ?? UIImage(),
+                                                     didShareCollageImage: self.collageImage,
                                                      withError: success ? nil : .unableToSaveImage)
         }
     }
