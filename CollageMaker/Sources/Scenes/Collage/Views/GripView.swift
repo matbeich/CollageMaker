@@ -10,6 +10,9 @@ class GripView: UIView {
         super.init(frame: .zero)
 
         backgroundColor = .brightLavender
+
+        layer.borderWidth = 0.3
+        layer.borderColor = UIColor.darkGray.cgColor
     }
 
     required init?(coder aDecoder: NSCoder) {
