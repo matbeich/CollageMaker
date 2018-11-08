@@ -88,7 +88,7 @@ class CollageViewController: CollageBaseViewController {
         panGestureRecognizer.delegate = self
 
         longPressRecognizer.addTarget(self, action: #selector(recognizeLongPress(with:)))
-        longPressRecognizer.minimumPressDuration = 1.5
+        longPressRecognizer.minimumPressDuration = 0.7
         longPressRecognizer.delegate = self
 
         tapGestureRecognizer.addTarget(self, action: #selector(pointTapped(with:)))
@@ -110,7 +110,7 @@ class CollageViewController: CollageBaseViewController {
             selectedCellView.frame.origin = CGPoint(x: collageView.selectedCellView.frame.origin.x + translation.x,
                                                     y: collageView.selectedCellView.frame.origin.y + translation.y)
 
-            if let cellView = collageView.intersectedCellView(with: selectedCellView) {
+            if let cellView = collageView.collageCellViewIntersected(with: selectedCellView) {
                 if highlightedView != cellView {
                     highlightedView?.selected = false
                     highlightedView = cellView
