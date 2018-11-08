@@ -11,16 +11,21 @@ protocol CollageViewDelegate: AnyObject {
 
 class CollageView: UIView {
     weak var delegate: CollageViewDelegate?
+    
+    var isModifyingCellViews: Bool = false
 
     var collage: Collage {
         didSet {
             let shouldSetNewCollage = collage.cells.count != oldValue.cells.count ||
-                !collage.hasSameImages(with: oldValue)
+                !collage.hasSameImages(with: oldValue) ||
+                isModifyingCellViews
 
             if shouldSetNewCollage {
                 update(collage)
+                print("update collage")
             } else if !collage.hasSameCellsFrames(with: oldValue) {
                 updateFrames()
+                print("update frames")
             }
         }
     }
@@ -39,6 +44,7 @@ class CollageView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+
         layoutCellsIfNeeded()
     }
 
@@ -49,6 +55,10 @@ class CollageView: UIView {
     }
 
     func layoutCellsIfNeeded() {
+        if isModifyingCellViews {
+            return
+        }
+
         cellViews.forEach { cellView in
             let frame = cellView.collageCell.relativeFrame.absolutePosition(in: bounds)
 
@@ -56,6 +66,28 @@ class CollageView: UIView {
                 cellView.frame = frame
             }
         }
+    }
+
+    func highlightCellView(_ cellView: CollageCellView) {
+        guard let cellView = cellViews.first(where: { $0 == cellView }) else {
+            return
+        }
+
+        cellView.frame = cellView.frame.applying(CGAffineTransform(scaleX: 0.8, y: 0.8))
+        bringSubview(toFront: cellView)
+        bringSubview(toFront: cellSelectionView)
+    }
+
+    func intersectedCellView(with cellView: CollageCellView) -> CollageCellView? {
+        return cellViews.first(where: { $0 != cellView && ($0.frame.intersection(cellView.frame).area / $0.frame.area) > 0.3 })
+    }
+
+    func restorePositionOf(_ cellView: CollageCellView) {
+        guard let cellView = cellViews.first(where: { $0 == cellView }) else {
+            return
+        }
+
+        cellView.frame = cellView.collageCell.relativeFrame.absolutePosition(in: bounds)
     }
 
     func update(_ collage: Collage) {
@@ -104,24 +136,11 @@ class CollageView: UIView {
         delegate?.collageViewPlusButtonTapped(self)
     }
 
-    @objc private func pointTapped(with recognizer: UITapGestureRecognizer) {
-        let point = recognizer.location(in: self)
-
-        guard let cell = collageCellView(at: point) else {
-            return
-        }
-
-        select(cellView: cell)
-    }
-
     private func setup() {
         clipsToBounds = true
         addSubview(cellSelectionView)
         accessibilityIdentifier = Accessibility.View.collageView.id
         cellSelectionView.addTargetToPlusButton(self, action: #selector(buttonTapped), for: .touchUpInside)
-
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pointTapped(with:)))
-        addGestureRecognizer(tapGestureRecognizer)
     }
 
     private func updateFrames() {
@@ -131,7 +150,6 @@ class CollageView: UIView {
         }
     }
 
-    private var shouldUpdate = true
     private(set) var gripViews: [GripView] = []
     private(set) var cellViews: [CollageCellView] = []
     private(set) var selectedCellView: CollageCellView

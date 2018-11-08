@@ -5,6 +5,18 @@
 import UIKit
 
 class CollageCellView: UIView {
+    var selected: Bool = false {
+        didSet {
+            if selected {
+                backgroundColor = .brightLavender
+                imageView.layer.opacity = 0.5
+            } else {
+                backgroundColor = nil
+                imageView.layer.opacity = 1.0
+            }
+        }
+    }
+
     var collageCell: CollageCell
     var imageVisibleRect: CGRect {
         return convert(scrollView.frame, to: imageView)

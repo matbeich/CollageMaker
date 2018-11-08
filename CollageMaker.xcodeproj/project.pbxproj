@@ -473,6 +473,17 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		844FC8CC21942C3500E5BD08 /* CellSelectionView */ = {
+			isa = PBXGroup;
+			children = (
+				84D389E52125CF5200FCDC67 /* GripView.swift */,
+				84A203922153D5C800AB946C /* CellSelectionView.swift */,
+				84F454BD2158E3E80079CE6C /* PlusButton.swift */,
+				84F454BF2158E4A10079CE6C /* PlusView.swift */,
+			);
+			path = CellSelectionView;
+			sourceTree = "<group>";
+		};
 		84617ED121885B8D004A3C1D /* ShareScreenTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -611,12 +622,9 @@
 		847E1C5E215BD08C00F6F32E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				844FC8CC21942C3500E5BD08 /* CellSelectionView */,
 				8417D1B9211DCABC00334661 /* CollageCellView.swift */,
 				84E27209211DE8B0001CDCB9 /* CollageView.swift */,
-				84D389E52125CF5200FCDC67 /* GripView.swift */,
-				84A203922153D5C800AB946C /* CellSelectionView.swift */,
-				84F454BD2158E3E80079CE6C /* PlusButton.swift */,
-				84F454BF2158E4A10079CE6C /* PlusView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
