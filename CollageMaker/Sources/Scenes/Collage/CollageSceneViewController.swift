@@ -186,9 +186,11 @@ extension CollageSceneViewController {
 
 extension CollageSceneViewController: CollageViewControllerDelegate {
     func collageViewControllerDidStartModifyingCellViews(_ controller: CollageViewController) {
+        // FIXME:
     }
 
     func collageViewControllerDidEndModifyingCellViews(_ controller: CollageViewController) {
+        // FIXME:
     }
 
     func collageViewControllerDidRestoreCells(_ controller: CollageViewController) {

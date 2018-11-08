@@ -83,12 +83,6 @@ class CollageView: UIView {
                                      height: cellView.frame.size.height * 1.1)
     }
 
-    func intersectedCellView(with cellView: CollageCellView) -> CollageCellView? {
-        return cellViews.first(where: {
-            let minArea = min(cellView.frame.area, $0.frame.area)
-            return $0 != cellView && (cellView.frame.intersection($0.frame).area / minArea) > 0.3 })
-    }
-
     func restorePositionOf(_ cellView: CollageCellView) {
         guard let cellView = cellViews.first(where: { $0 == cellView }) else {
             return
@@ -120,6 +114,12 @@ class CollageView: UIView {
         cellSelectionView.snp.remakeConstraints { make in
             make.edges.equalTo(selectedCellView)
         }
+    }
+
+    func collageCellViewIntersected(with cellView: CollageCellView) -> CollageCellView? {
+        return cellViews.first(where: {
+            let minArea = min(cellView.frame.area, $0.frame.area)
+            return $0 != cellView && (cellView.frame.intersection($0.frame).area / minArea) > 0.3 })
     }
 
     func collageCellView(at point: CGPoint) -> CollageCellView? {
