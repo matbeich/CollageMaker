@@ -34,6 +34,26 @@ struct Collage {
         }
     }
 
+    mutating func switchCell(_ cell1: CollageCell, with cell2: CollageCell) {
+        var newCell1 = cell1
+        newCell1.image = cell2.image
+        newCell1.photoAsset = cell2.photoAsset
+        newCell1.color = cell2.color
+        newCell1.imageVisibleFrame = cell2.imageVisibleFrame
+
+        var newCell2 = cell2
+        newCell2.image = cell1.image
+        newCell2.photoAsset = cell1.photoAsset
+        newCell2.color = cell1.color
+        newCell2.imageVisibleFrame = cell1.imageVisibleFrame
+
+        remove(cell: cell1)
+        remove(cell: cell2)
+
+        add(cell: newCell1)
+        add(cell: newCell2)
+    }
+
     mutating func split(cell: CollageCell, by axis: Axis) {
         guard cells.contains(cell) else {
             return
@@ -215,7 +235,7 @@ extension Collage {
         return selfFrames.hasSameElements(with: collageFrames)
     }
 
-    func hasSameImages(with collage: Collage) -> Bool {
+    func hasSameImages(with collage: Collage, sameOrder: Bool = false) -> Bool {
         if cells.count != collage.cells.count {
             return false
         }
@@ -223,7 +243,7 @@ extension Collage {
         let selfImages = cells.compactMap { $0.image }
         let collageImages = collage.cells.compactMap { $0.image }
 
-        return selfImages.hasSameElements(with: collageImages)
+        return sameOrder ? selfImages.elementsEqual(collageImages) : selfImages.hasSameElements(with: collageImages)
     }
 }
 

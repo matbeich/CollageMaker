@@ -32,18 +32,13 @@ class CollageViewController: CollageBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        registerForPreviewing(with: self, sourceView: collageView)
-
-        let panGestureRecognizer = UIPanGestureRecognizer()
-        panGestureRecognizer.addTarget(self, action: #selector(changeSize(with:)))
-        panGestureRecognizer.delegate = self
-
-        collageView.delegate = self
-        collageView.collage = collage
+        setup()
 
         view.addSubview(collageView)
         view.addGestureRecognizer(panGestureRecognizer)
+        view.addGestureRecognizer(longPressRecognizer)
+        view.addGestureRecognizer(tapGestureRecognizer)
+        view.addGestureRecognizer(dragGestureRecognizer)
 
         collageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -83,6 +78,76 @@ class CollageViewController: CollageBaseViewController {
         collage.split(cell: selectedCellView.collageCell, by: axis)
     }
 
+    private func setup() {
+        registerForPreviewing(with: self, sourceView: collageView)
+
+        panGestureRecognizer.addTarget(self, action: #selector(changeSize(with:)))
+        panGestureRecognizer.canBePrevented(by: dragGestureRecognizer)
+        panGestureRecognizer.delegate = self
+
+        longPressRecognizer.addTarget(self, action: #selector(recognizeLongPress(with:)))
+        longPressRecognizer.minimumPressDuration = 1.5
+        longPressRecognizer.delegate = self
+
+        tapGestureRecognizer.addTarget(self, action: #selector(pointTapped(with:)))
+        tapGestureRecognizer.delegate = self
+
+        dragGestureRecognizer.addTarget(self, action: #selector(drag(with:)))
+        dragGestureRecognizer.delegate = self
+
+        collageView.delegate = self
+        collageView.collage = collage
+    }
+
+    @objc private func drag(with recognizer: UIPanGestureRecognizer) {
+        switch recognizer.state {
+        case .changed:
+            let translation = recognizer.translation(in: collageView)
+            recognizer.setTranslation(.zero, in: collageView)
+
+            selectedCellView.frame.origin = CGPoint(x: collageView.selectedCellView.frame.origin.x + translation.x,
+                                                    y: collageView.selectedCellView.frame.origin.y + translation.y)
+
+            if let cellView = collageView.intersectedCellView(with: selectedCellView) {
+                if highlightedCellView != cellView {
+                    highlightedCellView?.selected = false
+                    highlightedCellView = cellView
+                    highlightedCellView?.selected = true
+                }
+            }
+        case .ended, .cancelled, .failed:
+            collageView.restorePositionOf(selectedCellView)
+
+            if let highlightedCell = highlightedCellView {
+                highlightedCell.selected = false
+                collage.switchCell(selectedCellView.collageCell, with: highlightedCell.collageCell)
+            }
+
+            collageView.isModifyingCellViews = false
+
+        default: break
+        }
+    }
+
+    @objc private func recognizeLongPress(with recognizer: UILongPressGestureRecognizer) {
+        switch recognizer.state {
+        case .began:
+            guard let cellView = collageView.collageCellView(at: recognizer.location(in: collageView)) else {
+                return
+            }
+
+            collageView.isModifyingCellViews = true
+            collageView.select(cellView: cellView)
+            collageView.highlightCellView(selectedCellView)
+
+            longPressHappened = true
+        case .ended, .cancelled:
+            longPressHappened = false
+            collageView.restorePositionOf(selectedCellView)
+        default: break
+        }
+    }
+
     @objc private func changeSize(with recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
         case .began:
@@ -108,8 +173,24 @@ class CollageViewController: CollageBaseViewController {
         }
     }
 
+    @objc private func pointTapped(with recognizer: UITapGestureRecognizer) {
+        let point = recognizer.location(in: collageView)
+
+        guard let cell = collageView.collageCellView(at: point) else {
+            return
+        }
+
+        collageView.select(cellView: cell)
+    }
+
+    private var longPressHappened: Bool = false
     private var savedCollage: Collage?
     private var selectedGripPosition: GripPosition?
+    private var highlightedCellView: CollageCellView?
+    private let panGestureRecognizer = UIPanGestureRecognizer()
+    private let dragGestureRecognizer = UIPanGestureRecognizer()
+    private let tapGestureRecognizer = UITapGestureRecognizer()
+    private let longPressRecognizer = UILongPressGestureRecognizer()
 }
 
 extension CollageViewController: CollageViewDelegate {
@@ -120,8 +201,20 @@ extension CollageViewController: CollageViewDelegate {
 
 extension CollageViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == longPressRecognizer && otherGestureRecognizer == dragGestureRecognizer {
+            return true
+        }
+
         guard collageView.gripPosition(at: gestureRecognizer.location(in: view)) != nil else {
             return false
+        }
+
+        return true
+    }
+
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == dragGestureRecognizer {
+            return longPressHappened
         }
 
         return true
