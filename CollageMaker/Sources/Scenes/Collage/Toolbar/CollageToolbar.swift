@@ -12,16 +12,12 @@ protocol CollageToolbarDelegate: AnyObject {
 class CollageToolbar: UIView {
     weak var delegate: CollageToolbarDelegate?
 
-    convenience init(frame: CGRect = .zero, barItems: [CollageBarButtonItem]) {
-        self.init(frame: frame)
-
-        barItems.forEach { addCollageBarItem($0) }
-    }
-
-    override init(frame: CGRect) {
+    init(frame: CGRect = .zero, barItems: [CollageBarButtonItem] = []) {
+        self.barItems = barItems
         super.init(frame: frame)
 
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(itemTapped(_:)))
+        barItems.forEach { addCollageBarItem($0) }
 
         addSubview(buttonsStackView)
         addGestureRecognizer(tapGestureRecognizer)
@@ -68,6 +64,7 @@ class CollageToolbar: UIView {
         return stackView
     }()
 
+    private let barItems: [CollageBarButtonItem]
     private lazy var tapGestureRecognizer = UITapGestureRecognizer()
 }
 

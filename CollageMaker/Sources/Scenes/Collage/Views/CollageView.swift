@@ -11,7 +11,7 @@ protocol CollageViewDelegate: AnyObject {
 
 class CollageView: UIView {
     weak var delegate: CollageViewDelegate?
-    
+
     var isModifyingCellViews: Bool = false
 
     var collage: Collage {
@@ -22,10 +22,8 @@ class CollageView: UIView {
 
             if shouldSetNewCollage {
                 update(collage)
-                print("update collage")
             } else if !collage.hasSameCellsFrames(with: oldValue) {
                 updateFrames()
-                print("update frames")
             }
         }
     }
@@ -73,13 +71,22 @@ class CollageView: UIView {
             return
         }
 
-        cellView.frame = cellView.frame.applying(CGAffineTransform(scaleX: 0.8, y: 0.8))
         bringSubview(toFront: cellView)
         bringSubview(toFront: cellSelectionView)
+        cellSelectionView.hideGrips()
+
+        let offset = UIOffset(horizontal: (cellView.frame.size.width * 1.1 - cellView.frame.size.width) / 2,
+                              vertical: (cellView.frame.size.height * 1.1 - cellView.frame.size.height) / 2)
+
+        cellView.frame = cellView.frame.offsetBy(dx: -offset.horizontal, dy: -offset.vertical)
+        cellView.frame.size = CGSize(width: cellView.frame.size.width * 1.1,
+                                     height: cellView.frame.size.height * 1.1)
     }
 
     func intersectedCellView(with cellView: CollageCellView) -> CollageCellView? {
-        return cellViews.first(where: { $0 != cellView && ($0.frame.intersection(cellView.frame).area / $0.frame.area) > 0.3 })
+        return cellViews.first(where: {
+            let minArea = min(cellView.frame.area, $0.frame.area)
+            return $0 != cellView && (cellView.frame.intersection($0.frame).area / minArea) > 0.3 })
     }
 
     func restorePositionOf(_ cellView: CollageCellView) {
@@ -87,6 +94,7 @@ class CollageView: UIView {
             return
         }
 
+        cellSelectionView.showGrips()
         cellView.frame = cellView.collageCell.relativeFrame.absolutePosition(in: bounds)
     }
 
@@ -137,7 +145,7 @@ class CollageView: UIView {
     }
 
     private func setup() {
-        clipsToBounds = true
+        clipsToBounds = false
         addSubview(cellSelectionView)
         accessibilityIdentifier = Accessibility.View.collageView.id
         cellSelectionView.addTargetToPlusButton(self, action: #selector(buttonTapped), for: .touchUpInside)

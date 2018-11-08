@@ -59,6 +59,14 @@ final class CellSelectionView: UIView {
         isUserInteractionEnabled = false
     }
 
+    func showGrips() {
+        updateGripViews()
+    }
+
+    func hideGrips() {
+        gripViews.forEach { $0.removeFromSuperview() }
+    }
+
     private func setup() {
         layer.addSublayer(borderLayer)
     }
