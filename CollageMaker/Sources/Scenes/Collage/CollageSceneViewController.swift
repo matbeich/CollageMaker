@@ -185,6 +185,12 @@ extension CollageSceneViewController {
 }
 
 extension CollageSceneViewController: CollageViewControllerDelegate {
+    func collageViewControllerDidStartModifyingCellViews(_ controller: CollageViewController) {
+    }
+
+    func collageViewControllerDidEndModifyingCellViews(_ controller: CollageViewController) {
+    }
+
     func collageViewControllerDidRestoreCells(_ controller: CollageViewController) {
         let actualAssets = controller.collage.cells.compactMap { $0.photoAsset }
         let templates = context.templateProvider.templates(for: actualAssets)

@@ -9,6 +9,8 @@ import UIKit
 protocol CollageViewControllerDelegate: AnyObject {
     func collageViewControllerPlusButtonTapped(_ controller: CollageViewController)
     func collageViewControllerDidRestoreCells(_ controller: CollageViewController)
+    func collageViewControllerDidStartModifyingCellViews(_ controller: CollageViewController)
+    func collageViewControllerDidEndModifyingCellViews(_ controller: CollageViewController)
     func collageViewController(_ controller: CollageViewController, didDeleteCellView cellView: CollageCellView)
 }
 
@@ -109,22 +111,25 @@ class CollageViewController: CollageBaseViewController {
                                                     y: collageView.selectedCellView.frame.origin.y + translation.y)
 
             if let cellView = collageView.intersectedCellView(with: selectedCellView) {
-                if highlightedCellView != cellView {
-                    highlightedCellView?.selected = false
-                    highlightedCellView = cellView
-                    highlightedCellView?.selected = true
+                if highlightedView != cellView {
+                    highlightedView?.selected = false
+                    highlightedView = cellView
+                    highlightedView?.selected = true
                 }
+            } else {
+                highlightedView?.selected = false
+                highlightedView = nil
             }
         case .ended, .cancelled, .failed:
             collageView.restorePositionOf(selectedCellView)
 
-            if let highlightedCell = highlightedCellView {
+            if let highlightedCell = highlightedView {
                 highlightedCell.selected = false
                 collage.switchCell(selectedCellView.collageCell, with: highlightedCell.collageCell)
             }
 
             collageView.isModifyingCellViews = false
-
+            delegate?.collageViewControllerDidEndModifyingCellViews(self)
         default: break
         }
     }
@@ -136,14 +141,16 @@ class CollageViewController: CollageBaseViewController {
                 return
             }
 
+            longPressHappened = true
             collageView.isModifyingCellViews = true
             collageView.select(cellView: cellView)
             collageView.highlightCellView(selectedCellView)
+            delegate?.collageViewControllerDidStartModifyingCellViews(self)
 
-            longPressHappened = true
-        case .ended, .cancelled:
+        case .ended, .cancelled, .failed:
             longPressHappened = false
             collageView.restorePositionOf(selectedCellView)
+
         default: break
         }
     }
@@ -186,7 +193,7 @@ class CollageViewController: CollageBaseViewController {
     private var longPressHappened: Bool = false
     private var savedCollage: Collage?
     private var selectedGripPosition: GripPosition?
-    private var highlightedCellView: CollageCellView?
+    private var highlightedView: CollageCellView?
     private let panGestureRecognizer = UIPanGestureRecognizer()
     private let dragGestureRecognizer = UIPanGestureRecognizer()
     private let tapGestureRecognizer = UITapGestureRecognizer()
